@@ -1,0 +1,142 @@
+---
+swagger: "2.0"
+info:
+  description: "This API specification is for the World Modelers Modeling Service System. The goal of this API is to provide a controller for model discovery and exploration, as well as for initializing and managing model runs."
+  version: "1.0.0"
+  title: "ModelService API"
+host: "modelservice.worldmodelers.com"
+basePath: "/"
+tags:
+- name: "ModelService"
+  description: "The Model Service landing page"
+schemes:
+- "https"
+- "http"
+paths:
+  /list_models:
+    post:
+      tags:
+      - "exploration"
+      summary: "Obtain a list of current models"
+      description: "Request a list of currently available models."
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "SUCCESS"
+          schema:
+            $ref: '#/definitions/AvailableModels'
+  /model_info:
+    post:
+      tags:
+      - "exploration"
+      summary: "Obtain basic metadata information for a specified model."
+      description: "Submit a model name and receive metadata information about the model, such as its purpose, who maintains it, and how it can be run."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "ModelName"
+        description: "The name of a model."
+        required: true
+        schema:
+          $ref: "#/definitions/ModelName"
+      responses:
+        200:
+          description: "SUCCESS"
+          schema:
+            $ref: '#/definitions/Model'
+  /model_io:
+    post:
+      tags:
+      - "exploration"
+      summary: "Obtain information on a given model's inputs or outputs."
+      description: "Submit a model name and receive information about the input or output files required by this model."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "ModelName"
+        description: "The name of a model."
+        required: true
+        schema:
+          $ref: "#/definitions/IORequest"
+      responses:
+        200:
+          description: "SUCCESS"
+          schema:
+            $ref: '#/definitions/ModelIO'          
+definitions:
+  Model:
+    type: "object"
+    required:
+    - "name"
+    - "description"
+    - "maintainer"
+    description: "An object defining high-level metadata about a model"
+    properties:
+      name:
+        $ref: '#/definitions/ModelName'
+      versions:
+        type: "array"
+        items:
+          type: "string"
+        example: ["1.1", "1.2", "LATEST"]
+        description: "Latest model version"
+      maintainer:
+        type: "string"
+        description: "Maintainer information for this model. Should include institution name and point of contact."
+        example: "Cheryl Porter, University of Florida, cporter@ufl.edu"
+      description:
+        type: "string"
+        description: "A basic overview of the model's purpose."
+        example: "The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics."
+  AvailableModels:
+    type: "array"
+    items:
+      $ref: '#/definitions/ModelName'
+    uniqueItems: true
+    description: "An array of available models"
+    example: [ "DSSAT", "PIHM", "TopoFlow", "Cycles", "ClimComp" ]
+  ModelName:
+    type: "string"
+    description: "A model's name"
+    example: "DSSAT"
+  ModelIO:
+    type: "array"
+    description: "Array of input or output files for the given model."
+    items:
+      $ref: '#/definitions/IOFile'
+  IOFile:
+    type: "object"
+    description: "An object that defines a single input or output file for a model"
+    required:
+      - "name"
+      - "description"
+      - "filetype"
+    properties:
+      name:
+        type: "string"
+        description: "The name of a given input or output file. This should be general and should not reference a specific file."
+        example: "NASA-POWER Weather Data"
+      description:
+        type: "string"
+        description: "Description of input file."
+        example: "Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format."
+      filetype: 
+        type: "string"
+        description: "The file type (extension) for this file"
+        example: "WTH"
+  IORequest:
+    type: "object"
+    description: "A request object indicating whether the response should return either input or output files and for which model"
+    properties:
+      name:
+        $ref: '#/definitions/ModelName'
+      iotype:
+        type: "string"
+        enum: ["input", "output"]
