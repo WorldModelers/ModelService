@@ -60,8 +60,8 @@ paths:
       - "application/json"
       parameters:
       - in: "body"
-        name: "ModelName"
-        description: "The name of a model."
+        name: "IORequest"
+        description: "The name of a model and an IO type."
         required: true
         schema:
           $ref: "#/definitions/IORequest"
@@ -69,7 +69,51 @@ paths:
         200:
           description: "SUCCESS"
           schema:
-            $ref: '#/definitions/ModelIO'          
+            $ref: '#/definitions/ModelIO'
+  /model_config:
+    post:
+      tags:
+      - "exploration"
+      summary: "Obtain an example model configuration."
+      description: "Submit a model name and receive a model configuration for the given model."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "ModelName"
+        description: "The name of a model."
+        required: true
+        schema:
+          $ref: '#/definitions/ModelName'
+      responses:
+        200:
+          description: "SUCCESS"
+          schema:
+            $ref: '#/definitions/ModelConfig'            
+  /validate_config:
+    post:
+      tags:
+      - "execution"
+      summary: "Submit a model configuration for validation"
+      description: "Submit a model configuration for a given model to determine if the configuration meets the model's requirements."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "ModelConfig"
+        description: "A model configuration."
+        required: true
+        schema:
+          $ref: "#/definitions/ModelConfig"
+      responses:
+        200:
+          description: "SUCCESS"
+          schema:
+            $ref: '#/definitions/ModelConfig'
 definitions:
   Model:
     type: "object"
@@ -95,6 +139,12 @@ definitions:
         type: "string"
         description: "A basic overview of the model's purpose."
         example: "The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics."
+      category: 
+        # this may ultimately be an enumerated (fixed) string 
+        # e.g. select from one of the following (from ontology)
+        type: "string"
+        description: "The category for the given model."
+        example: "Agriculture"
   AvailableModels:
     type: "array"
     items:
@@ -112,6 +162,8 @@ definitions:
     items:
       $ref: '#/definitions/IOFile'
   IOFile:
+    # Note that this explicitly does not require low-level definitions
+    # of a file schema, nor does it require variable definitions
     type: "object"
     description: "An object that defines a single input or output file for a model"
     required:
@@ -140,3 +192,22 @@ definitions:
       iotype:
         type: "string"
         enum: ["input", "output"]
+  ModelConfig:
+    # this can be an example config, or a config submitted to execute
+    # a job. This is loosely defined for the time being.
+    # note that the `valid` and `error` fields should only be 
+    # completed when associated with the `validate_config` endpoint
+    type: "object"
+    description: "A model configuration file (JSON)."
+    required:
+      - "name"
+      - "config"
+    properties:
+      name: 
+        $ref: '#/definitions/ModelName'
+      config:
+        type: "object"
+      valid:
+        type: "boolean"
+      error:
+        type: "string"
