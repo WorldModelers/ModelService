@@ -1,0 +1,28 @@
+{
+    "name":"historical_nbg_maiz",
+    "workDir":"out/nbg_maiz/historical",
+    "startYear":1984,
+    "runYears": 33,
+    "plantingDayOfMonth":1,
+    "plantingWindow":45,
+    "fractionalAW":0.25,
+    "incorporationRate":100,
+    "incorporationDepth":5,
+    "soils":["base/HC.SOL"],
+    "templateDir": "templates",
+    "xFileTemplate":"MAIZ8433.SNX",
+    "wstID":"SSUD",
+    "weatherDir":"weather/nbg",
+    "rasters": {
+        "dataLayers":{
+            "harvestedArea":"rasters/nbg_harvest_maiz.tif",
+            "soilProfile":"rasters/nbg_hc27.tif",
+            "rootMass":"rasters/nbg_root_mass.tif",
+            "soilResidue":"rasters/nbg_surface_residue.tif",
+            "plantingMonth":"rasters/nbg_planting.tif",
+            "initialNitrogen":"rasters/nbg_initial_n.tif",
+            "weatherFile":"rasters/nbg_cellid.tif",
+            "elevation":"rasters/nbg_elevation.tif"
+        }
+    }
+}
