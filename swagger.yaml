@@ -1,17 +1,15 @@
----
-swagger: "2.0"
+openapi: 3.0.0
 info:
+  title: "ModelService API"
   description: "This API specification is for the World Modelers Modeling Service System. The goal of this API is to provide a controller for model discovery and exploration, as well as for initializing and managing model runs."
   version: "1.0.0"
-  title: "ModelService API"
-host: "modelservice.worldmodelers.com"
-basePath: "/"
-tags:
-- name: "ModelService"
-  description: "The Model Service landing page"
-schemes:
-- "https"
-- "http"
+  
+servers:
+  - url: modelservice.worldmodelers.com
+    description: Future (production) server
+  - url: localhost:8080
+    description: Local server for testing
+  
 paths:
   /list_models:
     post:
@@ -19,195 +17,212 @@ paths:
       - "exploration"
       summary: "Obtain a list of current models"
       description: "Request a list of currently available models."
-      produces:
-      - "application/json"
       responses:
         200:
           description: "SUCCESS"
-          schema:
-            $ref: '#/definitions/AvailableModels'
-  /model_info:
-    post:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableModels'
+  /model_info/{ModelName}:
+    get:
       tags:
       - "exploration"
-      summary: "Obtain basic metadata information for a specified model."
+      summary: "Get basic metadata information for a specified model."
       description: "Submit a model name and receive metadata information about the model, such as its purpose, who maintains it, and how it can be run."
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
       parameters:
-      - in: "body"
-        name: "ModelName"
+      - in: path
+        name: ModelName
         description: "The name of a model."
         required: true
         schema:
-          $ref: "#/definitions/ModelName"
+          $ref: "#/components/schemas/ModelName"
       responses:
         200:
           description: "SUCCESS"
-          schema:
-            $ref: '#/definitions/Model'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Model'
   /model_io:
     post:
       tags:
       - "exploration"
       summary: "Obtain information on a given model's inputs or outputs."
       description: "Submit a model name and receive information about the input or output files required by this model."
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "IORequest"
+      requestBody:
         description: "The name of a model and an IO type."
         required: true
-        schema:
-          $ref: "#/definitions/IORequest"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IORequest"
       responses:
         200:
           description: "SUCCESS"
-          schema:
-            $ref: '#/definitions/ModelIO'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelIO'
   /model_config:
     post:
       tags:
       - "exploration"
       summary: "Obtain an example model configuration."
       description: "Submit a model name and receive a model configuration for the given model."
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "ModelName"
+      requestBody:
         description: "The name of a model."
         required: true
-        schema:
-          $ref: '#/definitions/ModelName'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelName'
       responses:
         200:
           description: "SUCCESS"
-          schema:
-            $ref: '#/definitions/ModelConfig'            
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelConfig'    
   /validate_config:
     post:
       tags:
       - "execution"
       summary: "Submit a model configuration for validation"
       description: "Submit a model configuration for a given model to determine if the configuration meets the model's requirements."
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "ModelConfig"
+      requestBody:
         description: "A model configuration."
         required: true
-        schema:
-          $ref: "#/definitions/ModelConfig"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModelConfig"
       responses:
         200:
           description: "SUCCESS"
-          schema:
-            $ref: '#/definitions/ModelConfig'
-definitions:
-  Model:
-    type: "object"
-    required:
-    - "name"
-    - "description"
-    - "maintainer"
-    description: "An object defining high-level metadata about a model"
-    properties:
-      name:
-        $ref: '#/definitions/ModelName'
-      versions:
-        type: "array"
-        items:
-          type: "string"
-        example: ["1.1", "1.2", "LATEST"]
-        description: "Latest model version"
-      maintainer:
-        type: "string"
-        description: "Maintainer information for this model. Should include institution name and point of contact."
-        example: "Cheryl Porter, University of Florida, cporter@ufl.edu"
-      description:
-        type: "string"
-        description: "A basic overview of the model's purpose."
-        example: "The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics."
-      category: 
-        # this may ultimately be an enumerated (fixed) string 
-        # e.g. select from one of the following (from ontology)
-        type: "string"
-        description: "The category for the given model."
-        example: "Agriculture"
-  AvailableModels:
-    type: "array"
-    items:
-      $ref: '#/definitions/ModelName'
-    uniqueItems: true
-    description: "An array of available models"
-    example: [ "DSSAT", "PIHM", "TopoFlow", "Cycles", "ClimComp" ]
-  ModelName:
-    type: "string"
-    description: "A model's name"
-    example: "DSSAT"
-  ModelIO:
-    type: "array"
-    description: "Array of input or output files for the given model."
-    items:
-      $ref: '#/definitions/IOFile'
-  IOFile:
-    # Note that this explicitly does not require low-level definitions
-    # of a file schema, nor does it require variable definitions
-    type: "object"
-    description: "An object that defines a single input or output file for a model"
-    required:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelConfig'
+
+components:
+  schemas:
+    Model:
+      type: "object"
+      required:
       - "name"
       - "description"
-      - "filetype"
-    properties:
-      name:
-        type: "string"
-        description: "The name of a given input or output file. This should be general and should not reference a specific file."
-        example: "NASA-POWER Weather Data"
-      description:
-        type: "string"
-        description: "Description of input file."
-        example: "Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format."
-      filetype: 
-        type: "string"
-        description: "The file type (extension) for this file"
-        example: "WTH"
-  IORequest:
-    type: "object"
-    description: "A request object indicating whether the response should return either input or output files and for which model"
-    properties:
-      name:
-        $ref: '#/definitions/ModelName'
-      iotype:
-        type: "string"
-        enum: ["input", "output"]
-  ModelConfig:
-    # this can be an example config, or a config submitted to execute
-    # a job. This is loosely defined for the time being.
-    # note that the `valid` and `error` fields should only be 
-    # completed when associated with the `validate_config` endpoint
-    type: "object"
-    description: "A model configuration file (JSON)."
-    required:
-      - "name"
-      - "config"
-    properties:
-      name: 
-        $ref: '#/definitions/ModelName'
-      config:
-        type: "object"
-      valid:
-        type: "boolean"
-      error:
-        type: "string"
+      - "maintainer"
+      description: "An object defining high-level metadata about a model"
+      properties:
+        name:
+          $ref: '#/components/schemas/ModelName'
+        versions:
+          type: "array"
+          items:
+            type: "string"
+          example: ["1.1", "1.2", "LATEST"]
+          description: "Latest model version"
+        maintainer:
+          type: "string"
+          description: "Maintainer information for this model. Should include institution name and point of contact."
+          example: "Cheryl Porter, University of Florida, cporter@ufl.edu"
+        description:
+          type: "string"
+          description: "A basic overview of the model's purpose."
+          example: "The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics."
+        category: 
+          # this may ultimately be an enumerated (fixed) string 
+          # e.g. select from one of the following (from ontology)
+          type: "string"
+          description: "The category for the given model."
+          example: "Agriculture"
+    AvailableModels:
+      type: "array"
+      items:
+        $ref: '#/components/schemas/ModelName'
+      uniqueItems: true
+      description: "An array of available models"
+      example: [ "DSSAT", "PIHM", "TopoFlow", "Cycles", "ClimComp" ]
+    ModelName:
+      type: "string"
+      description: "A model's name"
+      example: "DSSAT"
+    ModelIO:
+      type: "array"
+      description: "Array of input or output files for the given model."
+      items:
+        $ref: '#/components/schemas/IOFile'
+    IOFile:
+      # Note that this explicitly does not require low-level definitions
+      # of a file schema, nor does it require variable definitions
+      type: "object"
+      description: "An object that defines a single input or output file for a model"
+      required:
+        - "name"
+        - "description"
+        - "filetype"
+      properties:
+        name:
+          type: "string"
+          description: "The name of a given input or output file. This should be general and should not reference a specific file."
+          example: "NASA-POWER Weather Data"
+        description:
+          type: "string"
+          description: "Description of input file."
+          example: "Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format."
+        filetype: 
+          type: "string"
+          description: "The file type (extension) for this file"
+          example: "WTH"
+        variables:
+          type: "array"
+          description: "An array of variables associated with a given input or output file"
+          items:
+            $ref: '#/components/schemas/Variable'
+    IORequest:
+      type: "object"
+      description: "A request object indicating whether the response should return either input or output files and for which model"
+      properties:
+        name:
+          $ref: '#/components/schemas/ModelName'
+        iotype:
+          type: "string"
+          enum: ["input", "output"]
+    ModelConfig:
+      # this can be an example config, or a config submitted to execute
+      # a job. This is loosely defined for the time being.
+      # note that the `valid` and `error` fields should only be 
+      # completed when associated with the `validate_config` endpoint
+      type: "object"
+      description: "A model configuration file (JSON)."
+      required:
+        - "name"
+        - "config"
+      properties:
+        name: 
+          $ref: '#/components/schemas/ModelName'
+        config:
+          type: "object"
+        valid:
+          type: "boolean"
+        error:
+          type: "string"
+    Variable:
+    # the variable can have arbitrary information stored in its metadata field
+      type: "object"
+      description: "A variable used in a model input or output file."
+      required:
+        - "name"
+        - "standard_name"
+      properties:
+        name: 
+          type: "string"
+        standard_name:
+          type: "string"
+        standard_name_ontology:
+          type: "string"
+        units:
+          type: "string"
+        metadata:
+          type: "object"
