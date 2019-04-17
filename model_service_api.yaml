@@ -64,19 +64,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelIO'
-  /model_config:
-    post:
+  /model_config/{ModelName}:
+    get:
       tags:
       - "exploration"
       summary: "Obtain an example model configuration."
       description: "Submit a model name and receive a model configuration for the given model."
-      requestBody:
+      parameters:
+      - in: path
+        name: ModelName
         description: "The name of a model."
         required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ModelName'
+        schema:
+          $ref: "#/components/schemas/ModelName"
       responses:
         200:
           description: "SUCCESS"
