@@ -22,4 +22,13 @@ java -jar openapi-generator-cli.jar generate \
   -i model_service_api.yaml \
   -l python-flask \
   -o Rest-Server-UPDATE
-  ```
+```
+
+# Running the REST Server
+First navigate to the `REST-Server` directory with `cd REST-Server`. Next, install the requirements with something like:
+
+```
+pip3 install -r requirements.txt
+```
+
+Now you can run the server with `python3 -m openapi_server`. You can access the UI at [http://0.0.0.0:8080/ui](http://0.0.0.0:8080/ui).
