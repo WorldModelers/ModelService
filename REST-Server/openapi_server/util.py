@@ -155,11 +155,18 @@ def _get_variables(file):
 
     variables_table = []
     for v in variables:
-        e = {'Label': v.get('label',{}).get('value'),
-             'Long Name': v.get('longName',{}).get('value'),
-             'Description': v.get('description',{}).get('value'),
-             'Standard Name': v.get('sn',{}).get('value'),
-             'Unit': v.get('unit',{}).get('value')}
+        e = {'name': v.get('label',{}).get('value'),
+             'long_name': v.get('longName',{}).get('value'),
+             'description': v.get('description',{}).get('value'),
+             'standard_name': v.get('sn',{}).get('value'),
+             'standard_name_ontology': '',
+             'unit': v.get('unit',{}).get('value'),
+             'metadata': {}}
         variables_table.append(e)
-    
-    return {'File': file.split('instance/')[1], 'Variables': variables_table}
+
+    output = {'name': file.split('instance/')[1],
+              'variables': variables_table,
+              'filetype': '',
+              'description': ''}
+              
+    return output

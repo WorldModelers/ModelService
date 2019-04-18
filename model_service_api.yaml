@@ -5,9 +5,9 @@ info:
   version: "1.0.0"
   
 servers:
-  - url: modelservice.worldmodelers.com
+  - url: http://modelservice.worldmodelers.com
     description: Future (production) server
-  - url: localhost:8080
+  - url: http://localhost:8080
     description: Local server for testing
   
 paths:
@@ -38,7 +38,7 @@ paths:
         schema:
           $ref: "#/components/schemas/ModelName"
       responses:
-        200:
+          200:
           description: "SUCCESS"
           content:
             application/json:
@@ -68,8 +68,8 @@ paths:
     get:
       tags:
       - "exploration"
-      summary: "Obtain an example model configuration."
-      description: "Submit a model name and receive a model configuration for the given model."
+      summary: "Obtain model configurations for a given model."
+      description: "Submit a model name and receive model configurations for the given model."
       parameters:
       - in: path
         name: ModelName
@@ -83,28 +83,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelConfig'    
-  /validate_config:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/ModelConfig'    
+  /search:
     post:
-      tags:
-      - "execution"
-      summary: "Submit a model configuration for validation"
-      description: "Submit a model configuration for a given model to determine if the configuration meets the model's requirements."
+      tags: 
+      - "exploration"
+      summary: "Search for a model, dataset, or variable"
+      description: "Search for a model, dataset, or variable based on name or standard name"
       requestBody:
-        description: "A model configuration."
+        "description": "Search parameters"
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ModelConfig"
+              oneOf:
+                - $ref: "#/components/schemas/GeoQuery"
+                - $ref: "#/components/schemas/TimeQuery"
+                - $ref: "#/components/schemas/TextQuery"
+              discriminator:
+                propertyName: query_type
       responses:
         200:
           description: "SUCCESS"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelConfig'
-
+                $ref: "#/components/schemas/SearchResult"
 components:
   schemas:
     Model:
@@ -134,9 +140,11 @@ components:
         category: 
           # this may ultimately be an enumerated (fixed) string 
           # e.g. select from one of the following (from ontology)
-          type: "string"
+          type: "array"
           description: "The category for the given model."
-          example: "Agriculture"
+          items:
+            type: "string"
+          example: ["Agriculture", "Economic"]
     AvailableModels:
       type: "array"
       items:
@@ -169,7 +177,7 @@ components:
           example: "NASA-POWER Weather Data"
         description:
           type: "string"
-          description: "Description of input file."
+          description: "Description of the file."
           example: "Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format."
         filetype: 
           type: "string"
@@ -226,3 +234,79 @@ components:
           type: "string"
         metadata:
           type: "object"
+    SearchResult:
+      type: "object"
+      description: "The result of a search"
+    Query:
+      type: "object"
+      required:
+        - "query_type"
+        - "result_type"
+      discriminator: 
+        propertyName: query_type
+      properties:
+        query_type:
+          type: "string"
+          description: "Is this a geo, time or text query?"
+          enum: ["geo", "time", "text"]
+        result_type:
+          type: "string"
+          description: "Should the query return models, datasets, or variables?"
+          enum: ["models", "datasets", "variables"]  
+    GeoQuery:
+      allOf: 
+        - $ref: "#/components/schemas/Query"
+        - type: "object"
+          description: "A geospatial bounding box search parameter is 4-elements in the WGS84 coordinate system: [xmin, ymin, xmax, ymax]. x is longitude, y is latitude"
+          required:
+            - "xmin"
+            - "xmax"
+            - "ymin"
+            - "ymax"
+            - "result_type"
+          properties:
+            xmin:
+              description: "Minimum longitude"
+              type: "number"
+            xmax:
+              description: "Maximum longitude"
+              type: "number"
+            ymin:
+              description: "Minimum latitude"
+              type: "number"
+            ymax:
+              description: "Maximum latitude"
+              type: "number"
+    TimeQuery:
+      allOf:
+        - $ref: "#/components/schemas/Query"
+        - type: "object"      
+          description: "A query defined by a start and end time."
+          required:
+            - "start_time"
+            - "end_time"
+          properties:
+            start_time:
+              description: "Minimum time for search query."
+              type: "string"
+            end_time:
+              description: "Maximum time for search query"
+              type: "string"
+    TextQuery:
+      allOf:
+        - $ref: "#/components/schemas/Query"
+        - type: "object"      
+          description: "A text string based query."
+          required:
+            - "type"
+            - "term"
+          properties:
+            type: 
+              description: "The type of query (either keyword or standard name)"
+              type: "string"
+              enum:
+                - "keyword"
+                - "standard name"
+            term:
+              description: "The search term of interest."
+              type: "string"

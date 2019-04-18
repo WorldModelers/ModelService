@@ -86,7 +86,7 @@ class IOFile(Model):
     def description(self):
         """Gets the description of this IOFile.
 
-        Description of input file.  # noqa: E501
+        Description of the file.  # noqa: E501
 
         :return: The description of this IOFile.
         :rtype: str
@@ -97,7 +97,7 @@ class IOFile(Model):
     def description(self, description):
         """Sets the description of this IOFile.
 
-        Description of input file.  # noqa: E501
+        Description of the file.  # noqa: E501
 
         :param description: The description of this IOFile.
         :type description: str

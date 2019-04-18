@@ -5,6 +5,7 @@ from openapi_server.models.io_file import IOFile  # noqa: E501
 from openapi_server.models.io_request import IORequest  # noqa: E501
 from openapi_server.models.model import Model  # noqa: E501
 from openapi_server.models.model_config import ModelConfig  # noqa: E501
+from openapi_server.models.query import Query  # noqa: E501
 from openapi_server import util
 
 import requests
@@ -43,7 +44,9 @@ def model_config_model_name_get(ModelName):  # noqa: E501
     configs = []
     for conf in response.json()['results']['bindings']:
         if ModelName.lower() in conf.get('desc',{}).get('value',{}).lower():
-            configs.append(conf)
+            out_conf = {'config': conf,
+                        'name': ModelName}
+            configs.append(out_conf)
     return configs
 
 def model_info_model_name_get(ModelName):  # noqa: E501
@@ -57,7 +60,13 @@ def model_info_model_name_get(ModelName):  # noqa: E501
     :rtype: Model
     """
     response = requests.get(f'https://api.models.mint.isi.edu/v0.0.2/model/{ModelName}')
-    return response.json()
+    model = response.json()
+    model['description'] = ''
+    model['maintainer'] = ''
+    model['name'] = model.pop('id')
+    model['category'] = model.pop('hasModelCategory')
+
+    return model
 
 
 def model_io_post():  # noqa: E501
@@ -91,3 +100,20 @@ def model_io_post():  # noqa: E501
         for f in f_:
             files_variables.append(util._get_variables(f))
         return files_variables
+
+
+def search_post():  # noqa: E501
+    """Search for a model, dataset, or variable
+
+    Search for a model, dataset, or variable based on name or standard name # noqa: E501
+
+    :param search_item: Search parameters
+    :type search_item: dict | bytes
+
+    :rtype: SearchResult
+    """
+    # TODO IMPLEMENT THIS
+    if connexion.request.is_json:
+        search_item = Query.from_dict(connexion.request.get_json())  # noqa: E501
+        print(search_item)
+    return search_item

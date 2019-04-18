@@ -4,6 +4,8 @@ info:
   title: ModelService API
   version: 1.0.0
 servers:
+- description: Future (production) server
+  url: http://modelservice.worldmodelers.com
 - description: Local server for testing
   url: http://localhost:8080
 paths:
@@ -70,7 +72,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
   /model_config/{ModelName}:
     get:
-      description: Submit a model name and receive a model configuration for the given model.
+      description: Submit a model name and receive model configurations for the given model.
       operationId: model_config_model_name_get
       parameters:
       - description: The name of a model.
@@ -86,34 +88,41 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelConfig'
+                items:
+                  $ref: '#/components/schemas/ModelConfig'
+                type: array
           description: SUCCESS
-      summary: Obtain an example model configuration.
+      summary: Obtain model configurations for a given model.
       tags:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
-  /validate_config:
+  /search:
     post:
-      description: Submit a model configuration for a given model to determine if the configuration meets the model's requirements.
-      operationId: validate_config_post
+      description: Search for a model, dataset, or variable based on name or standard name
+      operationId: search_post
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ModelConfig'
-        description: A model configuration.
+              discriminator:
+                propertyName: query_type
+              oneOf:
+              - $ref: '#/components/schemas/GeoQuery'
+              - $ref: '#/components/schemas/TimeQuery'
+              - $ref: '#/components/schemas/TextQuery'
+        description: Search parameters
         required: true
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelConfig'
+                $ref: '#/components/schemas/SearchResult'
           description: SUCCESS
-      summary: Submit a model configuration for validation
+      summary: Search for a model, dataset, or variable
       tags:
-      - execution
-      x-openapi-router-controller: openapi_server.controllers.execution_controller
+      - exploration
+      x-openapi-router-controller: openapi_server.controllers.exploration_controller
 components:
   schemas:
     Model:
@@ -125,7 +134,9 @@ components:
         - LATEST
         name: DSSAT
         description: The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics.
-        category: Agriculture
+        category:
+        - Agriculture
+        - Economic
         maintainer: Cheryl Porter, University of Florida, cporter@ufl.edu
       properties:
         name:
@@ -151,8 +162,12 @@ components:
           type: string
         category:
           description: The category for the given model.
-          example: Agriculture
-          type: string
+          example:
+          - Agriculture
+          - Economic
+          items:
+            type: string
+          type: array
       required:
       - description
       - maintainer
@@ -202,7 +217,7 @@ components:
           example: NASA-POWER Weather Data
           type: string
         description:
-          description: Description of input file.
+          description: Description of the file.
           example: Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format.
           type: string
         filetype:
@@ -280,3 +295,87 @@ components:
       - name
       - standard_name
       type: object
+    SearchResult:
+      description: The result of a search
+      type: object
+    Query:
+      discriminator:
+        propertyName: query_type
+      properties:
+        query_type:
+          description: Is this a geo, time or text query?
+          enum:
+          - geo
+          - time
+          - text
+          type: string
+        result_type:
+          description: Should the query return models, datasets, or variables?
+          enum:
+          - models
+          - datasets
+          - variables
+          type: string
+      required:
+      - query_type
+      - result_type
+      type: object
+    GeoQuery:
+      allOf:
+      - $ref: '#/components/schemas/Query'
+      - description: 'A geospatial bounding box search parameter is 4-elements in
+          the WGS84 coordinate system: [xmin, ymin, xmax, ymax]. x is longitude, y
+          is latitude'
+        properties:
+          xmin:
+            description: Minimum longitude
+            type: number
+          xmax:
+            description: Maximum longitude
+            type: number
+          ymin:
+            description: Minimum latitude
+            type: number
+          ymax:
+            description: Maximum latitude
+            type: number
+        required:
+        - result_type
+        - xmax
+        - xmin
+        - ymax
+        - ymin
+        type: object
+    TimeQuery:
+      allOf:
+      - $ref: '#/components/schemas/Query'
+      - description: A query defined by a start and end time.
+        properties:
+          start_time:
+            description: Minimum time for search query.
+            type: string
+          end_time:
+            description: Maximum time for search query
+            type: string
+        required:
+        - end_time
+        - start_time
+        type: object
+    TextQuery:
+      allOf:
+      - $ref: '#/components/schemas/Query'
+      - description: A text string based query.
+        properties:
+          type:
+            description: The type of query (either keyword or standard name)
+            enum:
+            - keyword
+            - standard name
+            type: string
+          term:
+            description: The search term of interest.
+            type: string
+        required:
+        - term
+        - type
+        type: object

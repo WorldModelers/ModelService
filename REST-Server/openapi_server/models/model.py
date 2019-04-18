@@ -27,14 +27,14 @@ class Model(Model):
         :param description: The description of this Model.  # noqa: E501
         :type description: str
         :param category: The category of this Model.  # noqa: E501
-        :type category: str
+        :type category: List[str]
         """
         self.openapi_types = {
             'name': str,
             'versions': List[str],
             'maintainer': str,
             'description': str,
-            'category': str
+            'category': List[str]
         }
 
         self.attribute_map = {
@@ -167,7 +167,7 @@ class Model(Model):
         The category for the given model.  # noqa: E501
 
         :return: The category of this Model.
-        :rtype: str
+        :rtype: List[str]
         """
         return self._category
 
@@ -178,7 +178,7 @@ class Model(Model):
         The category for the given model.  # noqa: E501
 
         :param category: The category of this Model.
-        :type category: str
+        :type category: List[str]
         """
 
         self._category = category
