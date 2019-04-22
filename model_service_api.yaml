@@ -38,7 +38,7 @@ paths:
         schema:
           $ref: "#/components/schemas/ModelName"
       responses:
-          200:
+        200:
           description: "SUCCESS"
           content:
             application/json:
@@ -68,8 +68,8 @@ paths:
     get:
       tags:
       - "exploration"
-      summary: "Obtain model configurations for a given model."
-      description: "Submit a model name and receive model configurations for the given model."
+      summary: "Obtain configurations for a given model."
+      description: "Submit a model name and receive all configurations for the given model."
       parameters:
       - in: path
         name: ModelName
@@ -93,7 +93,7 @@ paths:
       summary: "Search for a model, dataset, or variable"
       description: "Search for a model, dataset, or variable based on name or standard name"
       requestBody:
-        "description": "Search parameters"
+        description: "Search parameters"
         required: true
         content:
           application/json:
@@ -111,8 +111,95 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SearchResult"
+  /run_model:
+    post:
+      tags:
+      - "execution"
+      summary: "Run a model for a given a configuration"
+      description: "Submit a configuration to run a specific model. Model is run asynchronously. Results are available through `/run_results` endpoint."
+      requestBody:
+        description: "Model and configuration parameters"
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/ModelConfig"
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RunID"
+  /run_status/{RunID}:
+    get:
+      tags:
+      - "execution"
+      summary: "Obtain status for a given model run"
+      description: "Submit a `RunID` and receive the model run status"
+      parameters:
+      - in: path
+        name: RunID
+        description: "The `ID` for a given model run."
+        required: true
+        schema:
+          $ref: "#/components/schemas/RunID"
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunStatus'
+  /run_results/{RunID}:
+    get:
+      tags:
+      - "execution"
+      summary: "Obtain metadata about the results of a given model run"
+      description: "Submit a `RunID` and receive model run results metadata, including whether it succeeded or failed and where to access the result data."
+      parameters:
+      - in: path
+        name: RunID
+        description: "The ID for a given model run."
+        required: true
+        schema:
+          $ref: "#/components/schemas/RunID"
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunResults'
+  /list_runs/{ModelName}:
+    get:
+      tags:
+      - "execution"
+      summary: "Obtain a list of runs for a given model"
+      description: "Submit a `ModelName` and receive an array of `RunID`s associated with the given model."
+      parameters:
+      - in: path
+        name: ModelName
+        description: "A model name"
+        required: true
+        schema:
+          $ref: "#/components/schemas/ModelName"
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/RunID'   
+
 components:
   schemas:
+    ModelName:
+      type: "string"
+      description: "A model's name"
+      example: "DSSAT"  
     Model:
       type: "object"
       required:
@@ -152,10 +239,6 @@ components:
       uniqueItems: true
       description: "An array of available models"
       example: [ "DSSAT", "PIHM", "TopoFlow", "Cycles", "ClimComp" ]
-    ModelName:
-      type: "string"
-      description: "A model's name"
-      example: "DSSAT"
     ModelIO:
       type: "array"
       description: "Array of input or output files for the given model."
@@ -212,10 +295,6 @@ components:
           $ref: '#/components/schemas/ModelName'
         config:
           type: "object"
-        valid:
-          type: "boolean"
-        error:
-          type: "string"
     Variable:
     # the variable can have arbitrary information stored in its metadata field
       type: "object"
@@ -310,3 +389,26 @@ components:
             term:
               description: "The search term of interest."
               type: "string"
+    RunID:
+      type: "string"
+      description: "ID associated with a model run. This is the SHA256 hash of the ModelConfig sent to the /run_model endpoint"
+      example: "3A3B3E0AE57AD4A7EF658C1F7832774F55E403F01FDF44B68B355EC4587D7A04"
+    RunStatus:
+      type: "string"
+      description: "Status information about a model run."
+      enum:
+        - "PENDING"
+        - "FAIL"
+        - "SUCCESS"
+    RunResults:
+      type: "object"
+      description: "Metadata about the results of a given model run."
+      properties:
+        config:
+          $ref: "#/components/schemas/ModelConfig"
+        status:
+          type: "string"
+          enum: ["SUCCESS", "FAIL"]
+        output:
+          type: "string"
+          description: "URI for accessing output (for example, on S3)"
