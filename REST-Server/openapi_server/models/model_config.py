@@ -15,36 +15,26 @@ class ModelConfig(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, config=None, valid=None, error=None):  # noqa: E501
+    def __init__(self, name=None, config=None):  # noqa: E501
         """ModelConfig - a model defined in OpenAPI
 
         :param name: The name of this ModelConfig.  # noqa: E501
         :type name: str
         :param config: The config of this ModelConfig.  # noqa: E501
         :type config: object
-        :param valid: The valid of this ModelConfig.  # noqa: E501
-        :type valid: bool
-        :param error: The error of this ModelConfig.  # noqa: E501
-        :type error: str
         """
         self.openapi_types = {
             'name': str,
-            'config': object,
-            'valid': bool,
-            'error': str
+            'config': object
         }
 
         self.attribute_map = {
             'name': 'name',
-            'config': 'config',
-            'valid': 'valid',
-            'error': 'error'
+            'config': 'config'
         }
 
         self._name = name
         self._config = config
-        self._valid = valid
-        self._error = error
 
     @classmethod
     def from_dict(cls, dikt) -> 'ModelConfig':
@@ -104,45 +94,3 @@ class ModelConfig(Model):
             raise ValueError("Invalid value for `config`, must not be `None`")  # noqa: E501
 
         self._config = config
-
-    @property
-    def valid(self):
-        """Gets the valid of this ModelConfig.
-
-
-        :return: The valid of this ModelConfig.
-        :rtype: bool
-        """
-        return self._valid
-
-    @valid.setter
-    def valid(self, valid):
-        """Sets the valid of this ModelConfig.
-
-
-        :param valid: The valid of this ModelConfig.
-        :type valid: bool
-        """
-
-        self._valid = valid
-
-    @property
-    def error(self):
-        """Gets the error of this ModelConfig.
-
-
-        :return: The error of this ModelConfig.
-        :rtype: str
-        """
-        return self._error
-
-    @error.setter
-    def error(self, error):
-        """Sets the error of this ModelConfig.
-
-
-        :param error: The error of this ModelConfig.
-        :type error: str
-        """
-
-        self._error = error

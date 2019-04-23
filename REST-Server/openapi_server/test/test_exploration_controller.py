@@ -31,7 +31,7 @@ class TestExplorationController(BaseTestCase):
     def test_model_config_model_name_get(self):
         """Test case for model_config_model_name_get
 
-        Obtain model configurations for a given model.
+        Obtain configurations for a given model.
         """
         response = self.client.open(
             '/model_config/{ModelName}'.format(model_name='model_name_example'),
