@@ -3,9 +3,7 @@ import subprocess
 import argparse
 import boto3
 import logging
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+import os
 
 def run(model_name, task_name):
     call = ["luigi", 
@@ -14,16 +12,20 @@ def run(model_name, task_name):
             f"models.{model_name}.tasks.{task_name}",
             "--local-scheduler"]
 
-    subprocess.call(call)
+    return subprocess.call(call)
 
 def storeResults(bucket, result_name, key):
-   result_path = f'/usr/src/app/output/{result_name}'
-   exists = os.path.isfile(result_path)
+    result_path = f'/usr/src/app/output/{result_name}'
+    logging.info(result_path)
 
-   if exists:
-       s3 = boto3.client('s3')
-       s3.meta.client.upload_file(result_path, bucket, key)
-       return "SUCCESS"
+    exists = os.path.isfile(result_path)
+    
+
+    if exists:
+        s3 = boto3.client('s3')
+        s3.upload_file(result_path, bucket, key, ExtraArgs={'ACL':'public-read'})
+        logging.info(f'Results stored at : https://s3.amazonaws.com/world-modelers/{key}')
+        return "SUCCESS"
     else:
         return "FAIL"
 
@@ -35,9 +37,16 @@ if __name__ == "__main__":
     parser.add_argument("--result_name", help="Expected result file name")
     parser.add_argument("--key", help="Key to store file on S3")
     args = parser.parse_args()
+    
+    logging.basicConfig(level=logging.INFO)
 
-    run(args.model_name, args.task_name)
+    logging.info(f'Running model: {args.model_name}')
+    logging.info(f'Running task: {args.task_name}')
+
+    run = run(args.model_name, args.task_name)
+
+    logging.info('Model run complete')
 
     run_results = storeResults(args.bucket, args.result_name, args.key)
     
-    logger.info(f'Model run: {run_results}')
+    logging.info(f'Model run: {run_results}')
