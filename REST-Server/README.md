@@ -14,8 +14,10 @@ Python 3.5.2+
 To run the server, please execute the following from the root directory:
 
 ```
-pip3 install -r requirements.txt
-python3 -m openapi_server
+conda create -n maas_env python=3.7 pip jupyter
+source activate maas_env
+pip install -r requirements.txt
+python -m openapi_server
 ```
 
 and open your browser to here:
