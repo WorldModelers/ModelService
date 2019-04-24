@@ -1,13 +1,7 @@
 import docker
-import configparser
 import re
-
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-r = redis.Redis(host=config['REDIS']['HOST'],
-                port=config['REDIS']['PORT'],
-                db=config['REDIS']['DB'])
+import configparser
+import redis
 
 class KiController(object):
     """
@@ -20,7 +14,9 @@ class KiController(object):
         self.scheduler = 'drp_scheduler:latest'
         self.db = 'drp_db:latest'
         self.db_name = 'kiluigi-db'
-        self.entrypoint="python run.py --bucket=world-modelers --model_name=malnutrition_model --task_name=RasterToCSV --result_name=final/maln_raster_hires_baseline.csv --key=results/malnutrition_model/maln_raster_hires_baseline.csv"
+        self.bucket = "world-modelers"
+        self.key = "results/malnutrition_model/maln_raster_hires_baseline.csv"
+        self.entrypoint=f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=RasterToCSV --result_name=final/maln_raster_hires_baseline.csv --key={self.key}"
         self.volumes = {'/home/ubuntu/darpa/': {'bind': '/usr/src/app/', 'mode': 'rw'}}
         self.environment = self.parse_env_file('darpa/kiluigi/.env')
         self.db_ports = {'5432/tcp': 5432}

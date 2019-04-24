@@ -9,6 +9,19 @@ from openapi_server.kimetrica import KiController, get_model_runs
 
 import json
 from hashlib import sha256
+import docker
+import configparser
+import redis
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+r = redis.Redis(host=config['REDIS']['HOST'],
+                port=config['REDIS']['PORT'],
+                db=config['REDIS']['DB'])
+
+client = docker.from_env()
+containers = client.containers
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -36,9 +49,18 @@ def run_model_post(model_config):  # noqa: E501
     """
     if connexion.request.is_json:
         model_config = ModelConfig.from_dict(connexion.request.get_json())  # noqa: E501
+
         kc = KiController()
-        run = kc.run_model()
-        run_id = sha256(json.dumps(test).encode('utf-8')).hexdigest()
+        model_container = kc.run_model()
+
+        run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
+        run_obj = {'model_config': model_config,
+                   'status': 'PENDING',
+                   'container': model_container.id,
+                   'bucket': kc.bucket,
+                   'key': kc.key}
+        r.hmset(run_id, run_obj)        
+
     return run_id
 
 
@@ -52,7 +74,20 @@ def run_results_run_idget(run_id):  # noqa: E501
 
     :rtype: RunResults
     """
-    return 'do some magic!'
+    run = r.hgetall(run_id)
+    status = run[b'status'].decode('utf-8')
+    if status == 'SUCCESS':
+        bucket = run[b'bucket'].decode('utf-8')
+        key = run[b'key'].decode('utf-8')
+        URI = f"https://s3.amazonaws.com/{bucket}/{key}"
+        results = {'status': status, 'URI': URI}
+        return results
+    elif status == 'FAIL':
+        run_container = run[b'container']
+        run_logs = run_container.logs().decode('utf-8')
+        results = {'status': status, 'logs': run_logs}
+    else:
+        results = {'status': status}
 
 
 def run_status_run_idget(run_id):  # noqa: E501
@@ -65,4 +100,23 @@ def run_status_run_idget(run_id):  # noqa: E501
 
     :rtype: RunStatus
     """
-    return 'do some magic!'
+    run = r.hgetall(run_id)
+    run_container = run[b'container']
+    run_container.reload()
+    container_status = run_container.status
+
+    model_container = containers.get(run_container)
+    success_msg = 'Model run: SUCCESS'
+    fail_msg = 'Model run: FAIL'
+    run_logs = model_container.logs().decode('utf-8')
+
+    status = 'PENDING'
+    if container_status == 'exited':
+        if success_msg in run_logs:
+            r.hmset('testid', {'status': 'SUCCESS'})
+            status = 'SUCCESS'
+        elif success_msg in run_logs:
+            r.hmset('testid', {'status': 'FAIL'})
+            status = 'FAIL'
+
+    return status
