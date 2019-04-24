@@ -408,7 +408,7 @@ components:
           $ref: "#/components/schemas/ModelConfig"
         status:
           type: "string"
-          enum: ["SUCCESS", "FAIL"]
+          enum: ["SUCCESS", "FAIL", "PENDING"]
         output:
           type: "string"
           description: "URI for accessing output (for example, on S3)"
