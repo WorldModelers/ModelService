@@ -301,12 +301,12 @@ components:
       description: "A variable used in a model input or output file."
       required:
         - "name"
-        - "standard_name"
+        - "standard_names"
       properties:
         name: 
           type: "string"
-        standard_name:
-          type: "string"
+        standard_names:
+          type: "array"
         standard_name_ontology:
           type: "string"
         units:

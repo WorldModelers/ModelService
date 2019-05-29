@@ -221,6 +221,14 @@ def _parse_io(io, url, request_headers):
 
         variables = resp['dataset']['variables']
 
+        # query DCAT for standard variables related to dataset
+        resp = requests.post(f"{url}/datasets/dataset_standard_variables",
+                             headers=request_headers,
+                             json=q).json()
+        std_vars = resp['dataset']['standard_variables']
+        std_vars_dict = {}
+        for var in std_vars:
+            std_vars_dict[var['standard_variable_id']] = var
         
         io_.pop('has_presentation')
         io_['variables'] = []
@@ -228,8 +236,22 @@ def _parse_io(io, url, request_headers):
             v['name'] = v.pop('variable_name')
             v['id'] = v.pop('variable_id')
             v['metadata'] = v.pop('variable_metadata')
-            # TODO: obtain standard name information
-            v['standard_name'] = 'TODO'
+
+            # Obtain standard name information for the variable  
+            q = {
+              "variable_ids__in": [v['id']]
+            }
+
+            resp = requests.post(f"{url}/variables/variables_standard_variables",
+                                 headers=request_headers,
+                                 json=q).json()
+
+            v_ = resp['variables'][0]
+            v['standard_names'] = []
+            for std in v_['standard_variables']:
+                std_var = std_vars_dict[std['standard_variable_id']]
+                v['standard_names'].append(std_var)
+
             io_['variables'].append(v)
         return io_    
     else:
