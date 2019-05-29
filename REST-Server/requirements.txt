@@ -5,4 +5,5 @@ setuptools >= 21.0.0
 Flask-Cors == 3.0.7
 redis==3.2.1
 docker==3.7.2
+mint-api==1.0.1
 tox
