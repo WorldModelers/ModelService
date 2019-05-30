@@ -5,7 +5,7 @@ info:
   version: "1.0.0"
   
 servers:
-  - url: http://modelservice.worldmodelers.com
+  - url: https://model-service.worldmodelers.com
     description: Future (production) server
   - url: http://localhost:8080
     description: Local server for testing
@@ -195,6 +195,10 @@ paths:
                   $ref: '#/components/schemas/RunID'   
 
 components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
   schemas:
     ModelName:
       type: "string"
