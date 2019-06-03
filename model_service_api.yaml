@@ -65,7 +65,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ModelIO'
   /model_parameters/{ModelName}:
-    post:
+    get:
       tags:
       - "exploration"
       summary: "Obtain information about a model's parameters."

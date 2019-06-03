@@ -15,13 +15,13 @@ class Variable(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, standard_name=None, standard_name_ontology=None, units=None, metadata=None):  # noqa: E501
+    def __init__(self, name=None, standard_names=None, standard_name_ontology=None, units=None, metadata=None):  # noqa: E501
         """Variable - a model defined in OpenAPI
 
         :param name: The name of this Variable.  # noqa: E501
         :type name: str
-        :param standard_name: The standard_name of this Variable.  # noqa: E501
-        :type standard_name: str
+        :param standard_names: The standard_names of this Variable.  # noqa: E501
+        :type standard_names: List[StandardName]
         :param standard_name_ontology: The standard_name_ontology of this Variable.  # noqa: E501
         :type standard_name_ontology: str
         :param units: The units of this Variable.  # noqa: E501
@@ -31,7 +31,7 @@ class Variable(Model):
         """
         self.openapi_types = {
             'name': str,
-            'standard_name': str,
+            'standard_names': List[StandardName],
             'standard_name_ontology': str,
             'units': str,
             'metadata': object
@@ -39,14 +39,14 @@ class Variable(Model):
 
         self.attribute_map = {
             'name': 'name',
-            'standard_name': 'standard_name',
+            'standard_names': 'standard_names',
             'standard_name_ontology': 'standard_name_ontology',
             'units': 'units',
             'metadata': 'metadata'
         }
 
         self._name = name
-        self._standard_name = standard_name
+        self._standard_names = standard_names
         self._standard_name_ontology = standard_name_ontology
         self._units = units
         self._metadata = metadata
@@ -86,27 +86,27 @@ class Variable(Model):
         self._name = name
 
     @property
-    def standard_name(self):
-        """Gets the standard_name of this Variable.
+    def standard_names(self):
+        """Gets the standard_names of this Variable.
 
 
-        :return: The standard_name of this Variable.
-        :rtype: str
+        :return: The standard_names of this Variable.
+        :rtype: List[StandardName]
         """
-        return self._standard_name
+        return self._standard_names
 
-    @standard_name.setter
-    def standard_name(self, standard_name):
-        """Sets the standard_name of this Variable.
+    @standard_names.setter
+    def standard_names(self, standard_names):
+        """Sets the standard_names of this Variable.
 
 
-        :param standard_name: The standard_name of this Variable.
-        :type standard_name: str
+        :param standard_names: The standard_names of this Variable.
+        :type standard_names: List[StandardName]
         """
-        if standard_name is None:
-            raise ValueError("Invalid value for `standard_name`, must not be `None`")  # noqa: E501
+        if standard_names is None:
+            raise ValueError("Invalid value for `standard_names`, must not be `None`")  # noqa: E501
 
-        self._standard_name = standard_name
+        self._standard_names = standard_names
 
     @property
     def standard_name_ontology(self):

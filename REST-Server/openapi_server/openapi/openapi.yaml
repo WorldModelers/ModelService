@@ -70,6 +70,32 @@ paths:
       tags:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
+  /model_parameters/{ModelName}:
+    get:
+      description: Submit a model name and receive information about the parameters used by this model. Specific parameters are used on a per-configuration basis.
+      operationId: model_parameters_model_name_post
+      parameters:
+      - description: The name of a model.
+        explode: false
+        in: path
+        name: ModelName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ModelName'
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Parameter'
+                type: array
+          description: SUCCESS
+      summary: Obtain information about a model's parameters.
+      tags:
+      - exploration
+      x-openapi-router-controller: openapi_server.controllers.exploration_controller
   /model_config/{ModelName}:
     get:
       description: Submit a model name and receive all configurations for the given model.
@@ -125,7 +151,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
   /run_model:
     post:
-      description: Submit a configuration to run a specific model. Model is run asynchronously. Results are available through `/run_results` endpoint.
+      description: Submit a configuration to run a specific model. Model is run asynchronously. Results are available through `/run_results` endpoint. Note that the `requestBody` must include a `config` object which should have as its `keys` the appropriate model `parameter` `labels`. Each `key` should have a corresponding `parameter` `value`. If a `parameter` is missing it will be defaulted.
       operationId: run_model_post
       requestBody:
         content:
@@ -220,15 +246,35 @@ paths:
       - execution
       x-openapi-router-controller: openapi_server.controllers.execution_controller
 components:
-  securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic  
   schemas:
     ModelName:
       description: A model's name
-      example: DSSAT
+      example: FSC
       type: string
+    StandardName:
+      description: A standard name representation
+      example:
+        standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+        standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+        standard_variable_name: year
+      properties:
+        standard_variable_id:
+          description: The MINT UUID associated with the standard name
+          example: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+          type: string
+        standard_variable_name:
+          description: The natural language name for a standard name
+          example: year
+          type: string
+        standard_variable_uri:
+          description: The URI associated with the standard name
+          example: http://www.geoscienceontology.org/svo/svl/property#year
+          type: string
+      required:
+      - standard_variable_id
+      - standard_variable_name
+      - standard_variable_uri
+      type: object
     Model:
       description: An object defining high-level metadata about a model
       example:
@@ -236,16 +282,16 @@ components:
         - "1.1"
         - "1.2"
         - LATEST
-        name: DSSAT
-        description: The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics.
+        name: FSC
+        description: FSC single country shock configuration.
         category:
         - Agriculture
         - Economic
-        maintainer: Cheryl Porter, University of Florida, cporter@ufl.edu
+        maintainer: Michael Puma, Columbia University
       properties:
         name:
           description: A model's name
-          example: DSSAT
+          example: FSC
           type: string
         versions:
           description: Latest model version
@@ -258,11 +304,11 @@ components:
           type: array
         maintainer:
           description: Maintainer information for this model. Should include institution name and point of contact.
-          example: Cheryl Porter, University of Florida, cporter@ufl.edu
+          example: Michael Puma, Columbia University
           type: string
         description:
           description: A basic overview of the model's purpose.
-          example: The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics.
+          example: FSC single country shock configuration.
           type: string
         category:
           description: The category for the given model.
@@ -300,14 +346,26 @@ components:
         filetype: WTH
         variables:
         - metadata: '{}'
+          standard_names:
+          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+            standard_variable_name: year
+          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+            standard_variable_name: year
           name: name
           standard_name_ontology: standard_name_ontology
-          standard_name: standard_name
           units: units
         - metadata: '{}'
+          standard_names:
+          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+            standard_variable_name: year
+          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+            standard_variable_name: year
           name: name
           standard_name_ontology: standard_name_ontology
-          standard_name: standard_name
           units: units
         name: NASA-POWER Weather Data
         description: Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format.
@@ -337,12 +395,12 @@ components:
     IORequest:
       description: A request object indicating whether the response should return either input or output files and for which model
       example:
-        name: DSSAT
+        name: FSC
         iotype: input
       properties:
         name:
           description: A model's name
-          example: DSSAT
+          example: FSC
           type: string
         iotype:
           enum:
@@ -353,12 +411,12 @@ components:
     ModelConfig:
       description: A model configuration file (JSON).
       example:
-        name: DSSAT
+        name: FSC
         config: '{}'
       properties:
         name:
           description: A model's name
-          example: DSSAT
+          example: FSC
           type: string
         config:
           type: object
@@ -370,14 +428,22 @@ components:
       description: A variable used in a model input or output file.
       example:
         metadata: '{}'
+        standard_names:
+        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+          standard_variable_name: year
+        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+          standard_variable_name: year
         name: name
         standard_name_ontology: standard_name_ontology
-        standard_name: standard_name
         units: units
       properties:
         name:
           type: string
         standard_names:
+          items:
+            $ref: '#/components/schemas/StandardName'
           type: array
         standard_name_ontology:
           type: string
@@ -388,6 +454,48 @@ components:
       required:
       - name
       - standard_names
+      type: object
+    Parameter:
+      description: A user configurable model parameter
+      example:
+        data_type: string
+        description: The ISO 3 country code for the country of interest.
+        default_value: USA
+        standard_name:
+        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+          standard_variable_name: year
+        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
+          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
+          standard_variable_name: year
+        id: FSC-country-code
+        label: FSC simulation country
+      properties:
+        id:
+          description: Identifier associated with parameter in MINT
+          example: FSC-country-code
+          type: string
+        description:
+          description: Natural language description of parameter
+          example: The ISO 3 country code for the country of interest.
+          type: string
+        label:
+          description: The name of the parameter, which should be used as a `key` within a `config` sent to the `run_model` endpoint.
+          example: FSC simulation country
+          type: string
+        data_type:
+          description: The parameter's data type
+          example: string
+          type: string
+        default_value:
+          description: The parameter's default value. Type depends on the parameter's data_type
+          example: USA
+        standard_name:
+          items:
+            $ref: '#/components/schemas/StandardName'
+          type: array
+      required:
+      - id
       type: object
     SearchResult:
       description: The result of a search
@@ -489,7 +597,7 @@ components:
       example:
         output: output
         config:
-          name: DSSAT
+          name: FSC
           config: '{}'
         status: SUCCESS
       properties:
@@ -505,3 +613,7 @@ components:
           description: URI for accessing output (for example, on S3)
           type: string
       type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http

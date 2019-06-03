@@ -9,6 +9,7 @@ from openapi_server.models.io_file import IOFile  # noqa: E501
 from openapi_server.models.io_request import IORequest  # noqa: E501
 from openapi_server.models.model import Model  # noqa: E501
 from openapi_server.models.model_config import ModelConfig  # noqa: E501
+from openapi_server.models.parameter import Parameter  # noqa: E501
 from openapi_server.models.search_result import SearchResult  # noqa: E501
 from openapi_server.models.unknownbasetype import UNKNOWN_BASE_TYPE  # noqa: E501
 from openapi_server.test import BaseTestCase
@@ -61,6 +62,17 @@ class TestExplorationController(BaseTestCase):
             method='POST',
             data=json.dumps(io_request),
             content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_model_parameters_model_name_post(self):
+        """Test case for model_parameters_model_name_post
+
+        Obtain information about a model's parameters.
+        """
+        response = self.client.open(
+            '/model_parameters/{ModelName}'.format(model_name='model_name_example'),
+            method='POST')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
