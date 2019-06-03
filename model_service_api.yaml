@@ -64,6 +64,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ModelIO'
+  /model_parameters/{ModelName}:
+    post:
+      tags:
+      - "exploration"
+      summary: "Obtain information about a model's parameters."
+      description: "Submit a model name and receive information about the parameters used by this model. Specific parameters are used on a per-configuration basis."
+      parameters:
+      - in: path
+        name: ModelName
+        description: "The name of a model."
+        required: true
+        schema:
+          $ref: "#/components/schemas/ModelName"
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/Parameter'               
   /model_config/{ModelName}:
     get:
       tags:
@@ -116,7 +138,7 @@ paths:
       tags:
       - "execution"
       summary: "Run a model for a given a configuration"
-      description: "Submit a configuration to run a specific model. Model is run asynchronously. Results are available through `/run_results` endpoint."
+      description: "Submit a configuration to run a specific model. Model is run asynchronously. Results are available through `/run_results` endpoint. Note that the `requestBody` must include a `config` object which should have as its `keys` the appropriate model `parameter` `labels`. Each `key` should have a corresponding `parameter` `value`. If a `parameter` is missing it will be defaulted."
       requestBody:
         description: "Model and configuration parameters"
         required: true
@@ -203,7 +225,27 @@ components:
     ModelName:
       type: "string"
       description: "A model's name"
-      example: "DSSAT"  
+      example: "FSC" 
+    StandardName:
+      type: "object"
+      description: "A standard name representation"
+      required:
+        - "standard_variable_id"
+        - "standard_variable_name"
+        - "standard_variable_uri"
+      properties:
+        standard_variable_id:
+          type: "string"
+          description: "The MINT UUID associated with the standard name"
+          example: "df1daca4-d727-5dc8-bfa4-fb20c717a32b"
+        standard_variable_name:
+          type: "string"
+          description: "The natural language name for a standard name"
+          example: "year"
+        standard_variable_uri:
+          type: "string"
+          description: "The URI associated with the standard name"
+          example: "http://www.geoscienceontology.org/svo/svl/property#year"
     Model:
       type: "object"
       required:
@@ -223,11 +265,11 @@ components:
         maintainer:
           type: "string"
           description: "Maintainer information for this model. Should include institution name and point of contact."
-          example: "Cheryl Porter, University of Florida, cporter@ufl.edu"
+          example: "Michael Puma, Columbia University"
         description:
           type: "string"
           description: "A basic overview of the model's purpose."
-          example: "The Decision Support System for Agrotechnology Transfer (DSSAT) is a software application program that comprises crop simulation models for over 42 crops (as of Version 4.7) as well as tools to facilitate effective use of the models. The tools include database management programs for soil, weather, crop management and experimental data, utilities and application programs. The crop simulation models simulate growth, development and yield as a function of the soil-plant-atmosphere dynamics."
+          example: "FSC single country shock configuration."
         category: 
           # this may ultimately be an enumerated (fixed) string 
           # e.g. select from one of the following (from ontology)
@@ -311,12 +353,43 @@ components:
           type: "string"
         standard_names:
           type: "array"
+          items:
+            $ref: '#/components/schemas/StandardName'
         standard_name_ontology:
           type: "string"
         units:
           type: "string"
         metadata:
           type: "object"
+    Parameter:
+      type: "object"
+      description: "A user configurable model parameter"
+      required:
+        - "id"
+      properties:
+        id:
+          type: "string"
+          description: "Identifier associated with parameter in MINT"
+          example: "FSC-country-code"
+        description: 
+          type: "string"
+          description: "Natural language description of parameter"
+          example: "The ISO 3 country code for the country of interest."
+        label:
+          type: "string"
+          description: "The name of the parameter, which should be used as a `key` within a `config` sent to the `run_model` endpoint."
+          example: "FSC simulation country"
+        data_type:
+          type: "string"
+          description: "The parameter's data type"
+          example: "string"
+        default_value:
+          description: "The parameter's default value. Type depends on the parameter's data_type"
+          example: "USA"
+        standard_name:
+          type: "array"
+          items:
+            $ref: '#/components/schemas/StandardName'
     SearchResult:
       type: "object"
       description: "The result of a search"
