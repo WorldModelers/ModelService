@@ -71,7 +71,7 @@ paths:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
   /model_parameters/{ModelName}:
-    get:
+    post:
       description: Submit a model name and receive information about the parameters used by this model. Specific parameters are used on a per-configuration basis.
       operationId: model_parameters_model_name_post
       parameters:
@@ -325,14 +325,8 @@ components:
       type: object
     AvailableModels:
       description: An array of available models
-      example:
-      - DSSAT
-      - PIHM
-      - TopoFlow
-      - Cycles
-      - ClimComp
       items:
-        $ref: '#/components/schemas/ModelName'
+        $ref: '#/components/schemas/Model'
       type: array
       uniqueItems: true
     ModelIO:

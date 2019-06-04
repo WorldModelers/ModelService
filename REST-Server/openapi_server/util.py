@@ -4,8 +4,11 @@ import six
 import typing
 
 import requests
+import json
 from uuid import UUID
 
+import mint_client
+from mint_client.rest import ApiException
 
 def _deserialize(data, klass):
     """Deserializes dict, list, str into an object.
@@ -171,6 +174,24 @@ def is_valid_uuid(uuid_to_test, version=4):
 
     return str(uuid_obj) == uuid_to_test
 
+def _get_model(ModelName, MINTconfiguration, MINTusername):
+    configuration = MINTconfiguration
+    username = MINTusername
+
+    try:
+        api_instance = mint_client.ModelApi(mint_client.ApiClient(configuration))
+        api_response = api_instance.get_model(ModelName, username=username)
+        model = {
+                'name': api_response.id,
+                'description': api_response.description,
+                'maintainer': '',
+                'category': api_response.has_model_category,
+                'versions': [v['id'] for v in api_response.has_software_version]
+        }
+        return model
+    except ApiException as e:
+        return "Exception when calling ModelApi->get_model: %s\n" % e
+
 
 def _get_variables(file):
     """Obtain MINT variables for a given IO file"""
@@ -258,19 +279,191 @@ def _parse_io(io, url, request_headers):
     else:
         return None
 
-def _execute_text_query(TextQuery, url, request_headers):
+def _execute_text_query(TextQuery, url, request_headers, MINTconfiguration, MINTusername):
+    
+    if TextQuery.type == 'standard name':
+        q = {
+            "standard_variable_names__in": [TextQuery.term]
+        }
+        print(q)
+        resp = requests.post(f"{url}/datasets/find", 
+                                                headers=request_headers,
+                                                json=q).json()
+        if resp['result'] == 'success':
+            found_resources = resp['resources']
+            print(f"Found {len(found_resources)} resources")
+        else:
+            found_resources = []
 
     if TextQuery.result_type == 'datasets':
-        if TextQuery.type == 'standard name':
-            q = {
-                "standard_variable_names__in": [TextQuery.term]
-            }
-            print(q)
-            resp = requests.post(f"{url}/datasets/find", 
-                                                    headers=request_headers,
-                                                    json=q).json()
-            print(resp)
-            if resp['result'] == 'success':
-                found_resources = resp['resources']
-                print(f"Found {len(found_resources)} resources")
-                return(found_resources)
+        return found_resources
+
+    elif TextQuery.result_type == 'models':
+        # We add the JSON string representation of the model to a set
+        # so that we can avoid returning to the user duplicate models
+        models = set()
+        for d in found_resources:
+            found_models = _find_model_by_dataset_id(d["dataset_id"],
+                                MINTconfiguration,
+                                MINTusername)
+            for model in found_models:
+                models.add(json.dumps(model))
+            
+        models_output = []
+        for m in list(models):
+            models_output.append(json.loads(m))
+
+        return models_output
+
+def _execute_geo_query(GeoQuery, url, request_headers, MINTconfiguration, MINTusername):
+
+    bounding_box = [
+        GeoQuery.xmin, 
+        GeoQuery.ymin, 
+        GeoQuery.xmax,
+        GeoQuery.ymax
+    ]
+
+    q = {
+        "spatial_coverage__within": bounding_box
+    }
+
+    resp = requests.post(f"{url}/datasets/find", 
+                                            headers=request_headers,
+                                            json=q).json()
+    if resp['result'] == 'success':
+        found_resources = resp['resources']
+        print(f"Found {len(found_resources)} resources")
+    else:
+        found_resources = []
+
+    if GeoQuery.result_type == 'datasets':
+        return found_resources
+
+    elif GeoQuery.result_type == 'models':
+        # We add the JSON string representation of the model to a set
+        # so that we can avoid returning to the user duplicate models
+        models = set()
+        for d in found_resources:
+            found_models = _find_model_by_dataset_id(d["dataset_id"],
+                                MINTconfiguration,
+                                MINTusername)
+            for model in found_models:
+                models.add(json.dumps(model))
+            
+        models_output = []
+        for m in list(models):
+            models_output.append(json.loads(m))
+
+        return models_output         
+
+def _execute_time_query(TimeQuery, url, request_headers, MINTconfiguration, MINTusername):
+
+    start_time = TimeQuery.start_time
+    end_time = TimeQuery.end_time
+
+    q = {
+        "start_time__gte": start_time,
+        "end_time__lte": end_time
+    }
+
+    resp = requests.post(f"{url}/datasets/find", 
+                                            headers=request_headers,
+                                            json=q).json()
+
+    if resp['result'] == 'success':
+        found_resources = resp['resources']
+        print(f"Found {len(found_resources)} resources")
+    else:
+        found_resources = []
+
+    if TimeQuery.result_type == 'datasets':
+        return found_resources
+
+    elif TimeQuery.result_type == 'models':
+        # We add the JSON string representation of the model to a set
+        # so that we can avoid returning to the user duplicate models
+        models = set()
+        for d in found_resources:
+            found_models = _find_model_by_dataset_id(d["dataset_id"],
+                                MINTconfiguration,
+                                MINTusername)
+            for model in found_models:
+                models.add(json.dumps(model))
+            
+        models_output = []
+        for m in list(models):
+            models_output.append(json.loads(m))
+
+        return models_output              
+
+def _find_model_by_dataset_id(dataset_id, MINTconfiguration, MINTuser):
+    print(f"Searching for models associated with the dataset {dataset_id}")
+    configuration = MINTconfiguration
+    username = MINTuser
+
+    # Step 1: Obtain all MINT Model configurations
+    # from these configurations, extract the input/output dataset IDs
+    # Step 1 output: a set of Configuration IDs associated with the dataset_id
+    api_instance = mint_client.ModelconfigurationApi(mint_client.ApiClient(configuration))
+    try:
+        # List modelconfiguration
+        api_response = api_instance.get_model_configurations(username=username)
+        dataset_configs = set()
+        for config in api_response:
+            for io in config.has_input:
+                _id = io.id
+                if _id == dataset_id:
+                    dataset_configs.add(config.id)
+            for io in config.has_output:
+                _id = io.id
+                if _id == dataset_id:
+                    dataset_configs.add(config.id)
+        print(f"Found {len(dataset_configs)} Model Configuration associated with {dataset_id}")
+    except ApiException as e:
+        print("Exception when calling ModelconfigurationApi->get_model_configurations: %s\n" % e)
+
+    # Step 2: Obtain all Model Versions and their associated Model Configuration IDs
+    # Step 2 output: a set of Model Version IDs associated with the dataset_id
+    api_instance = mint_client.ModelversionApi(mint_client.ApiClient(configuration))
+    try:
+        # List All ModelVersions
+        version_ids = set()
+        api_response = api_instance.get_model_versions(username=username)
+
+        for v in api_response:
+            c_ = v.has_configuration
+            for conf in c_:
+                if conf.id in dataset_configs:
+                    # this is a config associated with the dataset_id
+                    # so add the version to version_ids
+                    version_ids.add(v.id)
+        print(f"Found {len(version_ids)} Model Version associated with {dataset_id}")
+    except ApiException as e:
+        print("Exception when calling ModelversionApi->get_model_versions: %s\n" % e)
+
+    # Step 3: Obtain all Models and check if their versions match the Version IDs of interest
+    # Step 3 output:
+    api_instance = mint_client.ModelApi(mint_client.ApiClient(configuration))
+    try:
+        # List All models
+        api_response = api_instance.get_models(username=username)
+        models = set()
+        for m in api_response:
+            for v in m.has_software_version:
+                if v['id'] in version_ids:
+                    # this is a model associated with the dataset_id
+                    # obtain its name
+                    models.add(m.label)
+        print(f"Found {len(models)} Models associated with {dataset_id}")
+    except ApiException as e:
+        print("Exception when calling ModelApi->get_models: %s\n" % e)
+    
+    try:
+        models_output = []
+        for m in list(models):
+            m_ = _get_model(m, configuration, username)
+            models_output.append(m_)
+        return models_output
+    except Exception as e:
+        print(f"Exception when processing model info: {e}")

@@ -281,10 +281,9 @@ components:
     AvailableModels:
       type: "array"
       items:
-        $ref: '#/components/schemas/ModelName'
+        $ref: '#/components/schemas/Model'
       uniqueItems: true
       description: "An array of available models"
-      example: [ "DSSAT", "PIHM", "TopoFlow", "Cycles", "ClimComp" ]
     ModelIO:
       type: "array"
       description: "Array of input or output files for the given model."

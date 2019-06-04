@@ -59,7 +59,14 @@ def list_models_post():  # noqa: E501
     try:
         api_response = api_instance.get_models(username=username)
         models = [m.id for m in api_response]
-        return models
+        
+        # obtain model info:
+        models_infos = []
+        for m in models:
+            models_infos.append(model_info_model_name_get(m))
+        
+        return models_infos
+
     except ApiException as e:
         return "Exception when calling ModelApi->get_models: %s\n" % e
 
@@ -110,19 +117,7 @@ def model_info_model_name_get(ModelName):  # noqa: E501
 
     :rtype: Model
     """
-    try:
-        api_instance = mint_client.ModelApi(mint_client.ApiClient(configuration))
-        api_response = api_instance.get_model(ModelName, username=username)
-        model = {
-                'name': api_response.id,
-                'description': api_response.description,
-                'maintainer': '',
-                'category': api_response.has_model_category,
-                'versions': [v['id'] for v in api_response.has_software_version]
-        }
-        return model
-    except ApiException as e:
-        return "Exception when calling ModelApi->get_model: %s\n" % e
+    return util._get_model(ModelName, configuration, username)
 
 
 def model_io_post():  # noqa: E501
@@ -238,18 +233,36 @@ def search_post():  # noqa: E501
 
     :rtype: SearchResult
     """
-    # TODO IMPLEMENT THIS
+    
     if connexion.request.is_json:
         search_item = connexion.request.get_json()
         query_type = search_item['query_type']
 
         if query_type == 'time':
             query = TimeQuery.from_dict(search_item)
+            results = util._execute_time_query(query, 
+                                               url, 
+                                               request_headers, 
+                                               configuration,
+                                               username)
+            return results            
         elif query_type == 'geo':
             query = GeoQuery.from_dict(search_item)
+            results = util._execute_geo_query(query, 
+                                               url, 
+                                               request_headers, 
+                                               configuration,
+                                               username)
+            return results
         elif query_type == 'text':
+            # TODO: incorporate model/variable search
+            # this only supports text -> dataset search
             query = TextQuery.from_dict(search_item)
-            results = util._execute_text_query(query, url, request_headers)
+            results = util._execute_text_query(query, 
+                                               url, 
+                                               request_headers, 
+                                               configuration,
+                                               username)
             return results
         else:
             print('Not supported')
