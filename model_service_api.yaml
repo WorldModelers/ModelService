@@ -65,7 +65,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ModelIO'
   /model_parameters/{ModelName}:
-    get:
+    post:
       tags:
       - "exploration"
       summary: "Obtain information about a model's parameters."
@@ -391,8 +391,10 @@ components:
           items:
             $ref: '#/components/schemas/StandardName'
     SearchResult:
-      type: "object"
+      type: "array"
       description: "The result of a search"
+      items:
+        type: "object"
     Query:
       type: "object"
       required:

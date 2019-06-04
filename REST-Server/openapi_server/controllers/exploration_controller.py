@@ -6,6 +6,9 @@ from openapi_server.models.io_request import IORequest  # noqa: E501
 from openapi_server.models.model import Model  # noqa: E501
 from openapi_server.models.model_config import ModelConfig  # noqa: E501
 from openapi_server.models.query import Query  # noqa: E501
+from openapi_server.models.geo_query import GeoQuery  # noqa: E501
+from openapi_server.models.text_query import TextQuery  # noqa: E501
+from openapi_server.models.time_query import TimeQuery  # noqa: E501
 from openapi_server import util
 
 import requests
@@ -237,6 +240,18 @@ def search_post():  # noqa: E501
     """
     # TODO IMPLEMENT THIS
     if connexion.request.is_json:
-        search_item = Query.from_dict(connexion.request.get_json())  # noqa: E501
-        print(search_item)
-    return search_item
+        search_item = connexion.request.get_json()
+        query_type = search_item['query_type']
+
+        if query_type == 'time':
+            query = TimeQuery.from_dict(search_item)
+        elif query_type == 'geo':
+            query = GeoQuery.from_dict(search_item)
+        elif query_type == 'text':
+            query = TextQuery.from_dict(search_item)
+            results = util._execute_text_query(query, url, request_headers)
+            return results
+        else:
+            print('Not supported')
+
+    return [search_item]

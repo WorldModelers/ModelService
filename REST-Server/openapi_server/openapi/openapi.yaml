@@ -499,7 +499,9 @@ components:
       type: object
     SearchResult:
       description: The result of a search
-      type: object
+      items:
+        type: object
+      type: array
     Query:
       discriminator:
         propertyName: query_type

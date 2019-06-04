@@ -6,6 +6,7 @@ import typing
 import requests
 from uuid import UUID
 
+
 def _deserialize(data, klass):
     """Deserializes dict, list, str into an object.
 
@@ -256,3 +257,20 @@ def _parse_io(io, url, request_headers):
         return io_    
     else:
         return None
+
+def _execute_text_query(TextQuery, url, request_headers):
+
+    if TextQuery.result_type == 'datasets':
+        if TextQuery.type == 'standard name':
+            q = {
+                "standard_variable_names__in": [TextQuery.term]
+            }
+            print(q)
+            resp = requests.post(f"{url}/datasets/find", 
+                                                    headers=request_headers,
+                                                    json=q).json()
+            print(resp)
+            if resp['result'] == 'success':
+                found_resources = resp['resources']
+                print(f"Found {len(found_resources)} resources")
+                return(found_resources)
