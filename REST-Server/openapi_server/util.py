@@ -146,6 +146,8 @@ def _deserialize_dict(data, boxed_type):
     return {k: _deserialize(v, boxed_type)
             for k, v in six.iteritems(data)}
 
+def format_stringed_array(str_arr):
+    return str_arr.replace("['",'').replace("']",'')
 
 def is_valid_uuid(uuid_to_test, version=4):
     """
@@ -224,11 +226,11 @@ def _get_variables(file):
 def _parse_io(io, url, request_headers):
     """Parse MINT input/output object into a dictionary"""
     io_ = io.to_dict()
-
+    
     # only if ID is a valid UUID4 otherwise skip dataset
     if is_valid_uuid(io_['id']):
         io_['name'] = io_.pop('label')
-        io_['filetype'] = io_.pop('has_format')
+        io_['filetype'] = format_stringed_array(io_.pop('has_format'))
         io_.pop('type')
         io_.pop('has_dimensionality')
 

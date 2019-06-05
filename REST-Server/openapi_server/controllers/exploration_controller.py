@@ -208,8 +208,10 @@ def model_parameters_model_name_post(ModelName):  # noqa: E501
                 parameter = {'id': param.id,
                              'description': param.description,
                              'label': param.label,
-                             'data_type': param.has_data_type,
-                             'default_value': param.has_default_value} 
+                             # need to format the following strings as they have been converted
+                             # to arrays by MINT due to duplicate entry attempts
+                             'data_type': util.format_stringed_array(param.has_data_type),
+                             'default_value': util.format_stringed_array(param.has_default_value)} 
                              
                              # TODO: need to implement a lookup to grab the standard name
                              # `param.type` is an array of URIs, but does not conform
@@ -237,7 +239,7 @@ def search_post():  # noqa: E501
     if connexion.request.is_json:
         search_item = connexion.request.get_json()
         query_type = search_item['query_type']
-
+        print(search_item)
         if query_type == 'time':
             query = TimeQuery.from_dict(search_item)
             results = util._execute_time_query(query, 
