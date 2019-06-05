@@ -264,7 +264,5 @@ def search_post():  # noqa: E501
                                                configuration,
                                                username)
             return results
-        else:
-            print('Not supported')
 
     return [search_item]

@@ -133,6 +133,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SearchResult"
+        400:
+          description: "ERROR"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /run_model:
     post:
       tags:
@@ -490,3 +496,6 @@ components:
         output:
           type: "string"
           description: "URI for accessing output (for example, on S3)"
+    Error:
+      type: "object"
+      description: "Arbitrary error object."

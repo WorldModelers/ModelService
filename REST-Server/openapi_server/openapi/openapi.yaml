@@ -145,6 +145,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchResult'
           description: SUCCESS
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: ERROR
       summary: Search for a model, dataset, or variable
       tags:
       - exploration
@@ -608,6 +614,9 @@ components:
         output:
           description: URI for accessing output (for example, on S3)
           type: string
+      type: object
+    Error:
+      description: Arbitrary error object.
       type: object
   securitySchemes:
     BasicAuth:

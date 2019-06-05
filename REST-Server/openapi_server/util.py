@@ -280,7 +280,8 @@ def _parse_io(io, url, request_headers):
         return None
 
 def _execute_text_query(TextQuery, url, request_headers, MINTconfiguration, MINTusername):
-    
+
+    ###### STANDARD NAME QUERY #######
     if TextQuery.type == 'standard name':
         q = {
             "standard_variable_names__in": [TextQuery.term]
@@ -295,25 +296,46 @@ def _execute_text_query(TextQuery, url, request_headers, MINTconfiguration, MINT
         else:
             found_resources = []
 
-    if TextQuery.result_type == 'datasets':
-        return found_resources
+        if TextQuery.result_type == 'datasets':
+            return found_resources
 
-    elif TextQuery.result_type == 'models':
-        # We add the JSON string representation of the model to a set
-        # so that we can avoid returning to the user duplicate models
-        models = set()
-        for d in found_resources:
-            found_models = _find_model_by_dataset_id(d["dataset_id"],
-                                MINTconfiguration,
-                                MINTusername)
-            for model in found_models:
-                models.add(json.dumps(model))
-            
-        models_output = []
-        for m in list(models):
-            models_output.append(json.loads(m))
+        elif TextQuery.result_type == 'models':
+            # We add the JSON string representation of the model to a set
+            # so that we can avoid returning to the user duplicate models
+            models = set()
+            for d in found_resources:
+                found_models = _find_model_by_dataset_id(d["dataset_id"],
+                                    MINTconfiguration,
+                                    MINTusername)
+                for model in found_models:
+                    models.add(json.dumps(model))
+                
+            models_output = []
+            for m in list(models):
+                models_output.append(json.loads(m))
 
-        return models_output
+            return models_output
+
+    ###### KEYWORD QUERY #######
+    elif TextQuery.type == 'keyword':
+        if TextQuery.result_type == 'datasets':
+            # Not currently supported, so return ERROR
+            return {"ERROR": "Not currently supported"}, 400
+
+        elif TextQuery.result_type == 'models':
+            models_output = []
+            api_instance = mint_client.ModelApi(mint_client.ApiClient(MINTconfiguration))
+            try:
+                # List All models
+                api_response = api_instance.get_models(username=MINTusername)
+                for m in api_response:
+                    if TextQuery.term.lower() in m.description.lower():
+                        model = _get_model(m.label, MINTconfiguration, MINTusername)
+                        models_output.append(model)
+                return models_output
+            except ApiException as e:
+                print("Exception when calling ModelApi->get_models: %s\n" % e)
+
 
 def _execute_geo_query(GeoQuery, url, request_headers, MINTconfiguration, MINTusername):
 
