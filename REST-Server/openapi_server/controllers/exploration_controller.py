@@ -158,7 +158,9 @@ def model_io_post():  # noqa: E501
             inputs_outputs = []
             if type_ == 'input':
                 for config_id in configuration_ids:
-                    api_response = api_instance.get_inputs_by_modelconfiguration(config_id, username=username)
+                    response = requests.get(f"https://api.models.mint.isi.edu/v0.0.2/modelconfiguration/{config_id}/inputs?username=modelservice")
+                    api_response = response.json()
+                    
                     for io in api_response:
                         io_ = util._parse_io(io, url, request_headers)
                         if io_:
