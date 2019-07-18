@@ -225,14 +225,14 @@ def _get_variables(file):
 
 def _parse_io(io, url, request_headers):
     """Parse MINT input/output object into a dictionary"""
-    io_ = io.to_dict()
+    io_ = io
     
     # only if ID is a valid UUID4 otherwise skip dataset
     if is_valid_uuid(io_['id']):
         io_['name'] = io_.pop('label')
-        io_['filetype'] = format_stringed_array(io_.pop('has_format'))
+        io_['filetype'] = format_stringed_array(io_.pop('hasFormat'))
         io_.pop('type')
-        io_.pop('has_dimensionality')
+        io_.pop('hasDimensionality')
 
         # query DCAT for variable information related to dataset
         q = {
@@ -254,7 +254,7 @@ def _parse_io(io, url, request_headers):
         for var in std_vars:
             std_vars_dict[var['standard_variable_id']] = var
         
-        io_.pop('has_presentation')
+        io_.pop('hasPresentation')
         io_['variables'] = []
         for v in variables:
             v['name'] = v.pop('variable_name')
