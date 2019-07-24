@@ -6,7 +6,7 @@ This repository contains the Models as a Service (MaaS) API for World Modelers.
 	- [Project Goals](#project-goals)
 	- [Architecture](#architecture)
 - [Development](#development)
-	- [Installation](#install)
+	- [Installation](#installation)
 	- [Swagger Editor](#swagger-editor)
 	- [Open API Code Generation](#open-api-code-generation)
 	- [Running the REST Server](#running-the-rest-server)
