@@ -70,6 +70,7 @@ def run_model_post():  # noqa: E501
 
         if model_name.lower() == 'malnutrition_model':
             # run the model        
+            model_config['config']['run_id'] = run_id
             kc = KiController(model_config)
             model_container = kc.run_model()
             stored = 1 # use binary for Redis
@@ -162,7 +163,7 @@ def update_run_status(RunID):
 
     run_logs = model_container.logs().decode('utf-8')
     conf = json.loads(run[b'config'].decode('utf-8'))
-
+    print(run_logs)
     # if Kimetrica malnutrition model
     if model_name.lower() == 'malnutrition_model':
         success_msg = 'Model run: SUCCESS'

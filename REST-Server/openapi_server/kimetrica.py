@@ -10,16 +10,17 @@ class KiController(object):
 
     def __init__(self, model_config):
         self.model_config = model_config
+        self.percent_of_normal_rainfall = model_config["config"]["percent_of_normal_rainfall"]
         self.client = docker.from_env()
         self.containers = self.client.containers
         self.scheduler = 'drp_scheduler:latest'
         self.db = 'drp_db:latest'
         self.db_name = 'kiluigi-db'
         self.bucket = "world-modelers"
-        self.key = "results/malnutrition_model/maln_raster_hires_baseline.csv"
-        self.entrypoint=f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=RasterToCSV --result_name=final/maln_raster_hires_baseline.csv --key={self.key}"
-        self.volumes = {'/home/ubuntu/darpa/': {'bind': '/usr/src/app/', 'mode': 'rw'}}
-        self.environment = self.parse_env_file('/home/ubuntu/darpa/kiluigi/.env')
+        self.key = "results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson"
+        self.entrypoint=f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=MalnutritionGeoJSON --result_name=final/malnutrition.geojson --key={self.key} --percent_of_normal_rainfall={self.percent_of_normal_rainfall}"
+        self.volumes = {'/home/jgawrilow/.aws':{'bind':'/root/.aws','mode':'rw'},'/home/jgawrilow/WM/ModelService/Kimetrica-Integration/darpa/': {'bind': '/usr/src/app/', 'mode': 'rw'}}
+        self.environment = self.parse_env_file('/home/jgawrilow/WM/ModelService/Kimetrica-Integration/darpa/kiluigi/.env')
         self.db_ports = {'5432/tcp': 5432}
         self.network_name = "kiluigi"
         self.environment['PYTHONPATH'] = '/usr/src/app:/usr/src/app/kiluigi'
