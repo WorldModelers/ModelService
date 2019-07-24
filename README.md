@@ -60,6 +60,7 @@ cd ../../Kimetrica-Integration/
 
 
 # HOW TO RUN
+cd ../../REST-Server
 python -m openapi_server
 ```
 
