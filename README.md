@@ -6,7 +6,8 @@ This repository contains the Models as a Service (MaaS) API for World Modelers.
 	- [Project Goals](#project-goals)
 	- [Architecture](#architecture)
 - [Development](#development)
-	- [Swagger Editor](#swagger-editor)
+	- [Installation](#install)
+        - [Swagger Editor](#swagger-editor)
 	- [Open API Code Generation](#open-api-code-generation)
 	- [Running the REST Server](#running-the-rest-server)
 
@@ -31,6 +32,33 @@ Model execution is managed by the [`Execution Controller`](https://github.com/Wo
 
 
 ## Development
+
+### Installation
+```
+# SET $HOME/.aws/credentials to proper key and secret.
+
+# Install MAAS
+git clone https://github.com/WorldModelers/ModelService.git
+cd ModelService/REST-Server
+conda create -n maas_env python=3.7 pip jupyter -y
+source activate maas_env
+pip install -r requirements.txt
+
+# Install FSC Model.  You will get prompted for github credentials.
+# This will take quite a bit of time.
+cd ../FSC-Integration/
+./maas_install.sh
+
+# Install Kimetrica Model.
+cd ../../Kimetrica-Integration/
+
+# Please look at this file as you must set the CKAN creds manually right now...
+./maas_install.sh
+
+
+# HOW TO RUN
+python -m openapi_server
+```
 
 ### Swagger Editor
 To use this, run the following:
