@@ -34,6 +34,9 @@ Model execution is managed by the [`Execution Controller`](https://github.com/Wo
 ## Development
 
 ### Installation
+
+Install Redis and start via https://redis.io/topics/quickstart.
+
 ```
 # SET $HOME/.aws/credentials to proper key and secret.
 
@@ -57,6 +60,7 @@ cd ../../Kimetrica-Integration/
 
 
 # HOW TO RUN
+cd ../../REST-Server
 python -m openapi_server
 ```
 
