@@ -10,7 +10,7 @@ class KiController(object):
 
     def __init__(self, model_config):
         config = configparser.ConfigParser()
-        config.read('../config.ini')
+        config.read('config.ini')
         
         self.install_path = config["MALNUTRITION"]["INSTALL_PATH"]
         self.s3_cred_path = config["MALNUTRITION"]["S3_CRED_PATH"]
