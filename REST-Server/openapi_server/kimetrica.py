@@ -9,6 +9,11 @@ class KiController(object):
     """
 
     def __init__(self, model_config):
+        config = configparser.ConfigParser()
+        config.read('../config.ini')
+        
+        self.install_path = config["MALNUTRITION"]["INSTALL_PATH"]
+        self.s3_cred_path = config["MALNUTRITION"]["S3_CRED_PATH"]
         self.model_config = model_config
         self.percent_of_normal_rainfall = model_config["config"]["percent_of_normal_rainfall"]
         self.client = docker.from_env()
@@ -19,8 +24,8 @@ class KiController(object):
         self.bucket = "world-modelers"
         self.key = "results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson"
         self.entrypoint=f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=MalnutritionGeoJSON --result_name=final/malnutrition.geojson --key={self.key} --percent_of_normal_rainfall={self.percent_of_normal_rainfall}"
-        self.volumes = {'/home/jgawrilow/.aws':{'bind':'/root/.aws','mode':'rw'},'/home/jgawrilow/WM/ModelService/Kimetrica-Integration/darpa/': {'bind': '/usr/src/app/', 'mode': 'rw'}}
-        self.environment = self.parse_env_file('/home/jgawrilow/WM/ModelService/Kimetrica-Integration/darpa/kiluigi/.env')
+        self.volumes = {self.s3_cred_path:{'bind':'/root/.aws','mode':'rw'},self.install_path: {'bind': '/usr/src/app', 'mode': 'rw'}}
+        self.environment = self.parse_env_file(self.install_path + '/kiluigi/.env')
         self.db_ports = {'5432/tcp': 5432}
         self.network_name = "kiluigi"
         self.environment['PYTHONPATH'] = '/usr/src/app:/usr/src/app/kiluigi'
