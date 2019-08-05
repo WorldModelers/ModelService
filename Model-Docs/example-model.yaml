@@ -1,3 +1,7 @@
+name: Example model
+maintainer: Jataware
+url: https://github.com/WorldModelers/ModelService
+
 # The model description can be multi-line. White space will be preserved if the 
 # | character is used prior to writing the description.
 description: |
@@ -80,7 +84,8 @@ output_files:
 
 parameters:
   # Specify the minimum parameters that should be user-specified to execute a model run
-  # Note that each parameter should have a default option provided.
+  # Note that each parameter should have a default option provided. 
+  # Descriptions for each parameter are optional
   # Each parameter should be on of the following types:
   # - FloatParameter
   # - ChoiceParameter
