@@ -244,7 +244,6 @@ def _parse_io(io, url, request_headers):
                              json=q).json()
 
         variables = resp['dataset']['variables']
-
         # query DCAT for standard variables related to dataset
         resp = requests.post(f"{url}/datasets/dataset_standard_variables",
                              headers=request_headers,
@@ -269,7 +268,7 @@ def _parse_io(io, url, request_headers):
             resp = requests.post(f"{url}/variables/variables_standard_variables",
                                  headers=request_headers,
                                  json=q).json()
-
+            print(resp)
             v_ = resp['variables'][0]
             v['standard_names'] = []
             for std in v_['standard_variables']:
@@ -321,22 +320,76 @@ def _execute_text_query(TextQuery, url, request_headers, MINTconfiguration, MINT
     ###### KEYWORD QUERY #######
     elif TextQuery.type == 'keyword':
         if TextQuery.result_type == 'datasets':
-            # Not currently supported, so return ERROR
-            return {"ERROR": "Not currently supported"}, 400
+
+            payload = {
+              "provenance_id": "3831a57f-a372-424a-b310-525b5441581b",
+              "search_query": [TextQuery.term] 
+            }
+
+            response = requests.post('http://api.mint-data-catalog.org/datasets/jataware_search', data=json.dumps(payload))
+            return response.json()['datasets']
 
         elif TextQuery.result_type == 'models':
+            params = (
+                ('text', TextQuery.term),
+                ('endpoint', 'https://endpoint.mint.isi.edu/ds/query'),
+            )
+
+            response = requests.get('https://query.mint.isi.edu/api/dgarijo/jatawareAPI/searchModels', params=params)
+            # obtain model labels from result set
+            models_ = response.json()['results']['bindings']
+            models = [res['w']['value'].split('instance/')[1] for res in models_]
+            api_instance = mint_client.ModelApi()
             models_output = []
-            api_instance = mint_client.ModelApi(mint_client.ApiClient(MINTconfiguration))
-            try:
-                # List All models
-                api_response = api_instance.get_models(username=MINTusername)
-                for m in api_response:
-                    if TextQuery.term.lower() in m.description.lower():
-                        model = _get_model(m.label, MINTconfiguration, MINTusername)
-                        models_output.append(model)
-                return models_output
-            except ApiException as e:
-                print("Exception when calling ModelApi->get_models: %s\n" % e)
+            for model_id in models:
+                try:
+                    # Get a Model
+                    api_response = api_instance.get_model(model_id, username=MINTusername)
+                except ApiException as e:
+                    print("Exception when calling ModelApi->get_model: %s\n" % e)
+                models_output.append(api_response.to_dict())
+            return models_output
+
+        elif TextQuery.result_type == 'variables':
+
+            params = (
+                ('text', TextQuery.term),
+                ('endpoint', 'https://endpoint.mint.isi.edu/ds/query'),
+            )
+
+            response = requests.get('https://query.mint.isi.edu/api/dgarijo/jatawareAPI/searchVariables', params=params)
+            results = response.json()['results']['bindings']
+            variables = []
+            for res in results:
+                var = {}
+                var['name'] = res['desc']['value']
+                var['id'] = res['w']['value'].split('instance/')[1]
+                variables.append(var)
+
+            # Get standard variable information from DCAT
+            # This is clunky to have to use both catalogs
+            # But it seems that the standard variable information is 
+            # Not readily available in MCAT so we got to DCAT
+            # TODO: ensure that the standard variables are actually compliant
+            # TODO: right now standard variables do not have URIs returned by DCAT
+            for var in variables:
+                q = {
+                  "variable_ids__in": [var['id']]
+                }
+
+                resp = requests.post(f"{url}/variables/variables_standard_variables",
+                                     headers=request_headers,
+                                     json=q).json()
+                
+                dcat_var = resp['variables'][0]
+                var['metadata'] = dcat_var['metadata']
+                for std in dcat_var['standard_variables']:
+                    # TODO: address these blanks
+                    if 'standard_variable_uri' not in std:
+                        std['standard_variable_uri'] = ''
+                var['standard_variables'] = dcat_var['standard_variables']
+
+            return variables       
 
 
 def _execute_geo_query(GeoQuery, url, request_headers, MINTconfiguration, MINTusername):
