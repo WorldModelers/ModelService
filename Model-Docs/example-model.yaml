@@ -87,7 +87,7 @@ parameters:
   # Note that each parameter should have a default option provided. 
   # Descriptions for each parameter are optional
   # Each parameter should be on of the following types:
-  # - FloatParameter
+  # - NumberParameter
   # - ChoiceParameter
   # - TimeParameter
   # - GeoParameter
@@ -99,7 +99,9 @@ parameters:
       matching baseline estimates. 1.25 would indicate a 25% increase in rainfall from off the
       baseline estimate.
     metadata:
-      type: FloatParameter
+      # Note: NumberParameter could be a float or integer depending on what the model
+      # expects
+      type: NumberParameter
     default: 1
   - name: deforestation
     description: Select the extent to which deforestation occurs in the forecast area.
