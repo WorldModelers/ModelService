@@ -10,6 +10,7 @@ description: |
 
 input_files:
   - name: rainfall.csv
+    type: .csv
     description: >
       This file contains information about rainfall/precipitation 
       for a specified geography.
@@ -58,6 +59,7 @@ input_files:
 
 output_files:
   - name: flood_risk.csv
+    type: .csv
     description: A file containing flood risk scores per district for the coming year.
     metadata:  
       spatial_coverage:
