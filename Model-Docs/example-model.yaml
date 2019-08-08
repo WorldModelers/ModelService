@@ -1,33 +1,66 @@
-name: Example model
-maintainer: Jataware
-url: https://github.com/WorldModelers/ModelService
-
+#NON-OPTIONAL 
+id: ExampleModel
+#identifier has no spaces. It is assumed to be unique.
+name: Example Model
+maintainer: 
+    - name: Jataware
+      email: contact@jataware.com
+#url: https://github.com/WorldModelers/ModelService
+#instead of URL, why note code repository?
+author: 
+    - name: Brandon
+      email: brandon@jataware.com
+    - name: Justin
+      email: j@jata.com
+      
+version: 1.0.0
 # The model description can be multi-line. White space will be preserved if the 
 # | character is used prior to writing the description.
+
 description: |
   This is an example model description which uses rainfall to predict flood risk.
   New lines and indententation will be preserved in this description.
 
-input_files:
-  - name: rainfall.csv
+#Information useful for execution [OPTIONAL]
+sourceCode: https://github.com/WorldModelers/ModelService
+
+memoryRequirements: |
+  This is some text with instructions on the memory requirements.
+  
+operatingSystems: 
+    - Unix
+
+processorRequirements: |
+  This is some text about the GPUs/processing power needed for this model.
+  
+softwareRequirements: |
+  This is some text about the Software dependencies of the model.
+  
+containerId: modelservice/rain:v2
+
+#Information useful for findability [OPTIONAL]
+contributor:
+    - name: Daniel Garijo
+      email: dgarijo@isi.edu
+
+keywords:
+    - rainfall
+    - precipitation
+    - flooding
+
+license: https://opensource.org/licenses/MIT
+    
+date: 01-01-2019
+
+website: http://pageofTheModel.org
+
+
+inputs:
+  - name: rainfall
     description: >
-      This file contains information about rainfall/precipitation 
+      This input contains information about rainfall/precipitation 
       for a specified geography.
-    metadata:
-      # Optional: specify geospatial coverage
-      # Geographic bounding box is specified as a  4-element numeric array 
-      # (in WGS84 coordinate system) [xmin, ymin, xmax, ymax]
-      # As a reminder, x is longitude, y is latitude
-      spatial_coverage:
-        - xmin: 36.386719
-        - ymin: 6.140555
-        - xmax: 41.572266
-        - ymax: 11.350797
-      # Optional: specify temporal coverage
-      # Format should be YYYY-MM-DDTHH:MM:SS
-      temporal_coverage:
-        - start_time: "2012-01-01T00:00:00"
-        - end_time: "2019-01-01T23:59:59"        
+    format: CSV
     variables:
       # Only need to specify variables that are used by the model
       - name: precipitation
@@ -41,6 +74,9 @@ input_files:
             ontology: AGROVOC
             uri: http://aims.fao.org/aos/agrovoc/c_6161
         # Optional: specify arbitrary metadata, such as units
+        
+        #Why not have just "units"??. 
+        
         metadata:
           units: mm
       - name: district
@@ -55,10 +91,58 @@ input_files:
           - name: date
             ontology: schema.org
             uri: https://schema.org/Date
+    #a file (or files) that can be used as input to the model. They all have the variables described above
+  - example: 
+      - name:rainfall_Pongo.csv
+      #location may be a local path too such as /data/rainfall.csv
+        location: http://example.org/rainfalPongo.csv
+        description: >
+          This file contains information about rainfall/precipitation 
+          for the region of Pongo.
+    
+          # Optional: specify geospatial coverage
+          # Geographic bounding box is specified as a  4-element numeric array 
+          # (in WGS84 coordinate system) [xmin, ymin, xmax, ymax]
+          # As a reminder, x is longitude, y is latitude
+        patial_coverage:
+          - xmin: 36.386719
+          - ymin: 6.140555
+          - xmax: 41.572266
+          - ymax: 11.350797
+          # Optional: specify temporal coverage
+          # Format should be YYYY-MM-DDTHH:MM:SS
+        temporal_coverage:
+          - start_time: "2012-01-01T00:00:00"
+          - end_time: "2019-01-01T23:59:59"
+      - name:rainfall_Ethiopia.csv
+      #location may be a local path too such as /data/rainfall.csv
+        location: http://example.org/rainfalEth.csv
+        description: >
+          This file contains information about rainfall/precipitation 
+          for the region of Ethipia.
+    
+          # Optional: specify geospatial coverage
+          # Geographic bounding box is specified as a  4-element numeric array 
+          # (in WGS84 coordinate system) [xmin, ymin, xmax, ymax]
+          # As a reminder, x is longitude, y is latitude
+          
+        patial_coverage:
+          - xmin: 40.386719
+          - ymin: 6.140555
+          - xmax: 25.572266
+          - ymax: 11.350797
+          # Optional: specify temporal coverage
+          # Format should be YYYY-MM-DDTHH:MM:SS
+        temporal_coverage:
+          - start_time: "2015-01-01T00:00:00"
+          - end_time: "2016-01-01T23:59:59"
+    
 
-output_files:
-  - name: flood_risk.csv
+outputs:
+  #no need to give sample outputs, as they are generated by the model.
+  - name: flood_risk
     description: A file containing flood risk scores per district for the coming year.
+    format: CSV
     metadata:  
       spatial_coverage:
         - xmin: 36.386719
@@ -103,6 +187,9 @@ parameters:
       # expects
       type: NumberParameter
     default: 1
+    #minimum/maximum values for the parameter [OPTIONAL]
+    minumum: 0
+    maximum: 50
   - name: deforestation
     description: Select the extent to which deforestation occurs in the forecast area.
     metadata:
