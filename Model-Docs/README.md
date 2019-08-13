@@ -23,6 +23,11 @@ The [example-model.yaml](https://github.com/WorldModelers/ModelService/blob/mast
 
 `Variables` are tied directly to their corresponding `input` or `output`. Each `variable` should have a `standard_variable` from _an_ ontology (the modeler should choose the appropriate ontology).  A `variable` may have arbitrary metadata attached to it, such as `units`. 
 
+### Examples
+For `inputs`, you must specify one or more example files. These are actual instances of the `input` described. The example may have geospatial or temporal coverage. In the `example-model.yaml`, the `input` is a rainfall file, and the examples are actual instances of this rainfall file which vary by geogrpahy/time.
+
+`outputs` do not need to have example files as these are generated directly by the model when the model is executed.
+
 ### Parameters
 
 Parameters are user "tunable knobs". The goal is to loosely define these parameters in a way where their general type is known and we have minimal descriptions of each parameter. However, these parameters will not be type checked. So, for example, a `TimeParameter` is really a string provided in the format expected by the model. There are 4 types of parameters:
