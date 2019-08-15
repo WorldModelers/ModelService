@@ -4,6 +4,8 @@ git checkout master
 cd ..
 
 sed -i '4s/kiluigi\///g' env.example
+
+# NOTE - You must change the env.example CKAN creds manually right now as Kimetrica hasn't made them public.  Do this before the next step
 cp env.example kiluigi/.env
 cp luigi.cfg.example luigi.cfg
 cd kiluigi

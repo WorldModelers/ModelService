@@ -22,20 +22,25 @@ class KiController(object):
                         "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=EstimatePopulation --result_name=final/population_estimate.csv  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".csv"
 				   }
         }
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        
+        self.install_path = config["MALNUTRITION"]["INSTALL_PATH"]
+        self.s3_cred_path = config["MALNUTRITION"]["S3_CRED_PATH"]
+        
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
         self.scheduler = 'drp_scheduler:latest'
         self.db = 'drp_db:latest'
         self.db_name = 'kiluigi-db'
+        
         # These are now pulled from model_map above
         self.key = self.model_map[model_config["name"]]["key"]
         self.entrypoint=self.model_map[model_config["name"]]["entrypoint"]
 
-        # Watch out - needs to be changed on another server.
-        self.volumes = {'/home/jgawrilow/.aws':{'bind':'/root/.aws','mode':'rw'},'/home/jgawrilow/WM/ModelService/Kimetrica-Integration/darpa/': {'bind': '/usr/src/app/', 'mode': 'rw'}}
-        self.environment = self.parse_env_file('/home/jgawrilow/WM/ModelService/Kimetrica-Integration/darpa/kiluigi/.env')
-        
+        self.volumes = {self.s3_cred_path:{'bind':'/root/.aws','mode':'rw'},self.install_path: {'bind': '/usr/src/app', 'mode': 'rw'}}
+        self.environment = self.parse_env_file(self.install_path + '/kiluigi/.env')
         self.db_ports = {'5432/tcp': 5432}
         self.network_name = "kiluigi"
         self.environment['PYTHONPATH'] = '/usr/src/app:/usr/src/app/kiluigi'
