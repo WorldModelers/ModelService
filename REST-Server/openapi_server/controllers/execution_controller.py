@@ -28,7 +28,7 @@ r = redis.Redis(host=config['REDIS']['HOST'],
 client = docker.from_env()
 containers = client.containers
 
-available_models = ['malnutrition_model', 'fsc']
+available_models = ['population_model', 'malnutrition_model', 'fsc']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -67,8 +67,16 @@ def run_model_post():  # noqa: E501
 
         # generate id for the model run
         run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
+        
+        # if run already exists and is success or pending, don't run again.
+        if r.exists(run_id):
+            run = r.hgetall(run_id)
+            status = run[b'status'].decode('utf-8')
+            if status == "SUCCESS" or status == "PENDING":
+                logging.info("Already ran " + run_id)
+                return run_id
 
-        if model_name.lower() == 'malnutrition_model':
+        if model_name.lower() == 'malnutrition_model' or model_name.lower() == 'population_model':
             # run the model        
             model_config['config']['run_id'] = run_id
             kc = KiController(model_config)
@@ -131,7 +139,6 @@ def run_results_run_idget(RunID):  # noqa: E501
         run_container = run[b'container']
         run_logs = run_container.logs().decode('utf-8')
         results['output'] = run_logs
-    print(results)
     return results
 
 
@@ -163,10 +170,9 @@ def update_run_status(RunID):
 
     run_logs = model_container.logs().decode('utf-8')
     conf = json.loads(run[b'config'].decode('utf-8'))
-    print(run_logs)
     # if Kimetrica malnutrition model
-    if model_name.lower() == 'malnutrition_model':
-        success_msg = 'Model run: SUCCESS'
+    if model_name.lower() == 'malnutrition_model' or model_name.lower() == 'population_model':
+        success_msg = 'This progress looks :)'
 
     # if FSC model
     elif model_name.lower() == 'fsc':
@@ -177,10 +183,11 @@ def update_run_status(RunID):
         if success_msg in run_logs:
             # if FSC we need to ensure results are stored to S3
             # since Kimetrica model handles this within Docker directly
-            try:
-                store_results(RunID)
-            except:
-                return 'ERROR'
+            if model_name.lower() == 'fsc':
+                try:
+                    store_results(RunID)
+                except:
+                    return 'ERROR'
 
             r.hmset(RunID, {'status': 'SUCCESS'})
             status = 'SUCCESS'
