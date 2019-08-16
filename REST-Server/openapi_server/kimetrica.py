@@ -9,17 +9,38 @@ class KiController(object):
     """
 
     def __init__(self, model_config):
+        self.bucket = "world-modelers"
+        
+        # Rework this all later by pulling from yml or other config.  For now this works...
+        self.model_map = {
+		"malnutrition_model":{
+			"key":"results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson",
+			"entrypoint":f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=MalnutritionGeoJSON --result_name=final/malnutrition.geojson --key=" + "results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson " + "--params PercentOfNormalRainfall|" + str(model_config["config"].get("percent_of_normal_rainfall",""))
+				    },
+                "population_model":{
+			"key":"results/population_model/" + model_config["config"]["run_id"] + ".csv",
+                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=EstimatePopulation --result_name=final/population_estimate.csv  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".csv"
+				   }
+        }
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        
+        self.install_path = config["MALNUTRITION"]["INSTALL_PATH"]
+        self.s3_cred_path = config["MALNUTRITION"]["S3_CRED_PATH"]
+        
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
         self.scheduler = 'drp_scheduler:latest'
         self.db = 'drp_db:latest'
         self.db_name = 'kiluigi-db'
-        self.bucket = "world-modelers"
-        self.key = "results/malnutrition_model/maln_raster_hires_baseline.csv"
-        self.entrypoint=f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=RasterToCSV --result_name=final/maln_raster_hires_baseline.csv --key={self.key}"
-        self.volumes = {'/home/ubuntu/darpa/': {'bind': '/usr/src/app/', 'mode': 'rw'}}
-        self.environment = self.parse_env_file('/home/ubuntu/darpa/kiluigi/.env')
+        
+        # These are now pulled from model_map above
+        self.key = self.model_map[model_config["name"]]["key"]
+        self.entrypoint=self.model_map[model_config["name"]]["entrypoint"]
+
+        self.volumes = {self.s3_cred_path:{'bind':'/root/.aws','mode':'rw'},self.install_path: {'bind': '/usr/src/app', 'mode': 'rw'}}
+        self.environment = self.parse_env_file(self.install_path + '/kiluigi/.env')
         self.db_ports = {'5432/tcp': 5432}
         self.network_name = "kiluigi"
         self.environment['PYTHONPATH'] = '/usr/src/app:/usr/src/app/kiluigi'

@@ -67,7 +67,8 @@ class FSCController(object):
         logging.info(exists)
         if exists:
             shutil.make_archive(result, 'zip', result)            
-            s3 = boto3.client('s3')
+            session = boto3.Session(profile_name="wmuser")
+            s3 = session.client('s3')
             s3.upload_file(f"{result}.zip", 
                            self.bucket, 
                            f"{self.key}", 
