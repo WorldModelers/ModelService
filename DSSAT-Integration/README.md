@@ -2,7 +2,7 @@
 
 ## Building the data volume:
 
-1. Download the `ethdata.tar.xz` file from [https://data.agmip.org/darpa/ethdata.tar.xz](https://data.agmip.org/darpa/ethdata.tar.xz)
+1. Download the `ethdata.tar.xz` file from [https://world-modelers.s3.amazonaws.com/data/ethdata.tar.xz](https://world-modelers.s3.amazonaws.com/data/ethdata.tar.xz)
 2. `docker run -v /data/ETH -v $PWD:/userdata --name ethdata debian:stable-slim /bin/bash`
 3. `docker run --rm --volumes-from ethdata -v ${PWD}:/userdata debian:stable-slim bash -c "apt-get update && apt-get install xz-utils && cd /data/ETH && tar xJvf /userdata/ethdata.tar.xz"`
 
