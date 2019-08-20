@@ -220,7 +220,22 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: '#/components/schemas/RunID'   
+                  $ref: '#/components/schemas/RunID'
+  /available_results:
+    get:
+      tags:
+      - "execution"
+      summary: "Obtain a list of run results"
+      description: "Return a list of all available run results."
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/RunResults'                   
 
 components:
   securitySchemes:
