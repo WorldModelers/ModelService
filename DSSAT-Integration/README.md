@@ -14,10 +14,5 @@
 
 ## Running DSSAT
 
-1. Put the `DSSAT_pixel_runner.py` script in the same directory as the data and JSON file.
-2. Run `python DSSAT_pixel_runner.py` which will generate `summary.csv` files for each pixel.
-
-## Running pythia again:
-
-2. `docker run --rm --volumes-from ethdata -v ${PWD}:/userdata cvillalobosuf/pythia --analyze et_docker.json`
-3. This will produce the output csv files.
+1. `docker run --rm --volumes-from ethdata -v ${PWD}:/userdata cvillalobosuf/dssat-pythia:develop --all /userdata/et_docker.json`
+2. This step produces a `pp_{practice_name}.csv` results file in each of the management practices directory.
