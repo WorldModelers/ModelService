@@ -165,15 +165,12 @@ def available_results_get():  # noqa: E501
     """
     run_ids = []
     for m in available_models:
-        print(m)
         runs = list_runs_model_name_get(m)
-        print(runs)
         run_ids.extend(runs)
 
     results = []
     for id_ in run_ids:
-        results.append(run_status_run_idget(id_))
-    
+        results.append(run_results_run_idget(id_))
     return results
 
 
