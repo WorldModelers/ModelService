@@ -28,7 +28,7 @@ r = redis.Redis(host=config['REDIS']['HOST'],
 client = docker.from_env()
 containers = client.containers
 
-available_models = ['population_model', 'malnutrition_model', 'fsc']
+available_models = ['population_model', 'malnutrition_model', 'FSC']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -153,6 +153,25 @@ def run_status_run_idget(RunID):  # noqa: E501
     :rtype: RunStatus
     """
     return update_run_status(RunID)
+
+
+def available_results_get():  # noqa: E501
+    """Obtain a list of run results
+
+    Return a list of all available run results. # noqa: E501
+
+
+    :rtype: List[RunResults]
+    """
+    run_ids = []
+    for m in available_models:
+        runs = list_runs_model_name_get(m)
+        run_ids.extend(runs)
+
+    results = []
+    for id_ in run_ids:
+        results.append(run_results_run_idget(id_))
+    return results
 
 
 def update_run_status(RunID):

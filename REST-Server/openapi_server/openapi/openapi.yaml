@@ -251,6 +251,23 @@ paths:
       tags:
       - execution
       x-openapi-router-controller: openapi_server.controllers.execution_controller
+  /available_results:
+    get:
+      description: Return a list of all available run results.
+      operationId: available_results_get
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/RunResults'
+                type: array
+          description: SUCCESS
+      summary: Obtain a list of run results
+      tags:
+      - execution
+      x-openapi-router-controller: openapi_server.controllers.execution_controller
 components:
   schemas:
     ModelName:
