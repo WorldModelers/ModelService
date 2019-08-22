@@ -7,6 +7,7 @@ from openapi_server.models.run_status import RunStatus  # noqa: E501
 from openapi_server import util
 from openapi_server.kimetrica import KiController
 from openapi_server.fsc import FSCController
+from openapi_server.fsc import DSSATController
 
 import json
 from hashlib import sha256
@@ -28,7 +29,7 @@ r = redis.Redis(host=config['REDIS']['HOST'],
 client = docker.from_env()
 containers = client.containers
 
-available_models = ['population_model', 'malnutrition_model', 'FSC']
+available_models = ['population_model', 'malnutrition_model', 'fsc', 'dssat']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -90,6 +91,13 @@ def run_model_post():  # noqa: E501
             model_container = fsc.run_model()
             stored = 0 # use binary for Redis
             m = fsc
+
+        elif model_name.lower() == 'dssat':
+            model_config['config']['run_id'] = run_id
+            dssat = DSSATController(model_config['config'], config['DSSAT']['OUTPUT_PATH'])
+            model_container = dssat.run_model()
+            stored = 0 # use binary for Redis
+            m = dssat            
 
         # push the id to the model's list of runs
         r.sadd(model_name, run_id)
@@ -197,14 +205,18 @@ def update_run_status(RunID):
     elif model_name.lower() == 'fsc':
         success_msg = 'Output files stored to'
 
+    # if DSSAT model
+    elif model_name.lower() == 'dssat':
+        success_msg = 'Running simple analytics'        
+
     status = 'PENDING'
     if container_status == 'exited':
         if success_msg in run_logs:
             # if FSC we need to ensure results are stored to S3
             # since Kimetrica model handles this within Docker directly
-            if model_name.lower() == 'fsc':
+            if model_name.lower() == 'fsc' or model_name.lower() == 'dssat':
                 try:
-                    store_results(RunID)
+                    store_results(RunID, model_name)
                 except:
                     return 'ERROR'
 
@@ -216,7 +228,7 @@ def update_run_status(RunID):
     return status
 
 
-def store_results(RunID):
+def store_results(RunID, model_name):
     run = r.hgetall(RunID)
     key = run[b'key'].decode('utf-8')
     bucket = config['S3']['BUCKET']
@@ -230,8 +242,12 @@ def store_results(RunID):
         if e.response['Error']['Code'] == "404":
             # The object does not exist.
             try:
-                fsc = FSCController(model_config, config['FSC']['OUTPUT_PATH'])
-                fsc.storeResults() 
+                if model_name.lower() == 'fsc':
+                    fsc = FSCController(model_config, config['FSC']['OUTPUT_PATH'])
+                    fsc.storeResults() 
+                elif model_name.lower() == 'dssat':
+                    dssat = DSSATController(model_config, config['DSSAT']['OUTPUT_PATH'])
+                    dssat.storeResults() 
             except Exception as e:
                 logging.error(e)
         else:
