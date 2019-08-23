@@ -7,6 +7,7 @@ import shutil
 import time
 import logging
 import boto3
+import json
 
 class DSSATController(object):
     """
@@ -29,10 +30,33 @@ class DSSATController(object):
 
         logging.basicConfig(level=logging.INFO)
 
+
+    def update_config(self):
+        """
+        Update et_docker.json file with user-submitted config
+        """
+        with open(f"{self.result_path}/et_docker.json", "r") as f:
+            config = json.loads(f.read())
+            f.close()
+
+        # If a number of samples is provided, use that
+        if self.model_config["samples"] > 0:
+            config["sample"] = self.model_config["samples"]
+        else:
+            # Otherwise, remove the `sample` key and run the 
+            # entire region (Ethiopia)
+            config.pop("sample")
+
+        with open(f"{self.result_path}/et_docker.json", "w") as f:
+            f.write(json.dumps(config))
+            f.close()
+
+
     def run_model(self):
         """
         Run DSSAT model inside Docker container
         """
+        self.update_config()
         self.model = self.containers.run(self.dssat, 
                                          volumes=self.volumes, 
                                          volumes_from=self.volumes_from,
