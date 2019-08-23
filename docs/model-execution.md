@@ -30,7 +30,7 @@ The percentage of rainfall can be specified for this model by providing a `float
 ```
 
 ### Food Shocks Cascade Model
-Information about the specific parameters for FSC can be found [here.](https://github.com/WorldModelers/ModelService/blob/dssat/FSC-Integration/FSC-metadata.yaml#L306-L328)
+Information about the specific parameters for FSC can be found [here.](https://github.com/WorldModelers/ModelService/blob/master/FSC-Integration/FSC-metadata.yaml#L306-L328)
 
 ```
 {
