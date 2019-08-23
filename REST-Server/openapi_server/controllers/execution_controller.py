@@ -7,7 +7,7 @@ from openapi_server.models.run_status import RunStatus  # noqa: E501
 from openapi_server import util
 from openapi_server.kimetrica import KiController
 from openapi_server.fsc import FSCController
-from openapi_server.fsc import DSSATController
+from openapi_server.dssat import DSSATController
 
 import json
 from hashlib import sha256
@@ -41,6 +41,9 @@ def list_runs_model_name_get(ModelName):  # noqa: E501
 
     :rtype: List[str]
     """
+    if ModelName.lower() == 'fsc' or ModelName.lower() == 'dssat':
+        ModelName = ModelName.upper()
+
     if not r.exists(ModelName):
         return []
     else:
