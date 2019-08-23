@@ -11,3 +11,6 @@ wget https://raw.githubusercontent.com/WorldModelers/ModelService/master/DSSAT-I
 # create data volume
 docker run -v /data/ETH -v $PWD:/userdata --name ethdata debian:stable-slim /bin/bash
 docker run --rm --volumes-from ethdata -v ${PWD}:/userdata debian:stable-slim bash -c "apt-get update && apt-get install xz-utils && cd /data/ETH && tar xJvf /userdata/ethdata.tar.xz"
+
+# pull Docker image
+docker pull cvillalobosuf/dssat-pythia:develop
