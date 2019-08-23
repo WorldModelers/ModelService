@@ -1,6 +1,6 @@
 # create DSSAT directory 
-mkdir ~/dssat-docker
-cd ~/dssat-docker
+mkdir ~/dssat
+cd ~/dssat
 
 # download data file
 wget https://world-modelers.s3.amazonaws.com/data/ethdata.tar.xz
