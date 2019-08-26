@@ -5,8 +5,8 @@
 	"weatherDir": "/data/ETH/weathers",
 	"threads": 4,
 	"cores": 8,
-	"sample": 10,
 	"ghr_root":"/data/ETH/base/GHR",
+	"sample": 10,
 	"default_setup": {
 		"template": "ETHI8402.SNX",
 		"sites": "xy_from_vector::/data/ETH/shapes/Five_arcmin_pt_Eth.shp",
@@ -33,7 +33,8 @@
 		"executable": "/app/dssat47/dscsm047"
 	},
 	"analytics_setup": {
-		"per_pixel_prefix":"pp"
+		"per_pixel_prefix":"pp",
+		"singleOutput": true
 	},
 	"runs": [
 		{
