@@ -80,11 +80,7 @@ class DSSATController(object):
         exists = os.path.isdir(out)
         logging.info(exists)
         if exists:
-            # Make results for run_id
-            os.mkdir(f"{self.result_path}/{self.result_name}")
-
             # Copy pp.csv file to results directory
-
             shutil.copy(f"{self.result_path}/out/eth_docker/test/pp.csv",
                         f"{result}.csv")
             session = boto3.Session(profile_name="wmuser")
