@@ -34,7 +34,7 @@
 	},
 	"analytics_setup": {
 		"per_pixel_prefix":"pp",
-		"singleOutput": true
+		"singleOutput": false
 	},
 	"runs": [
 		{
