@@ -47,10 +47,20 @@ Information about the specific parameters for FSC can be found [here.](https://g
 ### DSSAT
 Note that `samples` denotes the number of pixel predictions DSSAT will make. Setting `samples` to `0` returns the entire geography (all Ethiopia) which is quite large.
 
+`management_practice` currently has 6 accepted values:
+
+1. `combined`: retrieve a single `.csv` output file combining all 4 management practices
+2. `separate`: retreive a `.zip` file containing all 4 management practices in their own respective `.csv` files.
+3. `maize_rf_highN`: retrieve a single output `.csv` for a high nitrogen management practice
+4. `maize_irrig`: retrieve a single output `.csv` for an irrigated, high nitrogen management practice
+5. `maize_rf_0N`: retrieve a single output `.csv` for a subsistence management practice
+6. `maize_rf_lowN`: retrieve a single output `.csv` for a low nitrogen management practice
+
 ```
 {
    "config":{
-      "samples":10
+      "samples":10,
+      "management_practice": "maize_rf_highN"
    },
    "name":"DSSAT"
 }
