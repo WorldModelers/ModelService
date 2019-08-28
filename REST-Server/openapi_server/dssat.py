@@ -22,11 +22,16 @@ class DSSATController(object):
         self.result_path = output_path
         self.result_name = self.model_config['run_id']             
         self.bucket = "world-modelers"
-        self.key = f"results/dssat_model/{self.result_name}.zip"
+        self.key = f"results/dssat_model/{self.result_name}"
         self.entrypoint=f"/app/pythia.sh --all /userdata/et_docker.json"
         self.volumes = {self.result_path: {'bind': '/userdata', 'mode': 'rw'}}
         self.volumes_from = "ethdata"
         self.mgmts = ["maize_irrig","maize_rf_0N","maize_rf_highN","maize_rf_lowN"]
+
+        if self.model_config["management_practice"] == "separate": 
+            self.key += ".zip"
+        else:
+            self.key += ".csv"
 
         logging.basicConfig(level=logging.INFO)
 
@@ -46,6 +51,12 @@ class DSSATController(object):
             # Otherwise, remove the `sample` key and run the 
             # entire region (Ethiopia)
             config.pop("sample")
+        
+        # Only produce a combined output if the configuration specifies to do so
+        if self.model_config["management_practice"] == "combined":
+            config["analytics_setup"]["singleOutput"] = True
+        else:
+            config["analytics_setup"]["singleOutput"] = False        
 
         with open(f"{self.result_path}/et_docker.json", "w") as f:
             f.write(json.dumps(config))
@@ -80,19 +91,40 @@ class DSSATController(object):
         exists = os.path.isdir(out)
         logging.info(exists)
         if exists:
-            # Make results for run_id
-            os.mkdir(f"{self.result_path}/{self.result_name}")
+            
+            # If separate (all management practices in separate files)
+            if self.model_config["management_practice"] == "separate":            
+                # Make results for run_id
+                os.mkdir(f"{self.result_path}/{self.result_name}")
 
-            # Copy pp_* files to results directory
-            for m in self.mgmts:
+                # Copy pp_* files to results directory
+                for m in self.mgmts:
+                    shutil.copy(f"{self.result_path}/out/eth_docker/test/{m}/pp_{m}.csv",
+                                f"{result}/pp_{m}.csv")
+                shutil.make_archive(result, 'zip', result)
+                to_upload = f"{result}.zip"
+            
+            
+            # If combined (one single output file)
+            elif self.model_config["management_practice"] == "combined":
+                # Copy pp.csv file to results directory
+                shutil.copy(f"{self.result_path}/out/eth_docker/test/pp.csv",
+                            f"{result}.csv")
+                to_upload = f"{result}.csv"
+
+                
+            # Otherwise, provide just the management practice of interest
+            else:
+                m = self.model_config["management_practice"]
                 shutil.copy(f"{self.result_path}/out/eth_docker/test/{m}/pp_{m}.csv",
-                            f"{result}/pp_{m}.csv")
-            shutil.make_archive(result, 'zip', result)            
+                            f"{result}.csv")
+                to_upload = f"{result}.csv"    
+                
             session = boto3.Session(profile_name="wmuser")
             s3 = session.client('s3')
-            s3.upload_file(f"{result}.zip", 
+            s3.upload_file(to_upload, 
                            self.bucket, 
-                           f"{self.key}", 
+                           self.key, 
                            ExtraArgs={'ACL':'public-read'})
             logging.info(f'Results stored at : https://s3.amazonaws.com/world-modelers/{self.key}')
             return "SUCCESS"
