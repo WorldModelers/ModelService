@@ -50,7 +50,8 @@ class DSSATController(object):
         else:
             # Otherwise, remove the `sample` key and run the 
             # entire region (Ethiopia)
-            config.pop("sample")
+            if "sample" in config:
+                config.pop("sample")
         
         # Only produce a combined output if the configuration specifies to do so
         if self.model_config["management_practice"] == "combined":
