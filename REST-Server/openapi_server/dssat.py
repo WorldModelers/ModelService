@@ -22,7 +22,7 @@ class DSSATController(object):
         self.result_path = output_path
         self.result_name = self.model_config['run_id']             
         self.bucket = "world-modelers"
-        self.key = f"results/dssat_model/{self.result_name}.csv"
+        self.key = f"results/dssat_model/{self.result_name}.zip"
         self.entrypoint=f"/app/pythia.sh --all /userdata/et_docker.json"
         self.volumes = {self.result_path: {'bind': '/userdata', 'mode': 'rw'}}
         self.volumes_from = "ethdata"
@@ -80,12 +80,17 @@ class DSSATController(object):
         exists = os.path.isdir(out)
         logging.info(exists)
         if exists:
-            # Copy pp.csv file to results directory
-            shutil.copy(f"{self.result_path}/out/eth_docker/test/pp.csv",
-                        f"{result}.csv")
+            # Make results for run_id
+            os.mkdir(f"{self.result_path}/{self.result_name}")
+
+            # Copy pp_* files to results directory
+            for m in self.mgmts:
+                shutil.copy(f"{self.result_path}/out/eth_docker/test/{m}/pp_{m}.csv",
+                            f"{result}/pp_{m}.csv")
+            shutil.make_archive(result, 'zip', result)            
             session = boto3.Session(profile_name="wmuser")
             s3 = session.client('s3')
-            s3.upload_file(f"{result}.csv", 
+            s3.upload_file(f"{result}.zip", 
                            self.bucket, 
                            f"{self.key}", 
                            ExtraArgs={'ACL':'public-read'})
