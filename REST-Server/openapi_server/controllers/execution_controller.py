@@ -84,8 +84,7 @@ def run_model_post():  # noqa: E501
 
         # if Atlas model, do nothing
         if model_name in ['consumption_model','asset_wealth_model']:
-            return 'Atlas.ai models are not currently executable.', 
-                    400, {'x-error': 'not supported'}
+            return 'Atlas.ai models are not currently executable.', 400, {'x-error': 'not supported'}
 
         # generate id for the model run
         run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
