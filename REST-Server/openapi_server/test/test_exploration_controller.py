@@ -5,12 +5,12 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
+from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.io_file import IOFile  # noqa: E501
 from openapi_server.models.io_request import IORequest  # noqa: E501
 from openapi_server.models.model import Model  # noqa: E501
 from openapi_server.models.model_config import ModelConfig  # noqa: E501
 from openapi_server.models.parameter import Parameter  # noqa: E501
-from openapi_server.models.search_result import SearchResult  # noqa: E501
 from openapi_server.models.unknownbasetype import UNKNOWN_BASE_TYPE  # noqa: E501
 from openapi_server.test import BaseTestCase
 

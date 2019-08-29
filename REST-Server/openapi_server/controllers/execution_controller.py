@@ -1,5 +1,6 @@
 import connexion
 import six
+import flask
 
 from openapi_server.models.model_config import ModelConfig  # noqa: E501
 from openapi_server.models.run_results import RunResults  # noqa: E501
@@ -17,7 +18,11 @@ import redis
 import boto3
 import botocore
 import logging
+import os
 logging.basicConfig(level=logging.INFO)
+
+data_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
+print(data_file_dir)
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -29,7 +34,15 @@ r = redis.Redis(host=config['REDIS']['HOST'],
 client = docker.from_env()
 containers = client.containers
 
-available_models = ['population_model', 'malnutrition_model', 'fsc', 'dssat']
+data_path = config['APP']['DATA_PATH']
+site_url = config['APP']['URL']
+
+available_models = ['population_model', 
+                    'malnutrition_model', 
+                    'fsc', 
+                    'dssat',
+                    'asset_wealth_model',
+                    'consumption_model']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -68,6 +81,11 @@ def run_model_post():  # noqa: E501
 
         if model_name.lower() not in available_models:
             return 'Model Not Found', 404, {'x-error': 'not found'}
+
+        # if Atlas model, do nothing
+        if model_name in ['consumption_model','asset_wealth_model']:
+            return 'Atlas.ai models are not currently executable.', 
+                    400, {'x-error': 'not supported'}
 
         # generate id for the model run
         run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
@@ -131,16 +149,27 @@ def run_results_run_idget(RunID):  # noqa: E501
     if not r.exists(RunID):
         return 'Run Not Found', 404, {'x-error': 'not found'}
         
-    update_run_status(RunID)
     run = r.hgetall(RunID)
     status = run[b'status'].decode('utf-8')
+
+    # Only update the run status if the status is still PENDING
+    if status == 'PENDING':
+        update_run_status(RunID)
+        run = r.hgetall(RunID)
+        status = run[b'status'].decode('utf-8')
+
     config = json.loads(run[b'config'].decode('utf-8'))
     model_name = run[b'name'].decode('utf-8')
     output = ''
     output_config = {'config': config, 'name': model_name}
     results = {'status': status, 'config': output_config, 'output': output}
 
-    if status == 'SUCCESS':
+    if model_name in ['consumption_model', 'asset_wealth_model']:
+        # special handler for Atlas.ai models
+        URI = f"{site_url}/result_file/{RunID}.{config['format']}"
+        results['output'] = URI
+        return results 
+    elif status == 'SUCCESS':
         bucket = run[b'bucket'].decode('utf-8')
         key = run[b'key'].decode('utf-8')
         URI = f"https://s3.amazonaws.com/{bucket}/{key}"
@@ -183,6 +212,28 @@ def available_results_get():  # noqa: E501
     for id_ in run_ids:
         results.append(run_results_run_idget(id_))
     return results
+
+
+def result_file_result_file_name_get(ResultFileName):  # noqa: E501
+    """Obtain the result file for a given model run.
+
+    Submit a &#x60;ResultFileName&#x60; and receive model run result file. # noqa: E501
+
+    :param result_file_name: A file name of a result file.
+    :type result_file_name: str
+
+    :rtype: None
+    """
+
+    # If the file does not exist:
+    if not os.path.exists(f"{data_path}/{ResultFileName}"):
+        return 'Result File Not Found', 404, {'x-error': 'not found'}
+
+    # Otherwise, serve the file:
+    else:
+        response = flask.send_from_directory(data_path, ResultFileName)  
+        response.direct_passthrough = False
+        return response    
 
 
 def update_run_status(RunID):

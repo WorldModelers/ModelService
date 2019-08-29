@@ -268,6 +268,26 @@ paths:
       tags:
       - execution
       x-openapi-router-controller: openapi_server.controllers.execution_controller
+  /result_file/{ResultFileName}:
+    get:
+      description: Submit a `ResultFileName` and receive model run result file.
+      operationId: result_file_result_file_name_get
+      parameters:
+      - description: A file name of a result file.
+        explode: false
+        in: path
+        name: ResultFileName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ResultFileName'
+        style: simple
+      responses:
+        200:
+          description: A result file
+      summary: Obtain the result file for a given model run.
+      tags:
+      - execution
+      x-openapi-router-controller: openapi_server.controllers.execution_controller
 components:
   schemas:
     ModelName:
@@ -603,6 +623,10 @@ components:
     RunID:
       description: ID associated with a model run. This is the SHA256 hash of the ModelConfig sent to the /run_model endpoint
       example: 3A3B3E0AE57AD4A7EF658C1F7832774F55E403F01FDF44B68B355EC4587D7A04
+      type: string
+    ResultFileName:
+      description: The name of a model run result file.
+      example: 3A3B3E0AE57AD4A7EF658C1F7832774F55E403F01FDF44B68B355EC4587D7A04.csv
       type: string
     RunStatus:
       description: Status information about a model run.
