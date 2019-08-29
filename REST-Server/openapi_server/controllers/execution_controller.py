@@ -161,7 +161,7 @@ def run_results_run_idget(RunID):  # noqa: E501
 
     if model_name in ['consumption_model', 'asset_wealth_model']:
         # special handler for Atlas.ai models
-        URI = f"{url}/result_file/{RunID}.{config['format']}"
+        URI = f"{site_url}/result_file/{RunID}.{config['format']}"
         results['output'] = URI
         return results 
     elif status == 'SUCCESS':
