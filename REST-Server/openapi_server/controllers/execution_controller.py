@@ -82,6 +82,11 @@ def run_model_post():  # noqa: E501
         if model_name.lower() not in available_models:
             return 'Model Not Found', 404, {'x-error': 'not found'}
 
+        # if Atlas model, do nothing
+        if model_name in ['consumption_model','asset_wealth_model']:
+            return 'Atlas.ai models are not currently executable.', 
+                    400, {'x-error': 'not supported'}
+
         # generate id for the model run
         run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
         
