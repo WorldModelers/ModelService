@@ -1,0 +1,4 @@
+data/atlas.ai/november_tests_asset_wealth.geojson
+data/atlas.ai/november_tests_atlasai_assetwealth_allyears_2km.tif
+data/atlas.ai/november_tests_atlasai_consumption_allyears_2km.tif
+data/atlas.ai/november_tests_consumption.geojson
