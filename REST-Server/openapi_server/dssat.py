@@ -57,7 +57,27 @@ class DSSATController(object):
         if self.model_config["management_practice"] == "combined":
             config["analytics_setup"]["singleOutput"] = True
         else:
-            config["analytics_setup"]["singleOutput"] = False        
+            config["analytics_setup"]["singleOutput"] = False
+
+        # Update start year and number of years (if set in the user config)
+        if "start_year" in self.model_config:
+            start_year = int(self.model_config["start_year"])
+            config["default_setup"]["startYear"] = start_year
+
+            # We only bother setting number of years *if* start_year was specified
+            if "number_years" in self.model_config:
+                number_years = int(self.model_config["number_years"])
+                # ensure that the number of years to run does not exceed 2018
+                if start_year + number_years > 2018:
+                    number_years = 2018 - start_year
+            else:
+                number_years = 2018 - start_year
+            config["default_setup"]["nyers"] = number_years
+
+        # Otherwise default to a 1984 start year and run through 2018
+        else:
+            config["default_setup"]["startYear"] = 1984
+            config["default_setup"]["nyers"] = 34
 
         with open(f"{self.result_path}/et_docker.json", "w") as f:
             f.write(json.dumps(config))
@@ -69,6 +89,7 @@ class DSSATController(object):
         Run DSSAT model inside Docker container
         """
         self.update_config()
+        time.sleep(3)
         self.model = self.containers.run(self.dssat, 
                                          volumes=self.volumes, 
                                          volumes_from=self.volumes_from,
