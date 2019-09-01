@@ -56,10 +56,14 @@ Note that `samples` denotes the number of pixel predictions DSSAT will make. Set
 5. `maize_rf_0N`: retrieve a single output `.csv` for a subsistence management practice
 6. `maize_rf_lowN`: retrieve a single output `.csv` for a low nitrogen management practice
 
+The earliest possible `start_year` is 1984. You may run DSSAT through 2018; if `start_year` is specified but `number_years` is not then the default will be to run from the specified `start_year` through 2018. If `start_year + number_years > 2018` it will default to running through 2018. If `start_year` is not specified then DSSAT will default to running from 1984 through 2018.
+
 ```
 {
    "config":{
       "samples":10,
+      "start_year": 2015,
+      "number_years": 2,
       "management_practice": "maize_rf_highN"
    },
    "name":"DSSAT"
