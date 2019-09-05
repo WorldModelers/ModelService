@@ -42,7 +42,8 @@ available_models = ['population_model',
                     'fsc', 
                     'dssat',
                     'asset_wealth_model',
-                    'consumption_model']
+                    'consumption_model',
+                    'chirps']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -54,7 +55,7 @@ def list_runs_model_name_get(ModelName):  # noqa: E501
 
     :rtype: List[str]
     """
-    if ModelName.lower() == 'fsc' or ModelName.lower() == 'dssat':
+    if ModelName.lower() in ['fsc','dssat','chirps']:
         ModelName = ModelName.upper()
 
     if not r.exists(ModelName):
@@ -117,7 +118,14 @@ def run_model_post():  # noqa: E501
             dssat = DSSATController(model_config['config'], config['DSSAT']['OUTPUT_PATH'])
             model_container = dssat.run_model()
             stored = 0 # use binary for Redis
-            m = dssat            
+            m = dssat  
+
+        elif model_name.lower() == 'chirps':
+            model_config['config']['run_id'] = run_id
+            chirps = CHIRPSController(model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
+            model_container = chirps.run_model()
+            stored = 0 # use binary for Redis
+            m = chirps                        
 
         # push the id to the model's list of runs
         r.sadd(model_name, run_id)
