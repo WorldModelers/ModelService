@@ -7,6 +7,7 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [Kimetrica Malnutrition Model](#kimetrica-malnutrition-model)
 - [Food Shocks Cascade Model](#food-shocks-cascade-model)
 - [DSSAT](#DSSAT)
+- [CHIRPS](#CHIRPS)
 
 ### Kimetrica Population Model
 
@@ -69,3 +70,27 @@ The earliest possible `start_year` is 1984. You may run DSSAT through 2018; if `
    "name":"DSSAT"
 }
 ```
+
+
+### CHIRPS
+
+CHIRPS weather data can be accessed by a configuration with the following three parameters:
+
+`_type` should be one of `['mm_data','mm_anomaly','none_z-score']`. `mm_data` is the CHIRPS estimates of precipitation. The `mm_anomaly` provides the data value minus the mean of the entire time series up to the previous year. `none_z-score` provides the Standardized Precipitation Indexes ([SPI](https://climatedataguide.ucar.edu/climate-data/standardized-precipitation-index-spi)) of the estimates.
+
+`dekad` is a zero padded value for the dekad of the year, `01-36` (a 10 day period).
+
+`year` is the year in `YYYY` format for the data of interest.
+
+```
+{
+   "config":{
+      "_type": 'mm_data',
+      "dekad": '01',
+      "year": 2019
+   },
+   "name":"DSSAT"
+}
+```
+
+> **Note**: CHIRPS is available for Ethiopia only at the moment. Data is available from 1981 through near present.
