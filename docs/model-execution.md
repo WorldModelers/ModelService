@@ -89,7 +89,7 @@ CHIRPS weather data can be accessed by a configuration with the following three 
       "dekad": '01',
       "year": 2019
    },
-   "name":"DSSAT"
+   "name":"CHIRPS"
 }
 ```
 

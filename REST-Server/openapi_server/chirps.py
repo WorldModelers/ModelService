@@ -1,6 +1,7 @@
 import requests
 import logging
 import boto3
+import os
 
 class CHIRPSController(object):
     """
@@ -9,9 +10,11 @@ class CHIRPSController(object):
 
     def __init__(self, model_config, output_path):
         self.model_config = model_config
+        self.output_path = output_path
+        self.bucket = "world-modelers"
         self.dekad = self.model_config["dekad"]
         self.year = self.model_config["year"]
-        self.type = self.model_config["_type"]
+        self._type = self.model_config["_type"]
         self.url = f"http://chg-ewxtest.chg.ucsb.edu/proxies/wcsProxy.php?layerNameToUse=chirps:"\
                    f"chirps_africa_1-dekad-{self.dekad}-{self.year}_{self._type}"\
                    f"&lowerLeftXToUse=3673536.4017755133&lowerLeftYToUse=378978.68273536063&upperRightXToUse=5341797.050557815"\
@@ -26,13 +29,11 @@ class CHIRPSController(object):
         """
         Obtain CHIRPS data
         """
-        try:
-            data = requests.get(url)
-            with open(f"{self.output_path}/{self.result_name}.tiff", "wb") as f:
-                f.write(data.content)
-            return 'SUCCESS'
-        except:
-            return 'FAILURE'
+        data = requests.get(self.url)
+        with open(f"{self.output_path}/{self.result_name}.tiff", "wb") as f:
+            f.write(data.content)
+        self.storeResults()
+        return 'SUCCESS'
 
     
     def storeResults(self):
