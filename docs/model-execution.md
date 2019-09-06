@@ -7,6 +7,7 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [Kimetrica Malnutrition Model](#kimetrica-malnutrition-model)
 - [Food Shocks Cascade Model](#food-shocks-cascade-model)
 - [DSSAT](#DSSAT)
+- [Atlas](#Atlas)
 - [CHIRPS](#CHIRPS)
 
 ### Kimetrica Population Model
@@ -70,6 +71,11 @@ The earliest possible `start_year` is 1984. You may run DSSAT through 2018; if `
    "name":"DSSAT"
 }
 ```
+
+
+### Atlas
+
+The Atlas.ai consumption model and asset wealth model are available as runs in MaaS, but are not currently executable. The runs are static geospatially and temporally. They are called `consumption_model` and `asset_wealth_model`.
 
 
 ### CHIRPS
