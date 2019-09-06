@@ -9,6 +9,7 @@ from openapi_server import util
 from openapi_server.kimetrica import KiController
 from openapi_server.fsc import FSCController
 from openapi_server.dssat import DSSATController
+from openapi_server.chirps import CHIRPSController
 
 import json
 from hashlib import sha256
@@ -42,7 +43,8 @@ available_models = ['population_model',
                     'fsc', 
                     'dssat',
                     'asset_wealth_model',
-                    'consumption_model']
+                    'consumption_model',
+                    'chirps']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -54,7 +56,7 @@ def list_runs_model_name_get(ModelName):  # noqa: E501
 
     :rtype: List[str]
     """
-    if ModelName.lower() == 'fsc' or ModelName.lower() == 'dssat':
+    if ModelName.lower() in ['fsc','dssat','chirps']:
         ModelName = ModelName.upper()
 
     if not r.exists(ModelName):
@@ -117,15 +119,29 @@ def run_model_post():  # noqa: E501
             dssat = DSSATController(model_config['config'], config['DSSAT']['OUTPUT_PATH'])
             model_container = dssat.run_model()
             stored = 0 # use binary for Redis
-            m = dssat            
+            m = dssat  
+
+        elif model_name.lower() == 'chirps':
+            model_config['config']['run_id'] = run_id
+            chirps = CHIRPSController(model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
+            model_container = chirps.run_model()
+            stored = 0 # use binary for Redis
+            m = chirps
 
         # push the id to the model's list of runs
         r.sadd(model_name, run_id)
 
+        if model_name.lower() == 'chirps':
+            model_container_id = 'SUCCESS'
+            status = 'SUCCESS'
+        else:
+            model_container_id = model_container.id
+            status = 'PENDING'
+
         # generate a key for the model run based on the run_id
         run_obj = {'config': json.dumps(model_config['config']),
-                   'status': 'PENDING',
-                   'container': model_container.id,
+                   'status': status,
+                   'container': model_container_id,
                    'bucket': m.bucket,
                    'key': m.key,
                    'stored': stored,
@@ -240,8 +256,13 @@ def update_run_status(RunID):
         return 'Run Not Found', 404, {'x-error': 'not found'}
 
     run = r.hgetall(RunID)
-    run_container_id = run[b'container'].decode('utf-8')
+    run_container_id = run[b'container'].decode('utf-8')    
     model_name = run[b'name'].decode('utf-8')
+
+    # if CHIRPS, do nothing!
+    if model_name.lower() == 'chirps':
+        status = 'SUCCESS'
+        return status
     
     model_container = containers.get(run_container_id)
     model_container.reload()
