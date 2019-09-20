@@ -8,6 +8,8 @@ import time
 import logging
 import boto3
 import json
+import psycopg2
+import csv
 
 class DSSATController(object):
     """
@@ -15,6 +17,8 @@ class DSSATController(object):
     """
 
     def __init__(self, model_config, output_path):
+        self.config = configparser.ConfigParser()
+        self.config.read('config.ini')
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
@@ -133,7 +137,26 @@ class DSSATController(object):
                 shutil.copy(f"{self.result_path}/out/eth_docker/test/pp.csv",
                             f"{result}.csv")
                 to_upload = f"{result}.csv"
-
+               
+                # Insert into DB
+                conn = psycopg2.connect(host=self.config["OUTPUTDB"]["DB"],database="output", user=self.config["OUTPUTDB"]["USER"], password=self.config["OUTPUTDB"]["PASSWORD"])
+                cur = conn.cursor()
+                rid = self.result_name.lower()
+                cur.execute(f"SELECT * FROM rundata where run_id = '{rid}';")
+                results = cur.fetchall()
+                if len(results) == 0: 
+                    with open(f"{result}.csv", 'r') as f:
+                        reader = csv.reader(f)
+                        next(reader)
+                        for row in reader:
+                            lat = row[0]
+                            lon = row[1]
+                            hwam = row[24]
+                            sdat = row[16]
+                            statement = f"insert into rundata (run_id,x,y,feature,datetime) values ('{self.result_name}',{lat},{lon},{hwam},'{sdat}')"
+                            cur.execute(statement)
+                        conn.commit()
+                conn.close()
                 
             # Otherwise, provide just the management practice of interest
             else:
@@ -142,6 +165,26 @@ class DSSATController(object):
                             f"{result}.csv")
                 to_upload = f"{result}.csv"    
                 
+                # Insert into DB
+                conn = psycopg2.connect(host=self.config["OUTPUTDB"]["DB"],database="output", user=self.config["OUTPUTDB"]["USER"], password=self.config["OUTPUTDB"]["PASSWORD"])
+                cur = conn.cursor()
+                rid = self.result_name.lower()
+                cur.execute(f"SELECT * FROM rundata where run_id = '{rid}';")
+                results = cur.fetchall()
+                if len(results) == 0:
+                    with open(f"{result}.csv", 'r') as f:
+                        reader = csv.reader(f)
+                        next(reader)
+                        for row in reader:
+                            lat = row[0]
+                            lon = row[1]
+                            hwam = row[24]
+                            sdat = row[16]
+                            statement = f"insert into rundata (run_id,x,y,feature,datetime) values ('{self.result_name}',{lat},{lon},{hwam},'{sdat}')"
+                            cur.execute(statement)
+                        conn.commit()
+                conn.close()
+                    
             session = boto3.Session(profile_name="wmuser")
             s3 = session.client('s3')
             s3.upload_file(to_upload, 

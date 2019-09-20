@@ -312,6 +312,12 @@ def store_results(RunID, model_name):
     s3 = boto3.resource('s3')
     try:
         s3.Object(bucket, key).load()
+        try:
+            if model_name.lower() == 'dssat':
+                dssat = DSSATController(model_config, config['DSSAT']['OUTPUT_PATH'])
+                dssat.storeResults()
+        except Exception as e:
+            logging.error(e)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             # The object does not exist.
