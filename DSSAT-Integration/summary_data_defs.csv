@@ -84,3 +84,5 @@ Other,YPNAM,Yield-N fertilizer productivity (kg[yield]/kg[N fert],Productivity
 Other,YPNUM,Yield-N uptake productivity (kg[yield]/kg[N uptake],Productivity
 Other,YPPM,Yield-rainfall productivity (kg[yield]/ha/mm[rain]),Productivity
 Other,YPTM,Yield-transpiration productivity (kg[yield]/ha/mm[EP]),Productivity
+Other,VNAM,Vegitative N at maturity (kg/ha),PlantNutrient
+Other,VWAM,Vegitative biomass at maturity (kg/ha),Growth
