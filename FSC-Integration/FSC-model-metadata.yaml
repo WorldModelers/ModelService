@@ -1,0 +1,7 @@
+id: FSC
+name: Food Shocks Cascade Model
+description: |
+  The Food Shocks Cascade Model (FSC) is a simple agent-based network model that computes chain-reactions due to negative production anomalies based on dynamic food balance sheets at the country level.
+version: 'FSC_0.1'
+category:
+  - Economic
