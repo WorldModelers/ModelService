@@ -1,0 +1,9 @@
+id: consumption_model
+name: Consumption Model
+description: |
+  This model uses remote sensing imagery to predict consumption.
+version: 'consumption_model_1'
+category:
+  - Demographic
+  - Socioeconomic
+  - Economic

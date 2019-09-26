@@ -185,7 +185,7 @@ def _get_model(ModelName, MINTconfiguration, MINTusername):
         api_response = api_instance.get_model(ModelName, username=username)
         model = {
                 'name': api_response.id,
-                'label': api_response.label
+                'label': api_response.label,
                 'description': api_response.description,
                 'maintainer': '',
                 'category': api_response.has_model_category,
