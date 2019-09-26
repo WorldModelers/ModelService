@@ -15,11 +15,13 @@ class Model(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, versions=None, maintainer=None, description=None, category=None):  # noqa: E501
+    def __init__(self, name=None, label=None, versions=None, maintainer=None, description=None, category=None):  # noqa: E501
         """Model - a model defined in OpenAPI
 
         :param name: The name of this Model.  # noqa: E501
         :type name: str
+        :param label: The label of this Model.  # noqa: E501
+        :type label: str
         :param versions: The versions of this Model.  # noqa: E501
         :type versions: List[str]
         :param maintainer: The maintainer of this Model.  # noqa: E501
@@ -31,6 +33,7 @@ class Model(Model):
         """
         self.openapi_types = {
             'name': str,
+            'label': str,
             'versions': List[str],
             'maintainer': str,
             'description': str,
@@ -39,6 +42,7 @@ class Model(Model):
 
         self.attribute_map = {
             'name': 'name',
+            'label': 'label',
             'versions': 'versions',
             'maintainer': 'maintainer',
             'description': 'description',
@@ -46,6 +50,7 @@ class Model(Model):
         }
 
         self._name = name
+        self._label = label
         self._versions = versions
         self._maintainer = maintainer
         self._description = description
@@ -86,6 +91,31 @@ class Model(Model):
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
+
+    @property
+    def label(self):
+        """Gets the label of this Model.
+
+        The human readable name of the model  # noqa: E501
+
+        :return: The label of this Model.
+        :rtype: str
+        """
+        return self._label
+
+    @label.setter
+    def label(self, label):
+        """Sets the label of this Model.
+
+        The human readable name of the model  # noqa: E501
+
+        :param label: The label of this Model.
+        :type label: str
+        """
+        if label is None:
+            raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
+
+        self._label = label
 
     @property
     def versions(self):

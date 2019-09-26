@@ -327,6 +327,7 @@ components:
         - LATEST
         name: FSC
         description: FSC single country shock configuration.
+        label: label
         category:
         - Agriculture
         - Economic
@@ -335,6 +336,9 @@ components:
         name:
           description: A model's name
           example: FSC
+          type: string
+        label:
+          description: The human readable name of the model
           type: string
         versions:
           description: Latest model version
@@ -363,6 +367,7 @@ components:
           type: array
       required:
       - description
+      - label
       - maintainer
       - name
       type: object

@@ -289,10 +289,14 @@ components:
       - "name"
       - "description"
       - "maintainer"
+      - "label"
       description: "An object defining high-level metadata about a model"
       properties:
         name:
           $ref: '#/components/schemas/ModelName'
+        label: 
+          type: "string"
+          description: "The human readable name of the model"
         versions:
           type: "array"
           items:
