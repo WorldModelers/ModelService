@@ -153,7 +153,7 @@ class DSSATController(object):
                             lon = row[1]
                             hwam = row[24]
                             sdat = row[16]
-                            statement = f"insert into rundata (run_id,x,y,feature,datetime) values ('{self.result_name}',{lat},{lon},{hwam},'{sdat}')"
+                            statement = f"insert into rundata (run_id,x,y,feature,value,datetime) values ('{self.result_name}',{lat},{lon},'yield',{hwam},'{sdat}')"
                             cur.execute(statement)
                         conn.commit()
                 conn.close()
@@ -180,7 +180,7 @@ class DSSATController(object):
                             lon = row[1]
                             hwam = row[24]
                             sdat = row[16]
-                            statement = f"insert into rundata (run_id,x,y,feature,datetime) values ('{self.result_name}',{lat},{lon},{hwam},'{sdat}')"
+                            statement = f"insert into rundata (run_id,x,y,feature,value,datetime) values ('{self.result_name}',{lat},{lon},'yield',{hwam},'{sdat}')"
                             cur.execute(statement)
                         conn.commit()
                 conn.close()
