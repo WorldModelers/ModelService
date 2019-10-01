@@ -139,6 +139,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /list_concepts:
+    get:
+      tags:
+      - "concepts"
+      summary: "Obtain a list of available concepts"
+      description: >
+        Request a list of currently available concepts. These are derived from the list of 
+        [UN indicators](https://github.com/WorldModelers/Ontologies/blob/master/performer_ontologies/un_to_indicators.tsv) and are tied to model output variables.
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableConcepts'
+  /concept_mapping/{Concept}:
+    get:
+      tags:
+      - "concepts"
+      summary: "Get an array of models related to a concept."
+      description: "Submit a concept name and receive an array of model related to that concept."
+      parameters:
+      - in: path
+        name: Concept
+        description: "The name of a concept."
+        required: true
+        schema:
+          $ref: '#/components/schemas/ConceptName' 
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Concept'   
   /run_model:
     post:
       tags:
@@ -538,3 +573,29 @@ components:
     Error:
       type: "object"
       description: "Arbitrary error object."
+    ConceptName:
+      type: "string"
+      description: "A concept's name"
+      example: "precipitation"
+    AvailableConcepts:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/ConceptName"
+      uniqueItems: true
+      description: "An array of available concept names"
+    ConceptMapping:
+      type: "array"
+      description: >
+        An array of models that relate to a concept
+      items:
+        $ref: "#/components/schemas/ModelName"
+    Concept:
+      type: "object"
+      description: "A concept and its mapping to model output variables."
+      properties:
+        concept_name:
+          $ref: "#/components/schemas/ConceptName"
+        mappings:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ConceptMapping"      
