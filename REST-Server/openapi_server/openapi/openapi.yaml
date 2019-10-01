@@ -155,6 +155,46 @@ paths:
       tags:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
+  /list_concepts:
+    get:
+      description: |
+        Request a list of currently available concepts. These are derived from the list of  [UN indicators](https://github.com/WorldModelers/Ontologies/blob/master/performer_ontologies/un_to_indicators.tsv) and are tied to model output variables.
+      operationId: list_concepts_get
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableConcepts'
+          description: SUCCESS
+      summary: Obtain a list of available concepts
+      tags:
+      - concepts
+      x-openapi-router-controller: openapi_server.controllers.concepts_controller
+  /concept_mapping/{Concept}:
+    get:
+      description: Submit a concept name and receive an array of model related to that concept.
+      operationId: concept_mapping_concept_get
+      parameters:
+      - description: The name of a concept.
+        explode: false
+        in: path
+        name: Concept
+        required: true
+        schema:
+          $ref: '#/components/schemas/ConceptName'
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Concept'
+          description: SUCCESS
+      summary: Get an array of models related to a concept.
+      tags:
+      - concepts
+      x-openapi-router-controller: openapi_server.controllers.concepts_controller
   /run_model:
     post:
       description: Submit a configuration to run a specific model. Model is run asynchronously. Results are available through `/run_results` endpoint. Note that the `requestBody` must include a `config` object which should have as its `keys` the appropriate model `parameter` `labels`. Each `key` should have a corresponding `parameter` `value`. If a `parameter` is missing it will be defaulted.
@@ -663,6 +703,39 @@ components:
       type: object
     Error:
       description: Arbitrary error object.
+      type: object
+    ConceptName:
+      description: A concept's name
+      example: precipitation
+      type: string
+    AvailableConcepts:
+      description: An array of available concept names
+      items:
+        $ref: '#/components/schemas/ConceptName'
+      type: array
+      uniqueItems: true
+    ConceptMapping:
+      description: |
+        An array of models that relate to a concept
+      items:
+        $ref: '#/components/schemas/ModelName'
+      type: array
+    Concept:
+      description: A concept and its mapping to model output variables.
+      example:
+        concept_name: precipitation
+        mappings:
+        - null
+        - null
+      properties:
+        concept_name:
+          description: A concept's name
+          example: precipitation
+          type: string
+        mappings:
+          items:
+            $ref: '#/components/schemas/ConceptMapping'
+          type: array
       type: object
   securitySchemes:
     BasicAuth:
