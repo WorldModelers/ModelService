@@ -13,3 +13,7 @@ website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/malnutritio
 category:
   - Demographic
   - Economic
+concepts:
+  - nutrient
+  - food_security
+  - food_insecurity

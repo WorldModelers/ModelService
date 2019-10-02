@@ -5,3 +5,8 @@ description: |
 version: 'FSC_0.1'
 category:
   - Economic
+concepts:
+  - economy
+  - import
+  - export
+  - crop_storage  

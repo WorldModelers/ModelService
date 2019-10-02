@@ -5,3 +5,7 @@ description: |
 version: 'DSSAT_4.7'
 category:
   - Agriculture
+concepts:
+  - food_production
+  - crop_storage
+  - farming
