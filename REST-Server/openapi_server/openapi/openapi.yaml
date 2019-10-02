@@ -189,7 +189,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Concept'
+                $ref: '#/components/schemas/ConceptMapping'
           description: SUCCESS
       summary: Get an array of models related to a concept.
       tags:

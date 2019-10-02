@@ -4,8 +4,17 @@ import six
 from openapi_server.models.concept import Concept  # noqa: E501
 from openapi_server import util
 
+import configparser
+import redis
 
-def concept_mapping_concept_get(concept):  # noqa: E501
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+r = redis.Redis(host=config['REDIS']['HOST'],
+                port=config['REDIS']['PORT'],
+                db=config['REDIS']['DB'])
+
+def concept_mapping_concept_get(Concept):  # noqa: E501
     """Get an array of models related to a concept.
 
     Submit a concept name and receive an array of model related to that concept. # noqa: E501
@@ -15,7 +24,8 @@ def concept_mapping_concept_get(concept):  # noqa: E501
 
     :rtype: Concept
     """
-    return 'do some magic!'
+    models = [m.decode('utf-8') for m in list(r.smembers(Concept))]
+    return models
 
 
 def list_concepts_get():  # noqa: E501
@@ -26,4 +36,5 @@ def list_concepts_get():  # noqa: E501
 
     :rtype: List[str]
     """
-    return 'do some magic!'
+    concepts = [c.decode('utf-8') for c in list(r.smembers('concepts'))]
+    return concepts

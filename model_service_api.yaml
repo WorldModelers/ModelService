@@ -173,7 +173,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Concept'   
+                $ref: '#/components/schemas/ConceptMapping'   
   /run_model:
     post:
       tags:
