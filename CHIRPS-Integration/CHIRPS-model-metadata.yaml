@@ -5,3 +5,9 @@ description: |
 version: 'chirps_model_1'
 category:
   - Climate
+concepts:
+  - precipitation
+  - water
+  - drought
+  - climate
+  - flooding

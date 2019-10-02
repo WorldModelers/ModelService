@@ -15,3 +15,6 @@ website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/population_
 category:
   - Demographic
   - Socioeconomic
+concepts:
+  - GPE
+  - population
