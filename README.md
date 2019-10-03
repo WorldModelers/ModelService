@@ -80,6 +80,10 @@ cd ../DSSAT-Integration
 cd ../Atlas-Integration
 ./maas_install.sh
 
+# Set up Concepts in Redis
+cd ../concepts
+./maas_install.sh
+
 # HOW TO RUN
 cd ../../REST-Server
 python -m openapi_server
