@@ -22,7 +22,7 @@ class DSSATController(object):
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
-        self.dssat = 'cvillalobosuf/dssat-pythia:develop'
+        self.dssat = 'cvillalobosuf/dssat-pythia:latest'
         self.result_path = output_path
         self.result_name = self.model_config['run_id']             
         self.bucket = "world-modelers"
