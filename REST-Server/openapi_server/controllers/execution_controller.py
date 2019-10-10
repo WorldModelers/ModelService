@@ -168,7 +168,6 @@ def run_results_run_idget(RunID):  # noqa: E501
         
     run = r.hgetall(RunID)
     status = run[b'status'].decode('utf-8')
-    timestamp = run[b'timestamp'].decode('utf-8')
 
     # Only update the run status if the status is still PENDING
     if status == 'PENDING':
@@ -183,8 +182,11 @@ def run_results_run_idget(RunID):  # noqa: E501
     results = {'status': status, 
                'config': output_config, 
                'output': output, 
-               'timestamp': timestamp,
                'auth_required': False}
+
+    if b'timestamp' in run:
+        timestamp = run[b'timestamp'].decode('utf-8')
+        results['timestamp'] = timestamp
 
     if model_name in ['consumption_model', 'asset_wealth_model']:
         # special handler for Atlas.ai models
