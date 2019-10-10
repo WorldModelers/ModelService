@@ -67,9 +67,6 @@ class DSSATController(object):
         if "start_year" in self.model_config:
             start_year = int(self.model_config["start_year"])
             config["default_setup"]["startYear"] = start_year
-            config["default_setup"]["sdate"] = f"{start_year}-01-01"
-            config["default_setup"]["pfrst"] = f"{start_year}-03-01"
-            config["default_setup"]["plast"] = f"{start_year}-05-20"
 
             # We only bother setting number of years *if* start_year was specified
             if "number_years" in self.model_config:
@@ -85,6 +82,10 @@ class DSSATController(object):
         else:
             config["default_setup"]["startYear"] = 1984
             config["default_setup"]["nyers"] = 34
+
+        config["default_setup"]["sdate"] = f"{start_year}-01-01"
+        config["default_setup"]["pfrst"] = f"{start_year}-03-01"
+        config["default_setup"]["plast"] = f"{start_year}-05-20"
 
         with open(f"{self.result_path}/et_docker.json", "w") as f:
             f.write(json.dumps(config))
