@@ -1,3 +1,7 @@
+# create FSC directory 
+mkdir ~/fsc
+mkdir ~/fsc/outputs
+
 # Check out FSC Model and switch to docker branch
 git clone https://github.com/mjpuma/FSC-WorldModelers.git
 cd FSC-WorldModelers
