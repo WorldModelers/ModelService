@@ -63,6 +63,7 @@ class DSSATController(object):
         else:
             config["analytics_setup"]["singleOutput"] = False
 
+        start_year = 1984
         # Update start year and number of years (if set in the user config)
         if "start_year" in self.model_config:
             start_year = int(self.model_config["start_year"])
@@ -80,7 +81,7 @@ class DSSATController(object):
 
         # Otherwise default to a 1984 start year and run through 2018
         else:
-            config["default_setup"]["startYear"] = 1984
+            config["default_setup"]["startYear"] = start_year
             config["default_setup"]["nyers"] = 34
 
         config["default_setup"]["sdate"] = f"{start_year}-01-01"
