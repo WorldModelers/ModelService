@@ -20,6 +20,7 @@ import boto3
 import botocore
 import logging
 import os
+import time
 logging.basicConfig(level=logging.INFO)
 
 data_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
@@ -145,7 +146,8 @@ def run_model_post():  # noqa: E501
                    'bucket': m.bucket,
                    'key': m.key,
                    'stored': stored,
-                   'name': model_config['name']}
+                   'name': model_config['name'],
+                   'timestamp': round(time.time()*1000,0)}
         r.hmset(run_id, run_obj)        
 
     return run_id
@@ -166,6 +168,7 @@ def run_results_run_idget(RunID):  # noqa: E501
         
     run = r.hgetall(RunID)
     status = run[b'status'].decode('utf-8')
+    timestamp = run[b'timestamp'].decode('utf-8')
 
     # Only update the run status if the status is still PENDING
     if status == 'PENDING':
@@ -177,12 +180,18 @@ def run_results_run_idget(RunID):  # noqa: E501
     model_name = run[b'name'].decode('utf-8')
     output = ''
     output_config = {'config': config, 'name': model_name}
-    results = {'status': status, 'config': output_config, 'output': output}
+    results = {'status': status, 
+               'config': output_config, 
+               'output': output, 
+               'timestamp': timestamp,
+               'auth_required': False}
 
     if model_name in ['consumption_model', 'asset_wealth_model']:
         # special handler for Atlas.ai models
         URI = f"{site_url}/result_file/{RunID}.{config['format']}"
         results['output'] = URI
+        # ensure that auth_required is set to true
+        results['auth_required'] = True
         return results 
     elif status == 'SUCCESS':
         bucket = run[b'bucket'].decode('utf-8')

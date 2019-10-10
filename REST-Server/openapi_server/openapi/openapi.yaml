@@ -684,10 +684,12 @@ components:
       description: Metadata about the results of a given model run.
       example:
         output: output
+        auth_required: true
         config:
           name: FSC
           config: '{}'
         status: SUCCESS
+        timestamp: 0
       properties:
         config:
           $ref: '#/components/schemas/ModelConfig'
@@ -700,6 +702,17 @@ components:
         output:
           description: URI for accessing output (for example, on S3)
           type: string
+        auth_required:
+          description: Does accessing this model output require authentification? True if requires auth.
+          type: boolean
+        timestamp:
+          description: Epoch timestamp when the model run was initiated (epoch millis)
+          format: int32
+          type: integer
+      required:
+      - config
+      - output
+      - status
       type: object
     Error:
       description: Arbitrary error object.
@@ -722,11 +735,6 @@ components:
       type: array
     Concept:
       description: A concept and its mapping to model output variables.
-      example:
-        concept_name: precipitation
-        mappings:
-        - null
-        - null
       properties:
         concept_name:
           description: A concept's name
