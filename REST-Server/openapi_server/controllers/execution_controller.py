@@ -186,7 +186,7 @@ def run_results_run_idget(RunID):  # noqa: E501
 
     if b'timestamp' in run:
         timestamp = run[b'timestamp'].decode('utf-8')
-        results['timestamp'] = timestamp
+        results['timestamp'] = int(timestamp)
 
     if model_name in ['consumption_model', 'asset_wealth_model']:
         # special handler for Atlas.ai models
