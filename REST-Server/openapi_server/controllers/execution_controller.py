@@ -202,8 +202,10 @@ def run_results_run_idget(RunID):  # noqa: E501
         results['output'] = URI
         return results
     elif status == 'FAIL':
-        run_container = run[b'container']
-        run_logs = run_container.logs().decode('utf-8')
+        run_container_id = run[b'container'].decode('utf-8')
+        model_container = containers.get(run_container_id)
+        model_container.reload()
+        run_logs = model_container.logs().decode('utf-8')
         results['output'] = run_logs
     return results
 
