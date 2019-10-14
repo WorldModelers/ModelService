@@ -8,7 +8,7 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [Food Shocks Cascade Model](#food-shocks-cascade-model)
 - [DSSAT](#DSSAT)
 - [Atlas](#Atlas)
-- [CHIRPS](#CHIRPS)
+- [CHIRPS and CHIRPS-GEFS](#CHIRPS-and-CHIRPS-GEFS)
 
 ### Kimetrica Population Model
 
@@ -78,9 +78,9 @@ The earliest possible `start_year` is 1984. You may run DSSAT through 2018; if `
 The Atlas.ai consumption model and asset wealth model are available as runs in MaaS, but are not currently executable. The runs are static geospatially and temporally. They are called `consumption_model` and `asset_wealth_model`.
 
 
-### CHIRPS
+### CHIRPS and CHIRPS-GEFS
 
-CHIRPS weather data can be accessed by a configuration with the following three parameters:
+CHIRPS historic weather data and CHIRPS-GEFS forecasts can be accessed by a configuration with the following three parameters:
 
 `_type` should be one of `['mm_data','mm_anomaly','none_z-score']`. `mm_data` is the CHIRPS estimates of precipitation. The `mm_anomaly` provides the data value minus the mean of the entire time series up to the previous year. `none_z-score` provides the Standardized Precipitation Indexes ([SPI](https://climatedataguide.ucar.edu/climate-data/standardized-precipitation-index-spi)) of the estimates.
 
@@ -102,4 +102,6 @@ CHIRPS weather data can be accessed by a configuration with the following three 
 }
 ```
 
-> **Note**: CHIRPS is available for Ethiopia only at the moment. Data is available from 1981 through near present.
+For CHIRPS-GEFS, change the `name` parameter above from `CHIRPS` to `CHIRPS-GEFS`.
+
+> **Note**: Both CHIRPS and CHIRPS-GEFS dekads have historical records. CHIRPS dates back to 1981 and the CHIRPS-GEFS dekads back to 1985.

@@ -9,7 +9,8 @@ class CHIRPSController(object):
     A controller to manage CHIRPS model execution.
     """
 
-    def __init__(self, model_config, output_path):
+    def __init__(self, name, model_config, output_path):
+        self.name = name
         self.model_config = model_config
         self.output_path = output_path
         self.bucket = "world-modelers"
@@ -24,6 +25,12 @@ class CHIRPSController(object):
                    f"&upperRightXToUse={self.max_pt[0]}&upperRightYToUse={self.max_pt[1]}"\
                    f"&wcsURLToUse=http://chg-ewxtest.chg.ucsb.edu:8080/geoserver/wcs?&resolution"\
                    f"=0.05&srsToUse=EPSG:3857&outputSrsToUse=EPSG:4326"
+        self.url_gefs = f"http://chg-ewxtest.chg.ucsb.edu/proxies/wcsProxy.php?layerNameToUse="\
+                        f"chirpsgefslast:chirpsgefslast_africa_1-dekad-{self.dekad}-{self.year}_{self._type}"\
+                        f"&lowerLeftXToUse={self.min_pt[0]}&lowerLeftYToUse={self.min_pt[1]}"\
+                        f"&upperRightXToUse={self.max_pt[0]}&upperRightYToUse={self.max_pt[1]}"\
+                        f"&wcsURLToUse=http://chg-ewxtest.chg.ucsb.edu:8080/geoserver/wcs?&resolution"\
+                        f"=0.05&srsToUse=EPSG:3857&outputSrsToUse=EPSG:4326"
         self.result_name = self.model_config['run_id']
         self.key = f"results/chirps/{self.result_name}.tiff"
         self.result_path = output_path
@@ -33,7 +40,14 @@ class CHIRPSController(object):
         """
         Obtain CHIRPS data
         """
-        data = requests.get(self.url)
+        # if CHIRPS-GEFS, use that URL
+        if self.name == 'CHIRPS-GEFS':
+            data = requests.get(self.url_gefs)
+
+        # otherwise, use CHRIPS URL 
+        else:
+            data = requests.get(self.url)
+            
         with open(f"{self.output_path}/{self.result_name}.tiff", "wb") as f:
             f.write(data.content)
         self.storeResults()

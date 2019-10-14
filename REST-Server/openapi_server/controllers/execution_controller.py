@@ -45,7 +45,8 @@ available_models = ['population_model',
                     'dssat',
                     'asset_wealth_model',
                     'consumption_model',
-                    'chirps']
+                    'chirps',
+                    'chirps-gefs']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -57,7 +58,7 @@ def list_runs_model_name_get(ModelName):  # noqa: E501
 
     :rtype: List[str]
     """
-    if ModelName.lower() in ['fsc','dssat','chirps']:
+    if ModelName.lower() in ['fsc','dssat','chirps','chirps-gefs']:
         ModelName = ModelName.upper()
 
     if not r.exists(ModelName):
@@ -122,9 +123,9 @@ def run_model_post():  # noqa: E501
             stored = 0 # use binary for Redis
             m = dssat  
 
-        elif model_name.lower() == 'chirps':
+        elif 'chirps' in model_name.lower():
             model_config['config']['run_id'] = run_id
-            chirps = CHIRPSController(model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
+            chirps = CHIRPSController(model_name, model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
             model_container = chirps.run_model()
             stored = 0 # use binary for Redis
             m = chirps
@@ -132,7 +133,7 @@ def run_model_post():  # noqa: E501
         # push the id to the model's list of runs
         r.sadd(model_name, run_id)
 
-        if model_name.lower() == 'chirps':
+        if 'chirps' in model_name.lower():
             model_container_id = 'SUCCESS'
             status = 'SUCCESS'
         else:
@@ -273,7 +274,7 @@ def update_run_status(RunID):
     model_name = run[b'name'].decode('utf-8')
 
     # if CHIRPS, do nothing!
-    if model_name.lower() == 'chirps':
+    if 'chirps' in model_name.lower():
         status = 'SUCCESS'
         return status
     
