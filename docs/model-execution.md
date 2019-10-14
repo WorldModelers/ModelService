@@ -88,12 +88,15 @@ CHIRPS weather data can be accessed by a configuration with the following three 
 
 `year` is the year in `YYYY` format for the data of interest.
 
+`bbox` is the geospatial bounding box of interest. It should represent 4-elements in the WGS84 coordinate system: `[xmin, ymin, xmax, ymax]`. `x` is longitude, `y` is latitude. In other words, the coordinates of a SW point and a NE point define your region of interest.
+
 ```
 {
    "config":{
-      "_type": 'mm_data',
-      "dekad": '01',
-      "year": 2019
+      "_type": "mm_data",
+      "dekad": "01",
+      "year": 2019,
+      "bbox": [33.512234, 2.719907, 49.981710, 16.501768]
    },
    "name":"CHIRPS"
 }
