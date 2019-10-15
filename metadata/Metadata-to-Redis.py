@@ -11,7 +11,7 @@ from pprint import pprint
 
 
 metadata_files = []
-for filename in glob.iglob('**model-metadata.yaml', recursive=True):
+for filename in glob.iglob('models/**model-metadata.yaml', recursive=True):
      metadata_files.append(filename)
 
 print(*metadata_files, sep = "\n")
