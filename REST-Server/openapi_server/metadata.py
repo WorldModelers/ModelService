@@ -8,10 +8,10 @@ from hashlib import sha256
 import json
 import yaml
 from pprint import pprint
-
+import os
 
 metadata_files = []
-for filename in glob.iglob('../' + '**/**model-metadata.yaml', recursive=True):
+for filename in glob.iglob('../metadata/models/**model-metadata.yaml', recursive=True):
      metadata_files.append(filename)
 
 print(*metadata_files, sep = "\n")
@@ -23,8 +23,11 @@ r = redis.Redis(host=config['REDIS']['HOST'],
                 port=config['REDIS']['PORT'],
                 db=config['REDIS']['DB'])
 
-
-if __name__ == "__main__":
+def main():
+    ##########################################
+    ########### Setting up concepts ##########
+    ##########################################
+    print("Setting up concepts...")
     models = {}
 
     for m in metadata_files:
@@ -80,6 +83,29 @@ if __name__ == "__main__":
             
             # add the model to a Redis set named for the concept name
             r.sadd(cc, ee)
+
+    ##########################################
+    ########### Setting up metadata ##########
+    ##########################################
+    print("Setting up metadata...")
+    models = []
+    for m in metadata_files:
+            with open(m, 'r') as stream:
+                model = yaml.safe_load(stream)
+                models.append(model)
+
+    if r.exists('model-list'):
+        print("Deleteing model-list set...")
+        r.delete('model-list')
+    else:
+        pass
+
+    for m in models:
+        r.set(f"{m['id']}-meta", json.dumps(m))
+        r.sadd('model-list',m['id'])            
+
+if __name__ == "__main__":
+    main()
 
     print("We can obtain the models associated with 'economy', for example:")
     pprint(r.smembers('economy'))

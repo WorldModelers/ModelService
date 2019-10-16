@@ -10,16 +10,27 @@ from openapi_server.models.geo_query import GeoQuery  # noqa: E501
 from openapi_server.models.text_query import TextQuery  # noqa: E501
 from openapi_server.models.time_query import TimeQuery  # noqa: E501
 from openapi_server import util
+from openapi_server import metadata
 
 import requests
 import configparser
+import json
+import redis
 
+# Initialize metadata
+metadata.main()
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+r = redis.Redis(host=config['REDIS']['HOST'],
+                port=config['REDIS']['PORT'],
+                db=config['REDIS']['DB'])
+
+# Load MINT configurations
 import mint_client
 from mint_client.rest import ApiException
 
-# Load MINT configurations
-config = configparser.ConfigParser()
-config.read('config.ini')
 url = config['MINT']['URL']
 provenance_id = config['MINT']['PROVENANCE_ID']
 username = config['MINT']['USERNAME']
@@ -55,21 +66,15 @@ def list_models_post():  # noqa: E501
 
     :rtype: List[str]
     """
-    api_instance = mint_client.ModelApi(mint_client.ApiClient(configuration))
-    try:
-        api_response = api_instance.get_models(username=username)
-        models = [m.id for m in api_response]
-        
-        # obtain model info:
-        models_infos = []
-        for m in models:
-            models_infos.append(model_info_model_name_get(m))
-        
-        return models_infos
+    m_ids = [m.decode('utf-8') for m in r.smembers('model-list')]
+    
+    models = []
 
-    except ApiException as e:
-        return "Exception when calling ModelApi->get_models: %s\n" % e
+    for _id in m_ids:
+        m = json.loads(r.get(f"{_id}-meta").decode('utf-8'))
+        models.append(util.format_model(m))
 
+    return models
 
 def model_config_model_name_get(ModelName):  # noqa: E501
     """Obtain an example model configuration.
@@ -117,7 +122,8 @@ def model_info_model_name_get(ModelName):  # noqa: E501
 
     :rtype: Model
     """
-    return util._get_model(ModelName, configuration, username)
+    m = json.loads(r.get(f'{ModelName}-meta').decode('utf-8'))
+    return util.format_model(m)
 
 
 def model_io_post():  # noqa: E501
