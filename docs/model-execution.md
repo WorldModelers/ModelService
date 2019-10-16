@@ -9,7 +9,7 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [DSSAT](#DSSAT)
 - [Atlas](#Atlas)
 - [CHIRPS and CHIRPS-GEFS](#CHIRPS-and-CHIRPS-GEFS)
-- [Yield Anomalies (LPJmL)](#Yield-Anomalies-(LPJmL))
+- [Yield Anomalies (LPJmL)](#Yield-Anomalies-LPJmL)
 
 ### Kimetrica Population Model
 
