@@ -3,6 +3,7 @@ import redis
 import configparser
 from hashlib import sha256
 import json
+from collections import OrderedDict
 
 config = configparser.ConfigParser()
 config.read('../REST-Server/config.ini')
@@ -53,6 +54,8 @@ def gen_run(crop, irrig, nit, output, stat=None):
         model_config["config"]["area"] = "global"
         model_config["config"]["statistic"] = stat
 
+    model_config =sortOD(OrderedDict(model_config))
+
     run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
     print(model_config)
     # Add to model set in Redis
@@ -69,6 +72,16 @@ def gen_run(crop, irrig, nit, output, stat=None):
     run_obj['config'] = json.dumps(run_obj['config'])
     
     r.hmset(run_id, run_obj)
+
+
+def sortOD(od):
+    res = OrderedDict()
+    for k, v in sorted(od.items()):
+        if isinstance(v, dict):
+            res[k] = sortOD(v)
+        else:
+            res[k] = v
+    return res    
 
 if __name__ == "__main__":
 
