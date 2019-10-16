@@ -9,6 +9,7 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [DSSAT](#DSSAT)
 - [Atlas](#Atlas)
 - [CHIRPS and CHIRPS-GEFS](#CHIRPS-and-CHIRPS-GEFS)
+- [Yield Anomalies (LPJmL)](#Yield-Anomalies-(LPJmL))
 
 ### Kimetrica Population Model
 
@@ -105,3 +106,33 @@ CHIRPS historic weather data and CHIRPS-GEFS forecasts can be accessed by a conf
 For CHIRPS-GEFS, change the `name` parameter above from `CHIRPS` to `CHIRPS-GEFS`.
 
 > **Note**: Both CHIRPS and CHIRPS-GEFS dekads have historical records. CHIRPS dates back to 1981 and the CHIRPS-GEFS dekads back to 1985.
+
+
+### Yield Anomalies (LPJmL)
+
+* `crop`: choose the crop of interest. It should be one of `[millet, maize, wheat]`
+* `irrigation`: choose the irrigation level. It should be one of `[LIM, NO, POT]`. These correspond to:
+   * `NO`: no irrigation anywhere. Crops are rain-fed only. This can be considered as a "what-if irrigation failed scenario".
+   * `LIM`: irrigation is applied on crop-specific areas equipped for irrigation. Irrigation water withdrawal is limited to water available in surface water bodies. As a result, it is possible that irrigation demand cannot be fulfilled completely in some grid cells if demand is higher than supply.
+   * `POT`: uses the same irrigated areas as LIM_IRRIGATION, but allows for withdrawals to exceed water available in surface water bodies. As a result, irrigated crops should not experience water stress.
+* `nitrogen`: choose the nitrogen level. It should be one of `[LIM, LIM_p25, LIM_p50, UNLIM]`. These correspond to:
+      * `LIM`: country- and crop-type-specific amounts of N fertilizer to crops. The dataset is from GGCMI (the Global Gridded Crop Model Inter-comparison within AgMIP) and describes fertilizer application levels around the year 2000.
+      * `LIM_p25`: same as `LIM`, but with 25% more fertilizer in all cells where N>0. That is, cells without fertilization around 2000 in our data set do also not receive fertilizer in this scenario.
+      * `LIM_p50`: similar to _p25, but with 50% more N.
+      * `UNLIM`: extremely high N rates in all cells such that there should be no N limitation of crop growth. There are no negative effects of too much nitrogen on plant growth in our model (but there will be increased leaching and outgassing).
+* `area`: either `global` (global pixel tif file) or `merged` (a txt file aggregated to the country level)
+* `statistic`: *only provide if `area=global`*. Select the statistical aggregation over possible future climate realizations which can be any of `["mean", "std", "pctl,5", "pctl,95"]` for the mean, standard deviation, 5th percentile or 95th percentile. These four measures reflect the uncertainty of the climate forecasts starting in May 2018.
+
+```
+{
+   "config":{
+      "crop":"millet",
+      "irrigation":"POT",
+      "nitrogen":"UNLIM",
+      "area":"global",
+      "statistic":"pctl,95"
+   },
+   "name":"yield_anomalies_lpjml"
+}
+```
+
