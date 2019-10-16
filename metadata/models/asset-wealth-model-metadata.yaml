@@ -1,8 +1,12 @@
 id: asset_wealth_model
-name: Asset Wealth Model
+label: Asset Wealth Model
 description: |
   This model uses remote sensing imagery to predict asset wealth.
-version: 'asset_wealth_model_1'
+versions: 
+  - 'asset_wealth_model_1'
+maintainer:
+  name: George Azzari
+  email: George@atlasai.co
 category:
   - Demographic
   - Socioeconomic

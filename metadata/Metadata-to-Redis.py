@@ -32,8 +32,15 @@ if __name__ == "__main__":
             model = yaml.safe_load(stream)
             models.append(model)
 
+    if r.exists('model-list'):
+        print("Deleteing model-list set...")
+        r.delete('model-list')
+    else:
+        pass
+
     for m in models:
         r.set(f"{m['id']}-meta", json.dumps(m))
+        r.sadd('model-list',m['id'])
 
     print("We can obtain the metadata associated with the population model for example...\n")
     pprint(json.loads(r.get('population_model-meta').decode('utf-8')))            

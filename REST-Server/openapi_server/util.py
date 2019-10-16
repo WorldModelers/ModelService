@@ -545,3 +545,15 @@ def _find_model_by_dataset_id(dataset_id, MINTconfiguration, MINTuser):
         return models_output
     except Exception as e:
         print(f"Exception when processing model info: {e}")
+
+def format_model(m):
+    """
+    Takes a model metadata JSON from Redis and formats it for the MaaS API
+    """
+    model = {'name': m['id'], 
+             'description': m['description'].replace('\n',''), 
+             'label': m['label'],
+             'category': m['category'],
+             'maintainer': f"{m['maintainer']['name']}, {m['maintainer']['email']}",
+             'version': m['versions']}
+    return model        
