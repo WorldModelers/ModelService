@@ -1,0 +1,28 @@
+id: yield_anomalies_lpjml
+label: Global and national yield anomalies for wheat, maize and millet based on LPJmL
+description: >
+  We use LPJmL, a well-established dynamic global vegetation, hydrology and crop-growth model,
+  to simulate wheat, maize and millet yield anomalies for 2018 based on climate, soil conditions and
+  management regimes. Observed weather data are fed into the model until April 30, 2018;
+  afterwards, to simulate the uncertainty of operational forecasts, weather data is sourced from the
+  portion May 01-Dec 31 from the previous years (1984-2017). The crop model runs on a global grid
+  with 0.5° size in latitude and longitude.
+
+  We provide yield anomalies as deviation from the mean of 2013-2017 as simulated by LPJmL. The
+  data is available on a global grid and as nationally aggregated anomalies. Apart from a default
+  simulation, assuming the same management in 2018 as for the previous years, we provide
+  alternative intervention scenarios that assume different irrigation levels, more nitrogen input, or
+  both. In total, there are 3 (crops) * 12 (scenarios) = 36 hypothetical back-casting simulations. Each
+  of these scenarios is calculated for each of the 34 different 2018 climate realizations.
+versions: 
+  - 'yield_anomalies_lpjml_backcasting_2018'
+maintainer:
+  name: Bernhard Schauberger
+  email: schauber@pik-potsdam.de
+category:
+  - Agriculture
+concepts:
+  - food_production
+  - farming
+  - food_security
+  - food_insecurity  

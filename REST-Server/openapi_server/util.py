@@ -7,6 +7,8 @@ import requests
 import json
 from uuid import UUID
 
+from collections import OrderedDict
+
 import mint_client
 from mint_client.rest import ApiException
 
@@ -557,3 +559,12 @@ def format_model(m):
              'maintainer': f"{m['maintainer']['name']}, {m['maintainer']['email']}",
              'version': m['versions']}
     return model        
+
+def sortOD(od):
+    res = OrderedDict()
+    for k, v in sorted(od.items()):
+        if isinstance(v, dict):
+            res[k] = sortOD(v)
+        else:
+            res[k] = v
+    return res    

@@ -21,6 +21,7 @@ import botocore
 import logging
 import os
 import time
+from collections import OrderedDict
 logging.basicConfig(level=logging.INFO)
 
 data_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
@@ -46,7 +47,8 @@ available_models = ['population_model',
                     'asset_wealth_model',
                     'consumption_model',
                     'chirps',
-                    'chirps-gefs']
+                    'chirps-gefs',
+                    'yield_anomalies_lpjml']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -89,10 +91,13 @@ def run_model_post():  # noqa: E501
         # if Atlas model, do nothing
         if model_name in ['consumption_model','asset_wealth_model']:
             return 'Atlas.ai models are not currently executable.', 400, {'x-error': 'not supported'}
+        
+        if model_name == 'yield_anomalies_lpjml':
+            model_config = util.sortOD(OrderedDict(model_config))
 
         # generate id for the model run
         run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
-        
+
         # if run already exists and is success or pending, don't run again.
         if r.exists(run_id):
             run = r.hgetall(run_id)
