@@ -94,10 +94,9 @@ def run_model_post():  # noqa: E501
 
         # generate id for the model run
         run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
-        print(run_id)
+
         # if run already exists and is success or pending, don't run again.
         if r.exists(run_id):
-            print("EXISTS")
             run = r.hgetall(run_id)
             status = run[b'status'].decode('utf-8')
             if status == "SUCCESS" or status == "PENDING":
