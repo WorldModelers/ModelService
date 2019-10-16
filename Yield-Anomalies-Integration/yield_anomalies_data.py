@@ -39,19 +39,22 @@ def gen_merged(crop, irrig, nit):
 def gen_run(crop, irrig, nit, output, stat=None):
     model_name = 'yield_anomalies_lpjml'
     model_config = {
+                    'config': {
                       "crop": crop,
                       "irrigation": irrig,
                       "nitrogen": nit,
+                    },
+                    'name': model_name
                    }
 
     if stat == None:
-        model_config["area"] = "merged"
+        model_config["config"]["area"] = "merged"
     else:
-        model_config["area"] = "global"
-        model_config["statistic"] = stat
+        model_config["config"]["area"] = "global"
+        model_config["config"]["statistic"] = stat
 
     run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
-    
+    print(model_config)
     # Add to model set in Redis
     r.sadd(model_name, run_id)
     
@@ -68,6 +71,9 @@ def gen_run(crop, irrig, nit, output, stat=None):
     r.hmset(run_id, run_obj)
 
 if __name__ == "__main__":
+
+    # Wipe runs for the model
+    r.delete('yield_anomalies_lpjml')
 
     for crop in crops:
         for irrig in irrigation:

@@ -46,7 +46,8 @@ available_models = ['population_model',
                     'asset_wealth_model',
                     'consumption_model',
                     'chirps',
-                    'chirps-gefs']
+                    'chirps-gefs',
+                    'yield_anomalies_lpjml']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -82,6 +83,7 @@ def run_model_post():  # noqa: E501
         model_config = ModelConfig.from_dict(connexion.request.get_json())  # noqa: E501
         model_config = model_config.to_dict()
         model_name = model_config["name"]
+        print(model_config)
 
         if model_name.lower() not in available_models:
             return 'Model Not Found', 404, {'x-error': 'not found'}
@@ -92,9 +94,10 @@ def run_model_post():  # noqa: E501
 
         # generate id for the model run
         run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
-        
+        print(run_id)
         # if run already exists and is success or pending, don't run again.
         if r.exists(run_id):
+            print("EXISTS")
             run = r.hgetall(run_id)
             status = run[b'status'].decode('utf-8')
             if status == "SUCCESS" or status == "PENDING":
