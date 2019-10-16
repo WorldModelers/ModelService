@@ -83,7 +83,6 @@ def run_model_post():  # noqa: E501
         model_config = ModelConfig.from_dict(connexion.request.get_json())  # noqa: E501
         model_config = model_config.to_dict()
         model_name = model_config["name"]
-        print(model_config)
 
         if model_name.lower() not in available_models:
             return 'Model Not Found', 404, {'x-error': 'not found'}
