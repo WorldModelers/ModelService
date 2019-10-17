@@ -241,6 +241,9 @@ def available_results_get(ModelName=None, size=None):
     print(model)
     print(size)
 
+    if model.lower() not in available_models:
+        return 'Model Not Found', 404, {'x-error': 'not found'}
+
     run_ids = []
 
     # no model or size
