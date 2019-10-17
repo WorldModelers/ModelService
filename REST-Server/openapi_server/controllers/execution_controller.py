@@ -253,7 +253,7 @@ def available_results_get(model=None, size=None):
 
     # model provided but no size
     elif model != None and size == None:
-        runs = list_runs_model_name_get(m)
+        runs = list_runs_model_name_get(model)
         run_ids.extend(runs)
 
     # size provided but no model
