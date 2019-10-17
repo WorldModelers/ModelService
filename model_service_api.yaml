@@ -262,6 +262,18 @@ paths:
       - "execution"
       summary: "Obtain a list of run results"
       description: "Return a list of all available run results."
+      parameters:
+      - in: query
+        name: ModelName
+        description: "A model name"
+        required: false
+        schema:
+          $ref: "#/components/schemas/ModelName"      
+      - in: query
+        name: size
+        description: The maximum number of results to return.
+        schema:
+          type: integer
       responses:
         200:
           description: "SUCCESS"

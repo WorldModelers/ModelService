@@ -19,9 +19,12 @@ class TestExecutionController(BaseTestCase):
 
         Obtain a list of run results
         """
+        query_string = [('model_name', 'model_name_example'),
+                        ('size', 56)]
         response = self.client.open(
             '/available_results',
-            method='GET')
+            method='GET',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -36,13 +39,13 @@ class TestExecutionController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_result_file_run_idget(self):
-        """Test case for result_file_run_idget
+    def test_result_file_result_file_name_get(self):
+        """Test case for result_file_result_file_name_get
 
         Obtain the result file for a given model run.
         """
         response = self.client.open(
-            '/result_file/{RunID}'.format(run_id='run_id_example'),
+            '/result_file/{ResultFileName}'.format(result_file_name='result_file_name_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

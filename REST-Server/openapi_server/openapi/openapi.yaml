@@ -295,6 +295,24 @@ paths:
     get:
       description: Return a list of all available run results.
       operationId: available_results_get
+      parameters:
+      - description: A model name
+        explode: true
+        in: query
+        name: ModelName
+        required: false
+        schema:
+          $ref: '#/components/schemas/ModelName'
+        style: form
+      - description: The maximum number of results to return.
+        explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
       responses:
         200:
           content:

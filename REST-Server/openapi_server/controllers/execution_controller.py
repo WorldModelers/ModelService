@@ -22,6 +22,7 @@ import logging
 import os
 import time
 from collections import OrderedDict
+from random import choice as randomchoice
 logging.basicConfig(level=logging.INFO)
 
 data_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
@@ -229,17 +230,51 @@ def run_status_run_idget(RunID):  # noqa: E501
     return update_run_status(RunID)
 
 
-def available_results_get():  # noqa: E501
+def available_results_get(ModelName=None, size=None):
     """Obtain a list of run results
 
     Return a list of all available run results. # noqa: E501
 
-
     :rtype: List[RunResults]
     """
+    model = ModelName
+    print(model)
+    print(size)
+
+    if model != None:
+        if model.lower() not in available_models:
+            return 'Model Not Found', 404, {'x-error': 'not found'}
+
     run_ids = []
-    for m in available_models:
-        runs = list_runs_model_name_get(m)
+
+    # no model or size
+    if model == None and size == None:
+        for m in available_models:
+            if m in ['fsc','dssat','chirps','chirps-gefs']:
+                m = m.upper()
+            runs = list_runs_model_name_get(m)
+            run_ids.extend(runs)
+
+    # model provided but no size
+    elif model != None and size == None:
+        runs = list_runs_model_name_get(model)
+        run_ids.extend(runs)
+
+    # size provided but no model
+    elif model == None and size != None:
+        n = 1
+        while n <= size:
+            m = randomchoice(available_models)
+            if m in ['fsc','dssat','chirps','chirps-gefs']:
+                m = m.upper()
+            rand_run = r.srandmember(m)
+            if rand_run != None:
+                run_ids.append(rand_run.decode('utf-8'))
+                n+=1
+
+    # model provided and size provided
+    elif model != None and size != None:
+        runs = [run.decode('utf-8') for run in list(r.srandmember(model, size))]
         run_ids.extend(runs)
 
     results = []
