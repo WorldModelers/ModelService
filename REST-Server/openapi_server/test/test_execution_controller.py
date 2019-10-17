@@ -19,7 +19,7 @@ class TestExecutionController(BaseTestCase):
 
         Obtain a list of run results
         """
-        query_string = [('model', 'model_example'),
+        query_string = [('model_name', 'model_name_example'),
                         ('size', 56)]
         response = self.client.open(
             '/available_results',

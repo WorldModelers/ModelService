@@ -299,7 +299,7 @@ paths:
       - description: A model name
         explode: true
         in: query
-        name: model
+        name: ModelName
         required: false
         schema:
           $ref: '#/components/schemas/ModelName'

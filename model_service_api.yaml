@@ -264,7 +264,7 @@ paths:
       description: "Return a list of all available run results."
       parameters:
       - in: query
-        name: model
+        name: ModelName
         description: "A model name"
         required: false
         schema:

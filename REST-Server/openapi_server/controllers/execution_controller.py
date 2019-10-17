@@ -230,14 +230,14 @@ def run_status_run_idget(RunID):  # noqa: E501
     return update_run_status(RunID)
 
 
-def available_results_get(model=None, size=None):
+def available_results_get(model_name=None, size=None):
     """Obtain a list of run results
 
     Return a list of all available run results. # noqa: E501
 
     :rtype: List[RunResults]
     """
-    
+    model = model_name
     print(model)
     print(size)
 
