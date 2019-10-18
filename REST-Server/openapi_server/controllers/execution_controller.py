@@ -10,6 +10,7 @@ from openapi_server.kimetrica import KiController
 from openapi_server.fsc import FSCController
 from openapi_server.dssat import DSSATController
 from openapi_server.chirps import CHIRPSController
+from openapi_server.twist import TWISTController
 
 import json
 from hashlib import sha256
@@ -49,7 +50,8 @@ available_models = ['population_model',
                     'consumption_model',
                     'chirps',
                     'chirps-gefs',
-                    'yield_anomalies_lpjml']
+                    'yield_anomalies_lpjml',
+                    'twist']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -135,6 +137,13 @@ def run_model_post():  # noqa: E501
             model_container = chirps.run_model()
             stored = 0 # use binary for Redis
             m = chirps
+
+        elif model_name.lower() == 'twist':
+            model_config['config']['run_id'] = run_id
+            twist = TWISTController(model_config['config'], config['TWIST']['OUTPUT_PATH'])
+            model_container = twist.run_model()
+            stored = 0 # use binary for Redis
+            m = twist
 
         # push the id to the model's list of runs
         r.sadd(model_name, run_id)
@@ -250,7 +259,7 @@ def available_results_get(ModelName=None, size=None):
     # no model or size
     if model == None and size == None:
         for m in available_models:
-            if m in ['fsc','dssat','chirps','chirps-gefs']:
+            if m in ['fsc','dssat','chirps','chirps-gefs','twist']:
                 m = m.upper()
             runs = list_runs_model_name_get(m)
             run_ids.extend(runs)
@@ -265,7 +274,7 @@ def available_results_get(ModelName=None, size=None):
         n = 1
         while n <= size:
             m = randomchoice(available_models)
-            if m in ['fsc','dssat','chirps','chirps-gefs']:
+            if m in ['fsc','dssat','chirps','chirps-gefs','twist']:
                 m = m.upper()
             rand_run = r.srandmember(m)
             if rand_run != None:
@@ -335,14 +344,20 @@ def update_run_status(RunID):
 
     # if DSSAT model
     elif model_name.lower() == 'dssat':
-        success_msg = 'Running simple analytics'        
+        success_msg = 'Running simple analytics'
+
+    # if TWIST model
+    elif model_name.lower() == 'twist':
+        success_msg = 'Done.'
 
     status = 'PENDING'
     if container_status == 'exited':
         if success_msg in run_logs:
             # if FSC we need to ensure results are stored to S3
             # since Kimetrica model handles this within Docker directly
-            if model_name.lower() == 'fsc' or model_name.lower() == 'dssat':
+            if model_name.lower() == 'fsc'\
+             or model_name.lower() == 'dssat'\
+             or model_name.lower() == 'twist':
                 try:
                     store_results(RunID, model_name)
                 except:
@@ -381,7 +396,10 @@ def store_results(RunID, model_name):
                     fsc.storeResults() 
                 elif model_name.lower() == 'dssat':
                     dssat = DSSATController(model_config, config['DSSAT']['OUTPUT_PATH'])
-                    dssat.storeResults() 
+                    dssat.storeResults()
+                elif model_name.lower() == 'twist':
+                    twist = TWISTController(model_config, config['TWIST']['OUTPUT_PATH'])
+                    twist.storeResults()                     
             except Exception as e:
                 logging.error(e)
         else:

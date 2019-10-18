@@ -10,6 +10,7 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [Atlas](#Atlas)
 - [CHIRPS and CHIRPS-GEFS](#CHIRPS-and-CHIRPS-GEFS)
 - [Yield Anomalies (LPJmL)](#Yield-Anomalies-LPJmL)
+- [TWIST](#TWIST)
 
 ### Kimetrica Population Model
 
@@ -136,3 +137,15 @@ For CHIRPS-GEFS, change the `name` parameter above from `CHIRPS` to `CHIRPS-GEFS
 }
 ```
 
+
+### TWIST
+Currently, only the start year of the crop failure can be specified (from 1975 onward):
+
+```
+{
+   "config":{
+      "start_year":1980
+   },
+   "name":"TWIST"
+}
+```

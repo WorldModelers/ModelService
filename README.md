@@ -37,6 +37,8 @@ Models may be run using the `/run_model` endpoint. Descriptions of model configu
 - Atlas.ai Consumption Model
 - Atlas.ai Asset Wealth Model
 - CHIRPS
+- Yield Anomalies (LPJmL)
+- TWIST
 
 
 ### Architecture
@@ -82,6 +84,10 @@ cd ../Atlas-Integration
 
 # Install Yield Anomalies Model
 cd ../Yield-Anomalies-Integration
+./maas_install.sh
+
+# Install TWIST
+cd ../TWIST-Integration
 ./maas_install.sh
 
 # HOW TO RUN

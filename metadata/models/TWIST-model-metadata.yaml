@@ -1,0 +1,18 @@
+id: TWIST
+label: Trade WIth STorage Model
+description: |
+  Trade WIth STorage (TWIST) models the impact of i) regional crop failures, ii) supply side policies (e.g., build-up of food security reserves), iii) short-term unilateral policies (e.g., export restrictions) on short term world market price variability and stocks of the main staple commodities.
+versions: 
+  - 'TWIST_0.1'
+maintainer:
+  name: Theresa falkendal
+  email: theresa.falkendal@pik-potsdam.de
+category:
+  - Economic
+  - Agriculture
+concepts:
+  - economy
+  - import
+  - export
+  - food_security
+  - crop_storage  
