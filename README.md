@@ -6,6 +6,7 @@ This repository contains the Models as a Service (MaaS) API for World Modelers.
 	- [Project Goals](#project-goals)
 	- [Architecture](#architecture)
 - [Development](#development)
+	- [Installation](#installation)
 	- [Swagger Editor](#swagger-editor)
 	- [Open API Code Generation](#open-api-code-generation)
 	- [Running the REST Server](#running-the-rest-server)
@@ -13,7 +14,7 @@ This repository contains the Models as a Service (MaaS) API for World Modelers.
 ## Design
 
 ### Project Goals
-The goal of this project is to provide a easy to use, descriptive middleware layer API to facilitate model search and discovery, exploration, configuration, and execution. 
+The goal of this project is to provide an easy to use, descriptive middleware layer API to facilitate model search and discovery, exploration, configuration, and execution. 
 
 #### Model discovery
 Model search, discovery, and exploration is managed through the [`Exploration Controller`](https://github.com/WorldModelers/ModelService/blob/master/REST-Server/openapi_server/controllers/exploration_controller.py). The `Exploration Controller` provides a high-level interface into [MINT](http://mint-project.info/) which serves as a lower-level model and data metadata catalog. In the future, users will be able to search across models and datasets by:
@@ -22,8 +23,21 @@ Model search, discovery, and exploration is managed through the [`Exploration Co
 * **Temporal Coverage**: users may search for models or datasets based on the time ranges that they cover
 * **Geospatial Coverage**: users may search for models or datasets that match to a specific geography of interest
 
+Example configurations for using the `/search` endpoint are available in [`docs/search.md`](https://github.com/WorldModelers/ModelService/blob/master/docs/search.md).
+
 #### Model execution
 Model execution is managed by the [`Execution Controller`](https://github.com/WorldModelers/ModelService/blob/master/REST-Server/openapi_server/controllers/execution_controller.py). Models consist of pre-built Docker images that are hosted on an arbitrary server. Running a model requires the creation of a specific model controller, such as this one for [Kimetrica's malnutrition model](https://github.com/WorldModelers/ModelService/blob/master/REST-Server/openapi_server/kimetrica.py). The model controller is responsible for obtaining a model configuration and tasking Docker to run the model image inside a container with the given configuration. The model controller specifies a Docker container entrypoint, such as [this one](https://github.com/WorldModelers/ModelService/blob/master/Kimetrica-Integration/run.py) which is responsible for writing the model output (from within the container) to S3.
+
+Models may be run using the `/run_model` endpoint. Descriptions of model configurations can be found in [`docs/model-execution.md`](https://github.com/WorldModelers/ModelService/blob/master/docs/model-execution.md). Currently, MaaS supports the following models:
+
+- Kimetrica Population Model
+- Kimetrica Malnutrition Model
+- Food Shocks Cascade Model
+- DSSAT
+- Atlas.ai Consumption Model
+- Atlas.ai Asset Wealth Model
+- CHIRPS
+
 
 ### Architecture
 
@@ -31,6 +45,49 @@ Model execution is managed by the [`Execution Controller`](https://github.com/Wo
 
 
 ## Development
+
+### Installation
+
+Install Redis using the `docker-compose` file in the base of this repository. You can do this with `docker-compose up` (assumes you have Docker installed and running). This will run Redis on port `6379`. Then:
+
+
+```
+# SET $HOME/.aws/credentials to proper key and secret.
+
+# Install MAAS
+git clone https://github.com/WorldModelers/ModelService.git
+cd ModelService/REST-Server
+conda create -n maas_env python=3.7 pip jupyter -y
+source activate maas_env
+pip install -r requirements.txt
+
+# Install FSC Model.  You will get prompted for github credentials.
+# This will take quite a bit of time.
+cd ../FSC-Integration/
+./maas_install.sh
+
+# Install Kimetrica Model.
+cd ../../Kimetrica-Integration/
+
+# Please look at this file as you must set the CKAN creds manually right now...
+./maas_install.sh
+
+# Install DSSAT
+cd ../DSSAT-Integration
+./maas_install.sh
+
+# Install Atlas
+cd ../Atlas-Integration
+./maas_install.sh
+
+# Install Yield Anomalies Model
+cd ../Yield-Anomalies-Integration
+./maas_install.sh
+
+# HOW TO RUN
+cd ../../REST-Server
+python -m openapi_server
+```
 
 ### Swagger Editor
 To use this, run the following:

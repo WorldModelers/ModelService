@@ -1,0 +1,18 @@
+id: consumption_model
+label: Consumption Model
+description: |
+  This model uses remote sensing imagery to predict consumption.
+versions: 
+  - 'consumption_model_1'
+maintainer:
+  name: George Azzari
+  email: George@atlasai.co  
+category:
+  - Demographic
+  - Socioeconomic
+  - Economic
+concepts:
+  - economy
+  - assets
+  - poverty  
+  - inflation

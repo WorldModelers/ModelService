@@ -1,0 +1,17 @@
+id: CHIRPS
+label: Climate Hazards Group InfraRed Precipitation with Station Data
+description: |
+  Climate Hazards Group InfraRed Precipitation with Station data (CHIRPS) is a 35+ year quasi-global rainfall data set. Spanning 50°S-50°N (and all longitudes) and ranging from 1981 to near-present, CHIRPS incorporates our in-house climatology, CHPclim, 0.05° resolution satellite imagery, and in-situ station data to create gridded rainfall time series for trend analysis and seasonal drought monitoring.
+versions: 
+  - 'chirps_model_1'
+maintainer:
+  name: Marty Landsfeld
+  email: mlandsfeld@gmail.com
+category:
+  - Climate
+concepts:
+  - precipitation
+  - water
+  - drought
+  - climate
+  - flooding

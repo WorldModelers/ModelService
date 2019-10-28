@@ -1,0 +1,20 @@
+id: malnutrition_model
+label: Malnutrition Model
+description: >
+  Currently, the malnutrition model takes the following input variables CHIRPS, Consumer Price Index(CPI), population, cereal production per capita, consumption expenditure,Normalized Difference Vegetation Index (NDVI),and month to predict the malnutrition rates for Global Acute Malnutrition (GAM) and Severe Acute Malnutrition (SAM). According to World Health Organization (WHO) guideline, GAM and SAM are defined as weight-for-height z-score below -2, and weight-for-height z-score below -3, respectively. By this definition, GAM includes all categories of malnutrition.
+maintainer:
+  name: Jenny Yu
+  email: jenny.yu@kimetrica.com
+author:
+  - name: Jenny Yu
+    email: jenny.yu@kimetrica.com
+versions:
+ - 'malnutrition_model_1'
+website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/malnutrition_model
+category:
+  - Demographic
+  - Economic
+concepts:
+  - nutrient
+  - food_security
+  - food_insecurity

@@ -1,0 +1,365 @@
+id: DSSAT
+name: DSSAT
+description: The Decision Support System for Agrotechnology Transfer (DSSAT) comprises
+  dynamic crop growth simulation model for over 40 crops. The model simulates growth;
+  development; and yield as a function of the soil-plant-atmosphere dynamics.
+maintainer:
+  name: Chris Villalobos
+  email: cvillalobos@ufl.edu
+author:
+- name: Cheryl Porter
+  email: cporter@ufl.edu
+version: DSSAT_4.7
+website: https://dssat.net
+inputs:
+  - name: DSSAT_simulationFile
+    type: x
+    description: DSSAT simulation file
+    variables:
+    - name: FDATE
+      description: Fertilization date
+      metadata:
+        long_name: fertilization_date
+        units: date
+      standard_variables:
+      - name: soil_fertilizer__fertilization_date
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_fertilizer__fertilization_date
+    - name: PPOP
+      description: Plant population at planting
+      metadata:
+        long_name: planting density
+        units: 1/m2
+      standard_variables:
+      - name: crop__count-per-area_planting_density
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop__count-per-area_planting_density
+    - name: SNO3
+      description: Initial NO3 conc. as elemental N on dry wt. basis by layer
+      metadata:
+        long_name: initial nitrate
+        units: ppm
+      standard_variables:
+      - name: soil_nitrate-as-nitrogen~elemental__dry_mass_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_nitrate-as-nitrogen~elemental__dry_mass_fraction
+    - name: FDEP
+      description: Fertilizer application depth
+      metadata:
+        long_name: fertilizer depth
+        units: cm
+      standard_variables:
+      - name: soil_fertilizer__application_depth
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_fertilizer__application_depth
+    - name: INGENO
+      description: Cultivar or line or genotype identifier
+      metadata:
+        long_name: cultivar id
+        units: code
+      standard_variables:
+      - name: cultivar__line-or-genotype_identification_code
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#cultivar__line-or-genotype_identification_code
+    - name: PLRS
+      description: Row spacing
+      metadata:
+        long_name: planting row spacing
+        units: cm
+      standard_variables:
+      - name: crop_row__planting_separation_distance
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop_row__planting_separation_distance
+    - name: PDATE
+      description: Planting or sowing date
+      metadata:
+        long_name: planting date
+        units: date
+      standard_variables:
+      - name: crop__planting_or_sowing_date
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop__planting_or_sowing_date
+    - name: PLDP
+      description: Planting depth
+      metadata:
+        long_name: planting depth
+        units: mm
+      standard_variables:
+      - name: crop__planting_depth
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop__planting_depth
+    - name: CR
+      description: Crop (or weed) species identifier
+      metadata:
+        long_name: crop id
+        units: code
+      standard_variables:
+      - name: crop-or-weed__species_identification_code
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop-or-weed__species_identification_code
+    - name: YCRD
+      description: Field latitude
+      metadata:
+        long_name: field latitude
+        units: degC
+      standard_variables:
+      - name: field__latitude
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#field__latitude
+    - name: SNH4
+      description: Initial NH4 conc. as elemental N on dry wt. basis by layer
+      metadata:
+        long_name: initial ammonium
+        units: ppm
+      standard_variables:
+      - name: soil_ammonium-as-nitrogen~elemental__dry_mass_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_ammonium-as-nitrogen~elemental__dry_mass_fraction
+    - name: FAMN
+      description: Nitrogen in applied fertilizer
+      metadata:
+        long_name: N_in_applied_fertilizer
+        units: kg ha-1
+      standard_variables:
+      - name: crop_biomass__mass-per-area_density
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop_biomass__mass-per-area_density
+    - name: FAMN
+      description: Nitrogen in applied fertilizer
+      metadata:
+        long_name: N_in_applied_fertilizer
+        units: kg ha-1
+      standard_variables:
+      - name: fertilizer~applied-as-nitrogen__mass-per-area_density
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#fertilizer~applied-as-nitrogen__mass-per-area_density
+    - name: XCRD
+      description: Field longitude. E positive. W negative
+      metadata:
+        long_name: field longitude
+        units: degC
+      standard_variables:
+      - name: field__longitude
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#field__longitude
+    - name: SH2O
+      description: Initial water concentration by layer
+      metadata:
+        long_name: initial water content
+        units: cm3 cm-3
+      standard_variables:
+      - name: soil_layer_water__initial_volume_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_layer_water__initial_volume_fraction
+    - name: ICBL
+      description: soil layer depth for initial conditions measurements
+      metadata:
+        long_name: initial soil depth
+        units: cm
+      standard_variables:
+      - name: soil_layer__initial_depth
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_layer__initial_depth
+  - name: DSSAT_sol
+    type: sol
+    description: DSSAT soil file
+    variables:
+    - name: SSKS
+      description: Saturated hydraulic conductivity
+      metadata:
+        long_name: Saturated hydraulic conductivity
+        units: cm h-1
+      standard_variables:
+      - name: soil_water__saturated_hydraulic_conductivity
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_water__saturated_hydraulic_conductivity
+    - name: SLB
+      description: Soil layer base depth
+      metadata:
+        long_name: Soil layer base depth
+        units: cm
+      standard_variables:
+      - name: soil_layer~base__depth
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_layer~base__depth
+    - name: SALB
+      description: Soil albedo- dry soil
+      metadata:
+        long_name: albedo
+        units: null
+      standard_variables:
+      - name: land_soil~dry_surface__albedo
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#land_soil~dry_surface__albedo
+    - name: SLLL
+      description: Soil water- lower limit
+      metadata:
+        long_name: soil lower limit
+        units: cm3 cm-3
+      standard_variables:
+      - name: soil_water__lower_limit_of_volume_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_water__lower_limit_of_volume_fraction
+    - name: SLCL
+      description: Soil texture- clay (<0.002 mm) weight percent of fine earth
+      metadata:
+        long_name: Soil clay percentage
+        units: '%'
+      standard_variables:
+      - name: soil_clay__mass_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_clay__mass_fraction
+    - name: SDUL
+      description: Soil water- drained upper limit
+      metadata:
+        long_name: soil drained upper limit
+        units: cm3 cm-3
+      standard_variables:
+      - name: soil~drained_water__upper_limit_of_volume_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil~drained_water__upper_limit_of_volume_fraction
+    - name: SLSI
+      description: Soil texture- silt (0.05 to 0.002 mm) weight percent of fine earth
+      metadata:
+        long_name: Soil silt percentage
+        units: '%'
+      standard_variables:
+      - name: soil_silt__mass_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_silt__mass_fraction
+    - name: SLOC
+      description: Total soil organic carbon by layer
+      metadata:
+        long_name: soil organic carbon
+        units: g/100g
+      standard_variables:
+      - name: soil_matter~organic__mass_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_matter~organic__mass_fraction
+    - name: SSAT
+      description: Soil water- saturated
+      metadata:
+        long_name: soil water content at saturation
+        units: cm3 cm-3
+      standard_variables:
+      - name: soil_water__saturated_volume_fraction
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil_water__saturated_volume_fraction
+    - name: SBDM
+      description: Soil bulk density when moist for layer
+      metadata:
+        long_name: soil bulk density
+        units: g cm-3
+      standard_variables:
+      - name: soil~moist_layer__bulk_mass-per-volume_density
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#soil~moist_layer__bulk_mass-per-volume_density
+  - name: DSSAT_weatherFile
+    type: wth
+    description: DSSAT weather file
+    variables:
+    - name: WSTA
+      description: Weather station identifier to link to site information
+      metadata:
+        long_name: Weather station ID
+        units: null
+      standard_variables:
+      - name: weather-station__identification_number
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#weather-station__identification_number
+    - name: LAT
+      description: Latitude of station- degrees decimal with North as positive value
+      metadata:
+        long_name: Weather station latitude
+        units: degC
+      standard_variables:
+      - name: weather-station__latitude
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#weather-station__latitude
+    - name: TAV
+      description: Temperature average for whole year
+      metadata:
+        long_name: mean annual temperature
+        units: degC
+      standard_variables:
+      - name: air__yearly_average_of_temperature
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#air__yearly_average_of_temperature
+    - name: TMIN
+      description: Temperature of air- minimum
+      metadata:
+        long_name: minimum air temperature
+        units: degC
+      standard_variables:
+      - name: atmosphere_air__daily_min_of_temperature
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#atmosphere_air__daily_min_of_temperature
+    - name: TMAX
+      description: Temperature of air- maximum
+      metadata:
+        long_name: maximum air temperature
+        units: degC
+      standard_variables:
+      - name: atmosphere_air__daily_max_of_temperature
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#atmosphere_air__daily_max_of_temperature
+    - name: LONG
+      description: Longitude of station- degrees decimals with East as positive value
+      metadata:
+        long_name: Weather station longitude
+        units: degC
+      standard_variables:
+      - name: weather-station__longitude
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#weather-station__longitude
+    - name: SRAD
+      description: Solar radiation
+      metadata:
+        long_name: Solar radiation
+        units: MJ m-2 d-1
+      standard_variables:
+      - name: land_surface_radiation~solar__energy_flux
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#land_surface_radiation~solar__energy_flux
+    - name: RAIN
+      description: Rainfall (including moisture in snow) in one day
+      metadata:
+        long_name: precipitation
+        units: mm day-1
+      standard_variables:
+      - name: atmosphere_water__daily_time_integral_of_precipitation_leq_volume_flux
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#atmosphere_water__daily_time_integral_of_precipitation_leq_volume_flux
+    - name: RAIN
+      description: Rainfall (including moisture in snow) in one day
+      metadata:
+        long_name: precipitation
+        units: mm day-1
+      standard_variables:
+      - name: atmosphere_water__one-day_time_integral_of_precipitation_leq_volume_flux
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#atmosphere_water__one-day_time_integral_of_precipitation_leq_volume_flux
+outputs:
+  - name: DSSAT_summary
+    type: csv
+    description: DSSAT Summary file
+    variables:
+    - name: CWAM
+      description: Tops dry weight at maturity
+      metadata:
+        long_name: tops dry weigth
+        units: kg ha-1
+      standard_variables:
+      - name: crop~mature~dry_tops__mass-per-area_yield
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop~mature~dry_tops__mass-per-area_yield
+    - name: HWAM
+      description: Harvest yield at harvest maturity (dry wt)
+      metadata:
+        long_name: harvest yield
+        units: kg ha-1
+      standard_variables:
+      - name: crop~mature~dry__harvest_mass-per-area_yield
+        ontology: SVO
+        uri: http://www.geoscienceontology.org/svo/svl/variable/1.0.0/#crop~mature~dry__harvest_mass-per-area_yield
+parameters: []

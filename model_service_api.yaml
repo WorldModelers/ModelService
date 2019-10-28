@@ -139,6 +139,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /list_concepts:
+    get:
+      tags:
+      - "concepts"
+      summary: "Obtain a list of available concepts"
+      description: >
+        Request a list of currently available concepts. These are derived from the list of 
+        [UN indicators](https://github.com/WorldModelers/Ontologies/blob/master/performer_ontologies/un_to_indicators.tsv) and are tied to model output variables.
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableConcepts'
+  /concept_mapping/{Concept}:
+    get:
+      tags:
+      - "concepts"
+      summary: "Get an array of models related to a concept."
+      description: "Submit a concept name and receive an array of model related to that concept."
+      parameters:
+      - in: path
+        name: Concept
+        description: "The name of a concept."
+        required: true
+        schema:
+          $ref: '#/components/schemas/ConceptName' 
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConceptMapping'   
   /run_model:
     post:
       tags:
@@ -220,7 +255,50 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: '#/components/schemas/RunID'   
+                  $ref: '#/components/schemas/RunID'
+  /available_results:
+    get:
+      tags:
+      - "execution"
+      summary: "Obtain a list of run results"
+      description: "Return a list of all available run results."
+      parameters:
+      - in: query
+        name: ModelName
+        description: "A model name"
+        required: false
+        schema:
+          $ref: "#/components/schemas/ModelName"      
+      - in: query
+        name: size
+        description: The maximum number of results to return.
+        schema:
+          type: integer
+      responses:
+        200:
+          description: "SUCCESS"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/RunResults'                   
+  /result_file/{ResultFileName}:
+    get:
+      tags:
+      - "execution"
+      summary: "Obtain the result file for a given model run."
+      description: "Submit a `ResultFileName` and receive model run result file."
+      parameters:
+      - in: path
+        name: ResultFileName
+        description: "A file name of a result file."
+        required: true
+        schema:
+          $ref: "#/components/schemas/ResultFileName"
+      responses:
+        '200':
+          description: A result file
 
 components:
   securitySchemes:
@@ -258,10 +336,14 @@ components:
       - "name"
       - "description"
       - "maintainer"
+      - "label"
       description: "An object defining high-level metadata about a model"
       properties:
         name:
           $ref: '#/components/schemas/ModelName'
+        label: 
+          type: "string"
+          description: "The human readable name of the model"
         versions:
           type: "array"
           items:
@@ -477,6 +559,10 @@ components:
       type: "string"
       description: "ID associated with a model run. This is the SHA256 hash of the ModelConfig sent to the /run_model endpoint"
       example: "3A3B3E0AE57AD4A7EF658C1F7832774F55E403F01FDF44B68B355EC4587D7A04"
+    ResultFileName:
+      type: "string"
+      description: "The name of a model run result file."
+      example: "3A3B3E0AE57AD4A7EF658C1F7832774F55E403F01FDF44B68B355EC4587D7A04.csv"      
     RunStatus:
       type: "string"
       description: "Status information about a model run."
@@ -487,6 +573,10 @@ components:
     RunResults:
       type: "object"
       description: "Metadata about the results of a given model run."
+      required:
+        - "config"
+        - "status"
+        - "output"
       properties:
         config:
           $ref: "#/components/schemas/ModelConfig"
@@ -496,6 +586,38 @@ components:
         output:
           type: "string"
           description: "URI for accessing output (for example, on S3)"
+        auth_required:
+          description: "Does accessing this model output require authentification? True if requires auth."
+          type: boolean
+        timestamp:
+          description: "Epoch timestamp when the model run was initiated (epoch millis)"
+          type: integer
     Error:
       type: "object"
       description: "Arbitrary error object."
+    ConceptName:
+      type: "string"
+      description: "A concept's name"
+      example: "precipitation"
+    AvailableConcepts:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/ConceptName"
+      uniqueItems: true
+      description: "An array of available concept names"
+    ConceptMapping:
+      type: "array"
+      description: >
+        An array of models that relate to a concept
+      items:
+        $ref: "#/components/schemas/ModelName"
+    Concept:
+      type: "object"
+      description: "A concept and its mapping to model output variables."
+      properties:
+        concept_name:
+          $ref: "#/components/schemas/ConceptName"
+        mappings:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ConceptMapping"

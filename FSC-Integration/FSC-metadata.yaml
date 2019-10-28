@@ -1,0 +1,328 @@
+id: FSC
+name: FSC
+description: The Food Shocks Cascade Model (FSC) is a simple agent-based network model
+  that computes chain-reactions due to negative production anomalies based on dynamic
+  food balance sheets at the country level.
+maintainer:
+  name: Michael Puma
+  email: mjp38@columbia.edu
+author:
+  - name: Michael Puma
+    email: mjp38@columbia.edu
+version: FSC_0.1
+website: https://github.com/mjpuma/FSC-WorldModelers
+inputs:
+  - name: psd_grains_pulses.csv
+    format: csv
+    description: Agricultural reserves data from USDA.
+    variables:
+      - name: Unit_Description
+        description: ''
+        standard_variables:
+          - name: Quantitative Value
+            uri: https://schema.org/QuantitativeValue
+            ontology: schema.org
+      - name: Market_Year
+        description: ''
+        standard_variables:
+          - name: year
+            uri: http://www.geoscienceontology.org/svo/svl/property#year
+            ontology: SVO
+      - name: Country_Name
+        description: ''
+        standard_variables:
+          - name: Country Name
+            uri: https://schema.org/Country
+            ontology: schema.org
+      - name: Month
+        description: ''
+        standard_variables:
+          - name: date
+            uri: https://schema.org/Date
+            ontology: schema.org
+      - name: Calendar_Year
+        description: ''
+        standard_variables:
+          - name: year
+            uri: http://www.geoscienceontology.org/svo/svl/property#year
+            ontology: SVO
+      - name: Value
+        description: ''
+        standard_variables:
+          - name: Crop Production
+            uri: http://aims.fao.org/aos/agrovoc/c_5976
+            ontology: AGROVOC
+      - name: Commodity_Code
+        description: ''
+        standard_variables:
+          - name: Quantitative Value
+            uri: https://schema.org/QuantitativeValue
+            ontology: schema.org
+      - name: Country_Code
+        description: ''
+        standard_variables:
+          - name: ISO-3 Country Code
+            uri: https://schema.org/addressCountry
+            ontology: schema.org
+      - name: Commodity_Description
+        description: ''
+        standard_variables:
+          - name: Type Specimens
+            uri: http://aims.fao.org/aos/agrovoc/c_08d19be4
+            ontology: AGROVOC
+      - name: Attribute_Description
+        description: ''
+        standard_variables:
+          - name: Type Specimens
+            uri: http://aims.fao.org/aos/agrovoc/c_08d19be4
+            ontology: AGROVOC
+  - name: productiondataFAOSTAT.csv
+    format: csv
+    description: Crop production data from FAOSTAT, production quantity in tonnes
+    variables:
+      - name: Year
+        description: ''
+        standard_variables:
+          - name: year
+            uri: http://www.geoscienceontology.org/svo/svl/property#year
+            ontology: SVO
+      - name: Unit
+        description: ''
+        standard_variables:
+          - name: Weight
+            uri: http://aims.fao.org/aos/agrovoc/c_8349
+            ontology: AGROVOC
+      - name: Item
+        description: ''
+        standard_variables:
+          - name: Type Specimens
+            uri: http://aims.fao.org/aos/agrovoc/c_08d19be4
+            ontology: AGROVOC
+      - name: Area
+        description: ''
+        standard_variables:
+          - name: Country Name
+            uri: https://schema.org/Country
+            ontology: schema.org
+      - name: Value
+        description: ''
+        standard_variables:
+          - name: Crop Production
+            uri: http://aims.fao.org/aos/agrovoc/c_5976
+            ontology: AGROVOC
+          - name: Quantitative Value
+            uri: https://schema.org/QuantitativeValue
+            ontology: schema.org
+  - name: wheat_production_change.csv
+    format: csv
+    description: Wheat production change by country for a 15 year period
+    variables:
+      - name: Country_Code
+        description: ''
+        standard_variables:
+          - name: ISO-3 Country Code
+            uri: https://schema.org/addressCountry
+            ontology: schema.org
+      - name: Year
+        description: ''
+        standard_variables:
+          - name: Crop Production
+            uri: http://aims.fao.org/aos/agrovoc/c_5976
+            ontology: AGROVOC
+          - name: year
+            uri: http://www.geoscienceontology.org/svo/svl/property#year
+            ontology: SVO
+  - name: Trade_DetailedTradeMatrix_E_All_Data_(Normalized).csv
+    format: csv
+    description: Trade data from FAOSTAT, detailed trade matrix, normalized, all data
+    variables:
+      - name: Unit
+        description: ''
+        standard_variables:
+          - name: Weight
+            uri: http://aims.fao.org/aos/agrovoc/c_8349
+            ontology: AGROVOC
+      - name: Item
+        description: ''
+        standard_variables:
+          - name: Type Specimens
+            uri: http://aims.fao.org/aos/agrovoc/c_08d19be4
+            ontology: AGROVOC
+      - name: Year
+        description: ''
+        standard_variables:
+          - name: year
+            uri: http://www.geoscienceontology.org/svo/svl/property#year
+            ontology: SVO
+      - name: Reporter Countries
+        description: ''
+        standard_variables:
+          - name: Country Name
+            uri: https://schema.org/Country
+            ontology: schema.org
+      - name: Partner Countries
+        description: ''
+        standard_variables:
+          - name: Country Name
+            uri: https://schema.org/Country
+            ontology: schema.org
+      - name: Value
+        description: ''
+        standard_variables:
+          - name: Price
+            uri: https://schema.org/price
+            ontology: schema.org
+          - name: Crop Production
+            uri: http://aims.fao.org/aos/agrovoc/c_5976
+            ontology: AGROVOC
+          - name: Trade Action
+            uri: https://schema.org/TradeAction
+            ontology: schema.org
+  - name: ciso3.txt
+    format: txt
+    description: ISO-3 country codes
+    variables:
+      - name: ISO3
+        description: ''
+        standard_variables:
+          - name: ISO-3 Country Code
+            uri: https://schema.org/addressCountry
+            ontology: schema.org
+      - name: name
+        description: ''
+        standard_variables:
+          - name: Country Name
+            uri: https://schema.org/Country
+            ontology: schema.org
+  - name: Production_Crops_E_All_Data_(Normalized).csv
+    format: csv
+    description: Normalized crop production by country from FAOSTAT
+    variables:
+      - name: Value
+        description: ''
+        standard_variables:
+          - name: Crop Production
+            uri: http://aims.fao.org/aos/agrovoc/c_5976
+            ontology: AGROVOC
+      - name: Area
+        description: ''
+        standard_variables:
+          - name: Country Name
+            uri: https://schema.org/Country
+            ontology: schema.org
+      - name: Item
+        description: ''
+        standard_variables:
+          - name: Type Specimens
+            uri: http://aims.fao.org/aos/agrovoc/c_08d19be4
+            ontology: AGROVOC
+      - name: Year
+        description: ''
+        standard_variables:
+          - name: year
+            uri: http://www.geoscienceontology.org/svo/svl/property#year
+            ontology: SVO
+      - name: Unit
+        description: ''
+        standard_variables:
+          - name: Quantitative Value
+            uri: https://schema.org/QuantitativeValue
+            ontology: schema.org
+outputs:
+  - name: single_shock_results.csv
+    format: csv
+    description: High level summary of results from running a single country shock
+      scenario with FSC
+    variables:
+      - name: dR
+        description: ''
+        standard_variables:
+          - name: Buffer Stocks
+            uri: http://aims.fao.org/aos/agrovoc/c_1137
+            ontology: AGROVOC
+      - name: P0
+        description: ''
+        standard_variables:
+          - name: Crop Production
+            uri: http://aims.fao.org/aos/agrovoc/c_5976
+            ontology: AGROVOC
+      - name: country
+        description: ''
+        standard_variables:
+          - name: ISO-3 Country Code
+            uri: https://schema.org/addressCountry
+            ontology: schema.org
+      - name: dC
+        description: ''
+        standard_variables:
+          - name: Quantitative Value
+            uri: https://schema.org/QuantitativeValue
+            ontology: schema.org
+      - name: dP
+        description: ''
+        standard_variables:
+          - name: Crop Production
+            uri: http://aims.fao.org/aos/agrovoc/c_5976
+            ontology: AGROVOC
+      - name: R0
+        description: ''
+        standard_variables:
+          - name: Buffer Stocks
+            uri: http://aims.fao.org/aos/agrovoc/c_1137
+            ontology: AGROVOC
+  - name: E0.csv
+    format: csv
+    description: Initial trade matrix (balance of trade) by country prior to running
+      FSC simulation
+    variables:
+      - name: country
+        description: ''
+        standard_variables:
+          - name: ISO-3 Country Code
+            uri: https://schema.org/addressCountry
+            ontology: schema.org
+      - name: trade
+        description: ''
+        standard_variables:
+          - name: Trade Action
+            uri: https://schema.org/TradeAction
+            ontology: schema.org
+  - name: dE.csv
+    format: csv
+    description: Change in trade matrix (balance of trade) by country from FSC simulation
+    variables:
+      - name: trade
+        description: ''
+        standard_variables:
+          - name: Trade Action
+            uri: https://schema.org/TradeAction
+            ontology: schema.org
+      - name: country
+        description: ''
+        standard_variables:
+          - name: ISO-3 Country Code
+            uri: https://schema.org/addressCountry
+            ontology: schema.org
+parameters:
+  - name: country
+    description: The ISO 3 country code for the country of interest.
+    metadata:
+      type: StringParameter
+    default: SOM
+  - name: fractional_reserve_access
+    description: The percentage of fractional reserves which may be accessed (from
+      0 to 1, where 1 equals a 100% decrease)
+    metadata:
+      type: NumberParameter
+    default: '0.3'
+  - name: production_decrease
+    description: The decrease in production you wish to induce (from 0 to 1, where
+      1 equals a 100% decrease)
+    metadata:
+      type: NumberParameter
+    default: '0.2'
+  - name: year
+    description: The year you wish to simulate
+    metadata:
+      type: ''
+    default: '2005'

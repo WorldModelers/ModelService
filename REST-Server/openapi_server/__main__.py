@@ -12,7 +12,7 @@ def main():
     app.add_api('openapi.yaml', 
     			validate_responses=True,
     			arguments={'title': 'ModelService API'})
-    cors = CORS(app.app)
+    cors = CORS(app.app, supports_credentials=True)
     app.run(port=8080)
 
 
