@@ -19,7 +19,7 @@ class KiController(object):
 				    },
                 "population_model":{
 			"key":"results/population_model/" + model_config["config"]["run_id"] + ".csv",
-                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=EstimatePopulation --result_name=final/population_estimate.csv  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".csv"
+                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=EstimatePopulation --result_name=final/population_estimate.csv  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".csv " + "--params " + f"country-level|'{model_config['config'].get('country_level','Ethiopia')}'"
 				   }
         }
         config = configparser.ConfigParser()

@@ -12,10 +12,13 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [Yield Anomalies (LPJmL)](#Yield-Anomalies-LPJmL)
 
 ### Kimetrica Population Model
+The population model can be run for either Ethiopia or South Sudan by setting the `country_level` to either `Ethiopia` or `South Sudan` as shown below:
 
 ```
 {
-  "config": {},
+  "config": {
+      "country_level": "Ethiopia"
+   },
   "name": "population_model"
 }
 ```
