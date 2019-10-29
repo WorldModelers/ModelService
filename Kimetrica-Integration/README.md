@@ -25,3 +25,12 @@ The script above should have dropped you into the built scheduler container. Onc
 ```
 luigi --module models.malnutrition_model.tasks models.malnutrition_model.tasks.MalnutritionGeoJSON --local-scheduler
 ```
+
+# Updating the Docker Containers
+You'll need to remove the old containers and rebuild the Docker containers. To do this you could use:
+
+```
+docker ps -a | grep "drp" | awk '{print $1}' | xargs docker rm
+```
+
+Which will remove any container matching `drp`. You can then remove the images and rebuild the containers.
