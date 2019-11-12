@@ -88,7 +88,14 @@ cd ../Yield-Anomalies-Integration
 ```
 
 #### Redis Set-up
-Install Redis using the `docker-compose` file in the base of this repository. You can do this with `docker-compose up` (assumes you have Docker installed and running). This will run Redis on port `6379`. 
+In production, MaaS relies on an AWS hosted Redis instance. For development, you can download a sample Redis dump with:
+
+```
+wget https://world-modelers.s3.amazonaws.com/data/redis-11-11-2019.rdb]
+mv redis-11-11-2019.rdb dump.rdb
+```
+
+Then you can turn on Redis using the `docker-compose` file in the base of this repository. You can do this with `docker-compose up -d` (assumes you have Docker installed and running). This will run Redis on port `6379`.
 
 #### RQ Worker
 
