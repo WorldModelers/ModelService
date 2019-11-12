@@ -7,7 +7,7 @@ from openapi_server.models.run_results import RunResults  # noqa: E501
 from openapi_server.models.run_status import RunStatus  # noqa: E501
 from openapi_server import util
 from openapi_server.kimetrica import KiController
-from openapi_server.fsc import FSCController
+from openapi_server.fsc import FSCController, queue_fsc
 from openapi_server.dssat import DSSATController
 from openapi_server.chirps import CHIRPSController
 
@@ -16,6 +16,7 @@ from hashlib import sha256
 import docker
 import configparser
 import redis
+from rq import Queue
 import boto3
 import botocore
 import logging
@@ -34,6 +35,8 @@ config.read('config.ini')
 r = redis.Redis(host=config['REDIS']['HOST'],
                 port=config['REDIS']['PORT'],
                 db=config['REDIS']['DB'])
+
+q = Queue('high', connection=r)
 
 client = docker.from_env()
 containers = client.containers
@@ -117,10 +120,13 @@ def run_model_post():  # noqa: E501
 
         elif model_name.lower() == 'fsc':
             model_config['config']['run_id'] = run_id
-            fsc = FSCController(model_config['config'], config['FSC']['OUTPUT_PATH'])
-            model_container = fsc.run_model()
+            # fsc = FSCController(model_config['config'], config['FSC']['OUTPUT_PATH'])
+            # fsc.queue_run()
+            queue_fsc(model_config['config'], config['FSC']['OUTPUT_PATH'])
+            model_container = None
             stored = 0 # use binary for Redis
-            m = fsc
+            # m = fsc
+            m = FSCController(model_config['config'], config['FSC']['OUTPUT_PATH'])
 
         elif model_name.lower() == 'dssat':
             model_config['config']['run_id'] = run_id
@@ -143,7 +149,10 @@ def run_model_post():  # noqa: E501
             model_container_id = 'SUCCESS'
             status = 'SUCCESS'
         else:
-            model_container_id = model_container.id
+            if model_container:
+                model_container_id = model_container.id
+            else:
+                model_container_id = 'RQ'
             status = 'PENDING'
 
         # generate a key for the model run based on the run_id
