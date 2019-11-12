@@ -120,12 +120,9 @@ def run_model_post():  # noqa: E501
 
         elif model_name.lower() == 'fsc':
             model_config['config']['run_id'] = run_id
-            # fsc = FSCController(model_config['config'], config['FSC']['OUTPUT_PATH'])
-            # fsc.queue_run()
-            queue_fsc(model_config['config'], config['FSC']['OUTPUT_PATH'])
+            queue_fsc(q, model_config['config'], config['FSC']['OUTPUT_PATH'])
             model_container = None
             stored = 0 # use binary for Redis
-            # m = fsc
             m = FSCController(model_config['config'], config['FSC']['OUTPUT_PATH'])
 
         elif model_name.lower() == 'dssat':
@@ -218,11 +215,12 @@ def run_results_run_idget(RunID):  # noqa: E501
         results['output'] = URI
         return results
     elif status == 'FAIL':
-        run_container_id = run[b'container'].decode('utf-8')
-        model_container = containers.get(run_container_id)
-        model_container.reload()
-        run_logs = model_container.logs().decode('utf-8')
-        results['output'] = run_logs
+        if 'output' not in results: 
+            run_container_id = run[b'container'].decode('utf-8')
+            model_container = containers.get(run_container_id)
+            model_container.reload()
+            run_logs = model_container.logs().decode('utf-8')
+            results['output'] = run_logs
     return results
 
 

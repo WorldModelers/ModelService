@@ -9,19 +9,17 @@ import logging
 import boto3
 from rq import Queue
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-r = redis.Redis(host=config['REDIS']['HOST'],
-                port=config['REDIS']['PORT'],
-                db=config['REDIS']['DB']) 
-
-q = Queue('high', connection=r)
-
 def run_fsc(config, output_path):
+    """
+    Simple function to generate an FSCController instance and run the model
+    """
     fsc = FSCController(config, output_path)
     return fsc.run_model()
 
-def queue_fsc(config, output_path):
+def queue_fsc(q, config, output_path):
+    """
+    Simple function which takes in an RQ queue (q) and enqueues `run_fsc`
+    """
     return q.enqueue(run_fsc, config, output_path)
 
 class FSCController(object):
@@ -30,6 +28,9 @@ class FSCController(object):
     """
 
     def __init__(self, model_config, output_path):
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        logging.basicConfig(level=logging.INFO)
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
@@ -48,21 +49,11 @@ class FSCController(object):
                            {self.result_name}"
         self.volumes = {self.result_path: {'bind': '/outputs', 'mode': 'rw'}}
 
-        config = configparser.ConfigParser()
-        config.read('config.ini')
+        # The Redis connection has to be instantiated by this Class
+        # since once instantiated, it cannot be pickled by RQ
         self.r = redis.Redis(host=config['REDIS']['HOST'],
                         port=config['REDIS']['PORT'],
                         db=config['REDIS']['DB'])      
-
-        logging.basicConfig(level=logging.INFO)
-        
-        # try: # try to remove any prior container named `fsc`
-        #     logging.info("Pruning old FSC containers...")
-        #     prior_container = self.containers.get('fsc')
-        #     removed = prior_container.remove()
-        #     logging.info("Removed prior FSC container.")
-        # except: # otherwise do nothing
-        #     logging.info("No prior container to remove.")
 
     def run_model(self):
         """
@@ -88,17 +79,8 @@ class FSCController(object):
             logging.info("Model output: STORED")
         else:
             logging.info("Model run: FAIL")
-            self.r.hmset(self.run_id, {'status': 'FAIL'})
+            self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
 
-
-    def model_logs(self):
-        """
-        Return model logs
-        """
-        model_logs = self.model.logs()
-        model_logs_decoded = model_logs.decode('utf-8')
-        return model_logs_decoded
-    
 
     def storeResults(self):
         result = f"{self.result_path}/{self.result_name}"
