@@ -6,10 +6,10 @@ from openapi_server.models.model_config import ModelConfig  # noqa: E501
 from openapi_server.models.run_results import RunResults  # noqa: E501
 from openapi_server.models.run_status import RunStatus  # noqa: E501
 from openapi_server import util
-from openapi_server.kimetrica import KiController
-from openapi_server.fsc import FSCController, queue_fsc
-from openapi_server.dssat import DSSATController
-from openapi_server.chirps import CHIRPSController
+from openapi_server.kimetrica import KiController, run_kimetrica
+from openapi_server.fsc import FSCController, run_fsc
+from openapi_server.dssat import DSSATController, run_dssat
+from openapi_server.chirps import CHIRPSController, run_chirps
 
 import json
 from hashlib import sha256
@@ -110,58 +110,40 @@ def run_model_post():  # noqa: E501
                 logging.info("Already ran " + run_id)
                 return run_id
 
-        if model_name.lower() == 'malnutrition_model' or model_name.lower() == 'population_model':
-            # run the model        
-            model_config['config']['run_id'] = run_id
-            kc = KiController(model_config)
-            model_container = kc.run_model()
-            stored = 1 # use binary for Redis
-            m = kc
-
-        elif model_name.lower() == 'fsc':
-            model_config['config']['run_id'] = run_id
-            queue_fsc(q, model_config['config'], config['FSC']['OUTPUT_PATH'])
-            model_container = None
-            stored = 0 # use binary for Redis
-            m = FSCController(model_config['config'], config['FSC']['OUTPUT_PATH'])
-
-        elif model_name.lower() == 'dssat':
-            model_config['config']['run_id'] = run_id
-            dssat = DSSATController(model_config['config'], config['DSSAT']['OUTPUT_PATH'])
-            model_container = dssat.run_model()
-            stored = 0 # use binary for Redis
-            m = dssat  
-
-        elif 'chirps' in model_name.lower():
-            model_config['config']['run_id'] = run_id
-            chirps = CHIRPSController(model_name, model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
-            model_container = chirps.run_model()
-            stored = 0 # use binary for Redis
-            m = chirps
+        # generate a key for the model run based on the run_id
+        run_obj = {'config': json.dumps(model_config['config']),
+                   'status': 'PENDING',
+                   'name': model_config['name'],
+                   'timestamp': round(time.time()*1000,0)}
+        r.hmset(run_id, run_obj)
 
         # push the id to the model's list of runs
         r.sadd(model_name, run_id)
 
-        if 'chirps' in model_name.lower():
-            model_container_id = 'SUCCESS'
-            status = 'SUCCESS'
-        else:
-            if model_container:
-                model_container_id = model_container.id
-            else:
-                model_container_id = 'RQ'
-            status = 'PENDING'
+        if model_name.lower() == 'malnutrition_model' \
+        or model_name.lower() == 'population_model': 
+            model_config['config']['run_id'] = run_id
+            q.enqueue(run_kimetrica, model_config)            
+            model_container = None
+            m = KiController(model_config)
 
-        # generate a key for the model run based on the run_id
-        run_obj = {'config': json.dumps(model_config['config']),
-                   'status': status,
-                   'container': model_container_id,
-                   'bucket': m.bucket,
-                   'key': m.key,
-                   'stored': stored,
-                   'name': model_config['name'],
-                   'timestamp': round(time.time()*1000,0)}
-        r.hmset(run_id, run_obj)        
+        elif model_name.lower() == 'fsc':
+            model_config['config']['run_id'] = run_id
+            q.enqueue(run_fsc, model_config['config'], config['FSC']['OUTPUT_PATH'])
+            model_container = None
+            m = FSCController(model_config['config'], config['FSC']['OUTPUT_PATH'])
+
+        elif model_name.lower() == 'dssat':
+            model_config['config']['run_id'] = run_id
+            q.enqueue(run_dssat, model_config['config'], config['DSSAT']['OUTPUT_PATH'])
+            model_container = None
+            m = DSSATController(model_config['config'], config['DSSAT']['OUTPUT_PATH'])
+
+        elif 'chirps' in model_name.lower():
+            model_config['config']['run_id'] = run_id
+            q.enqueue(run_chirps, model_name, model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
+            model_container = None
+            m = CHIRPSController(model_name, model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
 
     return run_id
 
@@ -215,12 +197,9 @@ def run_results_run_idget(RunID):  # noqa: E501
         results['output'] = URI
         return results
     elif status == 'FAIL':
-        if 'output' not in results: 
-            run_container_id = run[b'container'].decode('utf-8')
-            model_container = containers.get(run_container_id)
-            model_container.reload()
-            run_logs = model_container.logs().decode('utf-8')
-            results['output'] = run_logs
+        # do nothing as `output` is set by the model controllers
+        # based on the specific error that occurred
+        pass 
     return results
 
 
@@ -245,8 +224,6 @@ def available_results_get(ModelName=None, size=None):
     :rtype: List[RunResults]
     """
     model = ModelName
-    print(model)
-    print(size)
 
     if model != None:
         if model.lower() not in available_models:
@@ -317,82 +294,4 @@ def update_run_status(RunID):
         return 'Run Not Found', 404, {'x-error': 'not found'}
 
     run = r.hgetall(RunID)
-    run_container_id = run[b'container'].decode('utf-8')    
-    model_name = run[b'name'].decode('utf-8')
-
-    # if CHIRPS, do nothing!
-    if 'chirps' in model_name.lower():
-        status = 'SUCCESS'
-        return status
-    
-    model_container = containers.get(run_container_id)
-    model_container.reload()
-    container_status = model_container.status    
-
-
-    run_logs = model_container.logs().decode('utf-8')
-    conf = json.loads(run[b'config'].decode('utf-8'))
-    # if Kimetrica malnutrition model
-    if model_name.lower() == 'malnutrition_model' or model_name.lower() == 'population_model':
-        success_msg = 'This progress looks :)'
-
-    # if FSC model
-    elif model_name.lower() == 'fsc':
-        success_msg = 'Output files stored to'
-
-    # if DSSAT model
-    elif model_name.lower() == 'dssat':
-        success_msg = 'Running simple analytics'        
-
-    status = 'PENDING'
-    if container_status == 'exited':
-        if success_msg in run_logs:
-            # if FSC we need to ensure results are stored to S3
-            # since Kimetrica model handles this within Docker directly
-            if model_name.lower() == 'fsc' or model_name.lower() == 'dssat':
-                try:
-                    store_results(RunID, model_name)
-                except:
-                    return 'ERROR'
-
-            r.hmset(RunID, {'status': 'SUCCESS'})
-            status = 'SUCCESS'
-        else:
-            r.hmset(RunID, {'status': 'FAIL'})
-            status = 'FAIL'
-    return status
-
-
-def store_results(RunID, model_name):
-    run = r.hgetall(RunID)
-    key = run[b'key'].decode('utf-8')
-    bucket = config['S3']['BUCKET']
-    model_config = json.loads(run[b'config'].decode('utf-8'))
-
-    # check if S3 key exists
-    s3 = boto3.resource('s3')
-    try:
-        s3.Object(bucket, key).load()
-        try:
-            if model_name.lower() == 'dssat':
-                dssat = DSSATController(model_config, config['DSSAT']['OUTPUT_PATH'])
-                dssat.storeResults()
-        except Exception as e:
-            logging.error(e)
-    except botocore.exceptions.ClientError as e:
-        if e.response['Error']['Code'] == "404":
-            # The object does not exist.
-            try:
-                if model_name.lower() == 'fsc':
-                    fsc = FSCController(model_config, config['FSC']['OUTPUT_PATH'])
-                    fsc.storeResults() 
-                elif model_name.lower() == 'dssat':
-                    dssat = DSSATController(model_config, config['DSSAT']['OUTPUT_PATH'])
-                    dssat.storeResults() 
-            except Exception as e:
-                logging.error(e)
-        else:
-            logging.error('ERROR')
-    else:
-        # Key exists, do nothing
-        logging.info('Results already stored to S3')    
+    return run[b'status'].decode('utf-8')

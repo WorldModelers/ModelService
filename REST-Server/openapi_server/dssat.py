@@ -11,6 +11,14 @@ import json
 import psycopg2
 import csv
 
+def run_dssat(config, output_path):
+    """
+    Simple function to generate an DSSATController instance and run the model
+    """
+    dssat = DSSATController(config, output_path)
+    return dssat.run_model()
+
+
 class DSSATController(object):
     """
     A controller to manage FSC model execution.
@@ -24,18 +32,26 @@ class DSSATController(object):
         self.containers = self.client.containers
         self.dssat = 'cvillalobosuf/dssat-pythia:latest'
         self.result_path = output_path
-        self.result_name = self.model_config['run_id']             
+        self.result_name = self.model_config['run_id'] 
+        self.run_id = self.model_config['run_id']            
         self.bucket = "world-modelers"
         self.key = f"results/dssat_model/{self.result_name}"
-        self.entrypoint=f"/app/pythia.sh --all /userdata/et_docker.json"
+        self.entrypoint=f"/app/pythia.sh --clean-work-dir --all /userdata/et_docker.json"
         self.volumes = {self.result_path: {'bind': '/userdata', 'mode': 'rw'}}
         self.volumes_from = "ethdata"
         self.mgmts = ["maize_irrig","maize_rf_0N","maize_rf_highN","maize_rf_lowN"]
+        self.success_msg = 'Running simple analytics'
 
         if self.model_config["management_practice"] == "separate": 
             self.key += ".zip"
         else:
             self.key += ".csv"
+
+        # The Redis connection has to be instantiated by this Class
+        # since once instantiated, it cannot be pickled by RQ
+        self.r = redis.Redis(host=self.config['REDIS']['HOST'],
+                        port=self.config['REDIS']['PORT'],
+                        db=self.config['REDIS']['DB'])             
 
         logging.basicConfig(level=logging.INFO)
 
@@ -73,10 +89,15 @@ class DSSATController(object):
             if "number_years" in self.model_config:
                 number_years = int(self.model_config["number_years"])
                 # ensure that the number of years to run does not exceed 2018
-                if start_year + number_years > 2018:
-                    number_years = 2018 - start_year
+                # valid example:
+                # start_year = 2017
+                # number_years = 2
+                # so the model will run for 2 years (2017 and 2018)
+                if start_year + number_years - 1 > 2018:
+                    # ensure that number_years includes 2018 in this case
+                    number_years = 2018 - start_year + 1
             else:
-                number_years = 2018 - start_year
+                number_years = 2018 - start_year + 1
             config["default_setup"]["nyers"] = number_years
 
         # Otherwise default to a 1984 start year and run through 2018
@@ -99,23 +120,39 @@ class DSSATController(object):
         """
         self.update_config()
         time.sleep(3)
-        self.model = self.containers.run(self.dssat, 
-                                         volumes=self.volumes, 
-                                         volumes_from=self.volumes_from,
-                                         entrypoint=self.entrypoint,
-                                         detach=True)
-        return self.model
+        logging.info(f"Running model run with ID: {self.run_id}")
+        try:
+            self.model = self.containers.run(self.dssat, 
+                                             volumes=self.volumes, 
+                                             volumes_from=self.volumes_from,
+                                             entrypoint=self.entrypoint,
+                                             detach=False)
+            run_logs = self.model.decode('utf-8')
+
+            if self.success_msg in run_logs:
+                logging.info("Model run: SUCCESS")          
+                try:
+                    self.storeResults()
+                    logging.info("Model output: STORED")
+                except:
+                    msg = 'Output storage failure.'
+                    logging.error(msg)
+                    self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})
+                self.r.hmset(self.run_id, 
+                    {'status': 'SUCCESS',
+                     'bucket': self.bucket,
+                     'key': self.key}
+                     )
+                    
+            else:
+                logging.info("Model run: FAIL")
+                self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
+                
+        except Exception as e:
+            logging.info("Model run: FAIL")
+            self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
 
 
-    def model_logs(self):
-        """
-        Return model logs
-        """
-        model_logs = self.model.logs()
-        model_logs_decoded = model_logs.decode('utf-8')
-        return model_logs_decoded
-    
-    
     def storeResults(self):
         out = f"{self.result_path}/out"
         result = f"{self.result_path}/{self.result_name}"

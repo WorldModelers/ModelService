@@ -16,11 +16,6 @@ def run_fsc(config, output_path):
     fsc = FSCController(config, output_path)
     return fsc.run_model()
 
-def queue_fsc(q, config, output_path):
-    """
-    Simple function which takes in an RQ queue (q) and enqueues `run_fsc`
-    """
-    return q.enqueue(run_fsc, config, output_path)
 
 class FSCController(object):
     """
@@ -28,9 +23,8 @@ class FSCController(object):
     """
 
     def __init__(self, model_config, output_path):
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-        logging.basicConfig(level=logging.INFO)
+        self.config = configparser.ConfigParser()
+        self.config.read('config.ini')
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
@@ -51,9 +45,12 @@ class FSCController(object):
 
         # The Redis connection has to be instantiated by this Class
         # since once instantiated, it cannot be pickled by RQ
-        self.r = redis.Redis(host=config['REDIS']['HOST'],
-                        port=config['REDIS']['PORT'],
-                        db=config['REDIS']['DB'])      
+        self.r = redis.Redis(host=self.config['REDIS']['HOST'],
+                        port=self.config['REDIS']['PORT'],
+                        db=self.config['REDIS']['DB'])  
+
+        logging.basicConfig(level=logging.INFO)                            
+
 
     def run_model(self):
         """
@@ -61,25 +58,39 @@ class FSCController(object):
         """
 
         # sleep to ensure that the originating API completes
-        time.sleep(2)
         logging.info(f"Running model run with ID: {self.run_id}")
 
         # run model (note that logs are returned since detach=False)
-        self.model = self.containers.run(self.fsc, 
-                                         volumes=self.volumes, 
-                                         entrypoint=self.entrypoint,
-                                         detach=False)
+        try:
+            self.model = self.containers.run(self.fsc, 
+                                             volumes=self.volumes, 
+                                             entrypoint=self.entrypoint,
+                                             detach=False)
 
-        run_logs = self.model.decode('utf-8')
+            run_logs = self.model.decode('utf-8')
 
-        if self.success_msg in run_logs:
-            logging.info("Model run: SUCCESS")
-            self.r.hmset(self.run_id, {'status': 'SUCCESS'})
-            self.storeResults()
-            logging.info("Model output: STORED")
-        else:
+            if self.success_msg in run_logs:
+                logging.info("Model run: SUCCESS")          
+                try:
+                    self.storeResults()
+                    logging.info("Model output: STORED")
+                except:
+                    msg = 'Output storage failure.'
+                    logging.error(msg)
+                    self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})
+                self.r.hmset(self.run_id, 
+                    {'status': 'SUCCESS',
+                     'bucket': self.bucket,
+                     'key': self.key}
+                     )
+                
+            else:
+                logging.info("Model run: FAIL")
+                self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
+
+        except Exception as e:
             logging.info("Model run: FAIL")
-            self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
+            self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
 
 
     def storeResults(self):

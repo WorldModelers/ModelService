@@ -3,6 +3,17 @@ import logging
 import boto3
 import os
 from pyproj import Proj, transform
+import configparser
+import redis
+
+
+def run_chirps(name, model_config, output_path):
+    """
+    Simple function to generate a CHIRPSController instance and run the model
+    """
+    chirps = CHIRPSController(name, model_config, output_path)
+    return chirps.run_model()
+
 
 class CHIRPSController(object):
     """
@@ -10,8 +21,12 @@ class CHIRPSController(object):
     """
 
     def __init__(self, name, model_config, output_path):
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        logging.basicConfig(level=logging.INFO)        
         self.name = name
         self.model_config = model_config
+        self.run_id = self.model_config['run_id']        
         self.output_path = output_path
         self.bucket = "world-modelers"
         self.dekad = self.model_config["dekad"]
@@ -35,23 +50,43 @@ class CHIRPSController(object):
         self.key = f"results/chirps/{self.result_name}.tiff"
         self.result_path = output_path
 
+        # The Redis connection has to be instantiated by this Class
+        # since once instantiated, it cannot be pickled by RQ
+        self.r = redis.Redis(host=config['REDIS']['HOST'],
+                        port=config['REDIS']['PORT'],
+                        db=config['REDIS']['DB'])          
+
 
     def run_model(self):
         """
         Obtain CHIRPS data
         """
-        # if CHIRPS-GEFS, use that URL
-        if self.name == 'CHIRPS-GEFS':
-            data = requests.get(self.url_gefs)
+        logging.info(f"Running model run with ID: {self.run_id}")
 
-        # otherwise, use CHRIPS URL 
-        else:
-            data = requests.get(self.url)
-            
-        with open(f"{self.output_path}/{self.result_name}.tiff", "wb") as f:
-            f.write(data.content)
-        self.storeResults()
-        return 'SUCCESS'
+        try:
+            # if CHIRPS-GEFS, use that URL
+            if self.name == 'CHIRPS-GEFS':
+                data = requests.get(self.url_gefs)
+
+            # otherwise, use CHRIPS URL 
+            else:
+                data = requests.get(self.url)
+                
+            logging.info("Model run: SUCCESS")
+
+            with open(f"{self.output_path}/{self.result_name}.tiff", "wb") as f:
+                f.write(data.content)
+            self.storeResults()
+            logging.info("Model output: STORED")
+            self.r.hmset(self.run_id, 
+                {'status': 'SUCCESS',
+                 'bucket': self.bucket,
+                 'key': self.key}
+                 )
+
+        except Exception as e:
+            logging.info(f"Model run FAIL: {e}")
+            self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
 
 
     def convert_bbox(self, bb):
