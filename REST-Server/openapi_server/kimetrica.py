@@ -24,7 +24,7 @@ class KiController(object):
         self.model_map = {
 		"malnutrition_model":{
 			"key":"results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson",
-			"entrypoint":f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=MalnutritionGeoJSON --result_name=final/malnutrition.geojson --key=" + "results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson " + "--params PercentOfNormalRainfall|" + str(model_config["config"].get("percent_of_normal_rainfall",""))
+			"entrypoint":f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=MalnutritionInferenceGeoJSON --result_name=final/malnutrition.geojson --key=" + "results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson " + "--params PercentOfNormalRainfall|" + str(model_config["config"].get("percent_of_normal_rainfall",""))
 				    },
                 "population_model":{
 			"key":"results/population_model/" + model_config["config"]["run_id"] + ".csv",
@@ -42,8 +42,8 @@ class KiController(object):
         self.run_id = self.model_config['config']['run_id'] 
         self.client = docker.from_env()
         self.containers = self.client.containers
-        self.scheduler = 'drp_scheduler:latest'
-        self.db = 'drp_db:latest'
+        self.scheduler = 'drp_scheduler'
+        self.db = 'drp_db'
         self.db_name = 'kiluigi-db'
         self.success_msg = 'This progress looks :)'
         
@@ -113,12 +113,14 @@ class KiController(object):
         Run KiLuigi Database Docker container.
         """
         try:
+            logging.info(f"Turning on Kimetrica DB")
             db_container = self.containers.get(self.db_name)
         except:
             # db_container does not exist, so we must make it
+            logging.info(f"Kimetrica DB doesn't exist: creating it")
             db_container = self.containers.run(self.db,
                                           environment=self.db_environment, 
-                                         ports=self.db_ports, 
+                                          ports=self.db_ports, 
                                           network=self.network_name, 
                                           name=self.db_name,
                                           detach=True)    
@@ -149,7 +151,7 @@ class KiController(object):
                      'key': self.key}
                      )
             else:
-                logging.info("Model run: FAIL")
+                logging.error(f"Model run FAIL: {run_logs}")
                 self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
                 
         except Exception as e:

@@ -123,7 +123,7 @@ def run_model_post():  # noqa: E501
         if model_name.lower() == 'malnutrition_model' \
         or model_name.lower() == 'population_model': 
             model_config['config']['run_id'] = run_id
-            q.enqueue(run_kimetrica, model_config)            
+            q.enqueue(run_kimetrica, model_config, timeout='168h')            
             model_container = None
             m = KiController(model_config)
 
@@ -172,13 +172,18 @@ def run_results_run_idget(RunID):  # noqa: E501
 
     config = json.loads(run[b'config'].decode('utf-8'))
     model_name = run[b'name'].decode('utf-8')
-    output = ''
+
+    if b'output' not in run:
+        output = ''
+    else: # failed runs should have stored output
+        output = run[b'output'].decode('utf-8')
+
     output_config = {'config': config, 'name': model_name}
     results = {'status': status, 
                'config': output_config, 
                'output': output, 
                'auth_required': False}
-
+    
     if b'timestamp' in run:
         timestamp = run[b'timestamp'].decode('utf-8')
         results['timestamp'] = int(timestamp.split('.')[0])

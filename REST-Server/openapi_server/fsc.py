@@ -75,22 +75,21 @@ class FSCController(object):
                 try:
                     self.storeResults()
                     logging.info("Model output: STORED")
+                    self.r.hmset(self.run_id, 
+                        {'status': 'SUCCESS',
+                         'bucket': self.bucket,
+                         'key': self.key}
+                         )                    
                 except:
                     msg = 'Output storage failure.'
                     logging.error(msg)
                     self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})
-                self.r.hmset(self.run_id, 
-                    {'status': 'SUCCESS',
-                     'bucket': self.bucket,
-                     'key': self.key}
-                     )
-                
             else:
                 logging.info("Model run: FAIL")
                 self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
 
         except Exception as e:
-            logging.info(f"Model run FAIL: {e}")
+            logging.error(f"Model run FAIL: {e}")
             self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
         
         # Prune old containers
