@@ -123,7 +123,7 @@ def run_model_post():  # noqa: E501
         if model_name.lower() == 'malnutrition_model' \
         or model_name.lower() == 'population_model': 
             model_config['config']['run_id'] = run_id
-            q.enqueue(run_kimetrica, model_config, timeout='168h')            
+            q.enqueue(run_kimetrica, model_config, job_timeout='4h')            
             model_container = None
             m = KiController(model_config)
 
@@ -135,7 +135,7 @@ def run_model_post():  # noqa: E501
 
         elif model_name.lower() == 'dssat':
             model_config['config']['run_id'] = run_id
-            q.enqueue(run_dssat, model_config['config'], config['DSSAT']['OUTPUT_PATH'])
+            q.enqueue(run_dssat, model_config['config'], config['DSSAT']['OUTPUT_PATH'], job_timeout='12h')
             model_container = None
             m = DSSATController(model_config['config'], config['DSSAT']['OUTPUT_PATH'])
 
