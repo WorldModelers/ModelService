@@ -137,7 +137,8 @@ class KiController(object):
                                    network=self.network_name, 
                                    links={self.db_container.short_id: None},
                                    entrypoint=self.entrypoint,
-                                   detach=False)
+                                   detach=False,
+                                   name='kimetrica')
             run_logs = self.model.decode('utf-8')
 
             if self.success_msg in run_logs:
@@ -152,5 +153,9 @@ class KiController(object):
                 self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
                 
         except Exception as e:
-            logging.info("Model run: FAIL")
+            logging.error(f"Model run FAIL: {e}")
             self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
+
+        # Prune old containers
+        prior_container = self.containers.get('kimetrica')
+        prior_container.remove()

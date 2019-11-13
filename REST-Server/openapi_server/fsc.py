@@ -65,7 +65,8 @@ class FSCController(object):
             self.model = self.containers.run(self.fsc, 
                                              volumes=self.volumes, 
                                              entrypoint=self.entrypoint,
-                                             detach=False)
+                                             detach=False,
+                                             name='fsc')
 
             run_logs = self.model.decode('utf-8')
 
@@ -89,9 +90,12 @@ class FSCController(object):
                 self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
 
         except Exception as e:
-            logging.info("Model run: FAIL")
+            logging.info(f"Model run FAIL: {e}")
             self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
-
+        
+        # Prune old containers
+        prior_container = self.containers.get('fsc')
+        prior_container.remove()
 
     def storeResults(self):
         result = f"{self.result_path}/{self.result_name}"
