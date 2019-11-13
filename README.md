@@ -37,6 +37,7 @@ Models may be run using the `/run_model` endpoint. Descriptions of model configu
 - Atlas.ai Consumption Model
 - Atlas.ai Asset Wealth Model
 - CHIRPS
+- CHIRPS-GEFS
 
 
 ### Architecture
@@ -46,16 +47,11 @@ Models may be run using the `/run_model` endpoint. Descriptions of model configu
 
 ## Development
 
-### Installation
+### Installation and Set Up
 
-In production, MaaS relies on an AWS hosted Redis instance. For development, you can download a sample Redis dump with:
+#### Building the models
 
-```
-wget https://world-modelers.s3.amazonaws.com/data/redis-11-11-2019.rdb]
-mv redis-11-11-2019.rdb dump.rdb
-```
-
-Then you can turn on Redis using the `docker-compose` file in the base of this repository. You can do this with `docker-compose up -d` (assumes you have Docker installed and running). This will run Redis on port `6379`. Then:
+First, you must install the various models:
 
 ```
 # SET $HOME/.aws/credentials to proper key and secret.
@@ -89,8 +85,39 @@ cd ../Atlas-Integration
 # Install Yield Anomalies Model
 cd ../Yield-Anomalies-Integration
 ./maas_install.sh
+```
 
-# HOW TO RUN
+#### Redis Set-up
+In production, MaaS relies on an AWS hosted Redis instance. For development, you can download a sample Redis dump with:
+
+```
+wget https://world-modelers.s3.amazonaws.com/data/redis-11-11-2019.rdb]
+mv redis-11-11-2019.rdb dump.rdb
+```
+
+Then you can turn on Redis using the `docker-compose` file in the base of this repository. You can do this with `docker-compose up -d` (assumes you have Docker installed and running). This will run Redis on port `6379`.
+
+#### RQ Worker
+
+Models are executed asynchronously using [RQ](https://python-rq.org). This requires that an RQ worker is running. You can do this in a screen session from the `REST-Server` directory with:
+
+```
+screen -S RQ
+```
+
+This will generate a screen session named RQ. You should then run the worker with:
+
+```
+rq worker high default low -u redis://localhost:6379/0
+```
+
+This will set the worker to listen to the queues called `high` and `low` as well as the `default` queue using a Redis instance running at `localhost`. For production this should be replaced with the URL for the production Redis instance.
+
+#### Running MaaS
+
+Run MaaS from the `REST-Server` directory with:
+
+```
 cd ../../REST-Server
 python -m openapi_server
 ```
