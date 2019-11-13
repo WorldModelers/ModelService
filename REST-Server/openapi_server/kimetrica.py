@@ -28,7 +28,7 @@ class KiController(object):
 				    },
                 "population_model":{
 			"key":"results/population_model/" + model_config["config"]["run_id"] + ".csv",
-                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=EstimatePopulation --result_name=final/population_estimate.csv  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".csv " + "--params " + f"country-level|'{model_config['config'].get('country_level','Ethiopia')}'"
+                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=RasterizedPopGeojson --result_name=final/population_estimate.csv  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".csv " + "--params time|2018-04-01-2018-09-01|" + f"country-level|'{model_config['config'].get('country_level','Ethiopia')}'"
 				   }
         }
         config = configparser.ConfigParser()
@@ -113,7 +113,7 @@ class KiController(object):
         Run KiLuigi Database Docker container.
         """
         try:
-            logging.info(f"Turning on Kimetrica DB")
+            logging.info(f"Obtaining Kimetrica DB")
             db_container = self.containers.get(self.db_name)
         except:
             # db_container does not exist, so we must make it
@@ -123,7 +123,7 @@ class KiController(object):
                                           ports=self.db_ports, 
                                           network=self.network_name, 
                                           name=self.db_name,
-                                          detach=True)    
+                                          detach=True)
         return db_container 
 
 
