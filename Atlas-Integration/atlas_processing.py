@@ -11,6 +11,7 @@ from models import Metadata, Output, Parameters
 
 from shapely.geometry import Point
 import geopandas as gpd
+import numpy as np
 from osgeo import gdal
 from osgeo import gdalconst
 
@@ -36,6 +37,7 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     rBand    = ds.GetRasterBand(band) # first band
     nData    = rBand.GetNoDataValue()
     if nData == None:
+        print("No nodataval for raster")
         nData = nodataval # set it to something if not set
     else:
         print("NoData value is {0}".format(nData))
@@ -48,7 +50,8 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     for ThisRow in RowRange:
         RowData = rBand.ReadAsArray(0,ThisRow,ds.RasterXSize,1)[0]
         for ThisCol in ColRange:
-            if RowData[ThisCol] != nData:
+            # need to exclude NaN values since there is no nodataval
+            if (RowData[ThisCol] != nData) and not (np.isnan(RowData[ThisCol])):
                 
                 # TODO: implement filters on valid pixels
                 # for example, the below would ensure pixel values are between -100 and 100
@@ -59,6 +62,11 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
                 # this gives the upper left of the cell, offset by half a cell to get centre
                 X += HalfX
                 Y += HalfY
+
+                # Adjust for outsize values (not sure why this occurs)
+                # TODO: check with George on why we need to do this
+                X = X/100000
+                Y = Y/100000
                 points.append([Point(X, Y),X,Y,RowData[ThisCol],feature_name])
 
     return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])
@@ -116,7 +124,8 @@ if __name__ == "__main__":
             print(f"Processing {model_name} band {band}")
             # Convert Raster to GeoPandas
             InRaster = f"data/{atlas_lookup[model_name]['tif']}"
-            feature_name = 'yield level'
+            feature_name = "poverty level"
+            feature_description = "Measure of household poverty levels based on the assets they own (unitless)"
             gdf = raster2gpd(InRaster,feature_name,band=band)
             
             # Spatial merge on GADM to obtain admin areas
@@ -126,7 +135,7 @@ if __name__ == "__main__":
             gdf['datetime'] = datetime(year=year, month=1, day=1)
             gdf['run_id'] = run_id
             gdf['model'] = model_config['name']
-            gdf['feature_description'] = "Measure of household poverty levels based on the assets they own (unitless)"
+            gdf['feature_description'] = feature_description
             del(gdf['geometry'])
             del(gdf['index_right'])
 
