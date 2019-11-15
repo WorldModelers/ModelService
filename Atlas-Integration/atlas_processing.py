@@ -112,9 +112,9 @@ if __name__ == "__main__":
 
         # Add metadata object to DB
         meta = Metadata(run_id=run_id, 
-                        model=model_config['name'],
+                        model=model_name,
                         raw_output_link= f"https://model-service.worldmodelers.com/result_file/{run_id}.tif",
-                        run_label="Asset Wealth Model",
+                        run_label=model_name.replace('_', ' ').title(),
                         point_resolution_meters=2000)
         db_session.add(meta)
         db_session.commit()
