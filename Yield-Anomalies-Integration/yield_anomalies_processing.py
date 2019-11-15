@@ -142,7 +142,8 @@ if __name__ == "__main__":
                     meta = Metadata(run_id=run_id, 
                                     model=model_config['name'],
                                     raw_output_link= f"https://world-modelers.s3.amazonaws.com/results/yield_anomalies_model/{run_name}",
-                                    run_description="LPJmL Yield Anomalies")
+                                    run_label="LPJmL Yield Anomalies",
+                                    point_resolution_meters=52000)
                     db_session.add(meta)
                     db_session.commit()
                     
@@ -168,6 +169,7 @@ if __name__ == "__main__":
                     gdf['datetime'] = datetime(year=2018, month=1, day=1)
                     gdf['run_id'] = run_id
                     gdf['model'] = model_config['name']
+                    gdf['feature_description'] = "Percent increase or decrease in yield from baseline"
                     del(gdf['geometry'])
                     del(gdf['index_right'])
 
