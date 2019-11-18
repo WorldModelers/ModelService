@@ -11,3 +11,11 @@ tox
 psycopg2
 pyproj
 rq
+sqlalchemy
+geoalchemy2
+numpy
+shapely
+geopandas
+osmnx
+rtree
+gdal==2.4.0

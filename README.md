@@ -61,6 +61,19 @@ git clone https://github.com/WorldModelers/ModelService.git
 cd ModelService/REST-Server
 conda create -n maas_env python=3.7 pip jupyter -y
 source activate maas_env
+
+# Install GDAL dependencies
+sudo add-apt-repository ppa:ubuntugis/ppa && sudo apt-get update
+sudo apt-get update
+sudo apt-get install python3.6-dev
+sudo apt-get install gdal-bin
+sudo apt-get install libgdal-dev
+sudo apt install python3-rtree
+
+# GDAL bindings
+export CPLUS_INCLUDE_PATH=/usr/include/gdal
+export C_INCLUDE_PATH=/usr/include/gdal
+
 pip install -r requirements.txt
 
 # Install FSC Model.  You will get prompted for github credentials.
