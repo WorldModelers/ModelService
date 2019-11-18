@@ -91,11 +91,15 @@ if __name__ == "__main__":
     atlas_lookup = {
                    'asset_wealth_model':{
                       'geojson':'november_tests_asset_wealth.geojson',
-                      'tif':'november_tests_atlasai_assetwealth_allyears_2km.tif'
+                      'tif':'november_tests_atlasai_assetwealth_allyears_2km.tif',
+                      'feature_name': 'poverty level',
+                      'feature_description':'Measure of household poverty levels based on the assets they own (unitless)'
                    },
                    'consumption_model':{
                       'geojson':'november_tests_consumption.geojson',
-                      'tif':'november_tests_atlasai_consumption_allyears_2km.tif'
+                      'tif':'november_tests_atlasai_consumption_allyears_2km.tif',
+                      'feature_name': 'consumption per capita per day',
+                      'feature_description':'Measure of how much a person would spend each day (2011 USD per capita per day)'
                    }
                 }
 
@@ -124,8 +128,8 @@ if __name__ == "__main__":
             print(f"Processing {model_name} band {band}")
             # Convert Raster to GeoPandas
             InRaster = f"data/{atlas_lookup[model_name]['tif']}"
-            feature_name = "poverty level"
-            feature_description = "Measure of household poverty levels based on the assets they own (unitless)"
+            feature_name = atlas_lookup[model_name]['feature_name']
+            feature_description = atlas_lookup[model_name]['feature_description']
             gdf = raster2gpd(InRaster,feature_name,band=band)
             
             # Spatial merge on GADM to obtain admin areas
