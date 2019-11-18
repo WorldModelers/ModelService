@@ -12,6 +12,10 @@ psycopg2
 pyproj
 rq
 sqlalchemy
-gdal
+geoalchemy2
+numpy
+shapely
 geopandas
 osmnx
+rtree
+gdal==2.4.0
