@@ -1,3 +1,21 @@
+import sys
+import warnings
+sys.path.append("../../db")
+
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
+
+from database import init_db, db_session
+from models import Metadata, Output, Parameters
+
+from util import raster2gpd    
+
+from shapely.geometry import Point
+import geopandas as gpd
+import numpy as np
+from osgeo import gdal
+from osgeo import gdalconst
+
 import requests
 import logging
 import boto3
@@ -5,6 +23,7 @@ import os
 from pyproj import Proj, transform
 import configparser
 import redis
+from datetime import datetime, timedelta
 
 
 def run_chirps(name, model_config, output_path):
@@ -56,6 +75,19 @@ class CHIRPSController(object):
                         port=config['REDIS']['PORT'],
                         db=config['REDIS']['DB'])          
 
+        self.feautres = {'mm_data': {
+                                'feature_name': 'Rainfall',
+                                'feature_description': 'rainfall in mm per 5km',
+                                    },
+                        'mm_anomaly': {
+                                'feature_name': 'Rainfall relative to average',
+                                'feature_description': 'Rainfall relative to the historic average in mm per 5km',
+                                    },
+                        'none_z-score': {
+                                'feature_name': 'SPI',
+                                'feature_description': 'Standardized Precipitation Index',
+                                    }
+                        }
 
     def run_model(self):
         """
@@ -77,6 +109,7 @@ class CHIRPSController(object):
             with open(f"{self.output_path}/{self.result_name}.tiff", "wb") as f:
                 f.write(data.content)
             self.storeResults()
+            self.ingest2db()
             logging.info("Model output: STORED")
             self.r.hmset(self.run_id, 
                 {'status': 'SUCCESS',
@@ -118,3 +151,68 @@ class CHIRPSController(object):
             return "SUCCESS"
         else:
             return result
+
+
+    def ingest2db(self):
+        init_db()
+
+        # Load Admin2 shape from GADM
+        print("Loading GADM shapes...")
+        admin2 = gpd.read_file('../../gadm2/gadm36_2.shp')
+        admin2['country'] = admin2['NAME_0']
+        admin2['state'] = admin2['NAME_1']
+        admin2['admin1'] = admin2['NAME_1']
+        admin2['admin2'] = admin2['NAME_2']
+        admin2 = admin2[['geometry','country','state','admin1','admin2']]
+        print("...loaded\n")
+
+        # Add metadata object to DB
+        # TODO: add run_label and run_description
+        meta = Metadata(run_id=self.run_id, 
+                        model=self.name,
+                        raw_output_link= f'https://s3.amazonaws.com/world-modelers/{self.key}',
+                        point_resolution_meters=5000)
+        db_session.add(meta)
+        db_session.commit()
+
+        # Add parameters to DB
+        for name, val in self.model_config['config'].items():                
+            if name == year:
+                param_type = 'int'
+            else:
+                param_type = 'string'
+
+            if name == 'bbox':
+                val = json.dumps(val)
+
+            param = Parameters(run_id=run_id,
+                              model=model_config['name'],
+                              parameter_name=name,
+                              parameter_value=val,
+                              parameter_type=param_type)
+            db_session.add(param)
+            db_session.commit()
+
+        # Process tiff file into point data
+        InRaster = f"{self.result_path}/{self.result_name}.tiff"
+        feature_name = self.features[{self._type}]['feature_name']
+        feature_description = self.features[{self._type}]['feature_description']
+        gdf = raster2gpd(InRaster,feature_name)
+        
+        # Spatial merge on GADM to obtain admin areas
+        gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
+        
+        # Set run fields: datetime, run_id, model
+        # first convert dekad of year to day of year
+        # note: dekad is a 10 day period so dekad 25 ends the 250th day of the year
+        # since dekad 01 contains days 1 through 10 so dekad 01 should yield Jan 1 
+        gdf['datetime'] = datetime(self.year, 1, 1) + timedelta((int(self.dekad) * 10) - 11)
+        gdf['run_id'] = run_id
+        gdf['model'] = model_config['name']
+        gdf['feature_description'] = feature_description
+        del(gdf['geometry'])
+        del(gdf['index_right'])
+
+        # perform bulk insert of entire geopandas DF
+        db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
+        db_session.commit()

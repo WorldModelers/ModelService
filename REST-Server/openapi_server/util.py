@@ -568,3 +568,50 @@ def sortOD(od):
         else:
             res[k] = v
     return res    
+
+def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
+    '''
+    Description: 
+        Takes the path of a raster (.tiff) file and produces a Geopandas Data Frame.
+    Params:
+        - InRaster: the path of the input raster file
+        - feature_name: the name of the feature represented by the pixel values 
+    '''
+
+    # open the raster and get some properties
+    ds       = gdal.OpenShared(InRaster,gdalconst.GA_ReadOnly)
+    GeoTrans = ds.GetGeoTransform()
+    ColRange = range(ds.RasterXSize)
+    RowRange = range(ds.RasterYSize)
+    rBand    = ds.GetRasterBand(band) # first band
+    nData    = rBand.GetNoDataValue()
+    if nData == None:
+        print("No nodataval for raster")
+        nData = nodataval # set it to something if not set
+    else:
+        pass
+
+    # specify the center offset (takes the point in middle of pixel)
+    HalfX    = GeoTrans[1] / 2
+    HalfY    = GeoTrans[5] / 2
+
+    points = []
+    for ThisRow in RowRange:
+        RowData = rBand.ReadAsArray(0,ThisRow,ds.RasterXSize,1)[0]
+        for ThisCol in ColRange:
+            # need to exclude NaN values since there is no nodataval
+            if (RowData[ThisCol] != nData) and not (np.isnan(RowData[ThisCol])):
+                
+                # TODO: implement filters on valid pixels
+                # for example, the below would ensure pixel values are between -100 and 100
+                #if (RowData[ThisCol] <= 100) and (RowData[ThisCol] >= -100):
+
+                X = GeoTrans[0] + ( ThisCol * GeoTrans[1] )
+                Y = GeoTrans[3] + ( ThisRow * GeoTrans[5] ) # Y is negative so it's a minus
+                # this gives the upper left of the cell, offset by half a cell to get centre
+                X += HalfX
+                Y += HalfY
+
+                points.append([Point(X, Y),X,Y,RowData[ThisCol],feature_name])
+
+    return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])

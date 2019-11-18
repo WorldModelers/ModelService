@@ -11,3 +11,7 @@ tox
 psycopg2
 pyproj
 rq
+sqlalchemy
+gdal
+geopandas
+osmnx

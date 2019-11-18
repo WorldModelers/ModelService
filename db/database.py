@@ -4,8 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 import configparser
 
 config = configparser.ConfigParser()
-config.read('config.ini')
-
+config.read('../REST-Server/config.ini')
+print(config['DATABASE']['USER'])
 engine = create_engine("postgresql://{0}:{1}@{2}:{3}/{4}"\
                         .format(config['DATABASE']['USER'],\
                                 config['DATABASE']['PASSWORD'],\
