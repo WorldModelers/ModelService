@@ -15,9 +15,9 @@ class Metadata(Base):
     __tablename__ = 'metadata'
     __table_args__ = {'extend_existing': True} 
     run_id = Column(String(120), unique=True, primary_key = True)
-    run_label = Column(String(120), unique=False)
+    run_label = Column(String(240), unique=False)
     model = Column(String(120))
-    run_description = Column(String(120), unique=False)
+    run_description = Column(String(1000), unique=False)
     model_version = Column(String(120), unique=False)
     point_resolution_meters = Column(Integer)
     raw_output_link = Column(String(1000), unique=False)
@@ -37,7 +37,7 @@ class Output(Base):
     datetime = Column(DateTime)
     feature_name = Column(String(120), unique=False)
     feature_value = Column(Float)
-    feature_description = Column(String(120), unique=False)
+    feature_description = Column(String(240), unique=False)
     admin1 = Column(String(120), unique=False)
     admin2 = Column(String(120), unique=False)
     city = Column(String(120), unique=False)
@@ -54,7 +54,7 @@ class Parameters(Base):
     id = Column(Integer, primary_key=True)
     run_id = Column(String(120), ForeignKey('metadata.run_id'))
     model = Column(String(120))
-    parameter_name = Column(String(120), unique=False)
+    parameter_name = Column(String(240), unique=False)
     parameter_type  = Column(String(120), unique=False)
     parameter_value = Column(String(120), unique=False)
 
