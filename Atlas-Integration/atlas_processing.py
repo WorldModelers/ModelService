@@ -131,7 +131,8 @@ if __name__ == "__main__":
             feature_name = atlas_lookup[model_name]['feature_name']
             feature_description = atlas_lookup[model_name]['feature_description']
             gdf = raster2gpd(InRaster,feature_name,band=band)
-            
+
+            print(f"Performing spatial merge")
             # Spatial merge on GADM to obtain admin areas
             gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
             
@@ -144,5 +145,6 @@ if __name__ == "__main__":
             del(gdf['index_right'])
 
             # perform bulk insert of entire geopandas DF
+            print(f"Ingesting to database\n")
             db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
             db_session.commit()
