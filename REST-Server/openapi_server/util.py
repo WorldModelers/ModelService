@@ -12,6 +12,15 @@ from collections import OrderedDict
 import mint_client
 from mint_client.rest import ApiException
 
+from shapely.geometry import Point
+import geopandas as gpd
+import numpy as np
+from osgeo import gdal
+from osgeo import gdalconst
+import logging
+
+logging.basicConfig(level=logging.INFO)   
+
 def _deserialize(data, klass):
     """Deserializes dict, list, str into an object.
 
@@ -586,10 +595,10 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     rBand    = ds.GetRasterBand(band) # first band
     nData    = rBand.GetNoDataValue()
     if nData == None:
-        print("No nodataval for raster")
+        logging.info(f"No nodataval found, setting to {nodataval}")
         nData = nodataval # set it to something if not set
     else:
-        pass
+        logging.info(f"Nodataval is: {nData}")
 
     # specify the center offset (takes the point in middle of pixel)
     HalfX    = GeoTrans[1] / 2
