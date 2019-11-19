@@ -16,6 +16,9 @@ import boto3
 import json
 import psycopg2
 import csv
+import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point
 
 def run_dssat(config, output_path):
     """
@@ -33,6 +36,7 @@ class DSSATController(object):
     def __init__(self, model_config, output_path):
         self.config = configparser.ConfigParser()
         self.config.read('config.ini')
+        self.name = 'DSSAT'
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
@@ -57,7 +61,31 @@ class DSSATController(object):
         # since once instantiated, it cannot be pickled by RQ
         self.r = redis.Redis(host=self.config['REDIS']['HOST'],
                         port=self.config['REDIS']['PORT'],
-                        db=self.config['REDIS']['DB'])             
+                        db=self.config['REDIS']['DB'])
+
+        self.descriptions = {'management_practice': {
+                                'combined': 'DSSAT run for maize across all management practices',
+                                'maize_rf_highN': 'DSSAT run for maize for a high nitrogen management practice',
+                                'maize_irrig': 'DSSAT run for maize for an irrigated, high nitrogen management practice',
+                                'maize_rf_0N': 'DSSAT run for maize for a subsistence management practice',
+                                'maize_rf_lowN': 'DSSAT run for maize for a low nitrogen management practice'
+                                    },
+                             'features': {
+                                'HWAM': 'Harvested weight at maturity (kg/ha)'
+                                'HARVEST_AREA': 'Amount of area harvested under all management practices for this point (ha)',
+                                'Yield': 'Yield for the given point/management practice (kg)'
+                                },
+                             'parameters': {
+                                'samples':'integer',
+                                'start_year': 'integer',
+                                'number_years': 'integer',
+                                'management_practice': 'string',
+                                'rainfall': 'float',
+                                'fertilizer': 'integer',
+                                'planting_start': 'string',
+                                'planting_end': 'string'
+                                }
+                            }
 
         logging.basicConfig(level=logging.INFO)
 
@@ -182,15 +210,26 @@ class DSSATController(object):
                 try:
                     self.storeResults()
                     logging.info("Model output: STORED")
+
+                    try:
+                        self.ingest2db()
+                    except Exception as e:
+                        msg = f'DB ingest failure: {e}.'
+                        logging.error(msg)
+                        self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})                        
+
+                    # Success case requires storage to S3 AND ingest to DB
+                    # if Success, update Redis accordingly
                     self.r.hmset(self.run_id, 
                         {'status': 'SUCCESS',
                          'bucket': self.bucket,
                          'key': self.key}
-                         )                    
-                except:
-                    msg = 'Output storage failure.'
+                         )
+
+                except Exception as e:
+                    msg = f'Output storage failure: {e}.'
                     logging.error(msg)
-                    self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})                    
+                    self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})
             else:
                 logging.error(f"Model run FAIL: {run_logs}")
                 self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
@@ -201,6 +240,7 @@ class DSSATController(object):
         # Prune old containers
         prior_container = self.containers.get('dssat')
         prior_container.remove()
+
 
     def storeResults(self):
         out = f"{self.result_path}/out"
@@ -228,26 +268,6 @@ class DSSATController(object):
                 shutil.copy(f"{self.result_path}/out/eth_docker/test/pp.csv",
                             f"{result}.csv")
                 to_upload = f"{result}.csv"
-               
-                # Insert into DB
-                conn = psycopg2.connect(host=self.config["OUTPUTDB"]["DB"],database="output", user=self.config["OUTPUTDB"]["USER"], password=self.config["OUTPUTDB"]["PASSWORD"])
-                cur = conn.cursor()
-                rid = self.result_name.lower()
-                cur.execute(f"SELECT * FROM rundata where run_id = '{rid}';")
-                results = cur.fetchall()
-                if len(results) == 0: 
-                    with open(f"{result}.csv", 'r') as f:
-                        reader = csv.reader(f)
-                        next(reader)
-                        for row in reader:
-                            lat = row[0]
-                            lon = row[1]
-                            hwam = row[24]
-                            sdat = row[16]
-                            statement = f"insert into rundata (run_id,x,y,feature,value,datetime) values ('{self.result_name}',{lat},{lon},'yield',{hwam},'{sdat}')"
-                            cur.execute(statement)
-                        conn.commit()
-                conn.close()
                 
             # Otherwise, provide just the management practice of interest
             else:
@@ -255,26 +275,6 @@ class DSSATController(object):
                 shutil.copy(f"{self.result_path}/out/eth_docker/test/{m}/pp_{m}.csv",
                             f"{result}.csv")
                 to_upload = f"{result}.csv"    
-                
-                # Insert into DB
-                conn = psycopg2.connect(host=self.config["OUTPUTDB"]["DB"],database="output", user=self.config["OUTPUTDB"]["USER"], password=self.config["OUTPUTDB"]["PASSWORD"])
-                cur = conn.cursor()
-                rid = self.result_name.lower()
-                cur.execute(f"SELECT * FROM rundata where run_id = '{rid}';")
-                results = cur.fetchall()
-                if len(results) == 0:
-                    with open(f"{result}.csv", 'r') as f:
-                        reader = csv.reader(f)
-                        next(reader)
-                        for row in reader:
-                            lat = row[0]
-                            lon = row[1]
-                            hwam = row[24]
-                            sdat = row[16]
-                            statement = f"insert into rundata (run_id,x,y,feature,value,datetime) values ('{self.result_name}',{lat},{lon},'yield',{hwam},'{sdat}')"
-                            cur.execute(statement)
-                        conn.commit()
-                conn.close()
                     
             session = boto3.Session(profile_name="wmuser")
             s3 = session.client('s3')
@@ -286,3 +286,87 @@ class DSSATController(object):
             return "SUCCESS"
         else:
             return result
+
+
+    def ingest2db(self):
+        init_db()
+
+        # Load Admin2 shape from GADM
+        logging.info("Loading GADM shapes...")
+        admin2 = gpd.read_file(f'{self.gadm}/gadm36_2.shp')
+        admin2['country'] = admin2['NAME_0']
+        admin2['state'] = admin2['NAME_1']
+        admin2['admin1'] = admin2['NAME_1']
+        admin2['admin2'] = admin2['NAME_2']
+        admin2 = admin2[['geometry','country','state','admin1','admin2']]
+
+        # Add metadata object to DB
+        # TODO: add run_label and run_description
+        meta = Metadata(run_id=self.run_id, 
+                        model=self.name,
+                        run_description=self.features['management_practice'][self.model_config['management_practice']],
+                        raw_output_link= f'https://s3.amazonaws.com/world-modelers/{self.key}',
+                        # 5 arc minutes (~10km)
+                        point_resolution_meters=10000) 
+        logging.info("Storing metadata...")
+        db_session.add(meta)
+        db_session.commit()
+
+        # Add parameters to DB
+        logging.info("Storing parameters...")
+        for param_name, param_val in self.model_config.items():                
+            param = Parameters(run_id=self.run_id,
+                              model=self.name,
+                              parameter_name=param_name,
+                              parameter_value=param_val,
+                              parameter_type=self.features['parameters'][param_name])
+            db_session.add(param)
+            db_session.commit()
+
+        # Process CSV and normalize it
+        logging.info("Processing points...")
+
+        # get result file path
+        if self.model_config["management_practice"] == "combined":
+            # combined CSV
+            path = f"{self.result_path}/out/eth_docker/test/pp.csv"
+        else:
+            # individual management practices
+            m = self.model_config["management_practice"]
+            path = f"{self.result_path}/out/eth_docker/test/{m}/pp_{m}.csv"
+
+        df = pd.read_csv(path)
+        df['latitude'] = df['LATITUDE']
+        df['longitude'] = df['LONGITUDE']
+        df['geometry'] = df.apply(lambda x: Point(x.longitude, x.latitude), axis=1)
+        df['year'] = df['HDAT'].apply(lambda x: int(str(x)[:4]))
+        df['days'] = df['HDAT'].apply(lambda x: int(str(x)[4:]))
+        df['datetime'] = df.apply(lambda x: datetime(x.year, 1, 1) + timedelta(x.days - 1), axis=1)
+        df['run_id'] = self.run_id
+        df['model'] = self.name
+        gdf = gpd.GeoDataFrame(df)
+
+        # Spatial merge on GADM to obtain admin areas
+        gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
+
+        base_cols = ['run_id','model','latitude','longitude',
+                     'datetime','admin1','admin2','state',
+                     'country']
+
+        feature_cols = ['feature_name','feature_description','feature_value']
+
+        # Need to iterate over features to generate one GDF per feature
+        # then upload the GDF per feature to ensure that rows are added for each
+        # feature
+        for feature_name, feature_description in self.descriptions['features'].items():
+            cols_to_select = base_cols + [feature_name]
+            gdf_ = gdf[[cols_to_select]] # generate new interim GDF
+            gdf_['feature_name'] = feature_name
+            gdf_['feature_description'] = feature_description
+            gdf_['feature_value'] = gdf_[feature_name]
+            gdf_ = gdf_[[base_cols + feature_cols]]
+
+            # perform bulk insert of entire geopandas DF
+            logging.info(f"Storing point data output for {feature_name}...")
+            db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
+            db_session.commit()            
