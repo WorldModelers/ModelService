@@ -64,13 +64,23 @@ Note that `samples` denotes the number of pixel predictions DSSAT will make. Set
 
 The earliest possible `start_year` is 1984. You may run DSSAT through 2018; if `start_year` is specified but `number_years` is not then the default will be to run from the specified `start_year` through 2018. If `start_year + number_years > 2018` it will default to running through 2018. If `start_year` is not specified then DSSAT will default to running from 1984 through 2018.
 
+`rainfall` takes a scalar between 0 and 2, where 1 represents baseline rainfall (100% expected). 0.5 represents 50% baseline rainfall and 2 represents 200% of baseline (e.g. flooding).
+
+`fertilizer` is a scalar between 0 and 200 which represents fertilizer in kg/ha. 100 is considered the baseline amount, so anything above 100 represents additional fertilizer usage/availability.
+
+`planting_start` is the `mm-dd` when planting begins. This defaults to `"03-01"`. `planting_end` is the `mm-dd` when planting ends, which defaults to `"05-20"`. This parameter allows the user to perform runs for multiple growing periods (e.g. Belg and Meher in Ethiopia).
+
 ```
 {
    "config":{
       "samples":10,
       "start_year": 2015,
       "number_years": 2,
-      "management_practice": "maize_rf_highN"
+      "management_practice": "maize_rf_highN",
+      "rainfall": 1.5,
+      "fertilizer": 115,
+      "planting_start": "03-01",
+      "planting_end": "05-20"
    },
    "name":"DSSAT"
 }
