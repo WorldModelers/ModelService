@@ -1,3 +1,9 @@
+import sys
+sys.path.append("../db")
+
+from database import init_db, db_session
+from models import Metadata, Output, Parameters
+
 import docker
 import re
 import configparser
@@ -79,6 +85,7 @@ class DSSATController(object):
         else:
             config["analytics_setup"]["singleOutput"] = False
 
+        ########### SET STARTING YEAR AND NUMBER YEARS ###############
         start_year = 1984
         # Update start year and number of years (if set in the user config)
         if "start_year" in self.model_config:
@@ -106,8 +113,48 @@ class DSSATController(object):
             config["default_setup"]["nyers"] = 34
 
         config["default_setup"]["sdate"] = f"{start_year}-01-01"
-        config["default_setup"]["pfrst"] = f"{start_year}-03-01"
-        config["default_setup"]["plast"] = f"{start_year}-05-20"
+
+        ########### SET PLANTING START AND END DATES ###############
+        if "planting_start" in self.model_config:
+            # set the planting start date
+            planting_start = self.model_config['planting_start']
+            config["default_setup"]["pfrst"] = f"{start_year}-{planting_start}"
+
+        if "planting_start" in self.model_config and "planting_end" in self.model_config:
+            # set the planting end date (if a planting start AND end was set)
+            planting_end = self.model_config['planting_end']
+            config["default_setup"]["plast"] = f"{start_year}-{planting_end}"            
+
+        if "planting_start" in self.model_config and "planting_end" not in self.model_config:
+            # if planting_start date but no planting_end date 
+            # then default to start date plus 3 months
+            plast_month = int(planting_start.split('-')[0]) + 3
+            plast_day = int(planting_start.split('-')[0])
+            plast_month = "{:02d}".format(plast_month)
+            plast_day = "{:02d}".format(plast_day)
+            config["default_setup"]["plast"] = f"{start_year}-{plast_month}-{plast_day}"
+        
+        if "planting_start" not in self.model_config:
+            # if no planting start date then we should just use the defaults
+            # which correspondes to March 1 through May 20
+            config["default_setup"]["pfrst"] = f"{start_year}-03-01"
+            config["default_setup"]["plast"] = f"{start_year}-05-20"
+
+        ########### SET FERTILIZER ###############
+        if "fertilizer" in self.model_config:
+            # Modified fertilizer total adjustment from the baseline amount
+            # where the baseline is 100 so anything above 100 is a modification upward
+            # and below 100 is modification downward in kg/ha
+            config["default_setup"]["fen_tot"] = self.model_config["fertilizer"]
+
+        ########### SET RAINFALL ###############
+        if "rainfall" in self.model_config:
+            # erain variable should take the form "M0.25" 
+            # which indicates 25% normal rainfall or "M1.25" 
+            # which indicates 125% normal rainfall
+            rain = self.model_config["rainfall"]
+            rain = "M{:.2f}".format(rain)
+            config["default_setup"]["erain"] = rain
 
         with open(f"{self.result_path}/et_docker.json", "w") as f:
             f.write(json.dumps(config))
