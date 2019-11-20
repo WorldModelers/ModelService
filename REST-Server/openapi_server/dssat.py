@@ -201,49 +201,46 @@ class DSSATController(object):
         self.update_config()
         time.sleep(3)
         logging.info(f"Running model run with ID: {self.run_id}")
-        # try:
-        self.model = self.containers.run(self.dssat, 
-                                         volumes=self.volumes, 
-                                         volumes_from=self.volumes_from,
-                                         entrypoint=self.entrypoint,
-                                         detach=False,
-                                         name='dssat')
-        run_logs = self.model.decode('utf-8')
+        try:
+            self.model = self.containers.run(self.dssat, 
+                                             volumes=self.volumes, 
+                                             volumes_from=self.volumes_from,
+                                             entrypoint=self.entrypoint,
+                                             detach=False,
+                                             name='dssat')
+            run_logs = self.model.decode('utf-8')
 
-        if self.success_msg in run_logs:
-            logging.info("Model run: SUCCESS")
-            self.storeResults()
-            self.ingest2db()
-            try:
-                # self.storeResults()
-                logging.info("Model output: STORED")
-
+            if self.success_msg in run_logs:
+                logging.info("Model run: SUCCESS")
                 try:
-                    # self.ingest2db()
-                    pass
+                    self.storeResults()
+                    logging.info("Model output: STORED")
+
+                    try:
+                        self.ingest2db()
+                    except Exception as e:
+                        msg = f'DB ingest failure: {e}.'
+                        logging.error(msg)
+                        self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})                        
+
+                    # Success case requires storage to S3 AND ingest to DB
+                    # if Success, update Redis accordingly
+                    self.r.hmset(self.run_id, 
+                        {'status': 'SUCCESS',
+                         'bucket': self.bucket,
+                         'key': self.key}
+                         )
+
                 except Exception as e:
-                    msg = f'DB ingest failure: {e}.'
+                    msg = f'Output storage failure: {e}.'
                     logging.error(msg)
-                    self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})                        
-
-                # Success case requires storage to S3 AND ingest to DB
-                # if Success, update Redis accordingly
-                self.r.hmset(self.run_id, 
-                    {'status': 'SUCCESS',
-                     'bucket': self.bucket,
-                     'key': self.key}
-                     )
-
-            except Exception as e:
-                msg = f'Output storage failure: {e}.'
-                logging.error(msg)
-                self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})
-        else:
-            logging.error(f"Model run FAIL: {run_logs}")
-            self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
-        # except Exception as e:
-        #     logging.error(f"Model run FAIL: {e}")
-        #     self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
+                    self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})
+            else:
+                logging.error(f"Model run FAIL: {run_logs}")
+                self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
+        except Exception as e:
+            logging.error(f"Model run FAIL: {e}")
+            self.r.hmset(self.run_id, {'status': 'FAIL', 'output': str(e)})
 
         # Prune old containers
         prior_container = self.containers.get('dssat')
