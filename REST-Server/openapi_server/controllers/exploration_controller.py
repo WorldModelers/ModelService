@@ -87,30 +87,8 @@ def model_config_model_name_get(ModelName):  # noqa: E501
     :rtype: ModelConfig
     """
     # get model
-    try:
-        api_instance = mint_client.ModelApi(mint_client.ApiClient(configuration))
-        model = api_instance.get_model(ModelName, username=username)
-        versions = [v['id'] for v in model.has_software_version]
-
-        # for each model version, obtain configuration ids
-        configuration_ids = []
-        api_instance = mint_client.ModelversionApi(mint_client.ApiClient(configuration))
-        for v in versions:
-            version = api_instance.get_model_version(v, username=username)
-            c_ids = [c.id for c in version.has_configuration]
-            configuration_ids.extend(c_ids)
-
-        # get configurations
-        configurations = []
-        api_instance = mint_client.ModelconfigurationApi(mint_client.ApiClient(configuration))
-        for _id in configuration_ids:
-            config = api_instance.get_model_configuraton(_id, username=username)
-            configurations.append({'name': ModelName, 'config': config.to_dict()})
-
-        return configurations
-
-    except ApiException as e:
-        return "Exception when calling MINT: %s\n" % e
+    m = json.loads(r.get(f'{ModelName}-meta').decode('utf-8'))
+    return util.format_config(m)
 
 def model_info_model_name_get(ModelName):  # noqa: E501
     """Get basic metadata information for a specified model.

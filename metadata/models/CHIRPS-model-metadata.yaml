@@ -59,3 +59,9 @@ parameters:
     metadata:
       type: GeoParameter
       default: [33.512234, 2.719907, 49.981710, 16.501768]
+
+configuration:
+  - _type: mm_data
+    dekad: 01
+    year: 2019
+    bbox: [33.512234, 2.719907, 49.981710, 16.501768]      

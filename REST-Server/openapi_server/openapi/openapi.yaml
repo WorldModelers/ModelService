@@ -88,9 +88,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/Parameter'
-                type: array
+                $ref: '#/components/schemas/Parameter'
           description: SUCCESS
       summary: Obtain information about a model's parameters.
       tags:
@@ -114,9 +112,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/ModelConfig'
-                type: array
+                $ref: '#/components/schemas/ModelConfig'
           description: SUCCESS
       summary: Obtain configurations for a given model.
       tags:

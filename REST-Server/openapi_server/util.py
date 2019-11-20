@@ -585,6 +585,16 @@ def format_parameters(m):
         out_p.append(o_p)
     return out_p
 
+def format_config(m):
+    """
+    Takes in  a model metadata JSON from Redis and formats the config the MaaS API.
+    """
+    c = m.get('configuration',[])
+    out_c = {'name': m.get('id'), 'config': {}}
+    if len(c) > 0:
+        out_c['config'] = c[0]
+    return out_c
+
 def sortOD(od):
     res = OrderedDict()
     for k, v in sorted(od.items()):
