@@ -475,16 +475,15 @@ components:
             - StringParameter
         default_value:
           description: "The parameter's default value. Type depends on the parameter's type."
-          example: "USA"
+          example: "maize"
         minimum:
           description: "The parameter's minimum allowed value. Type depends on the parameter's type."
-          example: 0
         maximum:
           description: "The parameter's maximum allowed value. Type depends on the parameter's type."
-          example: 100
         choices:
           type: "array"
           description: An array of choices available for a parameter of type ChoiceParameter
+          example: ["millet", "maize", "wheat"]
     SearchResult:
       type: "array"
       description: "The result of a search"
