@@ -21,6 +21,11 @@ outputs:
     description: Amount of area harvested under all management practices for this point (ha)
   - name: Yield
     description: Yield for the given point/management practice (kg)
+  - name: management_practice
+    description: >
+      Indicates the type of management practice for the given yield/point combination. 
+      1 corresponds to high nitrogen, 2 to irrigated high nitrogen, 3 to 
+      subsistence, and 4 to low nitrogen.
 
 parameters:
 - name: samples
