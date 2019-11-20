@@ -179,6 +179,8 @@ class DSSATController(object):
             # where the baseline is 100 so anything above 100 is a modification upward
             # and below 100 is modification downward in kg/ha
             config["default_setup"]["fen_tot"] = self.model_config["fertilizer"]
+        else:
+            config["default_setup"]["fen_tot"] = 100.0
 
         ########### SET RAINFALL ###############
         if "rainfall" in self.model_config:
@@ -188,6 +190,8 @@ class DSSATController(object):
             rain = self.model_config["rainfall"]
             rain = "M{:.2f}".format(rain)
             config["default_setup"]["erain"] = rain
+        else:
+            config["default_setup"]["erain"] = "M1.00"
 
         with open(f"{self.result_path}/et_docker.json", "w") as f:
             f.write(json.dumps(config))
