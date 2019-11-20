@@ -187,7 +187,7 @@ def model_io_post():  # noqa: E501
             return "Exception when calling MINT API: %s\n" % e
 
 
-def model_parameters_model_name_post(ModelName):  # noqa: E501
+def model_parameters_model_name_get(ModelName):  # noqa: E501
     """Obtain information about a model&#39;s parameters.
 
     Submit a model name and receive information about the parameters used by this model. Specific parameters are used on a per-configuration basis. # noqa: E501
@@ -200,38 +200,8 @@ def model_parameters_model_name_post(ModelName):  # noqa: E501
 
     # Obtain all parameters associated with *any* configuration for 
     # the given model
-    configs = model_config_model_name_get(ModelName)
-    parameter_ids = set()
-    for c in configs:
-        for param in c['config'].get('has_parameter',[]):
-            parameter_ids.add(param['id'])
-
-    try:
-        api_instance = mint_client.ParameterApi(mint_client.ApiClient(configuration))
-        # List All Parameters
-        api_response = api_instance.get_parameters(username=username)
-        
-        parameters = []
-        for param in api_response:
-            if param.id in parameter_ids:
-                parameter = {'id': param.id,
-                             'description': param.description,
-                             'label': param.label,
-                             # need to format the following strings as they have been converted
-                             # to arrays by MINT due to duplicate entry attempts
-                             'data_type': util.format_stringed_array(param.has_data_type),
-                             'default_value': util.format_stringed_array(param.has_default_value)} 
-                             
-                             # TODO: need to implement a lookup to grab the standard name
-                             # `param.type` is an array of URIs, but does not conform
-                             # to how we should present `standard_name`s based on 
-                             # the MaaS API spec
-
-                             #'standard_name': param.type}
-                parameters.append(parameter)
-        return parameters
-    except ApiException as e:
-        print("Exception when calling ParameterApi->get_parameters: %s\n" % e)
+    m = json.loads(r.get(f'{ModelName}-meta').decode('utf-8'))
+    return util.format_parameters(m)
 
 
 def search_post():  # noqa: E501

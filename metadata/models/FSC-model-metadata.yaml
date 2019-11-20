@@ -24,7 +24,7 @@ outputs:
     description: Change in production levels
 
 parameters:
-  - country: 
+  - name: country
     description: Select the country for which to induce a food shock (ISO-3 format).
     metadata:
       type: ChoiceParameter

@@ -65,14 +65,14 @@ class TestExplorationController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_model_parameters_model_name_post(self):
-        """Test case for model_parameters_model_name_post
+    def test_model_parameters_model_name_get(self):
+        """Test case for model_parameters_model_name_get
 
         Obtain information about a model's parameters.
         """
         response = self.client.open(
             '/model_parameters/{ModelName}'.format(model_name='model_name_example'),
-            method='POST')
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
