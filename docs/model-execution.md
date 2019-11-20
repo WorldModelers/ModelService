@@ -56,11 +56,10 @@ Note that `samples` denotes the number of pixel predictions DSSAT will make. Set
 `management_practice` currently has 6 accepted values:
 
 1. `combined`: retrieve a single `.csv` output file combining all 4 management practices
-2. `separate`: retreive a `.zip` file containing all 4 management practices in their own respective `.csv` files.
-3. `maize_rf_highN`: retrieve a single output `.csv` for a high nitrogen management practice
-4. `maize_irrig`: retrieve a single output `.csv` for an irrigated, high nitrogen management practice
-5. `maize_rf_0N`: retrieve a single output `.csv` for a subsistence management practice
-6. `maize_rf_lowN`: retrieve a single output `.csv` for a low nitrogen management practice
+2. `maize_rf_highN`: retrieve a single output `.csv` for a high nitrogen management practice
+3. `maize_irrig`: retrieve a single output `.csv` for an irrigated, high nitrogen management practice
+4. `maize_rf_0N`: retrieve a single output `.csv` for a subsistence management practice
+5. `maize_rf_lowN`: retrieve a single output `.csv` for a low nitrogen management practice
 
 The earliest possible `start_year` is 1984. You may run DSSAT through 2018; if `start_year` is specified but `number_years` is not then the default will be to run from the specified `start_year` through 2018. If `start_year + number_years > 2018` it will default to running through 2018. If `start_year` is not specified then DSSAT will default to running from 1984 through 2018.
 

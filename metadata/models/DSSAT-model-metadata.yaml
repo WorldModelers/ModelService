@@ -15,8 +15,8 @@ concepts:
   - farming
 
 outputs:
-  - name: HWAM
-    description: Harvested weight at maturity (kg/ha)
+  - name: HWAH
+    description: Harvested weight at harvest (kg/ha)
   - name: HARVEST_AREA
     description: Amount of area harvested under all management practices for this point (ha)
   - name: Yield
@@ -37,14 +37,12 @@ parameters:
       The management practice to model. "maize_rf_highN" corresponds to a high nitrogen management 
       practice. "maize_irrig" corresponds to a high nitrogen, irrigated management practice. "maize_rf_0N" 
       corresponds to a subsistence management practice. "maize_rf_lowN" corresponds to a low nitrogen 
-      managemet practice. If set to "combined", all practices are produced. If set to "separate" then 
-      results are not stored in the database, but separate runs per practice are zipped and stored to S3.
+      managemet practice. If set to "combined", all practices are produced. 
     metadata:
       type: ChoiceParameter
       default: combined
       choices:
         - combined
-        - separate
         - maize_rf_highN
         - maize_irrig
         - maize_rf_0N
