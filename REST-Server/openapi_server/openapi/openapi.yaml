@@ -71,9 +71,9 @@ paths:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
   /model_parameters/{ModelName}:
-    post:
+    get:
       description: Submit a model name and receive information about the parameters used by this model. Specific parameters are used on a per-configuration basis.
-      operationId: model_parameters_model_name_post
+      operationId: model_parameters_model_name_get
       parameters:
       - description: The name of a model.
         explode: false
@@ -558,44 +558,43 @@ components:
     Parameter:
       description: A user configurable model parameter
       example:
-        data_type: string
-        description: The ISO 3 country code for the country of interest.
+        name: crop
+        description: Choose the crop of interest from one of [millet, maize, wheat].
+        maximum: 100
         default_value: USA
-        standard_name:
-        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-          standard_variable_name: year
-        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-          standard_variable_name: year
-        id: FSC-country-code
-        label: FSC simulation country
+        type: StringParameter
+        minimum: 0
       properties:
-        id:
-          description: Identifier associated with parameter in MINT
-          example: FSC-country-code
+        name:
+          description: The name of the parameter
+          example: crop
           type: string
         description:
           description: Natural language description of parameter
-          example: The ISO 3 country code for the country of interest.
+          example: Choose the crop of interest from one of [millet, maize, wheat].
           type: string
-        label:
-          description: The name of the parameter, which should be used as a `key` within a `config` sent to the `run_model` endpoint.
-          example: FSC simulation country
-          type: string
-        data_type:
-          description: The parameter's data type
-          example: string
+        type:
+          description: The parameter's type
+          enum:
+          - NumberParameter
+          - ChoiceParameter
+          - TimeParameter
+          - GeoParameter
+          - StringParameter
+          example: StringParameter
           type: string
         default_value:
-          description: The parameter's default value. Type depends on the parameter's data_type
+          description: The parameter's default value. Type depends on the parameter's type.
           example: USA
-        standard_name:
-          items:
-            $ref: '#/components/schemas/StandardName'
-          type: array
+        minimum:
+          description: The parameter's minimum allowed value. Type depends on the parameter's type.
+          example: 0
+        maximum:
+          description: The parameter's maximum allowed value. Type depends on the parameter's type.
+          example: 100
       required:
-      - id
+      - description
+      - name
       type: object
     SearchResult:
       description: The result of a search

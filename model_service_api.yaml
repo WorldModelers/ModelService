@@ -65,7 +65,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ModelIO'
   /model_parameters/{ModelName}:
-    post:
+    get:
       tags:
       - "exploration"
       summary: "Obtain information about a model's parameters."
@@ -452,31 +452,36 @@ components:
       type: "object"
       description: "A user configurable model parameter"
       required:
-        - "id"
+        - "name"
+        - "description"
       properties:
-        id:
+        name:
           type: "string"
-          description: "Identifier associated with parameter in MINT"
-          example: "FSC-country-code"
+          description: "The name of the parameter"
+          example: "crop"
         description: 
           type: "string"
           description: "Natural language description of parameter"
-          example: "The ISO 3 country code for the country of interest."
-        label:
+          example: "Choose the crop of interest from one of [millet, maize, wheat]."
+        type:
           type: "string"
-          description: "The name of the parameter, which should be used as a `key` within a `config` sent to the `run_model` endpoint."
-          example: "FSC simulation country"
-        data_type:
-          type: "string"
-          description: "The parameter's data type"
-          example: "string"
+          description: "The parameter's type"
+          example: "StringParameter"
+          enum: 
+            - NumberParameter
+            - ChoiceParameter
+            - TimeParameter
+            - GeoParameter
+            - StringParameter
         default_value:
-          description: "The parameter's default value. Type depends on the parameter's data_type"
+          description: "The parameter's default value. Type depends on the parameter's type."
           example: "USA"
-        standard_name:
-          type: "array"
-          items:
-            $ref: '#/components/schemas/StandardName'
+        minimum:
+          description: "The parameter's minimum allowed value. Type depends on the parameter's type."
+          example: 0
+        maximum:
+          description: "The parameter's maximum allowed value. Type depends on the parameter's type."
+          example: 100
     SearchResult:
       type: "array"
       description: "The result of a search"

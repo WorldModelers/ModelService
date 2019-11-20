@@ -567,7 +567,23 @@ def format_model(m):
              'category': m['category'],
              'maintainer': f"{m['maintainer']['name']}, {m['maintainer']['email']}",
              'version': m['versions']}
-    return model        
+    return model
+
+def format_parameters(m):
+    """
+    Takes in  a model metadata JSON from Redis and formats the parameters for the MaaS API.
+    This just pops the `metadata` key and adds all its sub keys as top-level
+    keys to the parameter object.
+    """
+    p = m.get('parameters',[])
+    out_p = []
+    for p in p:
+        o_p = {'name': p['name'],
+               'description': p['description'].replace('\n','')}
+        for kk, vv in p['metadata'].items():
+            o_p[kk] = vv
+        out_p.append(o_p)
+    return out_p
 
 def sortOD(od):
     res = OrderedDict()

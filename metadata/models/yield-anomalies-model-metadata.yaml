@@ -50,9 +50,9 @@ parameters:
     metadata:
       type: ChoiceParameter
       choices:
-        - NO
-        - LIM
-        - POT
+        - "NO"
+        - "LIM"
+        - "POT"
   - name: nitrogen
     description: >
       Choose the nitrogen level. It should be one of [LIM, LIM_p25, LIM_p50, UNLIM]. 
