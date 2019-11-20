@@ -19,3 +19,13 @@ category:
 concepts:
   - GPE
   - population
+
+parameters:
+  - name: country_level
+    description: Select the country of interest.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - Ethiopia
+        - South Sudan
+      default: Ethiopia

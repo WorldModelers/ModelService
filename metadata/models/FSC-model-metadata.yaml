@@ -13,4 +13,36 @@ concepts:
   - economy
   - import
   - export
-  - crop_storage  
+  - crop_storage
+
+parameters:
+  - country: 
+    description: Select the country for which to induce a food shock (ISO-3 format).
+    metadata:
+      type: ChoiceParameter
+      default: USA
+  - name: fractional_reserve_access
+    description: >
+      The fraction of reserves that countries can access. Between 0 and 1, where 0 indicates that 
+      countries cannot access there reserves and 1 indicates that countries can access the entirety 
+      of their reserves.
+    metadata:
+      type: NumberParameter
+      default: 1
+      minimum: 0
+      maximum: 1
+  - name: production_decrease
+    description: >
+      The percent decrease in crop production due to the shock on the target country (the size 
+      of the shock).
+    metadata:
+      type: NumberParameter
+      default: 0.5
+      minimum: 0
+      maximum: 1    
+  - name: year
+    description: >
+      The year in which to induce the shock in YYYY format.
+    metadata:
+      type: TimeParameter
+      default: 2005

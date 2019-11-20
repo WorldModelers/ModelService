@@ -143,7 +143,7 @@ class DSSATController(object):
         # Otherwise default to a 1984 start year and run through 2018
         else:
             config["default_setup"]["startYear"] = start_year
-            config["default_setup"]["nyers"] = 34
+            config["default_setup"]["nyers"] = 35
 
         config["default_setup"]["sdate"] = f"{start_year}-01-01"
 
