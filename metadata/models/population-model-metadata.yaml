@@ -33,3 +33,6 @@ parameters:
         - Ethiopia
         - South Sudan
       default: Ethiopia
+
+configuration:
+  - country_level: Ethiopia      

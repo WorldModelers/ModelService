@@ -88,3 +88,10 @@ parameters:
         - std
         - pctl,5
         - pctl,95
+
+configuration:
+  - crop: maize
+    irrigation: LIM
+    nitrogen: LIM
+    area: global
+    statistic: mean

@@ -34,3 +34,6 @@ parameters:
       minimum: 0
       maximum: 200
       default: 100
+
+configuration:
+  - percent_of_normal_rainfall: 1

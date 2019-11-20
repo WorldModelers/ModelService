@@ -83,9 +83,7 @@ paths:
           content:
             application/json:
               schema:
-                type: "array"
-                items:
-                  $ref: '#/components/schemas/Parameter'               
+                $ref: '#/components/schemas/Parameter'               
   /model_config/{ModelName}:
     get:
       tags:
@@ -105,9 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                type: "array"
-                items:
-                  $ref: '#/components/schemas/ModelConfig'    
+                $ref: '#/components/schemas/ModelConfig'    
   /search:
     post:
       tags: 

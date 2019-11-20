@@ -111,3 +111,13 @@ parameters:
     default: "05-20"
     minumum: "01-01"
     maximum: "12-31"     
+
+configuration:
+  - samples: 0
+    start_year: 2017
+    number_Years: 2
+    management_practice: combined
+    rainfall: 1
+    fertilizer: 100
+    planting_start: 03-01
+    planting_end: 05-20

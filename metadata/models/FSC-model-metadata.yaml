@@ -54,3 +54,9 @@ parameters:
     metadata:
       type: TimeParameter
       default: 2005
+
+configuration:
+  - country: USA
+    fractional_reserve_access: 1
+    production_decrease: 0.5
+    year: 2005
