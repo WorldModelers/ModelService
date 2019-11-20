@@ -563,6 +563,7 @@ components:
         maximum: 100
         default_value: USA
         type: StringParameter
+        choices: ""
         minimum: 0
       properties:
         name:
@@ -592,6 +593,9 @@ components:
         maximum:
           description: The parameter's maximum allowed value. Type depends on the parameter's type.
           example: 100
+        choices:
+          description: An array of choices available for a parameter of type ChoiceParameter
+          type: array
       required:
       - description
       - name

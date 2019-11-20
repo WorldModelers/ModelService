@@ -15,7 +15,7 @@ class Parameter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, type=None, default_value=None, minimum=None, maximum=None):  # noqa: E501
+    def __init__(self, name=None, description=None, type=None, default_value=None, minimum=None, maximum=None, choices=None):  # noqa: E501
         """Parameter - a model defined in OpenAPI
 
         :param name: The name of this Parameter.  # noqa: E501
@@ -30,6 +30,8 @@ class Parameter(Model):
         :type minimum: object
         :param maximum: The maximum of this Parameter.  # noqa: E501
         :type maximum: object
+        :param choices: The choices of this Parameter.  # noqa: E501
+        :type choices: List
         """
         self.openapi_types = {
             'name': str,
@@ -37,7 +39,8 @@ class Parameter(Model):
             'type': str,
             'default_value': object,
             'minimum': object,
-            'maximum': object
+            'maximum': object,
+            'choices': List
         }
 
         self.attribute_map = {
@@ -46,7 +49,8 @@ class Parameter(Model):
             'type': 'type',
             'default_value': 'default_value',
             'minimum': 'minimum',
-            'maximum': 'maximum'
+            'maximum': 'maximum',
+            'choices': 'choices'
         }
 
         self._name = name
@@ -55,6 +59,7 @@ class Parameter(Model):
         self._default_value = default_value
         self._minimum = minimum
         self._maximum = maximum
+        self._choices = choices
 
     @classmethod
     def from_dict(cls, dikt) -> 'Parameter':
@@ -214,3 +219,26 @@ class Parameter(Model):
         """
 
         self._maximum = maximum
+
+    @property
+    def choices(self):
+        """Gets the choices of this Parameter.
+
+        An array of choices available for a parameter of type ChoiceParameter  # noqa: E501
+
+        :return: The choices of this Parameter.
+        :rtype: List
+        """
+        return self._choices
+
+    @choices.setter
+    def choices(self, choices):
+        """Sets the choices of this Parameter.
+
+        An array of choices available for a parameter of type ChoiceParameter  # noqa: E501
+
+        :param choices: The choices of this Parameter.
+        :type choices: List
+        """
+
+        self._choices = choices

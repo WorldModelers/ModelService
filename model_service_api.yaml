@@ -482,6 +482,9 @@ components:
         maximum:
           description: "The parameter's maximum allowed value. Type depends on the parameter's type."
           example: 100
+        choices:
+          type: "array"
+          description: An array of choices available for a parameter of type ChoiceParameter
     SearchResult:
       type: "array"
       description: "The result of a search"
