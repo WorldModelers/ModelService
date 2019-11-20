@@ -76,9 +76,10 @@ class DSSATController(object):
                                 'maize_rf_lowN': 'DSSAT run for maize for a low nitrogen management practice'
                                     },
                              'features': {
-                                'HWAM': 'Harvested weight at maturity (kg/ha)',
+                                'HWAH': 'Harvested weight at harvest (kg/ha)',
                                 'HARVEST_AREA': 'Amount of area harvested under all management practices for this point (ha)',
-                                'Yield': 'Yield for the given point/management practice (kg)'
+                                'Yield': 'Yield for the given point/management practice (kg)',
+                                'management_practice': 'The management practice for the given record',
                                 },
                              'parameters': {
                                 'samples':'integer',
@@ -89,6 +90,12 @@ class DSSATController(object):
                                 'fertilizer': 'integer',
                                 'planting_start': 'string',
                                 'planting_end': 'string'
+                                },
+                             'encoding': {
+                                'maize_rf_highN': 1,
+                                'maize_irrig': 2,
+                                'maize_rf_0N': 3,
+                                'maize_rf_lowN': 4
                                 }
                             }
 
@@ -143,7 +150,7 @@ class DSSATController(object):
         # Otherwise default to a 1984 start year and run through 2018
         else:
             config["default_setup"]["startYear"] = start_year
-            config["default_setup"]["nyers"] = 34
+            config["default_setup"]["nyers"] = 35
 
         config["default_setup"]["sdate"] = f"{start_year}-01-01"
 
@@ -179,6 +186,8 @@ class DSSATController(object):
             # where the baseline is 100 so anything above 100 is a modification upward
             # and below 100 is modification downward in kg/ha
             config["default_setup"]["fen_tot"] = self.model_config["fertilizer"]
+        else:
+            config["default_setup"]["fen_tot"] = 100.0
 
         ########### SET RAINFALL ###############
         if "rainfall" in self.model_config:
@@ -188,6 +197,8 @@ class DSSATController(object):
             rain = self.model_config["rainfall"]
             rain = "M{:.2f}".format(rain)
             config["default_setup"]["erain"] = rain
+        else:
+            config["default_setup"]["erain"] = "M1.00"
 
         with open(f"{self.result_path}/et_docker.json", "w") as f:
             f.write(json.dumps(config))
@@ -215,22 +226,19 @@ class DSSATController(object):
                 try:
                     self.storeResults()
                     logging.info("Model output: STORED")
-
                     try:
                         self.ingest2db()
+                        # Success case requires storage to S3 AND ingest to DB
+                        # if Success, update Redis accordingly
+                        self.r.hmset(self.run_id, 
+                            {'status': 'SUCCESS',
+                             'bucket': self.bucket,
+                             'key': self.key}
+                             )                        
                     except Exception as e:
                         msg = f'DB ingest failure: {e}.'
                         logging.error(msg)
                         self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})                        
-
-                    # Success case requires storage to S3 AND ingest to DB
-                    # if Success, update Redis accordingly
-                    self.r.hmset(self.run_id, 
-                        {'status': 'SUCCESS',
-                         'bucket': self.bucket,
-                         'key': self.key}
-                         )
-
                 except Exception as e:
                     msg = f'Output storage failure: {e}.'
                     logging.error(msg)
@@ -353,7 +361,13 @@ class DSSATController(object):
         df['datetime'] = df.apply(lambda x: datetime(x.year, 1, 1) + timedelta(x.days - 1), axis=1)
         df['run_id'] = self.run_id
         df['model'] = self.name
-        df['Yield'] = df['HWAM'] * df['HARVEST_AREA']
+        df['Yield'] = df['HWAH'] * df['HARVEST_AREA']
+
+        # for combined runs only we need to convert the run name to an encoded 
+        # float so that it can go into the database
+        if 'RUN_NAME' in df:
+            df['management_practice'] = df['RUN_NAME'].apply(lambda x: self.descriptions['encoding'][x])
+
         gdf = gpd.GeoDataFrame(df)
 
         # Spatial merge on GADM to obtain admin areas
@@ -369,6 +383,12 @@ class DSSATController(object):
         # then upload the GDF per feature to ensure that rows are added for each
         # feature
         for feature_name, feature_description in self.descriptions['features'].items():
+            # specific handling for "combined" file
+            if feature_name == 'management_practice':
+                if self.model_config["management_practice"] != "combined":
+                    # if not a combined file, then just move onto the next 
+                    # in the for loop and do nothing for this feature_name
+                    continue
             cols_to_select = base_cols + [feature_name]
             gdf_ = gdf[cols_to_select] # generate new interim GDF
             gdf_['feature_name'] = feature_name

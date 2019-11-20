@@ -16,3 +16,7 @@ concepts:
   - assets
   - poverty  
   - inflation
+
+outputs:
+  - name: consumption per capita per day
+    description: Measure of how much a person would spend each day (2011 USD per capita per day)

@@ -19,3 +19,17 @@ category:
 concepts:
   - GPE
   - population
+
+outputs:
+  - name: population
+    description: pixel value corresponds to the population residing there.
+
+parameters:
+  - name: country_level
+    description: Select the country of interest.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - Ethiopia
+        - South Sudan
+      default: Ethiopia

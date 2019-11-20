@@ -13,3 +13,101 @@ concepts:
   - food_production
   - crop_storage
   - farming
+
+outputs:
+  - name: HWAH
+    description: Harvested weight at harvest (kg/ha)
+  - name: HARVEST_AREA
+    description: Amount of area harvested under all management practices for this point (ha)
+  - name: Yield
+    description: Yield for the given point/management practice (kg)
+  - name: management_practice
+    description: >
+      Indicates the type of management practice for the given yield/point combination. 
+      1 corresponds to high nitrogen, 2 to irrigated high nitrogen, 3 to 
+      subsistence, and 4 to low nitrogen.
+
+parameters:
+- name: samples
+    description: >
+      The number of pixel predictions DSSAT will make. Setting samples to 0 returns the 
+      entire geography (all Ethiopia) which is quite large.
+    metadata:
+      type: NumberParameter
+      default: 0
+      minumum: 1
+      maximum: 0
+- name: management_practice
+    description: >
+      The management practice to model. "maize_rf_highN" corresponds to a high nitrogen management 
+      practice. "maize_irrig" corresponds to a high nitrogen, irrigated management practice. "maize_rf_0N" 
+      corresponds to a subsistence management practice. "maize_rf_lowN" corresponds to a low nitrogen 
+      managemet practice. If set to "combined", all practices are produced. 
+    metadata:
+      type: ChoiceParameter
+      default: combined
+      choices:
+        - combined
+        - maize_rf_highN
+        - maize_irrig
+        - maize_rf_0N
+        - maize_rf_lowN
+  - name: start_year
+    description: >
+      The year to begin the simulation. The earliest possible year to begin is 1984 and the latest is 
+      2019.
+    metadata:
+      type: TimeParameter
+      default: 1984
+      minumum: 1984
+      maximum: 2018
+  - name: number_years
+    description: >
+      The number of years to run the simulation. If start_year + number_years - 1 > 2018 then this 
+      will be set such that your simulation runs through 2018.
+    metadata:
+      type: TimeParameter
+      default: 35
+      minumum: 1
+      maximum: 35         
+  - name: rainfall
+    description: >
+      The degree to perturb rainfall from the baseline model. This should be a real number, 
+      which, if 0, would indicate no rainfall in any district. If 1 it would indicate rainfall
+      matching baseline estimates. 1.25 would indicate a 25% increase in rainfall from off the
+      baseline estimate.
+    metadata:
+      type: NumberParameter
+      default: 1
+      minumum: 0
+      maximum: 2
+  - name: fertilizer
+    description: >
+      This a scalar between 0 and 200 which represents fertilizer in kg/ha. 100 is considered the 
+      baseline amount (per management practice), so anything above 100 represents additional 
+      fertilizer usage/availability and anything below 100 represents decreased fertilzer (per 
+      management practice).
+    metadata:
+      type: NumberParameter
+      default: 100
+      minumum: 0
+      maximum: 200  
+  - name: planting_start
+    description: >
+      This is the month and day in "mm-dd" format when planting should begin. This allows the modeler 
+      to simulate various planting seasons (such as Belg and Maher).
+    metadata:
+      type: TimeParameter
+      default: "03-01"
+      minumum: "01-01"
+      maximum: "12-31"
+  - name: planting_end
+    description: >
+      This is the month and day in "mm-dd" format when planting should end. This allows the modeler 
+      to simulate various planting seasons (such as Belg and Maher). This must be after the 
+      planting_start parameter.
+    metadata:
+      type: TimeParameter
+      default: "05-20"
+      minumum: "01-01"
+      maximum: "12-31"     
