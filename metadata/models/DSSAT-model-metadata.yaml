@@ -14,6 +14,14 @@ concepts:
   - crop_storage
   - farming
 
+outputs:
+  - name: HWAM
+    description: Harvested weight at maturity (kg/ha)
+  - name: HARVEST_AREA
+    description: Amount of area harvested under all management practices for this point (ha)
+  - name: Yield
+    description: Yield for the given point/management practice (kg)
+
 parameters:
 - name: samples
     description: >

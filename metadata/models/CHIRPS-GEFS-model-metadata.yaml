@@ -16,6 +16,14 @@ concepts:
   - climate
   - flooding
 
+outputs:
+  - name: Rainfall
+    description: rainfall in mm per 5km
+  - name: Rainfall relative to average
+    description: Rainfall relative to the historic average in mm per 5km
+  - name: SPI
+    description: Standardized Precipitation Index
+
 parameters:
   - name: _type
     description: >

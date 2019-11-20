@@ -16,3 +16,7 @@ concepts:
   - assets
   - material
   - poverty
+
+outputs:
+  - name: poverty level
+    description: Measure of household poverty levels based on the assets they own (unitless)

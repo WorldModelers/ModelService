@@ -27,6 +27,10 @@ concepts:
   - food_security
   - food_insecurity  
 
+outputs:
+  - name: yield level
+    description: Percent increase or decrease in yield from baseline
+
 parameters:
   - name: crop
     description: >

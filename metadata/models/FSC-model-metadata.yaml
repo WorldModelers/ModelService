@@ -15,6 +15,14 @@ concepts:
   - export
   - crop_storage
 
+outputs:
+  - name: dR
+    description: Change in crop stock reserve levels
+  - name: dC
+    description: Change in consumption
+  - name: dP
+    description: Change in production levels
+
 parameters:
   - country: 
     description: Select the country for which to induce a food shock (ISO-3 format).

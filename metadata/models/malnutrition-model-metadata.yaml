@@ -18,3 +18,19 @@ concepts:
   - nutrient
   - food_security
   - food_insecurity
+
+outputs:
+  - name: malnutrition
+    description: pixel value corresponds to predicted number of malnutrition cases.
+
+parameters:
+  - name: percent_of_normal_rainfall
+    description: >
+      The percentage of rainfall can be specified for this model by providing a float based on the 
+      following scale: 0 is no rainfall, 100 is the same as the recorded amount, 200 is 2 times the 
+      recorded amount.
+    metadata:
+      type: NumberParameter
+      minimum: 0
+      maximum: 200
+      default: 100
