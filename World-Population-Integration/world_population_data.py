@@ -14,42 +14,16 @@ r = redis.Redis(host=config['REDIS']['HOST'],
 
 bucket = 'world-modelers'
 
-def gen_global(year):
-    if '_' in nit:
-        inc = nit.split('_')[1] + '_'
-        nit = nit.split('_')[0]
-    else:
-        inc = ''
-    output = f"{year}.tif"
-    return output
-
-def gen_merged(year):
-    if '_' in nit:
-        inc = nit.split('_')[1] + '_'
-        nit = nit.split('_')[0]
-    else:
-        inc = ''    
-    output = f"merged_{year}.txt"
-    return output
-
-def gen_run(year, output, stat=None):
+def gen_run(year, output):
     model_name = 'world_population_africa'
     model_config = {
                     'config': {
-                      "crop": crop,
-                      "irrigation": irrig,
-                      "nitrogen": nit,
+                      "year": year,
                     },
                     'name': model_name
                    }
 
-    if stat == None:
-        model_config["config"]["area"] = "merged"
-    else:
-        model_config["config"]["area"] = "global"
-        model_config["config"]["statistic"] = stat
-
-    model_config =sortOD(OrderedDict(model_config))
+    model_config = sortOD(OrderedDict(model_config))
 
     run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
     print(model_config)
@@ -83,12 +57,9 @@ if __name__ == "__main__":
     # Wipe runs for the model
     r.delete('world_population_africa')
 
+    years = [2000, 2005, 2010, 2015, 2020]
+
     for year in years:
         # Generate merged runs
-        output = gen_merged(crop, irrig, nit)
-        gen_run(crop, irrig, nit, output)
-
-        for stat in stats:
-            # Generate global runs
-            output = gen_global(crop, irrig, nit, stat)
-            gen_run(crop, irrig, nit, output, stat)
+        output = "world_population_africa_{}.txt".format(year)
+        gen_run(year, output)

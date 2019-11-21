@@ -60,14 +60,6 @@ def raster2gpd(InRaster,feature_name,nodataval=-9999):
     return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])
 
 
-def gen_global(crop, irrig, nit, stat):
-    '''
-    Take in LPJmL parameters and create associated file path
-    '''
-    output = f"AFR_PPP_{year}_adj_v2.tif"
-    return output
-
-
 def gen_run(crop, irrig, nit, stat):
     '''
     Take in LPJmL parameters and generate `run_id` and a config
@@ -124,7 +116,7 @@ if __name__ == "__main__":
                     
         params = {'year': year}
         print(params)
-        run_name = gen_global(crop, irrig, nit, stat)
+        run_name = f"AFR_PPP_{year}_adj_v2.tif"
         run_id, model_config = gen_run(crop, irrig, nit, stat)
                     
         # Add metadata object to DB
@@ -147,8 +139,8 @@ if __name__ == "__main__":
             db_session.commit()
                     
         # Convert Raster to GeoPandas
-        InRaster = f"C2P2_LPJmL_yield_backcasts_2018/{run_name}"
-        feature_name = 'yield level'
+        InRaster = f"Africa_1km_Population/{run_name}"
+        feature_name = 'population per 1km'
         gdf = raster2gpd(InRaster,feature_name)
                     
         # Spatial merge on GADM to obtain admin areas
@@ -158,7 +150,7 @@ if __name__ == "__main__":
         gdf['datetime'] = datetime(year=2018, month=1, day=1)
         gdf['run_id'] = run_id
         gdf['model'] = model_config['name']
-        gdf['feature_description'] = "Percent increase or decrease in yield from baseline"
+        gdf['feature_description'] = ""
         del(gdf['geometry'])
         del(gdf['index_right'])
 
