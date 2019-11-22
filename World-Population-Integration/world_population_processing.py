@@ -60,18 +60,14 @@ def raster2gpd(InRaster,feature_name,nodataval=-9999):
     return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])
 
 
-def gen_run(crop, irrig, nit, stat):
+def gen_run(year):
     '''
-    Take in LPJmL parameters and generate `run_id` and a config
+    Take in population estimate year and generate `run_id` and a config
     '''
-    model_name = 'yield_anomalies_lpjml'
+    model_name = 'world_population_africa'
     model_config = {
                     'config': {
-                      "crop": crop,
-                      "irrigation": irrig,
-                      "nitrogen": nit,
-                      "area": "global",
-                      "stat": stat
+                      "year": year
                     },
                     'name': model_name
                    }
@@ -122,9 +118,9 @@ if __name__ == "__main__":
         # Add metadata object to DB
         meta = Metadata(run_id=run_id, 
                 model=model_config['name'],
-                raw_output_link= f"https://world-modelers.s3.amazonaws.com/results/yield_anomalies_model/{run_name}",
-                run_label="LPJmL Yield Anomalies",
-                point_resolution_meters=52000)
+                raw_output_link= f"https://world-modelers.s3.amazonaws.com/results/world_population_africa/{run_name}",
+                run_label="World Population Africa",
+                point_resolution_meters=1000)
         db_session.add(meta)
         db_session.commit()
                     
@@ -144,13 +140,15 @@ if __name__ == "__main__":
         gdf = raster2gpd(InRaster,feature_name)
                     
         # Spatial merge on GADM to obtain admin areas
+        # Not sure if we want to do the same thing here for 
+        # World Pop as for the Yield Anomalies
         gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
                     
         # Set run fields: datetime, run_id, model
         gdf['datetime'] = datetime(year=2018, month=1, day=1)
         gdf['run_id'] = run_id
         gdf['model'] = model_config['name']
-        gdf['feature_description'] = ""
+        gdf['feature_description'] = "Estimated population on 0.008333 degree (1km at equator) grid"
         del(gdf['geometry'])
         del(gdf['index_right'])
 
