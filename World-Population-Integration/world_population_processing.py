@@ -102,6 +102,9 @@ if __name__ == "__main__":
     admin2['admin2'] = admin2['NAME_2']
     admin2 = admin2[['geometry','country','state','admin1','admin2']]
 
+    # Cut down to a bounding box around Africa to save time/memory
+    admin2 = admin2.cx[-28:58, -39:40]
+
     # Read in World Population Africa tiff files
     files = [i for i in os.listdir('Africa_1km_Population/') if '.tif' in i]
 
@@ -113,7 +116,7 @@ if __name__ == "__main__":
         params = {'year': year}
         print(params)
         run_name = f"AFR_PPP_{year}_adj_v2.tif"
-        run_id, model_config = gen_run(crop, irrig, nit, stat)
+        run_id, model_config = gen_run(year)
                     
         # Add metadata object to DB
         meta = Metadata(run_id=run_id, 
