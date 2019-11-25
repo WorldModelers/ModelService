@@ -1,4 +1,4 @@
-# Yield Anomalies Model (LPJmL)
+# WorldPop Africa Population Estimates
 
 Running `maas_install.sh` directly invokes `world_population_data.py` and `world_population_processing.py`. 
 
