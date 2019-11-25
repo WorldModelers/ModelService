@@ -88,7 +88,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Parameter'
+                items:
+                  $ref: '#/components/schemas/Parameter'
+                type: array
           description: SUCCESS
       summary: Obtain information about a model's parameters.
       tags:
