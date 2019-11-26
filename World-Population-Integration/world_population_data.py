@@ -61,5 +61,5 @@ if __name__ == "__main__":
 
     for year in years:
         # Generate merged runs
-        output = "world_population_africa_{}.txt".format(year)
+        output = "world_population_africa_{}.tif".format(year)
         gen_run(year, output)
