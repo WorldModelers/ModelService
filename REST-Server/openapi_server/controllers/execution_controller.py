@@ -52,7 +52,8 @@ available_models = ['population_model',
                     'consumption_model',
                     'chirps',
                     'chirps-gefs',
-                    'yield_anomalies_lpjml']
+                    'yield_anomalies_lpjml',
+                    'world_population_africa']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
