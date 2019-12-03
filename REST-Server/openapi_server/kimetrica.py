@@ -23,12 +23,12 @@ class KiController(object):
         # Rework this all later by pulling from yml or other config.  For now this works...
         self.model_map = {
 		"malnutrition_model":{
-			"key":"results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson",
+			"key":"results/malnutrition_model/" + model_config["config"]["run_id"] + ".zip",
 			"entrypoint":f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=HiResRasterMasked --result_name=intermediate/*HiResRasterMasked*/*.pickle --key=" + "results/malnutrition_model/" + model_config["config"]["run_id"] + ".zip " + "--params time|2018-04-01-2018-09-01|rainfall-scenario|" + str(model_config["config"].get("rainfall_scenario","")) + f"|country-level|'{model_config['config'].get('country_level','Ethiopia')}'" + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson"
 				    },  
                 "population_model":{
-			"key":"results/population_model/" + model_config["config"]["run_id"] + ".csv",
-                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=HiResPopRasterMasked --result_name=intermediate/*HiResPopRasterMasked*/*.pickle/*.tiff  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".tiff " + "--params time|2018-04-01-2018-09-01|" + f"|country-level|'{model_config['config'].get('country_level','Ethiopia')}'" + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson"
+			"key":"results/population_model/" + model_config["config"]["run_id"] + ".tiff",
+                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=HiResPopRasterMasked --result_name=intermediate/*HiResPopRasterMasked*/*.pickle/*.tiff  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".tiff " + "--params time|2018-04-01-2018-09-01|" + f"country-level|'{model_config['config'].get('country_level','Ethiopia')}'" + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson"
 				   }
         }
         config = configparser.ConfigParser()
@@ -131,7 +131,7 @@ class KiController(object):
         """
         Run KiLuigi model inside Docker container
         """
-        logging.info(f"Running model run with ID: {self.run_id}")
+        logging.info(f"Running Kimetrica model run with ID: {self.run_id}")
         try:
             self.model = self.containers.run(self.scheduler, 
                                    environment=self.environment, 
@@ -149,7 +149,7 @@ class KiController(object):
                     {'status': 'SUCCESS',
                      'bucket': self.bucket,
                      'key': self.key}
-                     )
+                         )
             else:
                 logging.error(f"Model run FAIL: {run_logs}")
                 self.r.hmset(self.run_id, {'status': 'FAIL', 'output': run_logs})
