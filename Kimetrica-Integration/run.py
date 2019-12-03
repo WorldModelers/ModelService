@@ -28,10 +28,11 @@ def storeResults(model_name, bucket, result_name, key):
         # by the malnutrition model
         result_path = glob.glob(f'/usr/src/app/output/{result_name}')[0]
         result_path = shutil.make_archive(result_path, 'zip', result_path)
+        logging.info(f"{model_name} output path is: {result_path}")
 
     elif model_name == "population_model":
         result_path = glob.glob(f'/usr/src/app/output/{result_name}')[0]
-        logging.info(result_path)
+        logging.info(f"{model_name} output path is: {result_path}")
 
     exists = os.path.isfile(result_path)
 
