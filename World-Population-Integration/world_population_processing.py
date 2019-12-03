@@ -1,12 +1,17 @@
 import sys
 import os
+import warnings
 sys.path.append("../db")
+
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
 
 from database import init_db, db_session
 from models import Metadata, Output, Parameters
 
 from shapely.geometry import Point
 import geopandas as gpd
+import numpy as np
 from osgeo import gdal
 from osgeo import gdalconst
 
@@ -141,20 +146,33 @@ if __name__ == "__main__":
         InRaster = f"Africa_1km_Population/{run_name}"
         feature_name = 'population per 1km'
         gdf = raster2gpd(InRaster,feature_name)
-                    
-        # Spatial merge on GADM to obtain admin areas
-        # Not sure if we want to do the same thing here for 
-        # World Pop as for the Yield Anomalies
-        gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
-                    
-        # Set run fields: datetime, run_id, model
-        gdf['datetime'] = datetime(year=2018, month=1, day=1)
-        gdf['run_id'] = run_id
-        gdf['model'] = model_config['name']
-        gdf['feature_description'] = "Estimated population on 0.008333 degree (1km at equator) grid"
-        del(gdf['geometry'])
-        del(gdf['index_right'])
 
-        # perform bulk insert of entire geopandas DF
-        db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
-        db_session.commit()
+        # Split the GDF into n chunks to avoid OOM
+        split_count = 1000
+        gdf_split = np.array_split(gdf, split_count)
+
+        count = 1
+        for g_ in gdf_split:
+                        
+            # Spatial merge on GADM to obtain admin areas
+            # Not sure if we want to do the same thing here for 
+            # World Pop as for the Yield Anomalies
+            print("Performing spatial merge...")
+            g_ = gpd.sjoin(g_, admin2, how="left", op='intersects')
+                        
+            # Set run fields: datetime, run_id, model
+            g_['datetime'] = datetime(year=year, month=1, day=1)
+            g_['run_id'] = run_id
+            g_['model'] = model_config['name']
+            g_['feature_description'] = "Estimated population on 0.008333 degree (1km at equator) grid"
+            del(g_['geometry'])
+            del(g_['index_right'])
+
+            print("Ingesting to DB...")
+            # perform bulk insert of entire geopandas DF
+            db_session.bulk_insert_mappings(Output, g_.to_dict(orient="records"))
+            db_session.commit()
+
+            if count % 10 == 0:
+                print(f"Completed {count} chunks out of {split_count}")
+            count += 1
