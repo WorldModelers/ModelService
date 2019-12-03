@@ -58,7 +58,7 @@ class KiController(object):
                           " --task_name=HiResPopRasterMasked --result_name=intermediate/*HiResPopRasterMasked*/*.pickle/*.tiff"\
                           " --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".tiff "\
                           + "--params time|2018-04-01-2018-09-01|" + f"country-level|'{model_config['config'].get('country','Ethiopia')}'"\
-                          + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson"
+                          + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson",
             "feature_name": "population",
             "feature_description": "population estimate at 1km^2 grid cell"
 				   }
@@ -98,6 +98,7 @@ class KiController(object):
                           "POSTGRES_PASSWORD": self.environment["PGPASSWORD"]}
         self.network = self.create_network()
         self.db_container = self.run_db()
+        self.gadm = config['GADM']['GADM_PATH']
 
         # The Redis connection has to be instantiated by this Class
         # since once instantiated, it cannot be pickled by RQ
@@ -181,7 +182,8 @@ class KiController(object):
             run_logs = self.model.decode('utf-8')
 
             if self.success_msg in run_logs:
-                logging.info("Model run: SUCCESS")          
+                self.ingest2db()
+                logging.info("Model run: SUCCESS")         
                 self.r.hmset(self.run_id, 
                     {'status': 'SUCCESS',
                      'bucket': self.bucket,
@@ -225,21 +227,24 @@ class KiController(object):
 
         # Add parameters to DB
         logging.info("Storing parameters...")
-        for param_name, param_val in self.model_config.items():                
-            if param_name == 'year':
-                param_type = 'integer'
-            elif param_name == 'month':
-                param_type = 'integer'
+        for param_name, param_val in self.model_config['config'].items():
+            if param_name == 'run_id':
+                pass
             else:
-                param_type = 'string'
+                if param_name == 'year':
+                    param_type = 'integer'
+                elif param_name == 'month':
+                    param_type = 'integer'
+                else:
+                    param_type = 'string'
 
-            param = Parameters(run_id=self.run_id,
-                              model=self.name,
-                              parameter_name=param_name,
-                              parameter_value=param_val,
-                              parameter_type=param_type)
-            db_session.add(param)
-            db_session.commit()
+                param = Parameters(run_id=self.run_id,
+                                  model=self.name,
+                                  parameter_name=param_name,
+                                  parameter_value=param_val,
+                                  parameter_type=param_type)
+                db_session.add(param)
+                db_session.commit()
 
         # Process tiff file into point data
         logging.info("Processing tiff...")

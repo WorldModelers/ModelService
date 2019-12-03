@@ -47,7 +47,7 @@ def storeResults(model_name, bucket, result_name, key):
         s3.upload_file(result_path, bucket, key, ExtraArgs={'ACL':'public-read'})
         logging.info(f'Results stored at : https://s3.amazonaws.com/world-modelers/{key}')
         # Remove all output for now and handle caching at the service level.  Look into this again later.
-        # shutil.rmtree('/usr/src/app/output/intermediate')
+        shutil.rmtree('/usr/src/app/output/intermediate')
         return "SUCCESS"
     else:
         return "FAIL"
