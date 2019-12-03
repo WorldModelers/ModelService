@@ -262,9 +262,6 @@ class KiController(object):
         gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
         
         # Set run fields: datetime, run_id, model
-        # first convert dekad of year to day of year
-        # note: dekad is a 10 day period so dekad 25 ends the 250th day of the year
-        # since dekad 01 contains days 1 through 10 so dekad 01 should yield Jan 1 
         gdf['datetime'] = self.start_time
         gdf['run_id'] = self.run_id
         gdf['model'] = self.name
