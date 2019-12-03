@@ -182,7 +182,12 @@ class KiController(object):
             run_logs = self.model.decode('utf-8')
 
             if self.success_msg in run_logs:
-                self.ingest2db()
+                try:
+                    self.ingest2db()
+                except Exception as e:
+                    msg = f'DB ingest failure: {e}.'
+                    logging.error(msg)
+                    self.r.hmset(self.run_id, {'status': 'FAIL', 'output': msg})  
                 logging.info("Model run: SUCCESS")         
                 self.r.hmset(self.run_id, 
                     {'status': 'SUCCESS',
