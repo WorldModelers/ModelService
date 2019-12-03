@@ -27,11 +27,16 @@ def storeResults(model_name, bucket, result_name, key):
         # we need to zip the results since there will be one .tiff per month covered
         # by the malnutrition model
         result_path = glob.glob(f'/usr/src/app/output/{result_name}')[0]
-        result_path = shutil.make_archive(result_path, 'zip', result_path)
+        if not os.path.exists(f'/usr/src/app/output/results/{model_name}'):
+            os.makedirs(f'/usr/src/app/output/results/{model_name}')
+        shutil.copy(result_path, f'/usr/src/app/output/{key}')
         logging.info(f"{model_name} output path is: {result_path}")
 
     elif model_name == "population_model":
         result_path = glob.glob(f'/usr/src/app/output/{result_name}')[0]
+        if not os.path.exists(f'/usr/src/app/output/results/{model_name}'):
+            os.makedirs(f'/usr/src/app/output/results/{model_name}')
+        shutil.copy(result_path, f'/usr/src/app/output/{key}')
         logging.info(f"{model_name} output path is: {result_path}")
 
     exists = os.path.isfile(result_path)
@@ -42,7 +47,7 @@ def storeResults(model_name, bucket, result_name, key):
         s3.upload_file(result_path, bucket, key, ExtraArgs={'ACL':'public-read'})
         logging.info(f'Results stored at : https://s3.amazonaws.com/world-modelers/{key}')
         # Remove all output for now and handle caching at the service level.  Look into this again later.
-        shutil.rmtree('/usr/src/app/output')
+        # shutil.rmtree('/usr/src/app/output/intermediate')
         return "SUCCESS"
     else:
         return "FAIL"

@@ -24,16 +24,42 @@ outputs:
     description: pixel value corresponds to predicted number of malnutrition cases.
 
 parameters:
-  - name: percent_of_normal_rainfall
+  - name: rainfall_scenario
     description: >
-      The percentage of rainfall can be specified for this model by providing a float based on the 
-      following scale: 0 is no rainfall, 100 is the same as the recorded amount, 200 is 2 times the 
-      recorded amount.
+      The rainfall scenario based on historical monthly average of the precipitation values. High value is estimated by 2x mean, and low value is estimated by 0.25x mean.This does not affect the population model.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - high
+        - medium
+        - normal
+        - low
+      default: normal
+  - name: country
+    description: Select the country of interest.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - Ethiopia
+        - South Sudan
+      default: Ethiopia
+  - name: year
+    description: Select the year of interest.
     metadata:
       type: NumberParameter
-      minimum: 0
-      maximum: 200
-      default: 100
+      minimum: 2018
+      maximum: 2018
+      default: 2018
+  - name: month
+    description: Select the month of interest.
+    metadata:
+      type: NumberParameter
+      minimum: 1
+      maximum: 12
+      default: 4      
 
 configuration:
-  - percent_of_normal_rainfall: 1
+  - rainfall_scenario: normal
+  - country: Ethiopia
+  - year: 2018
+  - month: 4
