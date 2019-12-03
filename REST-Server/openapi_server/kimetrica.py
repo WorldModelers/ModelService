@@ -48,11 +48,19 @@ class KiController(object):
                            + f"--params time|{self.start_time_f}-{self.end_time_f}|rainfall-scenario|"\
                            + str(model_config["config"].get("rainfall_scenario",""))\
                            + f"|country-level|'{model_config['config'].get('country','Ethiopia')}'"\
-                           + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson"
+                           + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson",
+            "feature_name": "malnutrition cases",
+            "feature_description": "predicted number of malnutrition cases (Global Acute Malnutrition)"
 				    },  
         "population_model":{
 			"key":"results/population_model/" + model_config["config"]["run_id"] + ".tiff",
-            "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=HiResPopRasterMasked --result_name=intermediate/*HiResPopRasterMasked*/*.pickle/*.tiff  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".tiff " + "--params time|2018-04-01-2018-09-01|" + f"country-level|'{model_config['config'].get('country','Ethiopia')}'" + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson"
+            "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model"\
+                          " --task_name=HiResPopRasterMasked --result_name=intermediate/*HiResPopRasterMasked*/*.pickle/*.tiff"\
+                          " --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".tiff "\
+                          + "--params time|2018-04-01-2018-09-01|" + f"country-level|'{model_config['config'].get('country','Ethiopia')}'"\
+                          + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson"
+            "feature_name": "population",
+            "feature_description": "population estimate at 1km^2 grid cell"
 				   }
         }
         config = configparser.ConfigParser()
@@ -71,6 +79,11 @@ class KiController(object):
         self.success_msg = 'This progress looks :)'
         
         # These are now pulled from model_map above
+        self.name = self.model_config["name"]
+        self.key = self.model_map[model_config["name"]]["key"]
+        self.feature_description = self.model_map[model_config["name"]]["feature_description"]
+        self.feature_name = self.model_map[model_config["name"]]["feature_name"]
+        self.run_description = f"Run of Kimetrica {self.name}."
         self.key = self.model_map[model_config["name"]]["key"]
         self.entrypoint=self.model_map[model_config["name"]]["entrypoint"]
 
@@ -203,9 +216,9 @@ class KiController(object):
         # TODO: add run_label and run_description
         meta = Metadata(run_id=self.run_id, 
                         model=self.name,
-                        run_description=self.features[self._type]['run_description'],
+                        run_description=self.run_description,
                         raw_output_link= f'https://s3.amazonaws.com/world-modelers/{self.key}',
-                        point_resolution_meters=5000)
+                        point_resolution_meters=1000)
         logging.info("Storing metadata...")
         db_session.add(meta)
         db_session.commit()
@@ -215,12 +228,8 @@ class KiController(object):
         for param_name, param_val in self.model_config.items():                
             if param_name == 'year':
                 param_type = 'integer'
-            elif param_name == 'bbox':
-                param_type = 'array'
-                param_val = json.dumps(param_val)
-            elif param_name == 'dekad':
+            elif param_name == 'month':
                 param_type = 'integer'
-                param_val = int(param_val)
             else:
                 param_type = 'string'
 
@@ -234,9 +243,9 @@ class KiController(object):
 
         # Process tiff file into point data
         logging.info("Processing tiff...")
-        InRaster = f"{self.result_path}/{self.result_name}.tiff"
-        feature_name = self.features[self._type]['feature_name']
-        feature_description = self.features[self._type]['feature_description']
+        InRaster = f"{self.install_path}/output/{self.key}"
+        feature_name = self.feature_name
+        feature_description = self.feature_description
         gdf = raster2gpd(InRaster,feature_name)
         
         # Spatial merge on GADM to obtain admin areas
@@ -246,7 +255,7 @@ class KiController(object):
         # first convert dekad of year to day of year
         # note: dekad is a 10 day period so dekad 25 ends the 250th day of the year
         # since dekad 01 contains days 1 through 10 so dekad 01 should yield Jan 1 
-        gdf['datetime'] = datetime(self.year, 1, 1) + timedelta((int(self.dekad) * 10) - 11)
+        gdf['datetime'] = self.start_time
         gdf['run_id'] = self.run_id
         gdf['model'] = self.name
         gdf['feature_description'] = feature_description
