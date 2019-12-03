@@ -24,11 +24,11 @@ class KiController(object):
         self.model_map = {
 		"malnutrition_model":{
 			"key":"results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson",
-			"entrypoint":f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=MalnutritionInferenceGeoJSON --result_name=final/malnutrition.geojson --key=" + "results/malnutrition_model/" + model_config["config"]["run_id"] + ".geojson " + "--params PercentOfNormalRainfall|" + str(model_config["config"].get("percent_of_normal_rainfall",""))
-				    },
+			"entrypoint":f"python run.py --bucket={self.bucket} --model_name=malnutrition_model --task_name=HiResRasterMasked --result_name=intermediate/*HiResRasterMasked*/*.pickle --key=" + "results/malnutrition_model/" + model_config["config"]["run_id"] + ".zip " + "--params time|2018-04-01-2018-09-01|rainfall-scenario|" + str(model_config["config"].get("rainfall_scenario","")) + f"|country-level|'{model_config['config'].get('country_level','Ethiopia')}'" + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson"
+				    },  
                 "population_model":{
 			"key":"results/population_model/" + model_config["config"]["run_id"] + ".csv",
-                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=RasterizedPopGeojson --result_name=final/population_estimate.csv  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".csv " + "--params time|2018-04-01-2018-09-01|" + f"country-level|'{model_config['config'].get('country_level','Ethiopia')}'"
+                        "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model --task_name=HiResPopRasterMasked --result_name=intermediate/*HiResPopRasterMasked*/*.pickle/*.tiff  --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".tiff " + "--params time|2018-04-01-2018-09-01|" + f"|country-level|'{model_config['config'].get('country_level','Ethiopia')}'" + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country_level','Ethiopia').replace(' ','_').lower()}_2d.geojson"
 				   }
         }
         config = configparser.ConfigParser()
