@@ -49,7 +49,7 @@ def gen_run(year, input_file, output):
     
     # Upload file to S3
     print(f"Uploading {run_obj['key']}...")
-    s3_bucket.upload_file(input_file, run_obj['key'])
+    s3_bucket.upload_file(input_file, run_obj['key'], ExtraArgs={'ACL':'public-read'})
 
     # Create Redis object
     r.hmset(run_id, run_obj)
