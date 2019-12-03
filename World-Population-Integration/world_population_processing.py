@@ -60,7 +60,10 @@ def raster2gpd(InRaster,feature_name,nodataval=-9999):
                 # this gives the upper left of the cell, offset by half a cell to get centre
                 X += HalfX
                 Y += HalfY
-                points.append([Point(X, Y),X,Y,RowData[ThisCol],feature_name])
+                # Cut down the Africa population raster here rather than putting the
+                # whole continent in the dataframe first
+                if X > 23.5 and X < 48.25 and Y > 2.9 and Y < 15.25:
+                    points.append([Point(X, Y),X,Y,RowData[ThisCol],feature_name])
 
     return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])
 
@@ -147,32 +150,34 @@ if __name__ == "__main__":
         feature_name = 'population per 1km'
         gdf = raster2gpd(InRaster,feature_name)
 
-        # Split the GDF into n chunks to avoid OOM
-        split_count = 1000
-        gdf_split = np.array_split(gdf, split_count)
+        sudan_gdf = gdf.cx[23.73:35.88, 2.92:13.155]
+        ethiopia_gdf = gdf.cx[35.88:48.22, 2.92:15.2]
+        del(gdf)
 
-        count = 1
-        for g_ in gdf_split:
+        for gdf in [sudan_gdf, ethiopia_gdf]:
+            count = 1
+            # Split into chunks to speed up and use less memory
+            split_count = 100
+            gdf_split = np.array_split(gdf, split_count)
+            for g_ in gdf_split:
                         
-            # Spatial merge on GADM to obtain admin areas
-            # Not sure if we want to do the same thing here for 
-            # World Pop as for the Yield Anomalies
-            print("Performing spatial merge...")
-            g_ = gpd.sjoin(g_, admin2, how="left", op='intersects')
+                # Spatial merge on GADM to obtain admin areas
+                print("Performing spatial merge...")
+                g_ = gpd.sjoin(g_, admin2, how="left", op='intersects')
                         
-            # Set run fields: datetime, run_id, model
-            g_['datetime'] = datetime(year=year, month=1, day=1)
-            g_['run_id'] = run_id
-            g_['model'] = model_config['name']
-            g_['feature_description'] = "Estimated population on 0.008333 degree (1km at equator) grid"
-            del(g_['geometry'])
-            del(g_['index_right'])
+                # Set run fields: datetime, run_id, model
+                g_['datetime'] = datetime(year=year, month=1, day=1)
+                g_['run_id'] = run_id
+                g_['model'] = model_config['name']
+                g_['feature_description'] = "Estimated population on 0.008333 degree (1km at equator) grid"
+                del(g_['geometry'])
+                del(g_['index_right'])
 
-            print("Ingesting to DB...")
-            # perform bulk insert of entire geopandas DF
-            db_session.bulk_insert_mappings(Output, g_.to_dict(orient="records"))
-            db_session.commit()
+                print("Ingesting to DB...")
+                # perform bulk insert of entire geopandas DF
+                db_session.bulk_insert_mappings(Output, g_.to_dict(orient="records"))
+                db_session.commit()
 
-            if count % 10 == 0:
-                print(f"Completed {count} chunks out of {split_count}")
-            count += 1
+                if count % 10 == 0:
+                    print(f"Completed {count} chunks out of {split_count}")
+                count += 1
