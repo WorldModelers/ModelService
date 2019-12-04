@@ -24,11 +24,8 @@ s3_bucket= s3.Bucket(bucket)
 def gen_run(year, input_file, output):
     model_name = 'world_population_africa'
     model_config = {
-                    'config': {
                       "year": year,
-                    },
-                    'name': model_name
-                   }
+                    }
 
     model_config = sortOD(OrderedDict(model_config))
 
