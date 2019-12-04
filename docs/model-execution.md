@@ -12,24 +12,28 @@ Models can be executed using the `/run_model` endpoint. To do this, you must pro
 - [Yield Anomalies (LPJmL)](#Yield-Anomalies-LPJmL)
 
 ### Kimetrica Population Model
-The population model can be run for either Ethiopia or South Sudan by setting the `country_level` to either `Ethiopia` or `South Sudan` as shown below:
+The population model can be run for either Ethiopia or South Sudan by setting the `country` to either `Ethiopia` or `South Sudan` as shown below. The time coverage available is country dependant: 2008-2020 is available for South Sudan, and 2000-2020 is available for Ethiopia.
 
 ```
 {
   "config": {
-      "country_level": "Ethiopia"
+      "country": "Ethiopia",
+      "year": 2018
    },
   "name": "population_model"
 }
 ```
 
 ### Kimetrica Malnutrition Model
-The percentage of rainfall can be specified for this model by providing a `float` based on the following scale: `0` is no rainfall, `1` is the same as the recorded amount, `2` is 2 times the recorded amount, etc.
+The malnutrition model can be run for either Ethiopia or South Sudan by setting the `country` to either `Ethiopia` or `South Sudan` as shown below. The time coverage available is country dependant: June, 2011 - April, 2019 is available for South Sudan and Jan, 2007 - April 2019 is available for Ethiopia. These can be set by providing integer `year` and `month` for the time range of interest. `rainfall_scenario` is based on historical monthly average of the precipitation values. `high` value is estimated by 2x `mean`, and `low` value is estimated by 0.25x mean. `mean` and `normal` are equivalent values.
 
 ```
 {
    "config":{
-      "percent_of_normal_rainfall":100.0
+      "rainfall_scenario": "high",
+      "country": "Ethiopia",
+      "year": 2018,
+      "month": 1
    },
    "name":"malnutrition_model"
 }
