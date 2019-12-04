@@ -174,6 +174,7 @@ def run_results_run_idget(RunID):  # noqa: E501
     config = json.loads(run[b'config'].decode('utf-8'))
     if 'run_id' not in config:
         config['run_id'] = RunID
+        
     model_name = run[b'name'].decode('utf-8')
 
     if b'output' not in run:
