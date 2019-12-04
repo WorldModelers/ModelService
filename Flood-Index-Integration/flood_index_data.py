@@ -21,10 +21,11 @@ s3 = session.resource("s3")
 s3_client = session.client("s3")
 s3_bucket= s3.Bucket(bucket)
 
-def gen_run(input_file, output):
+def gen_run(input_file, output, year):
     model_name = 'flood_index_model'
     model_config = {
                     'config': {
+                        "year": year
                     },
                     'name': model_name
                    }
@@ -38,7 +39,7 @@ def gen_run(input_file, output):
     
     run_obj = {'status': 'SUCCESS',
      'name': model_name,
-     'config': model_config,
+     'config': model_config["config"],
      'bucket': bucket,
      'key': f"results/flood_index_model/{output}"
     }
@@ -68,6 +69,17 @@ if __name__ == "__main__":
     # Wipe runs for the model
     r.delete('flood_index_model')
 
-    input_file = f"floodIndex-78318c49e3646c852483accdeb818081"
-    output = "floodIndex-78318c49e3646c852483accdeb818081.nc"
-    gen_run(input_file, output)
+    file_lookup = {'floodIndex-78318c49e3646c852483accdeb818081':2017
+                    'floodIndex-1c014ca61fc333d133d2401374073494':2016
+                    'floodIndex-3961fe71a70139a2b2e5ed6b6d182e15':2015
+                    'floodIndex-0cfb68f31772caecb01bee5a65b4f045':2014
+                    'floodIndex-fa3dec98034bcc82a593a13dd0e89b82':2013
+                    'floodIndex-916386f3d55ab25c7db1f87412f230d4':2012
+                    'floodIndex-ba82906887e217d8f2b39e0c3f484a4e':2011
+                    'floodIndex-800d64cd6c045767e8b6df1f0cfc1b7b':2010
+                    'floodIndex-12284f102e499a616ccd44256c316eb7':2009
+                    'floodIndex-33d0562575aa85c2c16e176cfc38fe06':2008}
+
+    for input_file, year in file_lookup.items():
+        output = f"{input_file}.nc"
+        gen_run(input_file, output, year)
