@@ -31,6 +31,7 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
 
     # open the raster and get some properties
     ds       = gdal.OpenShared(InRaster,gdalconst.GA_ReadOnly)
+    ds       = gdal.Warp('out_raster.tif', ds, dstSRS='EPSG:4326') # fixes projection issue
     GeoTrans = ds.GetGeoTransform()
     ColRange = range(ds.RasterXSize)
     RowRange = range(ds.RasterYSize)
@@ -63,10 +64,6 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
                 X += HalfX
                 Y += HalfY
 
-                # Adjust for outsize values (not sure why this occurs)
-                # TODO: check with George on why we need to do this
-                X = X/100000
-                Y = Y/100000
                 points.append([Point(X, Y),X,Y,RowData[ThisCol],feature_name])
 
     return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])
@@ -103,7 +100,10 @@ if __name__ == "__main__":
                    }
                 }
 
-    bands = {1:2018, 2:2014, 3:2010, 4:2006}
+    bands = {1:[2018,2017,2016,2015], 
+             2:[2014,2013,2012,2011],
+             3:[2010,2009,2008,2007],
+             4:[2006,2005,2004,2003]}
 
     for model_name in models:
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
         db_session.commit()
             
         # iterate over the 4 bands
-        for band, year in bands.items():
+        for band, years in bands.items():
             print(f"Processing {model_name} band {band}")
             # Convert Raster to GeoPandas
             InRaster = f"data/{atlas_lookup[model_name]['tif']}"
@@ -136,15 +136,19 @@ if __name__ == "__main__":
             # Spatial merge on GADM to obtain admin areas
             gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
             
-            # Set run fields: datetime, run_id, model
-            gdf['datetime'] = datetime(year=year, month=1, day=1)
-            gdf['run_id'] = run_id
-            gdf['model'] = model_config['name']
-            gdf['feature_description'] = feature_description
-            del(gdf['geometry'])
-            del(gdf['index_right'])
+            # Iterate over years for each band to ensure that there is continous
+            # annual data
+            for year in years:
+                # Set run fields: datetime, run_id, model
+                gdf['datetime'] = datetime(year=year, month=1, day=1)
+                gdf['run_id'] = run_id
+                gdf['model'] = model_config['name']
+                gdf['feature_description'] = feature_description
+                if 'geometry' in gdf:
+                    del(gdf['geometry'])
+                    del(gdf['index_right'])
 
-            # perform bulk insert of entire geopandas DF
-            print(f"Ingesting to database\n")
-            db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
-            db_session.commit()
+                # perform bulk insert of entire geopandas DF
+                print(f"Ingesting {year} of {model_name} to database\n")
+                db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
+                db_session.commit()
