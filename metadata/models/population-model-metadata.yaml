@@ -33,6 +33,15 @@ parameters:
         - Ethiopia
         - South Sudan
       default: Ethiopia
+  - name: year
+    description: >
+      Select the year of interest. 2008-2020 is available for South Sudan, and 
+      2000-2020 is available for Ethiopia. 
+    metadata:
+      type: NumberParameter
+      minimum: 2000
+      maximum: 2020
+      default: 2018      
 
 configuration:
   - country: Ethiopia      

@@ -50,17 +50,19 @@ class KiController(object):
                            + f"|country-level|'{model_config['config'].get('country','Ethiopia')}'"\
                            + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson",
             "feature_name": "malnutrition cases",
-            "feature_description": "predicted number of malnutrition cases (Global Acute Malnutrition)"
+            "feature_description": "predicted number of malnutrition cases (Global Acute Malnutrition)",
+            "band": 2
 				    },  
         "population_model":{
 			"key":"results/population_model/" + model_config["config"]["run_id"] + ".tiff",
             "entrypoint":f"python run.py --bucket={self.bucket} --model_name=population_model"\
                           " --task_name=HiResPopRasterMasked --result_name=intermediate/*HiResPopRasterMasked*/*.pickle/*.tiff"\
                           " --key=" + "results/population_model/" + model_config["config"]["run_id"] + ".tiff "\
-                          + "--params time|2018-04-01-2018-09-01|" + f"country-level|'{model_config['config'].get('country','Ethiopia')}'"\
+                          + f"--params time|{self.year}-01-01-{int(self.year) + 1}-01-01|" + f"country-level|'{model_config['config'].get('country','Ethiopia')}'"\
                           + f"|geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson|rainfall-scenario-geography|/usr/src/app/models/geography/boundaries/{model_config['config'].get('country','Ethiopia').replace(' ','_').lower()}_2d.geojson",
             "feature_name": "population",
-            "feature_description": "population estimate at 1km^2 grid cell"
+            "feature_description": "population estimate at 1km^2 grid cell",
+            "band": 1
 				   }
         }
         config = configparser.ConfigParser()
@@ -83,6 +85,7 @@ class KiController(object):
         self.key = self.model_map[model_config["name"]]["key"]
         self.feature_description = self.model_map[model_config["name"]]["feature_description"]
         self.feature_name = self.model_map[model_config["name"]]["feature_name"]
+        self.band = self.model_map[model_config["name"]]["band"]
         self.run_description = f"Run of Kimetrica {self.name}."
         self.key = self.model_map[model_config["name"]]["key"]
         self.entrypoint=self.model_map[model_config["name"]]["entrypoint"]
@@ -256,7 +259,7 @@ class KiController(object):
         InRaster = f"{self.install_path}/output/{self.key}"
         feature_name = self.feature_name
         feature_description = self.feature_description
-        gdf = raster2gpd(InRaster,feature_name)
+        gdf = raster2gpd(InRaster,feature_name,band=self.band)
         
         # Spatial merge on GADM to obtain admin areas
         gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')

@@ -44,14 +44,18 @@ parameters:
         - South Sudan
       default: Ethiopia
   - name: year
-    description: Select the year of interest.
+    description: >
+      Select the year of interest. June, 2011 - April, 2019 is available for South Sudan.
+      Jan, 2007 - April 2019 is available for Ethiopia.
     metadata:
       type: NumberParameter
-      minimum: 2018
+      minimum: 2007
       maximum: 2018
       default: 2018
   - name: month
-    description: Select the month of interest.
+    description: >
+      Select the month of interest. June, 2011 - April, 2019 is available for South Sudan.
+      Jan, 2007 - April 2019 is available for Ethiopia.
     metadata:
       type: NumberParameter
       minimum: 1
