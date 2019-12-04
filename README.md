@@ -38,6 +38,8 @@ Models may be run using the `/run_model` endpoint. Descriptions of model configu
 - Atlas.ai Asset Wealth Model
 - CHIRPS
 - CHIRPS-GEFS
+- LPJmL Yield Anomalies
+- World Pop Africa
 
 
 ### Architecture
