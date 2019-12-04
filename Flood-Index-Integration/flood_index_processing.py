@@ -85,7 +85,7 @@ def sortOD(od):
     return res
 
 def gen_monthly(file_name):
-    rootgrp = Dataset(f"flood_results/{file_name}, "r", format="NETCDF4")
+    rootgrp = Dataset(f"flood_results/{file_name}", "r", format="NETCDF4")
     time_var = rootgrp.variables['time']
     days = len(rootgrp.variables['time'])
     lats = len(rootgrp.variables['lat'])
