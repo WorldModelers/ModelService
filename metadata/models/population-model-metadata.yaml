@@ -25,7 +25,7 @@ outputs:
     description: pixel value corresponds to the population residing there.
 
 parameters:
-  - name: country_level
+  - name: country
     description: Select the country of interest.
     metadata:
       type: ChoiceParameter
@@ -35,4 +35,4 @@ parameters:
       default: Ethiopia
 
 configuration:
-  - country_level: Ethiopia      
+  - country: Ethiopia      

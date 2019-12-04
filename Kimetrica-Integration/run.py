@@ -5,6 +5,7 @@ import argparse
 import boto3
 import logging
 import os
+import glob
 
 def run(model_name, task_name, params):
     call = ["luigi", 
@@ -21,9 +22,22 @@ def run(model_name, task_name, params):
 
     return subprocess.call(call)
 
-def storeResults(bucket, result_name, key):
-    result_path = f'/usr/src/app/output/{result_name}'
-    logging.info(result_path)
+def storeResults(model_name, bucket, result_name, key):
+    if model_name == "malnutrition_model":
+        # we need to zip the results since there will be one .tiff per month covered
+        # by the malnutrition model
+        result_path = glob.glob(f'/usr/src/app/output/{result_name}')[0]
+        if not os.path.exists(f'/usr/src/app/output/results/{model_name}'):
+            os.makedirs(f'/usr/src/app/output/results/{model_name}')
+        shutil.copy(result_path, f'/usr/src/app/output/{key}')
+        logging.info(f"{model_name} output path is: {result_path}")
+
+    elif model_name == "population_model":
+        result_path = glob.glob(f'/usr/src/app/output/{result_name}')[0]
+        if not os.path.exists(f'/usr/src/app/output/results/{model_name}'):
+            os.makedirs(f'/usr/src/app/output/results/{model_name}')
+        shutil.copy(result_path, f'/usr/src/app/output/{key}')
+        logging.info(f"{model_name} output path is: {result_path}")
 
     exists = os.path.isfile(result_path)
 
@@ -33,7 +47,7 @@ def storeResults(bucket, result_name, key):
         s3.upload_file(result_path, bucket, key, ExtraArgs={'ACL':'public-read'})
         logging.info(f'Results stored at : https://s3.amazonaws.com/world-modelers/{key}')
         # Remove all output for now and handle caching at the service level.  Look into this again later.
-        shutil.rmtree('/usr/src/app/output')
+        shutil.rmtree('/usr/src/app/output/intermediate')
         return "SUCCESS"
     else:
         return "FAIL"
@@ -61,6 +75,6 @@ if __name__ == "__main__":
     logging.info(f'Running task: {args.task_name}')
 
     run = run(args.model_name, args.task_name, param_dict)
-    run_results = storeResults(args.bucket, args.result_name, args.key)
+    run_results = storeResults(args.model_name, args.bucket, args.result_name, args.key)
     logging.info('Model run complete')
     logging.info(f'Model run: {run_results}')
