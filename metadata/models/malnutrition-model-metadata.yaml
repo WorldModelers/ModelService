@@ -60,10 +60,10 @@ parameters:
       type: NumberParameter
       minimum: 1
       maximum: 12
-      default: 4      
+      default: 1     
 
 configuration:
   - rainfall_scenario: normal
   - country: Ethiopia
   - year: 2018
-  - month: 4
+  - month: 1

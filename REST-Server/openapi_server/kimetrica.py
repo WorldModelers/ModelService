@@ -34,7 +34,7 @@ class KiController(object):
         self.bucket = "world-modelers"
         self.model_config = model_config
         self.year = self.model_config['config'].get('year', 2018)
-        self.month = self.model_config['config'].get('month', 4)
+        self.month = self.model_config['config'].get('month', 1)
         self.start_time = datetime.datetime(year=self.year, month=self.month, day=1)
         self.start_time_f = self.start_time.strftime("%Y-%m-%d")
         self.end_time_f = self.add_one_month(self.start_time)
