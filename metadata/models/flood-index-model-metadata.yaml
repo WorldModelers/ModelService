@@ -1,0 +1,25 @@
+id: flood_index_model
+label: Flood Severity Index
+description: |
+  Flood severity index: medium (2-yr flood, index=1),high (5-yr flood, index=2), and 
+  severe (20-yr flood, index=3), inferred fromthe GloFAS dataset. Thresholds were determined 
+  by fitting a Gumbel extreme value distribution to the yearly maxima in each grid cell 
+  over 1981-2017.
+versions: 
+  - 'flood_index_model_1'
+maintainer:
+  name: Deborah Khider
+  email: khider@usc.edu
+website: https://usc.edu
+category:
+  - Climate
+  - Hydrological
+concepts:
+  - precipitation
+  - water
+  - climate
+  - flooding
+
+outputs:
+  - name: flood severity
+    description: the severity of the flood (1=medium, 2=high, 3=severe)
