@@ -20,6 +20,10 @@ import json
 import csv
 from collections import OrderedDict
 from hashlib import sha256
+import configparser
+
+config = configparser.ConfigParser()
+config.read('../REST-Server/config.ini')
 
 features = {'days_medium': 'Number of days in the month with medium flooding (2-yr flood)',
             'days_high': 'Number of days in the month with high flooding (5-yr flood)',
@@ -124,7 +128,7 @@ def ingest2db(year, df, filename):
 
     # Load Admin2 shape from GADM
     print("Loading GADM shapes...")
-    admin2 = gpd.read_file("../gadm2/gadm36_2.shp")
+    admin2 = gpd.read_file(f"{config['GADM']['GADM_PATH']}/gadm36_2.shp")
     admin2['country'] = admin2['NAME_0']
     admin2['state'] = admin2['NAME_1']
     admin2['admin1'] = admin2['NAME_1']
