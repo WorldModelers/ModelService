@@ -27,3 +27,16 @@ outputs:
     description: The number of days for the given month where the flood severity index was high (5-year flood)
   - name: days_severe
     description: The number of days for the given month where the flood severity index was severe (20-year flood)        
+
+parameters:
+  - name: year
+    description: >
+      Select the year of interest. 2008-2017 is available.
+    metadata:
+      type: NumberParameter
+      minimum: 2008
+      maximum: 2017
+      default: 2017
+
+configuration:
+  - year: 2017      
