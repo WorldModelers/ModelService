@@ -97,12 +97,12 @@ def gen_monthly(file_name):
         converted_dates.append(format_date(day))
 
     cd = np.array(converted_dates)
-    time = np.repeat(cd[:, np.newaxis], 120, axis=1)
-    time = np.repeat(time[:,:, np.newaxis], 250, axis=2).flatten()
-    lat = np.repeat(rootgrp['lat'][:][np.newaxis, :], 365, axis=0)
-    lat = np.repeat(lat[:,:,np.newaxis], 250, axis=2).flatten()
-    lon = np.repeat(rootgrp['lon'][:][np.newaxis, :], 120, axis = 0)
-    lon = np.repeat(lon[np.newaxis, :, :], 365, axis=0).flatten()
+    time = np.repeat(cd[:, np.newaxis], lats, axis=1)
+    time = np.repeat(time[:,:, np.newaxis], lons, axis=2).flatten()
+    lat = np.repeat(rootgrp['lat'][:][np.newaxis, :], days, axis=0)
+    lat = np.repeat(lat[:,:,np.newaxis], lons, axis=2).flatten()
+    lon = np.repeat(rootgrp['lon'][:][np.newaxis, :], lats, axis = 0)
+    lon = np.repeat(lon[np.newaxis, :, :], days, axis=0).flatten()
     flood = rootgrp['flood'][:].flatten()
     out = np.vstack([time, lat.data, lon.data, flood.data]).transpose()
     
