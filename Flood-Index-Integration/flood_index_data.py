@@ -5,6 +5,8 @@ import configparser
 from hashlib import sha256
 import json
 from collections import OrderedDict
+import pandas as pd
+import urllib.request
 
 config = configparser.ConfigParser()
 config.read('../REST-Server/config.ini')
@@ -69,17 +71,18 @@ if __name__ == "__main__":
     # Wipe runs for the model
     r.delete('flood_index_model')
 
-    file_lookup = {'floodIndex-78318c49e3646c852483accdeb818081':2017
-                    'floodIndex-1c014ca61fc333d133d2401374073494':2016
-                    'floodIndex-3961fe71a70139a2b2e5ed6b6d182e15':2015
-                    'floodIndex-0cfb68f31772caecb01bee5a65b4f045':2014
-                    'floodIndex-fa3dec98034bcc82a593a13dd0e89b82':2013
-                    'floodIndex-916386f3d55ab25c7db1f87412f230d4':2012
-                    'floodIndex-ba82906887e217d8f2b39e0c3f484a4e':2011
-                    'floodIndex-800d64cd6c045767e8b6df1f0cfc1b7b':2010
-                    'floodIndex-12284f102e499a616ccd44256c316eb7':2009
-                    'floodIndex-33d0562575aa85c2c16e176cfc38fe06':2008}
+    basepath = "flood_results"
+    if not os.path.exists(basepath):
+        print(f"Created {basepath} directory")
+        os.mkdir(basepath)    
 
-    for input_file, year in file_lookup.items():
-        output = f"{input_file}.nc"
-        gen_run(input_file, output, year)
+    f_index = pd.read_csv('Flood-Files.csv')
+
+    for kk, vv in f_index.iterrows():
+        # download files if necessary
+        if not os.path.exists(f'{basepath}/{vv.filename}'):
+            print(f"Downloading file {vv.filename} for year {vv.year}")
+            urllib.request.urlretrieve(vv.URL, f'{basepath}/{vv.filename}') 
+
+        output = f"{vv.filename}.nc"
+        gen_run(f"{basepath}/{vv.filename}", output, vv.year)

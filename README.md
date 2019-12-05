@@ -40,6 +40,7 @@ Models may be run using the `/run_model` endpoint. Descriptions of model configu
 - CHIRPS-GEFS
 - LPJmL Yield Anomalies
 - World Pop Africa
+- Flood Severity Index Model
 
 
 ### Architecture
@@ -99,6 +100,14 @@ cd ../Atlas-Integration
 
 # Install Yield Anomalies Model
 cd ../Yield-Anomalies-Integration
+./maas_install.sh
+
+# Install World Population Africa Model
+cd ../World-Population-Integration
+./maas_install.sh
+
+# Install Flood Severity Index
+cd ../Flood-Index-Integration
 ./maas_install.sh
 ```
 
