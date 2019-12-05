@@ -194,5 +194,6 @@ if __name__ == "__main__":
     f_index = pd.read_csv('Flood-Files.csv')
 
     for kk, vv in f_index.iterrows():
+        print(f"Ingesting year {vv.year} into database")
         monthly = gen_monthly(vv.filename)
         ingest2db(vv.year, monthly, vv.filename)                                   
