@@ -32,3 +32,6 @@ parameters:
         - 2015
         - 2020
       default: 2000
+
+configuration:
+  - year: 2000
