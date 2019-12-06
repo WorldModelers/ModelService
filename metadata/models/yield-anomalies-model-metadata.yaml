@@ -23,30 +23,30 @@ maintainer:
 category:
 - Agriculture
 concepts:
-- crop_failure
-- crop_production
-- soil
-- food_demand
-- agricultural_production
-- drought
-- resource_management
-- land_pollution
-- water_shortage
-- land
+- crop_failure: 0.7031923000000001
+- crop_production: 0.6837154999999999
+- soil: 0.6218465999999999
+- food_demand: 0.6195808
+- agricultural_production: 0.5994427
+- drought: 0.59305936
+- resource_management: 0.58819383
+- land_pollution: 0.58709
+- water_shortage: 0.5796758000000001
+- land: 0.57783836
 outputs:
 - name: yield level
   description: Percent increase or decrease in yield from baseline
   concepts:
-  - trend
-  - crop_failure
-  - depreciation
-  - food_demand
-  - cost_of_transportation
-  - revenue
-  - population_density
-  - food_price
-  - water_shortage
-  - oil_price
+  - trend: 0.74224097
+  - crop_failure: 0.6003543
+  - depreciation: 0.5833662
+  - food_demand: 0.5536456
+  - cost_of_transportation: 0.5520536
+  - revenue: 0.54919726
+  - population_density: 0.54192024
+  - food_price: 0.5015423999999999
+  - water_shortage: 0.49980050000000004
+  - oil_price: 0.48766229999999994
 parameters:
 - name: crop
   description: Choose the crop of interest from one of [millet, maize, wheat].
@@ -57,16 +57,16 @@ parameters:
     - maize
     - wheat
   concepts:
-  - crop_production
-  - crop
-  - crop_failure
-  - food_demand
-  - agricultural_production
-  - crop_storage
-  - food_supply
-  - food_export
-  - planting
-  - crop_season
+  - crop_production: 0.8038356
+  - crop: 0.76794165
+  - crop_failure: 0.6852515
+  - food_demand: 0.6315074
+  - agricultural_production: 0.60871124
+  - crop_storage: 0.6009114000000001
+  - food_supply: 0.58407605
+  - food_export: 0.5829991
+  - planting: 0.5821715000000001
+  - crop_season: 0.5715429
 - name: irrigation
   description: 'Choose the irrigation level. It should be one of [LIM, NO, POT]. NO:
     no irrigation anywhere. Crops are rain-fed only. This can be considered as a "what-if
@@ -84,16 +84,16 @@ parameters:
     - LIM
     - POT
   concepts:
-  - water_shortage
-  - water
-  - water_management
-  - water_supply
-  - water_insecurity
-  - water_security
-  - water_bodies
-  - irrigation
-  - water_commodity
-  - food_supply
+  - water_shortage: 0.7136
+  - water: 0.71226954
+  - water_management: 0.68424386
+  - water_supply: 0.67346936
+  - water_insecurity: 0.6586633000000001
+  - water_security: 0.650886
+  - water_bodies: 0.6384847
+  - irrigation: 0.6369092
+  - water_commodity: 0.63072675
+  - food_supply: 0.6213797
 - name: nitrogen
   description: 'Choose the nitrogen level. It should be one of [LIM, LIM_p25, LIM_p50,
     UNLIM].  LIM: country- and crop-type-specific amounts of N fertilizer to crops.
@@ -113,16 +113,16 @@ parameters:
     - LIM_p50
     - UNLIM
   concepts:
-  - water
-  - food_demand
-  - crop_failure
-  - water_shortage
-  - food_supply
-  - soil
-  - food_price
-  - water_management
-  - food_import
-  - food_export
+  - water: 0.5886610999999999
+  - food_demand: 0.5873446999999999
+  - crop_failure: 0.585078
+  - water_shortage: 0.581559
+  - food_supply: 0.56920874
+  - soil: 0.5644304
+  - food_price: 0.54972315
+  - water_management: 0.54230726
+  - food_import: 0.5354187
+  - food_export: 0.5340898000000001
 - name: area
   description: Either global (global pixel tif file) or merged (a txt file aggregated
     to the country level).
@@ -132,9 +132,9 @@ parameters:
     - global
     - merged
   concepts:
-  - biometrics
-  - wildfire
-  - de-population
+  - biometrics: 0.28815058
+  - wildfire: 0.16370924
+  - de-population: -0.0058918814
 - name: statistic
   description: Only provide if area=global. Select the statistical aggregation over
     possible future climate  realizations which can be any of ["mean", "std", "pctl,5",
@@ -149,16 +149,16 @@ parameters:
     - pctl,5
     - pctl,95
   concepts:
-  - trend
-  - population_density
-  - cost_of_transportation
-  - economic_crisis
-  - food_demand
-  - basic_needs
-  - labor_market
-  - revenue
-  - competition
-  - physical_insecurity
+  - trend: 0.6251614000000001
+  - population_density: 0.531878
+  - cost_of_transportation: 0.52918655
+  - economic_crisis: 0.52754116
+  - food_demand: 0.5258928
+  - basic_needs: 0.5256221999999999
+  - labor_market: 0.5204326
+  - revenue: 0.51866096
+  - competition: 0.51323247
+  - physical_insecurity: 0.5067999
 configuration:
 - crop: maize
   irrigation: LIM

@@ -11,72 +11,72 @@ maintainer:
 category:
 - Agriculture
 concepts:
-- crop_failure
-- crop_production
-- planting
-- agricultural_production
-- soil
-- food_demand
-- food_supply
-- crop_season
-- resource_management
-- land
+- crop_failure: 0.67983943
+- crop_production: 0.66279817
+- planting: 0.64513963
+- agricultural_production: 0.59346443
+- soil: 0.58795327
+- food_demand: 0.5766664
+- food_supply: 0.540619
+- crop_season: 0.51876086
+- resource_management: 0.518487
+- land: 0.51834625
 outputs:
 - name: HWAH
   description: Harvested weight at harvest (kg/ha)
   concepts:
-  - crop_production
-  - crop_season
-  - crop_failure
-  - agricultural_production
-  - food_supply
-  - crop
-  - food_demand
-  - food_price
-  - planting
-  - food_consumption
+  - crop_production: 0.58487195
+  - crop_season: 0.5828258000000001
+  - crop_failure: 0.5380564999999999
+  - agricultural_production: 0.48458573
+  - food_supply: 0.48036012
+  - crop: 0.47878940000000003
+  - food_demand: 0.4558598
+  - food_price: 0.44771358
+  - planting: 0.44249620000000006
+  - food_consumption: 0.43693334
 - name: HARVEST_AREA
   description: Amount of area harvested under all management practices for this point
     (ha)
   concepts:
-  - resource_management
-  - crop_season
-  - water_management
-  - land
-  - agricultural_production
-  - food_security
-  - food_demand
-  - road_access
-  - development
-  - educational_materials
+  - resource_management: 0.5725762
+  - crop_season: 0.5657956000000001
+  - water_management: 0.5516797
+  - land: 0.5452854
+  - agricultural_production: 0.5442984000000001
+  - food_security: 0.5371081
+  - food_demand: 0.52761656
+  - road_access: 0.52578616
+  - development: 0.5245887
+  - educational_materials: 0.5230878999999999
 - name: Yield
   description: Yield for the given point/management practice (kg)
   concepts:
-  - labor_market
-  - food_demand
-  - educational_materials
-  - revenue
-  - basic_services
-  - road_access
-  - competition
-  - trend
-  - livelihood
-  - crop_failure
+  - labor_market: 0.5927398
+  - food_demand: 0.5618763000000001
+  - educational_materials: 0.56184447
+  - revenue: 0.55809224
+  - basic_services: 0.557128
+  - road_access: 0.5526892
+  - competition: 0.5498014
+  - trend: 0.5479669
+  - livelihood: 0.54197323
+  - crop_failure: 0.53797764
 - name: management_practice
   description: Indicates the type of management practice for the given yield/point
     combination.  1 corresponds to high nitrogen, 2 to irrigated high nitrogen, 3
     to  subsistence, and 4 to low nitrogen.
   concepts:
-  - water_shortage
-  - food_demand
-  - crop_failure
-  - water_management
-  - trend
-  - food_supply
-  - resource_management
-  - water
-  - food_price
-  - cost_of_transportation
+  - water_shortage: 0.62421834
+  - food_demand: 0.61807144
+  - crop_failure: 0.61520797
+  - water_management: 0.61238885
+  - trend: 0.6038226
+  - food_supply: 0.5908116
+  - resource_management: 0.588494
+  - water: 0.58150595
+  - food_price: 0.56770545
+  - cost_of_transportation: 0.56460655
 parameters:
 - name: samples
   description: The number of pixel predictions DSSAT will make. Setting samples to
@@ -87,16 +87,16 @@ parameters:
     minumum: 1
     maximum: 0
   concepts:
-  - road_access
-  - educational_materials
-  - immigration
-  - competition
-  - water
-  - labor_market
-  - basic_services
-  - cost_of_living
-  - population_density
-  - food_import
+  - road_access: 0.5463679
+  - educational_materials: 0.54150283
+  - immigration: 0.51803505
+  - competition: 0.5052396
+  - water: 0.5050220999999999
+  - labor_market: 0.50196034
+  - basic_services: 0.4998686
+  - cost_of_living: 0.49328998
+  - population_density: 0.49319309999999994
+  - food_import: 0.4915107
 - name: management_practice
   description: 'The management practice to model. maize_rf_highN corresponds to a
     high nitrogen management  practice. maize_irrig corresponds to a high nitrogen,
@@ -113,16 +113,16 @@ parameters:
     - maize_rf_0N
     - maize_rf_lowN
   concepts:
-  - resource_management
-  - water_management
-  - educational_materials
-  - basic_services
-  - development
-  - food_demand
-  - trend
-  - labor_market
-  - food_diversity
-  - food_supply
+  - resource_management: 0.62334526
+  - water_management: 0.60880524
+  - educational_materials: 0.59601825
+  - basic_services: 0.5932604
+  - development: 0.5761307
+  - food_demand: 0.5624109
+  - trend: 0.5481959
+  - labor_market: 0.5466478
+  - food_diversity: 0.54600245
+  - food_supply: 0.5458002
 - name: start_year
   description: The year to begin the simulation. The earliest possible year to begin
     is 1984 and the latest is  2019.
@@ -132,16 +132,16 @@ parameters:
     minumum: 1984
     maximum: 2018
   concepts:
-  - immigration
-  - road_access
-  - educational_materials
-  - competition
-  - labor_market
-  - basic_services
-  - crop_season
-  - construction_materials
-  - organization
-  - development
+  - immigration: 0.5651715
+  - road_access: 0.5600407
+  - educational_materials: 0.5331909
+  - competition: 0.52708936
+  - labor_market: 0.52255315
+  - basic_services: 0.5049714
+  - crop_season: 0.48738796
+  - construction_materials: 0.47093418
+  - organization: 0.46573809999999993
+  - development: 0.45487732
 - name: number_years
   description: The number of years to run the simulation. If start_year + number_years
     - 1 > 2018 then this  will be set such that your simulation runs through 2018.
@@ -151,16 +151,16 @@ parameters:
     minumum: 1
     maximum: 35
   concepts:
-  - road_access
-  - competition
-  - environment
-  - electrical
-  - organization
-  - hosting_idps
-  - road
-  - education
-  - attack
-  - demonstrate
+  - road_access: 0.51389897
+  - competition: 0.5067381
+  - environment: 0.4742664000000001
+  - electrical: 0.46403262
+  - organization: 0.43466023
+  - hosting_idps: 0.4292823
+  - road: 0.39762703
+  - education: 0.38646042
+  - attack: 0.38297382
+  - demonstrate: 0.37930217
 - name: rainfall
   description: The degree to perturb rainfall from the baseline model. This should
     be a real number,  which, if 0, would indicate no rainfall in any district. If
@@ -172,16 +172,16 @@ parameters:
     minumum: 0
     maximum: 2
   concepts:
-  - trend
-  - drought
-  - rainfall
-  - weather
-  - water_shortage
-  - population_density
-  - crop_failure
-  - storm
-  - water_insecurity
-  - cold_temperature
+  - trend: 0.6298786999999999
+  - drought: 0.6233856
+  - rainfall: 0.6094725999999999
+  - weather: 0.6006489
+  - water_shortage: 0.5745385000000001
+  - population_density: 0.5661923000000001
+  - crop_failure: 0.54149055
+  - storm: 0.54036087
+  - water_insecurity: 0.5107269
+  - cold_temperature: 0.5079914000000001
 - name: fertilizer
   description: This a scalar between 0 and 200 which represents fertilizer in kg/ha.
     100 is considered the  baseline amount (per management practice), so anything
@@ -193,16 +193,16 @@ parameters:
     minumum: 0
     maximum: 200
   concepts:
-  - food_demand
-  - trend
-  - water_shortage
-  - crop_failure
-  - water
-  - labor_market
-  - water_management
-  - food_supply
-  - food_shortage
-  - educational_materials
+  - food_demand: 0.58488685
+  - trend: 0.5848708
+  - water_shortage: 0.57186294
+  - crop_failure: 0.5606515999999999
+  - water: 0.56044257
+  - labor_market: 0.55967647
+  - water_management: 0.55323213
+  - food_supply: 0.5480611999999999
+  - food_shortage: 0.5458420999999999
+  - educational_materials: 0.54264605
 - name: planting_start
   description: This is the month and day in "mm-dd" format when planting should begin.
     This allows the modeler  to simulate various planting seasons (such as Belg and
@@ -213,16 +213,16 @@ parameters:
     minumum: 01-01
     maximum: 12-31
   concepts:
-  - planting
-  - crop_season
-  - water
-  - educational_materials
-  - food_demand
-  - crop_failure
-  - road_access
-  - food_diversity
-  - water_shortage
-  - food_supply
+  - planting: 0.5824398000000001
+  - crop_season: 0.5612421999999999
+  - water: 0.55857027
+  - educational_materials: 0.5512704
+  - food_demand: 0.54975224
+  - crop_failure: 0.5443241999999999
+  - road_access: 0.5368763000000001
+  - food_diversity: 0.53159964
+  - water_shortage: 0.52703154
+  - food_supply: 0.5253973000000001
 - name: planting_end
   description: This is the month and day in "mm-dd" format when planting should end.
     This allows the modeler  to simulate various planting seasons (such as Belg and
@@ -233,16 +233,16 @@ parameters:
     minumum: 01-01
     maximum: 12-31
   concepts:
-  - water
-  - road_access
-  - food_demand
-  - crop_failure
-  - educational_materials
-  - crop_season
-  - planting
-  - construction_materials
-  - water_shortage
-  - water_management
+  - water: 0.5660531
+  - road_access: 0.5578843000000001
+  - food_demand: 0.55056906
+  - crop_failure: 0.5462739999999999
+  - educational_materials: 0.5451256
+  - crop_season: 0.541374
+  - planting: 0.5378515
+  - construction_materials: 0.53452355
+  - water_shortage: 0.5316573
+  - water_management: 0.5233146
 configuration:
 - samples: 0
   start_year: 2017

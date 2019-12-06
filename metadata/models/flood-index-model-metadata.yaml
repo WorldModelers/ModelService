@@ -36,15 +36,15 @@ parameters:
     maximum: 2017
     default: 2017
   concepts:
-  - population_density
-  - cost_of_living
-  - cost_of_living
-  - basic_services
-  - population
-  - immigration
-  - immigration
-  - organization
-  - organization
-  - census
+  - population_density: 0.5562857
+  - cost_of_living: 0.49961162
+  - cost_of_living: 0.49961162
+  - basic_services: 0.4995036
+  - population: 0.49802107
+  - immigration: 0.44551759999999996
+  - immigration: 0.44551759999999996
+  - organization: 0.4186753
+  - organization: 0.4186753
+  - census: 0.38592509999999997
 configuration:
 - year: 2017

@@ -23,6 +23,7 @@ r = redis.Redis(host=config['REDIS']['HOST'],
                 port=config['REDIS']['PORT'],
                 db=config['REDIS']['DB'])
 
+
 def main():
     ##########################################
     ########### Setting up concepts ##########
@@ -35,29 +36,62 @@ def main():
             model = yaml.safe_load(stream)
             models[model['id']] = model
 
-    concepts = {}
+    concepts_m = {}
+    concepts_p = {}
+    concepts_o = {}
 
     # for each model
     for kk, vv in models.items():
-        
+
         # get its concepts
-        for cc in vv.get('concepts',[]):
-            
+        for concept in vv.get('concepts',[]):
+            cc = list(concept.keys())[0]
+            m_ = {'name': kk, 'score': concept[cc]}
             # if concept not in concepts dict, add it
-            if cc not in concepts:
-                concepts[cc] = set()
-                concepts[cc].add(kk)
-                
+            if cc not in concepts_m:
+                concepts_m[cc] = [m_]
+
             # if concept in concepts, add model to set
             else:
-                concepts[cc].add(kk)
+                concepts_m[cc].append(m_)
 
+    # for each model
+    for kk, vv in models.items():
 
-    print("Concept mapping to models:")
-    pprint(concepts)
+        # get its parameters
+        for pp in vv.get('parameters',[]):
 
+            # if concept not in concepts dict, add it
+            cons = pp.pop('concepts')
+            for concept in cons:
+                cc = list(concept.keys())[0]
+                pp['model'] = kk
+                pp['score'] = concept[cc]
+                if cc not in concepts_p:
+                    concepts_p[cc] = []
+                    concepts_p[cc].append(pp)
 
-    concept_names = set(concepts.keys())
+                # if concept in concepts, add model to set
+                else:
+                    concepts_p[cc].append(pp)            
+                    
+        # get its variables
+        for oo in vv.get('outputs',[]):
+
+            # if concept not in concepts dict, add it
+            cons = oo.pop('concepts')
+            for concept in cons:
+                cc = list(concept.keys())[0]
+                oo['model'] = kk
+                oo['score'] = concept[cc]
+                if cc not in concepts_o:
+                    concepts_o[cc] = []
+                    concepts_o[cc].append(oo)
+                # if concept in concepts, add model to set
+                else:
+                    concepts_o[cc].append(oo)
+
+    concept_names = set(list(concepts_m.keys()) + list(concepts_o.keys()) + list(concepts_p.keys()))
 
     # delete the "concepts" set 
     # ensures clean start based on model-metadata files
@@ -67,23 +101,26 @@ def main():
     for c in concept_names:
         r.sadd('concepts', c)
 
-    print("We can obtain all concepts:")
-    pprint(r.smembers('concepts'))
+    combined = {'model': concepts_m,
+                'parameter': concepts_p,
+                'output': concepts_o}
 
-    #for each concept
-    for cc, vv in concepts.items():
-        
-        # if key for concept exists, delete it 
-        # this ensures a fresh start from whatever is in the model metadata file
+    # if key for concept exists, delete it 
+    # this ensures a fresh start from whatever is in the model metadata file
+    for cc in concept_names:
         if r.exists(cc):
             r.delete(cc)
-        
-        # for each model associated with each concept
-        for ee in vv:
             
-            # add the model to a Redis set named for the concept name
-            r.sadd(cc, ee)
+    for tt, cons in combined.items():
+        
+        for cc, vv in cons.items():
 
+            # for each item associated with each concept
+            for ee in vv:
+                ee['type'] = tt
+                # add the model to a Redis set named for the concept name
+                r.lpush(cc, json.dumps(ee))
+                                
     ##########################################
     ########### Setting up metadata ##########
     ##########################################
@@ -108,4 +145,5 @@ if __name__ == "__main__":
     main()
 
     print("We can obtain the models associated with 'economy', for example:")
-    pprint(r.smembers('economy'))
+    elements = [json.loads(i.decode('utf-8')) for i in r.lrange( "rainfall", 0, -1 )]
+    pprint(elements)

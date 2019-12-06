@@ -25,30 +25,30 @@ category:
 - Demographic
 - Socioeconomic
 concepts:
-- population_density
-- population
-- seasonal_migration
-- census
-- basic_needs
-- trend
-- cost_of_transportation
-- economic_crisis
-- human_migration
-- overcrowding
+- population_density: 0.5527279
+- population: 0.51769674
+- seasonal_migration: 0.48410505
+- census: 0.4747537
+- basic_needs: 0.455783
+- trend: 0.4557626
+- cost_of_transportation: 0.42615715
+- economic_crisis: 0.41934627
+- human_migration: 0.41677
+- overcrowding: 0.39128226
 outputs:
 - name: population
   description: pixel value corresponds to the population residing there.
   concepts:
-  - population_density
-  - population_density
-  - population
-  - population
-  - basic_needs
-  - basic_needs
-  - geo-location
-  - geo-location
-  - trend
-  - trend
+  - population_density: 0.6582799
+  - population_density: 0.6582799
+  - population: 0.566863
+  - population: 0.566863
+  - basic_needs: 0.5207824000000001
+  - basic_needs: 0.5207824000000001
+  - geo-location: 0.49932387
+  - geo-location: 0.49932387
+  - trend: 0.49685052
+  - trend: 0.49685052
 parameters:
 - name: country
   description: Select the country of interest.
@@ -59,16 +59,16 @@ parameters:
     - South Sudan
     default: Ethiopia
   concepts:
-  - food_security
-  - food_diversity
-  - food_consumption
-  - food_shortage
-  - food_import
-  - food_export
-  - food_price
-  - food_insecurity
-  - food_supply
-  - famine
+  - food_security: 0.554129
+  - food_diversity: 0.5511505
+  - food_consumption: 0.5453414000000001
+  - food_shortage: 0.5413444000000001
+  - food_import: 0.54022735
+  - food_export: 0.5256163
+  - food_price: 0.51665634
+  - food_insecurity: 0.5081462999999999
+  - food_supply: 0.50398254
+  - famine: 0.4681228
 - name: year
   description: 'Select the year of interest. 2008-2020 is available for South Sudan,
     and  2000-2020 is available for Ethiopia. '
@@ -78,15 +78,15 @@ parameters:
     maximum: 2020
     default: 2018
   concepts:
-  - population_density
-  - cost_of_living
-  - cost_of_living
-  - basic_services
-  - population
-  - immigration
-  - immigration
-  - organization
-  - organization
-  - census
+  - population_density: 0.5562857
+  - cost_of_living: 0.49961162
+  - cost_of_living: 0.49961162
+  - basic_services: 0.4995036
+  - population: 0.49802107
+  - immigration: 0.44551759999999996
+  - immigration: 0.44551759999999996
+  - organization: 0.4186753
+  - organization: 0.4186753
+  - census: 0.38592509999999997
 configuration:
 - country: Ethiopia

@@ -15,48 +15,48 @@ maintainer:
 category:
 - Climate
 concepts:
-- storm
-- weather
-- cold_temperature
-- rainfall
-- climate
-- climate_change_mitigation
-- drought
-- economic_crisis
-- temperature
-- season
+- storm: 0.48707910000000004
+- weather: 0.47358847
+- cold_temperature: 0.40527168
+- rainfall: 0.40478945
+- climate: 0.37114164
+- climate_change_mitigation: 0.3602033
+- drought: 0.3575027
+- economic_crisis: 0.35664585
+- temperature: 0.34838185
+- season: 0.32463184
 outputs:
 - name: Rainfall
   description: rainfall in mm per 5km
   concepts:
-  - rainfall
-  - rainfall
-  - drought
-  - drought
-  - weather
-  - weather
-  - storm
-  - storm
-  - climate
-  - climate
+  - rainfall: 0.6317845
+  - rainfall: 0.6317845
+  - drought: 0.5234196
+  - drought: 0.5234196
+  - weather: 0.50851905
+  - weather: 0.50851905
+  - storm: 0.46696892
+  - storm: 0.46696892
+  - climate: 0.42092496
+  - climate: 0.42092496
 - name: Rainfall relative to average
   description: Rainfall relative to the historic average in mm per 5km
   concepts:
-  - population_density
-  - population_density
-  - drought
-  - drought
-  - rainfall
-  - rainfall
-  - weather
-  - weather
-  - trend
-  - trend
+  - population_density: 0.5872121
+  - population_density: 0.5872121
+  - drought: 0.5548972
+  - drought: 0.5548972
+  - rainfall: 0.5354923
+  - rainfall: 0.5354923
+  - weather: 0.53413904
+  - weather: 0.53413904
+  - trend: 0.51264393
+  - trend: 0.51264393
 - name: SPI
   description: Standardized Precipitation Index
   concepts:
-  - census
-  - census
+  - census: 0.29142399999999996
+  - census: 0.29142399999999996
 parameters:
 - name: _type
   description: This should be one of ['mm_data','mm_anomaly','none_z-score']. mm_data
@@ -71,16 +71,16 @@ parameters:
     - none_z-score
     default: mm_data
   concepts:
-  - basic_services
-  - basic_services
-  - trend
-  - trend
-  - educational_materials
-  - educational_materials
-  - cost_of_transportation
-  - cost_of_transportation
-  - water
-  - water
+  - basic_services: 0.56605935
+  - basic_services: 0.56605935
+  - trend: 0.5589733
+  - trend: 0.5589733
+  - educational_materials: 0.5422359
+  - educational_materials: 0.5422359
+  - cost_of_transportation: 0.53863746
+  - cost_of_transportation: 0.53863746
+  - water: 0.5222452000000001
+  - water: 0.5222452000000001
 - name: dekad
   description: A zero padded value for the dekad of the year, 01-36 (a 10 day period).
   metadata:
@@ -88,13 +88,13 @@ parameters:
     minimum: '01'
     maximum: '36'
   concepts:
-  - depreciation
-  - depreciation
-  - migration_returnees
-  - shipping
-  - shipping
-  - currency_devaluation
-  - currency_devaluation
+  - depreciation: 0.44585392
+  - depreciation: 0.44585392
+  - migration_returnees: 0.3174479
+  - shipping: 0.29024032
+  - shipping: 0.29024032
+  - currency_devaluation: 0.22638491
+  - currency_devaluation: 0.22638491
 - name: year
   description: The year in YYYY format for the data of interest.
   metadata:
@@ -103,16 +103,16 @@ parameters:
     minimum: 1985
     maximum: 2019
   concepts:
-  - population_density
-  - cost_of_living
-  - cost_of_living
-  - basic_services
-  - population
-  - immigration
-  - immigration
-  - organization
-  - organization
-  - census
+  - population_density: 0.5562857
+  - cost_of_living: 0.49961162
+  - cost_of_living: 0.49961162
+  - basic_services: 0.4995036
+  - population: 0.49802107
+  - immigration: 0.44551759999999996
+  - immigration: 0.44551759999999996
+  - organization: 0.4186753
+  - organization: 0.4186753
+  - census: 0.38592509999999997
 - name: bbox
   description: 'The geospatial bounding box of interest. It should represent 4-elements
     in the WGS84  coordinate system: [xmin, ymin, xmax, ymax]. x is longitude, y is
@@ -126,16 +126,16 @@ parameters:
     - 49.98171
     - 16.501768
   concepts:
-  - geo-location
-  - geo-location
-  - bridge
-  - bridge
-  - artifact
-  - artifact
-  - abduction
-  - abduction
-  - disarmament
-  - disarmament
+  - geo-location: 0.46920150000000005
+  - geo-location: 0.46920150000000005
+  - bridge: 0.2575372
+  - bridge: 0.2575372
+  - artifact: 0.22843814
+  - artifact: 0.22843814
+  - abduction: 0.2133946
+  - abduction: 0.2133946
+  - disarmament: 0.10657996
+  - disarmament: 0.10657996
 configuration:
 - _type: mm_data
   dekad: 1

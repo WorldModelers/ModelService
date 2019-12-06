@@ -20,30 +20,30 @@ category:
 - Demographic
 - Socioeconomic
 concepts:
-- population_density
-- population
-- basic_needs
-- land
-- human_migration
-- cost_of_living
-- cost_of_transportation
-- food_demand
-- food_price
-- food_export
+- population_density: 0.6267974000000001
+- population: 0.58600956
+- basic_needs: 0.56518865
+- land: 0.51128167
+- human_migration: 0.50273544
+- cost_of_living: 0.48854259999999994
+- cost_of_transportation: 0.48022902
+- food_demand: 0.4792102
+- food_price: 0.47696987
+- food_export: 0.47629312
 outputs:
 - name: population
   description: pixel value corresponds to the population residing there.
   concepts:
-  - population_density
-  - population_density
-  - population
-  - population
-  - basic_needs
-  - basic_needs
-  - geo-location
-  - geo-location
-  - trend
-  - trend
+  - population_density: 0.6582799
+  - population_density: 0.6582799
+  - population: 0.566863
+  - population: 0.566863
+  - basic_needs: 0.5207824000000001
+  - basic_needs: 0.5207824000000001
+  - geo-location: 0.49932387
+  - geo-location: 0.49932387
+  - trend: 0.49685052
+  - trend: 0.49685052
 parameters:
 - name: year
   description: Select the year of the population estimate.
@@ -57,15 +57,15 @@ parameters:
     - 2020
     default: 2000
   concepts:
-  - population_density
-  - cost_of_living
-  - cost_of_living
-  - basic_services
-  - population
-  - immigration
-  - immigration
-  - organization
-  - organization
-  - census
+  - population_density: 0.5562857
+  - cost_of_living: 0.49961162
+  - cost_of_living: 0.49961162
+  - basic_services: 0.4995036
+  - population: 0.49802107
+  - immigration: 0.44551759999999996
+  - immigration: 0.44551759999999996
+  - organization: 0.4186753
+  - organization: 0.4186753
+  - census: 0.38592509999999997
 configuration:
 - year: 2000

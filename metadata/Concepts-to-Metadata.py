@@ -14,25 +14,37 @@ def remove_newline(description):
     else:
         return description
 
+def obtain_concepts(name, df):
+    '''
+    Grab the concepts/scores for the name and df (models, variables, params)
+    '''
+    cons_score = df[df['name']==name].sort_values('score', ascending=False)[:10][['concept','score']]
+    records = cons_score.to_dict(orient='records')
+    scored = []
+    for i in records:
+        scored.append({i['concept']: i['score']})
+    return scored
+
 def model_lookup(m, models, params, variables):
     '''
-    Takes in a model metadata file and maps it to the various UAZ ontologies
+    Formats the model correctly with its related concepts
     '''
     name = m['id'] 
-    m['concepts'] = list(models[models['name']==name].sort_values('score', ascending=False)[:10]['concept'])
+    m['concepts'] = obtain_concepts(name,models)
     m['description'] = remove_newline(m['description'])
     
     for p in m.get('parameters',[]):
         name = p['name']
-        p['concepts'] = list(params[params['name']==name].sort_values('score', ascending=False)[:10]['concept'])
+        p['concepts'] = obtain_concepts(name,params)
         p['description'] = remove_newline(p['description'])
     
     for o in m.get('outputs',[]):
         name = o['name']
-        o['concepts'] = list(variables[variables['name']==name].sort_values('score', ascending=False)[:10]['concept'])        
+        o['concepts'] = obtain_concepts(name,variables)
         o['description'] = remove_newline(o['description'])
         
-    return m            
+    return m
+
 
 # Generate dataframes for params, models, and variables
 # This enables a lookup between a param, model or output variable name

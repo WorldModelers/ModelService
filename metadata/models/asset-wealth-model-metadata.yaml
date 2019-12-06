@@ -11,27 +11,27 @@ category:
 - Socioeconomic
 - Economic
 concepts:
-- assets
-- revenue
-- economic_crisis
-- currency
-- labor_market
-- livelihood
-- resource_management
-- depreciation
-- government_entity
-- development
+- assets: 0.7481485999999999
+- revenue: 0.61453843
+- economic_crisis: 0.5705005
+- currency: 0.54929054
+- labor_market: 0.54845613
+- livelihood: 0.5308158000000001
+- resource_management: 0.51086974
+- depreciation: 0.5014675000000001
+- government_entity: 0.49315879999999995
+- development: 0.48968583
 outputs:
 - name: poverty level
   description: Measure of household poverty levels based on the assets they own (unitless)
   concepts:
-  - assets
-  - livelihood
-  - poverty
-  - revenue
-  - basic_needs
-  - physical_insecurity
-  - labor_market
-  - economic_crisis
-  - cost_of_living
-  - political_instability
+  - assets: 0.6052661
+  - livelihood: 0.5776428000000001
+  - poverty: 0.5756253
+  - revenue: 0.57212186
+  - basic_needs: 0.56243706
+  - physical_insecurity: 0.5557724
+  - labor_market: 0.55386853
+  - economic_crisis: 0.54563457
+  - cost_of_living: 0.5304303000000001
+  - political_instability: 0.51361436
