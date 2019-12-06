@@ -28,7 +28,7 @@ def concept_mapping_post(concept, concept_type=None):  # noqa: E501
     :rtype: List[Concept]
     """
     print(concept, concept_type)
-    e = [json.loads(i.decode('utf-8')) for i in r.lrange( "rainfall", 0, -1 )]
+    e = [json.loads(i.decode('utf-8')) for i in r.lrange(concept, 0, -1 )]
     if concept_type:
         e = [i for i in e if i['type']==concept_type]
     e = sorted(e, key=lambda k: k['score'], reverse=True) 
