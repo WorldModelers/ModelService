@@ -1,69 +1,127 @@
 id: malnutrition_model
 label: Malnutrition Model
-description: >
-  Currently, the malnutrition model takes the following input variables CHIRPS, Consumer Price Index(CPI), population, cereal production per capita, consumption expenditure,Normalized Difference Vegetation Index (NDVI),and month to predict the malnutrition rates for Global Acute Malnutrition (GAM) and Severe Acute Malnutrition (SAM). According to World Health Organization (WHO) guideline, GAM and SAM are defined as weight-for-height z-score below -2, and weight-for-height z-score below -3, respectively. By this definition, GAM includes all categories of malnutrition.
+description: Currently, the malnutrition model takes the following input variables
+  CHIRPS, Consumer Price Index(CPI), population, cereal production per capita, consumption
+  expenditure,Normalized Difference Vegetation Index (NDVI),and month to predict the
+  malnutrition rates for Global Acute Malnutrition (GAM) and Severe Acute Malnutrition
+  (SAM). According to World Health Organization (WHO) guideline, GAM and SAM are defined
+  as weight-for-height z-score below -2, and weight-for-height z-score below -3, respectively.
+  By this definition, GAM includes all categories of malnutrition.
 maintainer:
   name: Jenny Yu
   email: jenny.yu@kimetrica.com
 author:
-  - name: Jenny Yu
-    email: jenny.yu@kimetrica.com
+- name: Jenny Yu
+  email: jenny.yu@kimetrica.com
 versions:
- - 'malnutrition_model_1'
+- malnutrition_model_1
 website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/malnutrition_model
 category:
-  - Demographic
-  - Economic
+- Demographic
+- Economic
 concepts:
-  - nutrient
-  - food_security
-  - food_insecurity
-
+- famine: 0.7416879
+- human_disease: 0.6626861
+- food_insecurity: 0.6241515999999999
+- animal_disease: 0.5770751999999999
+- poverty: 0.53754926
+- physical_insecurity: 0.52977407
+- health_treatment: 0.51211053
+- death: 0.49781385
+- basic_needs: 0.49052513
+- tension: 0.49042399999999997
 outputs:
-  - name: malnutrition
-    description: pixel value corresponds to predicted number of malnutrition cases.
-
+- name: malnutrition
+  description: pixel value corresponds to predicted number of malnutrition cases.
+  concepts:
+  - trend: 0.5463087
+  - crop_failure: 0.5214581
+  - famine: 0.51643515
+  - food_insecurity: 0.5158577999999999
+  - population_density: 0.49494144
+  - physical_insecurity: 0.48368394
+  - depreciation: 0.48135272
+  - food_demand: 0.4624115
+  - basic_needs: 0.45729446
+  - poverty: 0.44786444
 parameters:
-  - name: rainfall_scenario
-    description: >
-      The rainfall scenario based on historical monthly average of the precipitation values. High value is estimated by 2x mean, and low value is estimated by 0.25x mean.
-    metadata:
-      type: ChoiceParameter
-      choices:
-        - high
-        - mean
-        - normal
-        - low
-      default: normal
-  - name: country
-    description: Select the country of interest.
-    metadata:
-      type: ChoiceParameter
-      choices:
-        - Ethiopia
-        - South Sudan
-      default: Ethiopia
-  - name: year
-    description: >
-      Select the year of interest. June, 2011 - April, 2019 is available for South Sudan.
-      Jan, 2007 - April 2019 is available for Ethiopia.
-    metadata:
-      type: NumberParameter
-      minimum: 2007
-      maximum: 2018
-      default: 2018
-  - name: month
-    description: >
-      Select the month of interest. June, 2011 - April, 2019 is available for South Sudan.
-      Jan, 2007 - April 2019 is available for Ethiopia.
-    metadata:
-      type: NumberParameter
-      minimum: 1
-      maximum: 12
-      default: 1     
-
+- name: rainfall_scenario
+  description: The rainfall scenario based on historical monthly average of the precipitation
+    values. High value is estimated by 2x mean, and low value is estimated by 0.25x
+    mean.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - high
+    - mean
+    - normal
+    - low
+    default: normal
+  concepts:
+  - trend: 0.62344253
+  - cost_of_transportation: 0.5998956
+  - food_price: 0.5941698000000001
+  - food_demand: 0.57223517
+  - water_shortage: 0.56752336
+  - cost_of_living: 0.56179863
+  - population_density: 0.55573356
+  - revenue: 0.5513083000000001
+  - weather: 0.54539454
+  - crop_failure: 0.5364933000000001
+- name: country
+  description: Select the country of interest.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Ethiopia
+    - South Sudan
+    default: Ethiopia
+  concepts:
+  - food_security: 0.554129
+  - food_diversity: 0.5511505
+  - food_consumption: 0.5453414000000001
+  - food_shortage: 0.5413444000000001
+  - food_import: 0.54022735
+  - food_export: 0.5256163
+  - food_price: 0.51665634
+  - food_insecurity: 0.5081462999999999
+  - food_supply: 0.50398254
+  - famine: 0.4681228
+- name: year
+  description: Select the year of interest. June, 2011 - April, 2019 is available
+    for South Sudan. Jan, 2007 - April 2019 is available for Ethiopia.
+  metadata:
+    type: NumberParameter
+    minimum: 2007
+    maximum: 2018
+    default: 2018
+  concepts:
+  - population_density: 0.5562857
+  - cost_of_living: 0.49961162
+  - cost_of_living: 0.49961162
+  - basic_services: 0.4995036
+  - population: 0.49802107
+  - immigration: 0.44551759999999996
+  - immigration: 0.44551759999999996
+  - organization: 0.4186753
+  - organization: 0.4186753
+  - census: 0.38592509999999997
+- name: month
+  description: Select the month of interest. June, 2011 - April, 2019 is available
+    for South Sudan. Jan, 2007 - April 2019 is available for Ethiopia.
+  metadata:
+    type: NumberParameter
+    minimum: 1
+    maximum: 12
+    default: 1
+  concepts:
+  - basic_services: 0.50151384
+  - cost_of_living: 0.49447623
+  - immigration: 0.44343242
+  - organization: 0.41279146
+  - shipping: 0.29289845
 configuration:
-  - rainfall_scenario: normal
-  - country: Ethiopia
-  - year: 2018
-  - month: 1
+- rainfall_scenario: normal
+- country: Ethiopia
+- year: 2018
+- month: 1

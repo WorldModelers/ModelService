@@ -135,6 +135,12 @@
     polarity: 1.0
   - OntologyNode:
     examples:
+    - Select the year of interest. 2008-2017 is available.
+    model: flood_index_model
+    name: year
+    polarity: 1.0
+  - OntologyNode:
+    examples:
     - The number of pixel predictions DSSAT will make. Setting samples to 0 returns
       the  entire geography (all Ethiopia) which is quite large.
     model: DSSAT

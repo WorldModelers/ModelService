@@ -1,97 +1,167 @@
 id: yield_anomalies_lpjml
 label: Global and national yield anomalies for wheat, maize and millet based on LPJmL
-description: >
-  We use LPJmL, a well-established dynamic global vegetation, hydrology and crop-growth model,
-  to simulate wheat, maize and millet yield anomalies for 2018 based on climate, soil conditions and
-  management regimes. Observed weather data are fed into the model until April 30, 2018;
-  afterwards, to simulate the uncertainty of operational forecasts, weather data is sourced from the
-  portion May 01-Dec 31 from the previous years (1984-2017). The crop model runs on a global grid
-  with 0.5° size in latitude and longitude.
+description: 'We use LPJmL, a well-established dynamic global vegetation, hydrology
+  and crop-growth model, to simulate wheat, maize and millet yield anomalies for 2018
+  based on climate, soil conditions and management regimes. Observed weather data
+  are fed into the model until April 30, 2018; afterwards, to simulate the uncertainty
+  of operational forecasts, weather data is sourced from the portion May 01-Dec 31
+  from the previous years (1984-2017). The crop model runs on a global grid with 0.5°
+  size in latitude and longitude.
 
-  We provide yield anomalies as deviation from the mean of 2013-2017 as simulated by LPJmL. The
-  data is available on a global grid and as nationally aggregated anomalies. Apart from a default
-  simulation, assuming the same management in 2018 as for the previous years, we provide
-  alternative intervention scenarios that assume different irrigation levels, more nitrogen input, or
-  both. In total, there are 3 (crops) * 12 (scenarios) = 36 hypothetical back-casting simulations. Each
-  of these scenarios is calculated for each of the 34 different 2018 climate realizations.
-versions: 
-  - 'yield_anomalies_lpjml_backcasting_2018'
+  We provide yield anomalies as deviation from the mean of 2013-2017 as simulated
+  by LPJmL. The data is available on a global grid and as nationally aggregated anomalies.
+  Apart from a default simulation, assuming the same management in 2018 as for the
+  previous years, we provide alternative intervention scenarios that assume different
+  irrigation levels, more nitrogen input, or both. In total, there are 3 (crops) *
+  12 (scenarios) = 36 hypothetical back-casting simulations. Each of these scenarios
+  is calculated for each of the 34 different 2018 climate realizations.'
+versions:
+- yield_anomalies_lpjml_backcasting_2018
 maintainer:
   name: Bernhard Schauberger
   email: schauber@pik-potsdam.de
 category:
-  - Agriculture
+- Agriculture
 concepts:
-  - food_production
-  - farming
-  - food_security
-  - food_insecurity  
-
+- crop_failure: 0.7031923000000001
+- crop_production: 0.6837154999999999
+- soil: 0.6218465999999999
+- food_demand: 0.6195808
+- agricultural_production: 0.5994427
+- drought: 0.59305936
+- resource_management: 0.58819383
+- land_pollution: 0.58709
+- water_shortage: 0.5796758000000001
+- land: 0.57783836
 outputs:
-  - name: yield level
-    description: Percent increase or decrease in yield from baseline
-
+- name: yield level
+  description: Percent increase or decrease in yield from baseline
+  concepts:
+  - trend: 0.74224097
+  - crop_failure: 0.6003543
+  - depreciation: 0.5833662
+  - food_demand: 0.5536456
+  - cost_of_transportation: 0.5520536
+  - revenue: 0.54919726
+  - population_density: 0.54192024
+  - food_price: 0.5015423999999999
+  - water_shortage: 0.49980050000000004
+  - oil_price: 0.48766229999999994
 parameters:
-  - name: crop
-    description: >
-      Choose the crop of interest from one of [millet, maize, wheat].
-    metadata:
-      type: ChoiceParameter
-      choices:
-        - millet
-        - maize
-        - wheat
-  - name: irrigation
-    description: >
-      Choose the irrigation level. It should be one of [LIM, NO, POT].
-      NO: no irrigation anywhere. Crops are rain-fed only. This can be considered as a "what-if irrigation failed scenario". 
-      LIM: irrigation is applied on crop-specific areas equipped for irrigation. Irrigation water withdrawal is limited to water available in surface water bodies. As a result, it is possible that irrigation demand cannot be fulfilled completely in some grid cells if demand is higher than supply. 
-      POT: uses the same irrigated areas as LIM_IRRIGATION, but allows for withdrawals to exceed water available in surface water bodies. As a result, irrigated crops should not experience water stress.
-    metadata:
-      type: ChoiceParameter
-      choices:
-        - "NO"
-        - "LIM"
-        - "POT"
-  - name: nitrogen
-    description: >
-      Choose the nitrogen level. It should be one of [LIM, LIM_p25, LIM_p50, UNLIM]. 
-      LIM: country- and crop-type-specific amounts of N fertilizer to crops. The dataset is from GGCMI (the Global Gridded Crop Model Inter-comparison within AgMIP) and describes fertilizer application levels around the year 2000. 
-      LIM_p25: same as LIM, but with 25% more fertilizer in all cells where N>0. That is, cells without fertilization around 2000 in our data set do also not receive fertilizer in this scenario. 
-      LIM_p50: similar to _p25, but with 50% more N. 
-      UNLIM: extremely high N rates in all cells such that there should be no N limitation of crop growth. There are no negative effects of too much nitrogen on plant growth in our model (but there will be increased leaching and outgassing).
-    metadata:
-      type: ChoiceParameter
-      choices: 
-        - LIM
-        - LIM_p25
-        - LIM_p50
-        - UNLIM
-  - name: area
-    description: >
-      Either global (global pixel tif file) or merged (a txt file aggregated to the country level).
-    metadata:
-      type: ChoiceParameter
-      choices:
-        - global
-        - merged
-  - name: statistic
-    description: >
-      Only provide if area=global. Select the statistical aggregation over possible future climate 
-      realizations which can be any of ["mean", "std", "pctl,5", "pctl,95"] for the mean, standard 
-      deviation, 5th percentile or 95th percentile. These four measures reflect the uncertainty of 
-      the climate forecasts starting in May 2018.
-    metadata:
-      type: ChoiceParameter
-      choices:
-        - mean
-        - std
-        - pctl,5
-        - pctl,95
-
+- name: crop
+  description: Choose the crop of interest from one of [millet, maize, wheat].
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - millet
+    - maize
+    - wheat
+  concepts:
+  - crop_production: 0.8038356
+  - crop: 0.76794165
+  - crop_failure: 0.6852515
+  - food_demand: 0.6315074
+  - agricultural_production: 0.60871124
+  - crop_storage: 0.6009114000000001
+  - food_supply: 0.58407605
+  - food_export: 0.5829991
+  - planting: 0.5821715000000001
+  - crop_season: 0.5715429
+- name: irrigation
+  description: 'Choose the irrigation level. It should be one of [LIM, NO, POT]. NO:
+    no irrigation anywhere. Crops are rain-fed only. This can be considered as a "what-if
+    irrigation failed scenario".  LIM: irrigation is applied on crop-specific areas
+    equipped for irrigation. Irrigation water withdrawal is limited to water available
+    in surface water bodies. As a result, it is possible that irrigation demand cannot
+    be fulfilled completely in some grid cells if demand is higher than supply.  POT:
+    uses the same irrigated areas as LIM_IRRIGATION, but allows for withdrawals to
+    exceed water available in surface water bodies. As a result, irrigated crops should
+    not experience water stress.'
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - 'NO'
+    - LIM
+    - POT
+  concepts:
+  - water_shortage: 0.7136
+  - water: 0.71226954
+  - water_management: 0.68424386
+  - water_supply: 0.67346936
+  - water_insecurity: 0.6586633000000001
+  - water_security: 0.650886
+  - water_bodies: 0.6384847
+  - irrigation: 0.6369092
+  - water_commodity: 0.63072675
+  - food_supply: 0.6213797
+- name: nitrogen
+  description: 'Choose the nitrogen level. It should be one of [LIM, LIM_p25, LIM_p50,
+    UNLIM].  LIM: country- and crop-type-specific amounts of N fertilizer to crops.
+    The dataset is from GGCMI (the Global Gridded Crop Model Inter-comparison within
+    AgMIP) and describes fertilizer application levels around the year 2000.  LIM_p25:
+    same as LIM, but with 25% more fertilizer in all cells where N>0. That is, cells
+    without fertilization around 2000 in our data set do also not receive fertilizer
+    in this scenario.  LIM_p50: similar to _p25, but with 50% more N.  UNLIM: extremely
+    high N rates in all cells such that there should be no N limitation of crop growth.
+    There are no negative effects of too much nitrogen on plant growth in our model
+    (but there will be increased leaching and outgassing).'
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - LIM
+    - LIM_p25
+    - LIM_p50
+    - UNLIM
+  concepts:
+  - water: 0.5886610999999999
+  - food_demand: 0.5873446999999999
+  - crop_failure: 0.585078
+  - water_shortage: 0.581559
+  - food_supply: 0.56920874
+  - soil: 0.5644304
+  - food_price: 0.54972315
+  - water_management: 0.54230726
+  - food_import: 0.5354187
+  - food_export: 0.5340898000000001
+- name: area
+  description: Either global (global pixel tif file) or merged (a txt file aggregated
+    to the country level).
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - global
+    - merged
+  concepts:
+  - biometrics: 0.28815058
+  - wildfire: 0.16370924
+  - de-population: -0.0058918814
+- name: statistic
+  description: Only provide if area=global. Select the statistical aggregation over
+    possible future climate  realizations which can be any of ["mean", "std", "pctl,5",
+    "pctl,95"] for the mean, standard  deviation, 5th percentile or 95th percentile.
+    These four measures reflect the uncertainty of  the climate forecasts starting
+    in May 2018.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - mean
+    - std
+    - pctl,5
+    - pctl,95
+  concepts:
+  - trend: 0.6251614000000001
+  - population_density: 0.531878
+  - cost_of_transportation: 0.52918655
+  - economic_crisis: 0.52754116
+  - food_demand: 0.5258928
+  - basic_needs: 0.5256221999999999
+  - labor_market: 0.5204326
+  - revenue: 0.51866096
+  - competition: 0.51323247
+  - physical_insecurity: 0.5067999
 configuration:
-  - crop: maize
-    irrigation: LIM
-    nitrogen: LIM
-    area: global
-    statistic: mean
+- crop: maize
+  irrigation: LIM
+  nitrogen: LIM
+  area: global
+  statistic: mean

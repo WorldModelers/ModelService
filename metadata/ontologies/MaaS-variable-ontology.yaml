@@ -85,6 +85,27 @@
     polarity: 1.0
   - OntologyNode:
     examples:
+    - The number of days for the given month where the flood severity index was medium
+      (2-year flood)
+    model: flood_index_model
+    name: days_medium
+    polarity: 1.0
+  - OntologyNode:
+    examples:
+    - The number of days for the given month where the flood severity index was high
+      (5-year flood)
+    model: flood_index_model
+    name: days_high
+    polarity: 1.0
+  - OntologyNode:
+    examples:
+    - The number of days for the given month where the flood severity index was severe
+      (20-year flood)
+    model: flood_index_model
+    name: days_severe
+    polarity: 1.0
+  - OntologyNode:
+    examples:
     - Harvested weight at harvest (kg/ha)
     model: DSSAT
     name: HWAH

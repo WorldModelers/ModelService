@@ -1,37 +1,71 @@
 id: world_population_africa
 label: World Population Africa
-description: |
-  Version 2.0 estimates of total number of people per grid square for five timepoints between 2000 and 2020 at five year intervals; national totals have been adjusted to match UN Population Division estimates for each time point.
-  This dataset is a mosaic of all WorldPop country level African datasets resampled to 1km resolution. The continental grouping of countries honours the macro geographical classification developed and maintained by the United Nations Statistics Division. For countries within each continental group which have not been mapped by WorldPop, GPWv4 1km population count data was used to complete the mosaic. Full details of WorldPop population mapping methodologies are described at www.worldpop.org.uk/data/methods/
-versions: 
-  - 'world_population_africa'
+description: 'Version 2.0 estimates of total number of people per grid square for
+  five timepoints between 2000 and 2020 at five year intervals; national totals have
+  been adjusted to match UN Population Division estimates for each time point.
+
+  This dataset is a mosaic of all WorldPop country level African datasets resampled
+  to 1km resolution. The continental grouping of countries honours the macro geographical
+  classification developed and maintained by the United Nations Statistics Division.
+  For countries within each continental group which have not been mapped by WorldPop,
+  GPWv4 1km population count data was used to complete the mosaic. Full details of
+  WorldPop population mapping methodologies are described at www.worldpop.org.uk/data/methods/'
+versions:
+- world_population_africa
 maintainer:
   name: WorldPop Team
   email: info@worldpop.org
 website: https://www.worldpop.org/geodata/summary?id=139
 category:
-  - Demographic
-  - Socioeconomic
+- Demographic
+- Socioeconomic
 concepts:
-  - GPE
-  - population
-
+- population_density: 0.6267974000000001
+- population: 0.58600956
+- basic_needs: 0.56518865
+- land: 0.51128167
+- human_migration: 0.50273544
+- cost_of_living: 0.48854259999999994
+- cost_of_transportation: 0.48022902
+- food_demand: 0.4792102
+- food_price: 0.47696987
+- food_export: 0.47629312
 outputs:
-  - name: population
-    description: pixel value corresponds to the population residing there.
-
+- name: population
+  description: pixel value corresponds to the population residing there.
+  concepts:
+  - population_density: 0.6582799
+  - population_density: 0.6582799
+  - population: 0.566863
+  - population: 0.566863
+  - basic_needs: 0.5207824000000001
+  - basic_needs: 0.5207824000000001
+  - geo-location: 0.49932387
+  - geo-location: 0.49932387
+  - trend: 0.49685052
+  - trend: 0.49685052
 parameters:
-  - name: year
-    description: Select the year of the population estimate.
-    metadata:
-      type: ChoiceParameter
-      choices:
-        - 2000
-        - 2005
-        - 2010
-        - 2015
-        - 2020
-      default: 2000
-
+- name: year
+  description: Select the year of the population estimate.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - 2000
+    - 2005
+    - 2010
+    - 2015
+    - 2020
+    default: 2000
+  concepts:
+  - population_density: 0.5562857
+  - cost_of_living: 0.49961162
+  - cost_of_living: 0.49961162
+  - basic_services: 0.4995036
+  - population: 0.49802107
+  - immigration: 0.44551759999999996
+  - immigration: 0.44551759999999996
+  - organization: 0.4186753
+  - organization: 0.4186753
+  - census: 0.38592509999999997
 configuration:
-  - year: 2000
+- year: 2000
