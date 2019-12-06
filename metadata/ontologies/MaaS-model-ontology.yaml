@@ -76,6 +76,14 @@
     polarity: 1.0
   - OntologyNode:
     examples:
+    - 'Flood severity index: medium (2-yr flood, index=1),high (5-yr flood, index=2),
+      and severe (20-yr flood, index=3), inferred fromthe GloFAS dataset. Thresholds
+      were determined by fitting a Gumbel extreme value distribution to the yearly
+      maxima in each grid cell over 1981-2017.'
+    name: flood_index_model
+    polarity: 1.0
+  - OntologyNode:
+    examples:
     - The Decision Support System for Agrotechnology Transfer (DSSAT) comprises dynamic
       crop growth simulation model for over 40 crops. The model simulates growth development;
       and yield as a function of the soil-plant-atmosphere dynamics.

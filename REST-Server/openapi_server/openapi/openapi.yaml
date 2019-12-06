@@ -170,7 +170,7 @@ paths:
       - concepts
       x-openapi-router-controller: openapi_server.controllers.concepts_controller
   /concept_mapping:
-    post:
+    get:
       description: "Submit a concept name and optional type and receive an array of\
         \ model related to that concept.      \n"
       operationId: concept_mapping_post
