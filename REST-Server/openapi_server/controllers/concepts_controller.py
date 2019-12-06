@@ -6,6 +6,7 @@ from openapi_server import util
 
 import configparser
 import redis
+import json
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -14,18 +15,24 @@ r = redis.Redis(host=config['REDIS']['HOST'],
                 port=config['REDIS']['PORT'],
                 db=config['REDIS']['DB'])
 
-def concept_mapping_concept_get(Concept):  # noqa: E501
-    """Get an array of models related to a concept.
+def concept_mapping_post(concept, concept_type=None):  # noqa: E501
+    """Obtain an array of models related to a concept.
 
-    Submit a concept name and receive an array of model related to that concept. # noqa: E501
+    Submit a concept name and optional type and receive an array of model related to that concept.        # noqa: E501
 
-    :param concept: The name of a concept.
+    :param concept: A concept name
     :type concept: str
+    :param type: The type of object to return
+    :type type: str
 
-    :rtype: Concept
+    :rtype: List[Concept]
     """
-    models = [m.decode('utf-8') for m in list(r.smembers(Concept))]
-    return models
+    print(concept, concept_type)
+    e = [json.loads(i.decode('utf-8')) for i in r.lrange( "rainfall", 0, -1 )]
+    if concept_type:
+        e = [i for i in e if i['type']==concept_type]
+    e = sorted(e, key=lambda k: k['score'], reverse=True) 
+    return e
 
 
 def list_concepts_get():  # noqa: E501

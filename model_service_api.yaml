@@ -152,19 +152,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AvailableConcepts'
-  /concept_mapping/{Concept}:
-    get:
+  /concept_mapping:
+    post:
       tags:
       - "concepts"
-      summary: "Get an array of models related to a concept."
-      description: "Submit a concept name and receive an array of model related to that concept."
+      summary: "Obtain an array of models related to a concept."
+      description: >
+        Submit a concept name and optional type and receive an array of concepts
+        related to that concept.      
       parameters:
-      - in: path
-        name: Concept
-        description: "The name of a concept."
-        required: true
+      - in: query
+        name: concept
+        description: "A concept name"
+        required: false
         schema:
-          $ref: '#/components/schemas/ConceptName' 
+          $ref: "#/components/schemas/ConceptName"      
+      - in: query
+        name: concept_type
+        description: The type of concept objects to return
+        schema:
+          type: string
+          enum:
+            - "model"
+            - "output"
+            - "parameter"
       responses:
         200:
           description: "SUCCESS"
@@ -480,6 +491,8 @@ components:
           description: "The parameter's maximum allowed value. Type depends on the parameter's type."
         choices:
           type: "array"
+          items:
+            type: "string"
           description: An array of choices available for a parameter of type ChoiceParameter
           example: ["millet", "maize", "wheat"]
     SearchResult:
@@ -604,6 +617,27 @@ components:
       type: "string"
       description: "A concept's name"
       example: "precipitation"
+    Concept:
+      type: "object"
+      description: "A model, parameter, or output variable related to a concept"
+      required:
+        - "name"
+        - "score"
+        - "type"
+      properties:
+        name:
+          type: "string"
+          description: "The object name"
+        score:
+          type: "number"
+          description: "The score for the object in relation to the concept (higher is closer match)"
+        type:
+          type: "string"
+          description: "Whether the object is related to a model, parameter, or output"
+          enum: 
+            - "model"
+            - "output"
+            - "parameter"
     AvailableConcepts:
       type: "array"
       items:
@@ -613,16 +647,6 @@ components:
     ConceptMapping:
       type: "array"
       description: >
-        An array of models that relate to a concept
+        An array of objects (models, output variables, or parameters) that relate to a concept
       items:
-        $ref: "#/components/schemas/ModelName"
-    Concept:
-      type: "object"
-      description: "A concept and its mapping to model output variables."
-      properties:
-        concept_name:
-          $ref: "#/components/schemas/ConceptName"
-        mappings:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/ConceptMapping"
+        $ref: "#/components/schemas/Concept"
