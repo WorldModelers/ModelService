@@ -44,4 +44,4 @@ def list_concepts_get():  # noqa: E501
     :rtype: List[str]
     """
     concepts = [c.decode('utf-8') for c in list(r.smembers('concepts'))]
-    return concepts
+    return sorted(concepts)
