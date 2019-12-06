@@ -23,30 +23,30 @@ maintainer:
 category:
 - Agriculture
 concepts:
-- crop_failure: 0.7031923000000001
-- crop_production: 0.6837154999999999
-- soil: 0.6218465999999999
-- food_demand: 0.6195808
-- agricultural_production: 0.5994427
-- drought: 0.59305936
-- resource_management: 0.58819383
-- land_pollution: 0.58709
-- water_shortage: 0.5796758000000001
-- land: 0.57783836
+- wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.7031923000000001
+- wm/concept/causal_factor/agriculture/crop_production: 0.6837154999999999
+- wm/concept/causal_factor/environmental/natural_resources/soil: 0.6218465999999999
+- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.6195808
+- wm/concept/causal_factor/agriculture/agricultural_production: 0.5994427
+- wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/drought: 0.59305936
+- wm/concept/causal_factor/environmental/resource_management: 0.58819383
+- wm/concept/causal_factor/environmental/pollution/land_pollution: 0.58709
+- wm/concept/causal_factor/access/water_shortage: 0.5796758000000001
+- wm/concept/causal_factor/environmental/natural_resources/land: 0.57783836
 outputs:
 - name: yield level
   description: Percent increase or decrease in yield from baseline
   concepts:
-  - trend: 0.74224097
-  - crop_failure: 0.6003543
-  - depreciation: 0.5833662
-  - food_demand: 0.5536456
-  - cost_of_transportation: 0.5520536
-  - revenue: 0.54919726
-  - population_density: 0.54192024
-  - food_price: 0.5015423999999999
-  - water_shortage: 0.49980050000000004
-  - oil_price: 0.48766229999999994
+  - wm/concept/causal_factor/condition/trend: 0.74224097
+  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.6003543
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/depreciation: 0.5833662
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5536456
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.5520536
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.54919726
+  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.54192024
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.5015423999999999
+  - wm/concept/causal_factor/access/water_shortage: 0.49980050000000004
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/oil_price: 0.48766229999999994
 parameters:
 - name: crop
   description: Choose the crop of interest from one of [millet, maize, wheat].
@@ -57,16 +57,16 @@ parameters:
     - maize
     - wheat
   concepts:
-  - crop_production: 0.8038356
-  - crop: 0.76794165
-  - crop_failure: 0.6852515
-  - food_demand: 0.6315074
-  - agricultural_production: 0.60871124
-  - crop_storage: 0.6009114000000001
-  - food_supply: 0.58407605
-  - food_export: 0.5829991
-  - planting: 0.5821715000000001
-  - crop_season: 0.5715429
+  - wm/concept/causal_factor/agriculture/crop_production: 0.8038356
+  - wm/concept/causal_factor/agriculture/crop: 0.76794165
+  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.6852515
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.6315074
+  - wm/concept/causal_factor/agriculture/agricultural_production: 0.60871124
+  - wm/concept/causal_factor/agriculture/crop_storage: 0.6009114000000001
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.58407605
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/export/food_export: 0.5829991
+  - wm/concept/causal_factor/agriculture/planting: 0.5821715000000001
+  - wm/concept/time/temporal/crop_season: 0.5715429
 - name: irrigation
   description: 'Choose the irrigation level. It should be one of [LIM, NO, POT]. NO:
     no irrigation anywhere. Crops are rain-fed only. This can be considered as a "what-if
@@ -84,16 +84,16 @@ parameters:
     - LIM
     - POT
   concepts:
-  - water_shortage: 0.7136
-  - water: 0.71226954
-  - water_management: 0.68424386
-  - water_supply: 0.67346936
-  - water_insecurity: 0.6586633000000001
-  - water_security: 0.650886
-  - water_bodies: 0.6384847
-  - irrigation: 0.6369092
-  - water_commodity: 0.63072675
-  - food_supply: 0.6213797
+  - wm/concept/causal_factor/access/water_shortage: 0.7136
+  - wm/concept/causal_factor/access/infrastructure_access/water: 0.71226954
+  - wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.68424386
+  - wm/concept/causal_factor/access/water_supply: 0.67346936
+  - wm/concept/causal_factor/food_water_and_nutrition/water_insecurity: 0.6586633000000001
+  - wm/concept/causal_factor/food_water_and_nutrition/water_security: 0.650886
+  - wm/concept/causal_factor/environmental/natural_resources/water_bodies: 0.6384847
+  - wm/concept/causal_factor/agriculture/irrigation: 0.6369092
+  - wm/concept/causal_factor/environmental/natural_resources/water_commodity: 0.63072675
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.6213797
 - name: nitrogen
   description: 'Choose the nitrogen level. It should be one of [LIM, LIM_p25, LIM_p50,
     UNLIM].  LIM: country- and crop-type-specific amounts of N fertilizer to crops.
@@ -113,16 +113,16 @@ parameters:
     - LIM_p50
     - UNLIM
   concepts:
-  - water: 0.5886610999999999
-  - food_demand: 0.5873446999999999
-  - crop_failure: 0.585078
-  - water_shortage: 0.581559
-  - food_supply: 0.56920874
-  - soil: 0.5644304
-  - food_price: 0.54972315
-  - water_management: 0.54230726
-  - food_import: 0.5354187
-  - food_export: 0.5340898000000001
+  - wm/concept/causal_factor/access/infrastructure_access/water: 0.5886610999999999
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5873446999999999
+  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.585078
+  - wm/concept/causal_factor/access/water_shortage: 0.581559
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.56920874
+  - wm/concept/causal_factor/environmental/natural_resources/soil: 0.5644304
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.54972315
+  - wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.54230726
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/import/food_import: 0.5354187
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/export/food_export: 0.5340898000000001
 - name: area
   description: Either global (global pixel tif file) or merged (a txt file aggregated
     to the country level).
@@ -132,9 +132,9 @@ parameters:
     - global
     - merged
   concepts:
-  - biometrics: 0.28815058
-  - wildfire: 0.16370924
-  - de-population: -0.0058918814
+  - wm/concept/causal_factor/health_and_life/biometrics: 0.28815058
+  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/wildfire: 0.16370924
+  - wm/concept/causal_factor/social_and_political/population_group/de-population: -0.0058918814
 - name: statistic
   description: Only provide if area=global. Select the statistical aggregation over
     possible future climate  realizations which can be any of ["mean", "std", "pctl,5",
@@ -149,16 +149,16 @@ parameters:
     - pctl,5
     - pctl,95
   concepts:
-  - trend: 0.6251614000000001
-  - population_density: 0.531878
-  - cost_of_transportation: 0.52918655
-  - economic_crisis: 0.52754116
-  - food_demand: 0.5258928
-  - basic_needs: 0.5256221999999999
-  - labor_market: 0.5204326
-  - revenue: 0.51866096
-  - competition: 0.51323247
-  - physical_insecurity: 0.5067999
+  - wm/concept/causal_factor/condition/trend: 0.6251614000000001
+  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.531878
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.52918655
+  - wm/concept/causal_factor/crisis_and_disaster/economic/economic_crisis: 0.52754116
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5258928
+  - wm/concept/causal_factor/health_and_life/basic_needs: 0.5256221999999999
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.5204326
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.51866096
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/competition: 0.51323247
+  - wm/concept/causal_factor/social_and_political/threat/physical_insecurity: 0.5067999
 configuration:
 - crop: maize
   irrigation: LIM

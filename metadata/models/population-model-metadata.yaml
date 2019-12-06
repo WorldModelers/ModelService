@@ -25,30 +25,30 @@ category:
 - Demographic
 - Socioeconomic
 concepts:
-- population_density: 0.5527279
-- population: 0.51769674
-- seasonal_migration: 0.48410505
-- census: 0.4747537
-- basic_needs: 0.455783
-- trend: 0.4557626
-- cost_of_transportation: 0.42615715
-- economic_crisis: 0.41934627
-- human_migration: 0.41677
-- overcrowding: 0.39128226
+- wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5527279
+- wm/concept/entity/person_and_group/population: 0.51769674
+- wm/concept/causal_factor/social_and_political/migration/seasonal_migration: 0.48410505
+- wm/concept/causal_factor/social_and_political/government/census: 0.4747537
+- wm/concept/causal_factor/health_and_life/basic_needs: 0.455783
+- wm/concept/causal_factor/condition/trend: 0.4557626
+- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.42615715
+- wm/concept/causal_factor/crisis_and_disaster/economic/economic_crisis: 0.41934627
+- wm/concept/causal_factor/social_and_political/migration/human_migration: 0.41677
+- wm/concept/causal_factor/social_and_political/population_group/overcrowding: 0.39128226
 outputs:
 - name: population
   description: pixel value corresponds to the population residing there.
   concepts:
-  - population_density: 0.6582799
-  - population_density: 0.6582799
-  - population: 0.566863
-  - population: 0.566863
-  - basic_needs: 0.5207824000000001
-  - basic_needs: 0.5207824000000001
-  - geo-location: 0.49932387
-  - geo-location: 0.49932387
-  - trend: 0.49685052
-  - trend: 0.49685052
+  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799
+  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799
+  - wm/concept/entity/person_and_group/population: 0.566863
+  - wm/concept/entity/person_and_group/population: 0.566863
+  - wm/concept/causal_factor/health_and_life/basic_needs: 0.5207824000000001
+  - wm/concept/causal_factor/health_and_life/basic_needs: 0.5207824000000001
+  - wm/concept/entity/geo-location: 0.49932387
+  - wm/concept/entity/geo-location: 0.49932387
+  - wm/concept/causal_factor/condition/trend: 0.49685052
+  - wm/concept/causal_factor/condition/trend: 0.49685052
 parameters:
 - name: country
   description: Select the country of interest.
@@ -59,16 +59,16 @@ parameters:
     - South Sudan
     default: Ethiopia
   concepts:
-  - food_security: 0.554129
-  - food_diversity: 0.5511505
-  - food_consumption: 0.5453414000000001
-  - food_shortage: 0.5413444000000001
-  - food_import: 0.54022735
-  - food_export: 0.5256163
-  - food_price: 0.51665634
-  - food_insecurity: 0.5081462999999999
-  - food_supply: 0.50398254
-  - famine: 0.4681228
+  - wm/concept/causal_factor/condition/food_security: 0.554129
+  - wm/concept/causal_factor/condition/food_diversity: 0.5511505
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/consumption/food_consumption: 0.5453414000000001
+  - wm/concept/causal_factor/access/food_shortage: 0.5413444000000001
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/import/food_import: 0.54022735
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/export/food_export: 0.5256163
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.51665634
+  - wm/concept/causal_factor/condition/food_insecurity: 0.5081462999999999
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.50398254
+  - wm/concept/causal_factor/condition/famine: 0.4681228
 - name: year
   description: 'Select the year of interest. 2008-2020 is available for South Sudan,
     and  2000-2020 is available for Ethiopia. '
@@ -78,15 +78,15 @@ parameters:
     maximum: 2020
     default: 2018
   concepts:
-  - population_density: 0.5562857
-  - cost_of_living: 0.49961162
-  - cost_of_living: 0.49961162
-  - basic_services: 0.4995036
-  - population: 0.49802107
-  - immigration: 0.44551759999999996
-  - immigration: 0.44551759999999996
-  - organization: 0.4186753
-  - organization: 0.4186753
-  - census: 0.38592509999999997
+  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5562857
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
+  - wm/concept/causal_factor/social_and_political/basic_services: 0.4995036
+  - wm/concept/entity/person_and_group/population: 0.49802107
+  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
+  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
+  - wm/concept/entity/organization: 0.4186753
+  - wm/concept/entity/organization: 0.4186753
+  - wm/concept/causal_factor/social_and_political/government/census: 0.38592509999999997
 configuration:
 - country: Ethiopia
