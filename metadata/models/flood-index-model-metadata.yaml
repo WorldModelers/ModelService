@@ -36,15 +36,15 @@ parameters:
     maximum: 2017
     default: 2017
   concepts:
-  - population_density: 0.5562857
-  - cost_of_living: 0.49961162
-  - cost_of_living: 0.49961162
-  - basic_services: 0.4995036
-  - population: 0.49802107
-  - immigration: 0.44551759999999996
-  - immigration: 0.44551759999999996
-  - organization: 0.4186753
-  - organization: 0.4186753
-  - census: 0.38592509999999997
+  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5562857
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
+  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
+  - wm/concept/causal_factor/social_and_political/basic_services: 0.4995036
+  - wm/concept/entity/person_and_group/population: 0.49802107
+  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
+  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
+  - wm/concept/entity/organization: 0.4186753
+  - wm/concept/entity/organization: 0.4186753
+  - wm/concept/causal_factor/social_and_political/government/census: 0.38592509999999997
 configuration:
 - year: 2017

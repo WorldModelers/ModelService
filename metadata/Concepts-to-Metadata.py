@@ -54,15 +54,12 @@ for f in files:
     if 'parameter' in f:
         params = pd.read_csv(f, sep='\t', names=['type','concept','ontology','name','score'])
         params['name'] = params.name.apply(lambda x: x.split("MaaS-Parameters/")[1])
-        params['concept'] = params.concept.apply(lambda x: x.split("/")[-1])
     if 'model' in f:
         models = pd.read_csv(f, sep='\t', names=['type','concept','ontology','name','score'])
         models['name'] = models.name.apply(lambda x: x.split("MaaS-Models/")[1])
-        models['concept'] = models.concept.apply(lambda x: x.split("/")[-1])        
     if 'variable' in f:
         variables = pd.read_csv(f, sep='\t', names=['type','concept','ontology','name','score'])
         variables['name'] = variables.name.apply(lambda x: x.split("MaaS-Variables/")[1])
-        variables['concept'] = variables.concept.apply(lambda x: x.split("/")[-1])        
 
 # Write metadata files back to YAML
 for model in model_paths:
