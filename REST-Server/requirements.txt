@@ -20,3 +20,4 @@ osmnx
 rtree
 gdal==2.4.0
 netCDF4
+oyaml

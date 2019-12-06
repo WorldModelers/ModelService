@@ -1,62 +1,124 @@
 id: FSC
 label: Food Shocks Cascade Model
-description: |
-  The Food Shocks Cascade Model (FSC) is a simple agent-based network model that computes chain-reactions due to negative production anomalies based on dynamic food balance sheets at the country level.
-versions: 
-  - 'FSC_0.1'
+description: The Food Shocks Cascade Model (FSC) is a simple agent-based network model
+  that computes chain-reactions due to negative production anomalies based on dynamic
+  food balance sheets at the country level.
+versions:
+- FSC_0.1
 maintainer:
   name: Michael Puma
   email: mjp38@columbia.edu
 category:
-  - Economic
+- Economic
 concepts:
-  - economy
-  - import
-  - export
-  - crop_storage
-
+- food_security
+- food_diversity
+- food_supply
+- food_consumption
+- food_price
+- food_shortage
+- food_export
+- water_management
+- food_insecurity
+- food_import
 outputs:
-  - name: dR
-    description: Change in crop stock reserve levels
-  - name: dC
-    description: Change in consumption
-  - name: dP
-    description: Change in production levels
-
+- name: dR
+  description: Change in crop stock reserve levels
+  concepts:
+  - crop_failure
+  - food_demand
+  - oil_transaction
+  - food_export
+  - crop_production
+  - food_supply
+  - food_price
+  - food_import
+  - resource_management
+  - oil_price
+- name: dC
+  description: Change in consumption
+  concepts:
+  - organization
+  - disarmament
+- name: dP
+  description: Change in production levels
+  concepts:
+  - organization
+  - disarmament
 parameters:
-  - name: country
-    description: Select the country for which to induce a food shock (ISO-3 format).
-    metadata:
-      type: ChoiceParameter
-      default: USA
-  - name: fractional_reserve_access
-    description: >
-      The fraction of reserves that countries can access. Between 0 and 1, where 0 indicates that 
-      countries cannot access there reserves and 1 indicates that countries can access the entirety 
-      of their reserves.
-    metadata:
-      type: NumberParameter
-      default: 1
-      minimum: 0
-      maximum: 1
-  - name: production_decrease
-    description: >
-      The percent decrease in crop production due to the shock on the target country (the size 
-      of the shock).
-    metadata:
-      type: NumberParameter
-      default: 0.5
-      minimum: 0
-      maximum: 1    
-  - name: year
-    description: >
-      The year in which to induce the shock in YYYY format.
-    metadata:
-      type: TimeParameter
-      default: 2005
-
+- name: country
+  description: Select the country for which to induce a food shock (ISO-3 format).
+  metadata:
+    type: ChoiceParameter
+    default: USA
+  concepts:
+  - food_security
+  - food_diversity
+  - food_consumption
+  - food_shortage
+  - food_import
+  - food_export
+  - food_price
+  - food_insecurity
+  - food_supply
+  - famine
+- name: fractional_reserve_access
+  description: The fraction of reserves that countries can access. Between 0 and 1,
+    where 0 indicates that  countries cannot access there reserves and 1 indicates
+    that countries can access the entirety  of their reserves.
+  metadata:
+    type: NumberParameter
+    default: 1
+    minimum: 0
+    maximum: 1
+  concepts:
+  - assets
+  - currency
+  - revenue
+  - depreciation
+  - oil_transaction
+  - government_entity
+  - budget
+  - geo-location
+  - regulation
+  - human_migration
+- name: production_decrease
+  description: The percent decrease in crop production due to the shock on the target
+    country (the size  of the shock).
+  metadata:
+    type: NumberParameter
+    default: 0.5
+    minimum: 0
+    maximum: 1
+  concepts:
+  - trend
+  - crop_failure
+  - food_demand
+  - water_shortage
+  - tension
+  - cost_of_transportation
+  - physical_insecurity
+  - death
+  - food_price
+  - famine
+- name: year
+  description: The year in which to induce the shock in YYYY format.
+  metadata:
+    type: TimeParameter
+    default: 2005
+  concepts:
+  - population_density
+  - cost_of_living
+  - cost_of_living
+  - basic_services
+  - population
+  - immigration
+  - immigration
+  - organization
+  - organization
+  - census
 configuration:
-  - country: USA
-    fractional_reserve_access: 1
-    production_decrease: 0.5
-    year: 2005
+- country: USA
+  fractional_reserve_access: 1
+  production_decrease: 0.5
+  year: 2005

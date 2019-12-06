@@ -1,22 +1,38 @@
 id: consumption_model
 label: Consumption Model
-description: |
-  This model uses remote sensing imagery to predict consumption.
-versions: 
-  - 'consumption_model_1'
+description: This model uses remote sensing imagery to predict consumption.
+versions:
+- consumption_model_1
 maintainer:
   name: George Azzari
-  email: George@atlasai.co  
+  email: George@atlasai.co
 category:
-  - Demographic
-  - Socioeconomic
-  - Economic
+- Demographic
+- Socioeconomic
+- Economic
 concepts:
-  - economy
-  - assets
-  - poverty  
-  - inflation
-
+- food_consumption
+- food_demand
+- food_supply
+- labor_market
+- food_price
+- fuel
+- water_commodity
+- water_supply
+- population_density
+- cost_of_transportation
 outputs:
-  - name: consumption per capita per day
-    description: Measure of how much a person would spend each day (2011 USD per capita per day)
+- name: consumption per capita per day
+  description: Measure of how much a person would spend each day (2011 USD per capita
+    per day)
+  concepts:
+  - revenue
+  - cost_of_living
+  - currency
+  - cost_of_transportation
+  - food_price
+  - labor_market
+  - oil_price
+  - tax_duty
+  - depreciation
+  - food_consumption

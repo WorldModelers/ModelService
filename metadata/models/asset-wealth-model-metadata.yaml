@@ -1,22 +1,37 @@
 id: asset_wealth_model
 label: Asset Wealth Model
-description: |
-  This model uses remote sensing imagery to predict asset wealth.
-versions: 
-  - 'asset_wealth_model_1'
+description: This model uses remote sensing imagery to predict asset wealth.
+versions:
+- asset_wealth_model_1
 maintainer:
   name: George Azzari
   email: George@atlasai.co
 category:
-  - Demographic
-  - Socioeconomic
-  - Economic
+- Demographic
+- Socioeconomic
+- Economic
 concepts:
-  - economy
-  - assets
-  - material
-  - poverty
-
+- assets
+- revenue
+- economic_crisis
+- currency
+- labor_market
+- livelihood
+- resource_management
+- depreciation
+- government_entity
+- development
 outputs:
-  - name: poverty level
-    description: Measure of household poverty levels based on the assets they own (unitless)
+- name: poverty level
+  description: Measure of household poverty levels based on the assets they own (unitless)
+  concepts:
+  - assets
+  - livelihood
+  - poverty
+  - revenue
+  - basic_needs
+  - physical_insecurity
+  - labor_market
+  - economic_crisis
+  - cost_of_living
+  - political_instability
