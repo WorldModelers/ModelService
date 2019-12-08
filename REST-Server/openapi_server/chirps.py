@@ -219,6 +219,7 @@ class CHIRPSController(object):
         gdf['run_id'] = self.run_id
         gdf['model'] = self.name
         gdf['feature_description'] = feature_description
+        gdf['geom'] = gdf.apply(lambda x: 'POINT(%f, %f)' % (x.longitude,x.latitude), axis=1) 
         del(gdf['geometry'])
         del(gdf['index_right'])
 

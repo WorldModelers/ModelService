@@ -355,6 +355,7 @@ class DSSATController(object):
         df = pd.read_csv(path, index_col=False)
         df['latitude'] = df['LATITUDE']
         df['longitude'] = df['LONGITUDE']
+        df['geom'] = df.apply(lambda x: 'POINT(%f, %f)' % (x.longitude,x.latitude), axis=1) 
         df['geometry'] = df.apply(lambda x: Point(x.longitude, x.latitude), axis=1)
         df['year'] = df['HDAT'].apply(lambda x: int(str(x)[:4]))
         df['days'] = df['HDAT'].apply(lambda x: int(str(x)[4:]))
@@ -394,7 +395,7 @@ class DSSATController(object):
             gdf_['feature_name'] = feature_name
             gdf_['feature_description'] = feature_description
             gdf_['feature_value'] = gdf_[feature_name]
-            gdf_ = gdf_[base_cols + feature_cols]
+            gdf_ = gdf_[base_cols + feature_cols + ['geom']]
 
             # perform bulk insert of entire geopandas DF
             logging.info(f"Storing point data output for {feature_name}...")

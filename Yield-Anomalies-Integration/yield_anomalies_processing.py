@@ -170,6 +170,7 @@ if __name__ == "__main__":
                     gdf['run_id'] = run_id
                     gdf['model'] = model_config['name']
                     gdf['feature_description'] = "Percent increase or decrease in yield from baseline"
+                    gdf['geom'] = gdf.apply(lambda x: 'POINT(%f, %f)' % (x.longitude,x.latitude), axis=1) 
                     del(gdf['geometry'])
                     del(gdf['index_right'])
 

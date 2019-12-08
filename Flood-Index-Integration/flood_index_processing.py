@@ -112,7 +112,7 @@ def gen_monthly(file_name):
     df['year'] = df.datetime.apply(lambda x: x.year)
     df['days_medium'] = df['flood-index'].apply(lambda x: days_medium(x))
     df['days_high'] = df['flood-index'].apply(lambda x: days_high(x))
-    df['days_severe'] = df['flood-index'].apply(lambda x: days_severe(x))    
+    df['days_severe'] = df['flood-index'].apply(lambda x: days_severe(x))   
     
     monthly = pd.DataFrame(df.groupby(['year','month','latitude','longitude'])['days_medium','days_high','days_severe'].sum()).reset_index()
     monthly['datetime'] = monthly.apply(lambda row: datetime.datetime(year=int(row['year']),month=int(row['month']),day=1), axis=1)
@@ -186,7 +186,8 @@ def ingest2db(year, df, filename):
         gdf_['feature_name'] = feature_name
         gdf_['feature_description'] = feature_description
         gdf_['feature_value'] = gdf_[feature_name]
-        gdf_ = gdf_[base_cols + feature_cols]
+        gdf_['geom'] = df.apply(lambda x: 'POINT(%f, %f)' % (x.longitude,x.latitude), axis=1) 
+        gdf_ = gdf_[base_cols + feature_cols + ['geom']]
 
         # perform bulk insert of entire geopandas DF
         print(f"Storing point data output for {feature_name}...")

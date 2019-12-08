@@ -144,6 +144,7 @@ if __name__ == "__main__":
                 gdf['run_id'] = run_id
                 gdf['model'] = model_config['name']
                 gdf['feature_description'] = feature_description
+                gdf['geom'] = gdf.apply(lambda x: 'POINT(%f, %f)' % (x.longitude,x.latitude), axis=1) 
                 if 'geometry' in gdf:
                     del(gdf['geometry'])
                     del(gdf['index_right'])

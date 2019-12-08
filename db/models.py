@@ -16,7 +16,7 @@ class Metadata(Base):
     __table_args__ = {'extend_existing': True} 
     run_id = Column(String(120), unique=True, primary_key = True)
     run_label = Column(String(240), unique=False)
-    model = Column(String(120))
+    model = Column(String(120), index=True)
     run_description = Column(String(1000), unique=False)
     model_version = Column(String(120), unique=False)
     point_resolution_meters = Column(Integer)
@@ -29,20 +29,21 @@ class Output(Base):
     __tablename__ = 'output'
     __table_args__ = {'extend_existing': True} 
     id = Column(Integer, primary_key=True)
-    run_id = Column(String(120), ForeignKey('metadata.run_id'))
-    model = Column(String(120))
-    latitude = Column(Float)
-    longitude = Column(Float)
-    polygon = Column(String(1000), unique=False)
-    datetime = Column(DateTime)
-    feature_name = Column(String(120), unique=False)
-    feature_value = Column(Float)
+    run_id = Column(String(120), ForeignKey('metadata.run_id'), index=True)
+    model = Column(String(120), index=True)
+    latitude = Column(Float, index=True)
+    longitude = Column(Float, index=True)
+    polygon = Column(String(1000), unique=False, index=True)
+    datetime = Column(DateTime, index=True)
+    feature_name = Column(String(120), unique=False, index=True)
+    feature_value = Column(Float, index=True)
     feature_description = Column(String(240), unique=False)
-    admin1 = Column(String(120), unique=False)
-    admin2 = Column(String(120), unique=False)
-    city = Column(String(120), unique=False)
-    state = Column(String(120), unique=False)
-    country = Column(String(120), unique=False)
+    admin1 = Column(String(120), unique=False, index=True)
+    admin2 = Column(String(120), unique=False, index=True)
+    city = Column(String(120), unique=False, index=True)
+    state = Column(String(120), unique=False, index=True)
+    country = Column(String(120), unique=False, index=True)
+    geom = Column(Geometry('POINT'), index=True)
 
 
     def __repr__(self):
@@ -52,11 +53,11 @@ class Parameters(Base):
     __tablename__ = 'parameters'
     __table_args__ = {'extend_existing': True} 
     id = Column(Integer, primary_key=True)
-    run_id = Column(String(120), ForeignKey('metadata.run_id'))
-    model = Column(String(120))
-    parameter_name = Column(String(240), unique=False)
-    parameter_type  = Column(String(120), unique=False)
-    parameter_value = Column(String(120), unique=False)
+    run_id = Column(String(120), ForeignKey('metadata.run_id'), index=True)
+    model = Column(String(120), index=True)
+    parameter_name = Column(String(240), unique=False, index=True)
+    parameter_type  = Column(String(120), unique=False, index=True)
+    parameter_value = Column(String(120), unique=False, index=True)
 
 
     def __repr__(self):

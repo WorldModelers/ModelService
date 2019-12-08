@@ -170,6 +170,7 @@ if __name__ == "__main__":
                 g_['run_id'] = run_id
                 g_['model'] = model_config['name']
                 g_['feature_description'] = "Estimated population on 0.008333 degree (1km at equator) grid"
+                g_['geom'] = g_.apply(lambda x: 'POINT(%f, %f)' % (x.longitude,x.latitude), axis=1) 
                 del(g_['geometry'])
                 del(g_['index_right'])
 
