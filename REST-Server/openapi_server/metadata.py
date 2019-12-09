@@ -46,7 +46,7 @@ def main():
         # get its concepts
         for concept in vv.get('concepts',[]):
             cc = list(concept.keys())[0]
-            m_ = {'name': kk, 'score': concept[cc]}
+            m_ = {'name': kk, 'score': concept[cc], 'type': 'model'}
             # if concept not in concepts dict, add it
             if cc not in concepts_m:
                 concepts_m[cc] = set(json.dumps(m_))
@@ -66,6 +66,7 @@ def main():
             for concept in cons:
                 cc = list(concept.keys())[0]
                 pp['model'] = kk
+                pp['type'] = 'parameter'
                 pp['score'] = concept[cc]
                 if cc not in concepts_p:
                     concepts_p[cc] = set()
@@ -83,6 +84,7 @@ def main():
             for concept in cons:
                 cc = list(concept.keys())[0]
                 oo['model'] = kk
+                oo['type'] = 'output'                
                 oo['score'] = concept[cc]
                 if cc not in concepts_o:
                     concepts_o[cc] = set()
@@ -118,7 +120,6 @@ def main():
 
             # for each item associated with each concept
             for ee in vv:
-                ee['type'] = tt
                 # add the model to a Redis set named for the concept name
                 r.lpush(cc, ee)
                                 
