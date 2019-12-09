@@ -49,7 +49,8 @@ def main():
             m_ = {'name': kk, 'score': concept[cc], 'type': 'model'}
             # if concept not in concepts dict, add it
             if cc not in concepts_m:
-                concepts_m[cc] = set(json.dumps(m_))
+                concepts_m[cc] = set()
+                concepts_m[cc].add(json.dumps(m_))
 
             # if concept in concepts, add model to set
             else:
