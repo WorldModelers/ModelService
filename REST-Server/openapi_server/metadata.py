@@ -101,9 +101,9 @@ def main():
     for c in concept_names:
         r.sadd('concepts', c)
 
-    combined = {'model': concepts_m,
-                'parameter': concepts_p,
-                'output': concepts_o}
+    combined = {'model': list(set([json.dumps(i) for i in concepts_m])),
+                'parameter': list(set([json.dumps(i) for i in concepts_p])),
+                'output': list(set([json.dumps(i) for i in concepts_o]))}
 
     # if key for concept exists, delete it 
     # this ensures a fresh start from whatever is in the model metadata file
@@ -119,7 +119,7 @@ def main():
             for ee in vv:
                 ee['type'] = tt
                 # add the model to a Redis set named for the concept name
-                r.lpush(cc, json.dumps(ee))
+                r.lpush(cc, ee)
                                 
     ##########################################
     ########### Setting up metadata ##########
