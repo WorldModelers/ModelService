@@ -49,11 +49,11 @@ def main():
             m_ = {'name': kk, 'score': concept[cc]}
             # if concept not in concepts dict, add it
             if cc not in concepts_m:
-                concepts_m[cc] = [m_]
+                concepts_m[cc] = set(json.dumps(m_))
 
             # if concept in concepts, add model to set
             else:
-                concepts_m[cc].append(m_)
+                concepts_m[cc].add(json.dumps(m_))
 
     # for each model
     for kk, vv in models.items():
@@ -68,12 +68,12 @@ def main():
                 pp['model'] = kk
                 pp['score'] = concept[cc]
                 if cc not in concepts_p:
-                    concepts_p[cc] = []
-                    concepts_p[cc].append(pp)
+                    concepts_p[cc] = set()
+                    concepts_p[cc].add(json.dumps(pp))
 
                 # if concept in concepts, add model to set
                 else:
-                    concepts_p[cc].append(pp)            
+                    concepts_p[cc].add(json.dumps(pp))
                     
         # get its variables
         for oo in vv.get('outputs',[]):
@@ -85,11 +85,11 @@ def main():
                 oo['model'] = kk
                 oo['score'] = concept[cc]
                 if cc not in concepts_o:
-                    concepts_o[cc] = []
-                    concepts_o[cc].append(oo)
+                    concepts_o[cc] = set()
+                    concepts_o[cc].add(json.dumps(oo))
                 # if concept in concepts, add model to set
                 else:
-                    concepts_o[cc].append(oo)
+                    concepts_o[cc].add(json.dumps(oo))
 
     concept_names = set(list(concepts_m.keys()) + list(concepts_o.keys()) + list(concepts_p.keys()))
 
@@ -101,9 +101,10 @@ def main():
     for c in concept_names:
         r.sadd('concepts', c)
 
-    combined = {'model': list(set([json.dumps(i) for i in concepts_m])),
-                'parameter': list(set([json.dumps(i) for i in concepts_p])),
-                'output': list(set([json.dumps(i) for i in concepts_o]))}
+    combined = {'model': concepts_m,
+                'parameter': concepts_p,
+                'output': concepts_o
+                }
 
     # if key for concept exists, delete it 
     # this ensures a fresh start from whatever is in the model metadata file
