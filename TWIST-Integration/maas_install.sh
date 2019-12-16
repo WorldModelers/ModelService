@@ -6,4 +6,4 @@ cd multi_twist
 git checkout production_shock_docker_version
 
 # Build container used in maas.
-docker build -f Dockerfile . -t twist
+docker build -f Dockerfile . -t multi_twist

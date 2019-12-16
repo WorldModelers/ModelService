@@ -45,7 +45,6 @@ class TWISTController(object):
         self.model_config = model_config
         self.client = docker.from_env()
         self.containers = self.client.containers
-        self.twist = 'twist'
         self.result_name = self.model_config['run_id'] 
         self.run_id = self.model_config['run_id']           
         self.bucket = "world-modelers"
@@ -55,9 +54,9 @@ class TWISTController(object):
         self.shock_year = self.model_config.get('shock_year','2018')
         self.crop = self.model_config.get('crop','wheat')
         self.entrypoint=f"python run_twist_with_prduction_shock.py --region {self.region} --shock {self.shock}"
-        self.volumes = {self.result_path: {'bind': '/output_data', 'mode': 'rw'}}
+        self.volumes = { f"{self.config['TWIST']['OUTPUT_PATH']}/output_data": {'bind': '/output_data', 'mode': 'rw'},}
         self.output = f"{self.config['TWIST']['OUTPUT_PATH']}/output_data/WM_price/WM_price_1976_2020_shock_year_{self.shock_year}_{self.region}_{self.shock}.csv"
-        self.success_msg = 'Finished'
+        self.success_msg = 'Model run completed'
 
         # The Redis connection has to be instantiated by this Class
         # since once instantiated, it cannot be pickled by RQ
@@ -89,11 +88,10 @@ class TWISTController(object):
         """
         Run Multi-TWIST model inside Docker container
         """
-        self.update_config()
-        time.sleep(3)
+        time.sleep(1)
         logging.info(f"Running Multi-TWIST model run with ID: {self.run_id}")
         try:
-            self.model = self.containers.run(self.twist, 
+            self.model = self.containers.run(self.name, 
                                              volumes=self.volumes, 
                                              entrypoint=self.entrypoint,
                                              detach=False,
@@ -135,7 +133,8 @@ class TWISTController(object):
 
 
     def storeResults(self):
-        exists = os.path.isdir(self.output)
+        exists = os.path.exists(self.output)
+        logging.info(self.output)
         logging.info(exists)
         if exists:
             session = boto3.Session(profile_name="wmuser")
@@ -147,7 +146,7 @@ class TWISTController(object):
             logging.info(f'Results stored at : https://s3.amazonaws.com/world-modelers/{self.key}')
             return "SUCCESS"
         else:
-            return result
+            return "Output does not exist"
 
 
     def ingest2db(self):
@@ -181,7 +180,7 @@ class TWISTController(object):
 
         # Process CSV and normalize it
         logging.info("Processing timeseries...")
-        df = pd.read_csv(self.out)
+        df = pd.read_csv(self.output)
         df = df.transpose().reset_index()
         df = df.rename(columns=dict(zip(list(df.columns),list(df.iloc[0]))))[1:]
         df = df.rename(columns={'Unnamed: 0':'Date'})
@@ -201,8 +200,8 @@ class TWISTController(object):
             df_ = df[cols_to_select] # generate new interim DF
             df_['feature_name'] = feature_name
             df_['feature_description'] = feature_description
-            df_['feature_value'] = gdf_[feature_name]
-            df_ = gdf_[base_cols + feature_cols]
+            df_['feature_value'] = df_[feature_name]
+            df_ = df_[base_cols + feature_cols]
 
             # perform bulk insert of entire geopandas DF
             logging.info(f"Storing point data output for {feature_name}...")
