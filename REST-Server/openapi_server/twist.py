@@ -22,8 +22,37 @@ import psycopg2
 import csv
 import pandas as pd
 import geopandas as gpd
+import yaml
 from shapely.geometry import Point
 from datetime import datetime, timedelta
+
+def get_param_type(t):
+    """
+    Determine SQL type based on parameter type
+    Note: this may be model specific
+    """
+    if t == 'ChoiceParameter':
+        return 'string' # for some models this may be an integer
+    elif t == 'TimeParameter':
+        return 'integer' # for some models this may be a string
+
+def load_yaml(metadata_file):
+    """
+    Generate features and parameter dictionary lookups
+    based on a model metadata file
+    """
+    with open(metadata_file, 'r') as stream:
+        model = yaml.safe_load(stream)
+    parameters = {}
+
+    for p in model['parameters']:
+        params[p['name']] = get_param_type(p['metadata']['type'])
+        
+    features = {}
+    for o in model['outputs']:
+        outputs[o['name']] = o['description'] 
+
+    return {'features': features, 'parameters': parameters}
 
 def run_twist(config):
     """
@@ -48,7 +77,7 @@ class TWISTController(object):
         self.result_name = self.model_config['run_id'] 
         self.run_id = self.model_config['run_id']           
         self.bucket = "world-modelers"
-        self.key = f"results/multi_twist_model/{self.result_name}"
+        self.key = f"results/multi_twist_model/{self.result_name}.csv"
         self.region = self.model_config.get('region','ALL')
         self.shock = self.model_config.get('shock','extreme')
         self.shock_year = self.model_config.get('shock_year','2018')
@@ -57,30 +86,14 @@ class TWISTController(object):
         self.volumes = { f"{self.config['TWIST']['OUTPUT_PATH']}/output_data": {'bind': '/output_data', 'mode': 'rw'},}
         self.output = f"{self.config['TWIST']['OUTPUT_PATH']}/output_data/WM_price/WM_price_1976_2020_shock_year_{self.shock_year}_{self.region}_{self.shock}.csv"
         self.success_msg = 'Model run completed'
+        self.descriptions = load_yaml("../metadata/models/multi-twist-model-metadata.yaml")
 
         # The Redis connection has to be instantiated by this Class
         # since once instantiated, it cannot be pickled by RQ
         self.r = redis.Redis(host=self.config['REDIS']['HOST'],
                         port=self.config['REDIS']['PORT'],
                         db=self.config['REDIS']['DB'])
-
-        self.descriptions = {
-                             'features': {
-                                'WM_price_mean': '',
-                                'WM_price_lower': '',
-                                'WM_price_upper': '',
-                                'WM_price_baseline_mean': '',
-                                'WM_price_baseline_lower': '',
-                                'WM_price_baseline_upper': '',
-                                },
-                             'parameters': {
-                                'shock':'integer',
-                                'shock_year': 'integer',
-                                'crop': 'integer',
-                                'region': 'string'
-                                }
-                            }
-
+        
         logging.basicConfig(level=logging.INFO)
 
 
