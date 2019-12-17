@@ -1,32 +1,22 @@
 # Model Documentation
 
-This directory contains information related to capturing structured metadata about each bottom-up model on World Modelers. This information is critical for registering models to MINT.
+This directory contains information related to capturing structured metadata about each bottom-up model on World Modelers.
 
-### Key MINT Metadata Concepts
+### Key Metadata Concepts
 
 There are 4 primary concepts to consider with respect to capturing metadata about models:
 
-1. `Inputs`: these are input files or datasets that are used by the model. They may change with some periodicity, but the underlying file structure remains the same (such as a daily weather file).
-2. `Outputs`: these are the output files produced by the model. They are generally predictions.
-3. `Parameters`: these are the "tunable knobs" which may be adjusted by a user prior to running a model. For example, the user may select a geographic area, time interval, or perturb something about the model's initialization.
-4. `Variables`: these are fields in either `input` or `output` files.
+* `Outputs`: these are the output variables produced by the model. They are generally predictions.
+* `Parameters`: these are the "tunable knobs" which may be adjusted by a user prior to running a model. For example, the user may select a geographic area, time interval, or perturb something about the model's initialization.
+* `configuration`: This defines an example configuration for the model (e.g. the defaults).
 
 ## The Example Model
 
-To facilitate capturing this information for each model, we use a standardized [YAML](https://yaml.org/) file. YAML is preferred to JSON since it allows for in-line comments, can be easily version controlled, but is also serializable to JSON to facilitate MINT registration. 
+To facilitate capturing this information for each model, we use a standardized [YAML](https://yaml.org/) file. YAML is preferred to JSON since it allows for in-line comments, can be easily version controlled, but is also serializable to JSON. 
 
-### Inputs and outputs
+### Outputs
 
-The [example-model.yaml](https://github.com/WorldModelers/ModelService/blob/master/Model-Docs/example-model.yaml) file contains an example for a toy flood model. This model has 1 `input` and 1 `output`. `Inputs` and `outputs` may be defined with optional metadata such as `spatial_coverage` or `temporal_coverage`. This facilitates geo/temporal search for models. The `example-model.yaml` contains examples of how this metadata should be defined.
-
-### Variable definitions
-
-`Variables` are tied directly to their corresponding `input` or `output`. Each `variable` should have a `standard_variable` from _an_ ontology (the modeler should choose the appropriate ontology).  A `variable` may have arbitrary metadata attached to it, such as `units`. 
-
-### Examples
-For `inputs`, you must specify one or more example files. These are actual instances of the `input` described. The example may have geospatial or temporal coverage. In the `example-model.yaml`, the `input` is a rainfall file, and the examples are actual instances of this rainfall file which vary by geogrpahy/time.
-
-`outputs` do not need to have example files as these are generated directly by the model when the model is executed.
+The [example-model.yaml](https://github.com/WorldModelers/ModelService/blob/master/Model-Docs/example-model.yaml) file contains an example for a toy flood model. This model has one `output`. The `example-model.yaml` contains examples of how this metadata should be defined.
 
 ### Parameters
 
