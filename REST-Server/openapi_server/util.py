@@ -585,6 +585,22 @@ def format_parameters(m):
         out_p.append(o_p)
     return out_p
 
+def format_outputs(m):
+    """
+    Takes in  a model metadata JSON from Redis and formats the outputs for the MaaS API.
+    """
+    outputs = m.get('outputs',[])
+    out_o = []
+    for o in outputs:
+        o_ = {'name': o['name'],
+              'description': o['description'].replace('\n','')}
+        if 'units' in o:
+            o_['units'] = o.get('units','')
+        if 'metadata' in o:
+            o_['metadata'] = o.get('units','')            
+        out_o.append(o_)
+    return out_o
+
 def format_config(m):
     """
     Takes in  a model metadata JSON from Redis and formats the config the MaaS API.
