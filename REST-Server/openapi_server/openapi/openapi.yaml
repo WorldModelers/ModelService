@@ -124,39 +124,6 @@ paths:
       tags:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
-  /search:
-    post:
-      description: Search for a model, dataset, or variable based on name or standard name
-      operationId: search_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              discriminator:
-                propertyName: query_type
-              oneOf:
-              - $ref: '#/components/schemas/GeoQuery'
-              - $ref: '#/components/schemas/TimeQuery'
-              - $ref: '#/components/schemas/TextQuery'
-        description: Search parameters
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchResult'
-          description: SUCCESS
-        400:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: ERROR
-      summary: Search for a model, dataset, or variable
-      tags:
-      - exploration
-      x-openapi-router-controller: openapi_server.controllers.exploration_controller
   /list_concepts:
     get:
       description: |

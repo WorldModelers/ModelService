@@ -107,38 +107,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelConfig'    
-  /search:
-    post:
-      tags: 
-      - "exploration"
-      summary: "Search for a model, dataset, or variable"
-      description: "Search for a model, dataset, or variable based on name or standard name"
-      requestBody:
-        description: "Search parameters"
-        required: true
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: "#/components/schemas/GeoQuery"
-                - $ref: "#/components/schemas/TimeQuery"
-                - $ref: "#/components/schemas/TextQuery"
-              discriminator:
-                propertyName: query_type
-      responses:
-        200:
-          description: "SUCCESS"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SearchResult"
-        400:
-          description: "ERROR"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/ModelConfig'
   /list_concepts:
     get:
       tags:
