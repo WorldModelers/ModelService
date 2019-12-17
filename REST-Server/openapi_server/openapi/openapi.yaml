@@ -48,25 +48,29 @@ paths:
       tags:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
-  /model_io:
-    post:
-      description: Submit a model name and receive information about the input or output files required by this model.
-      operationId: model_io_post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/IORequest'
-        description: The name of a model and an IO type.
+  /model_outputs/{ModelName}:
+    get:
+      description: Submit a model name and receive information about the output variables produced by this model.
+      operationId: model_outputs_model_name_get
+      parameters:
+      - description: The name of a model.
+        explode: false
+        in: path
+        name: ModelName
         required: true
+        schema:
+          $ref: '#/components/schemas/ModelName'
+        style: simple
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelIO'
+                items:
+                  $ref: '#/components/schemas/Variable'
+                type: array
           description: SUCCESS
-      summary: Obtain information on a given model's inputs or outputs.
+      summary: Obtain information on a given model's outputs.
       tags:
       - exploration
       x-openapi-router-controller: openapi_server.controllers.exploration_controller
@@ -172,8 +176,8 @@ paths:
   /concept_mapping:
     get:
       description: "Submit a concept name and optional type and receive an array of\
-        \ model related to that concept.      \n"
-      operationId: concept_mapping_post
+        \ concepts related to that concept.      \n"
+      operationId: concept_mapping_get
       parameters:
       - description: A concept name
         explode: true
@@ -183,7 +187,7 @@ paths:
         schema:
           $ref: '#/components/schemas/ConceptName'
         style: form
-      - description: The type of object to return
+      - description: The type of concept objects to return
         explode: true
         in: query
         name: concept_type
@@ -365,10 +369,6 @@ components:
       type: string
     StandardName:
       description: A standard name representation
-      example:
-        standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-        standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-        standard_variable_name: year
       properties:
         standard_variable_id:
           description: The MINT UUID associated with the standard name
@@ -446,79 +446,6 @@ components:
         $ref: '#/components/schemas/Model'
       type: array
       uniqueItems: true
-    ModelIO:
-      description: Array of input or output files for the given model.
-      items:
-        $ref: '#/components/schemas/IOFile'
-      type: array
-    IOFile:
-      description: An object that defines a single input or output file for a model
-      example:
-        filetype: WTH
-        variables:
-        - metadata: '{}'
-          standard_names:
-          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-            standard_variable_name: year
-          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-            standard_variable_name: year
-          name: name
-          standard_name_ontology: standard_name_ontology
-          units: units
-        - metadata: '{}'
-          standard_names:
-          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-            standard_variable_name: year
-          - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-            standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-            standard_variable_name: year
-          name: name
-          standard_name_ontology: standard_name_ontology
-          units: units
-        name: NASA-POWER Weather Data
-        description: Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format.
-      properties:
-        name:
-          description: The name of a given input or output file. This should be general and should not reference a specific file.
-          example: NASA-POWER Weather Data
-          type: string
-        description:
-          description: Description of the file.
-          example: Weather data from the NASA-POWER database. This database provides historical global weather data, including a minimum dataset of DSSAT, on 1-degree grids in ICASA Standards format.
-          type: string
-        filetype:
-          description: The file type (extension) for this file
-          example: WTH
-          type: string
-        variables:
-          description: An array of variables associated with a given input or output file
-          items:
-            $ref: '#/components/schemas/Variable'
-          type: array
-      required:
-      - description
-      - filetype
-      - name
-      type: object
-    IORequest:
-      description: A request object indicating whether the response should return either input or output files and for which model
-      example:
-        name: FSC
-        iotype: input
-      properties:
-        name:
-          description: A model's name
-          example: FSC
-          type: string
-        iotype:
-          enum:
-          - input
-          - output
-          type: string
-      type: object
     ModelConfig:
       description: A model configuration file (JSON).
       example:
@@ -539,32 +466,21 @@ components:
       description: A variable used in a model input or output file.
       example:
         metadata: '{}'
-        standard_names:
-        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-          standard_variable_name: year
-        - standard_variable_uri: http://www.geoscienceontology.org/svo/svl/property#year
-          standard_variable_id: df1daca4-d727-5dc8-bfa4-fb20c717a32b
-          standard_variable_name: year
         name: name
-        standard_name_ontology: standard_name_ontology
+        description: description
         units: units
       properties:
         name:
           type: string
-        standard_names:
-          items:
-            $ref: '#/components/schemas/StandardName'
-          type: array
-        standard_name_ontology:
+        description:
           type: string
         units:
           type: string
         metadata:
           type: object
       required:
+      - description
       - name
-      - standard_names
       type: object
     Parameter:
       description: A user configurable model parameter

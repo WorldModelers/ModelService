@@ -33,6 +33,7 @@ concepts:
 outputs:
 - name: population
   description: pixel value corresponds to the population residing there.
+  units: people
   concepts:
   - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799
   - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799

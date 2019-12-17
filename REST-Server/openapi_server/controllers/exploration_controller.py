@@ -104,65 +104,18 @@ def model_info_model_name_get(ModelName):  # noqa: E501
     return util.format_model(m)
 
 
-def model_io_post():  # noqa: E501
-    """Obtain information on a given model&#39;s inputs or outputs.
+def model_outputs_model_name_get(ModelName):  # noqa: E501
+    """Obtain information on a given model&#39;s outputs.
 
-    Submit a model name and receive information about the input or output files required by this model. # noqa: E501
-    Note that this includes all inputs and all outputs for a given model, irrespective of the 
-    configuration. In the future this could be subset to just a specific configuration.
+    Submit a model name and receive information about the output variables produced by this model. # noqa: E501
 
-    :param io_request: The name of a model and an IO type.
-    :type io_request: dict | bytes
+    :param model_name: The name of a model.
+    :type model_name: str
 
-    :rtype: List[IOFile]
+    :rtype: List[Variable]
     """
-    if connexion.request.is_json:
-        io_request = IORequest.from_dict(connexion.request.get_json())  # noqa: E501
-        name_ = io_request.name
-        type_ = io_request.iotype
-
-        try:
-            # get model configuration ids
-            api_instance = mint_client.ModelApi(mint_client.ApiClient(configuration))
-            model = api_instance.get_model(name_, username=username)
-            versions = [v['id'] for v in model.has_software_version]
-            
-
-            # for each model version, obtain configuration ids
-            configuration_ids = []
-            api_instance = mint_client.ModelversionApi(mint_client.ApiClient(configuration))
-            for v in versions:
-                version = api_instance.get_model_version(v, username=username)
-                c_ids = [c.id for c in version.has_configuration]
-                configuration_ids.extend(c_ids)
-
-            # get IO
-            api_instance = mint_client.ModelconfigurationApi(mint_client.ApiClient(configuration))
-
-            inputs_outputs = []
-            if type_ == 'input':
-                for config_id in configuration_ids:
-                    response = requests.get(f"https://api.models.mint.isi.edu/v0.0.2/modelconfiguration/{config_id}/inputs?username=modelservice")
-                    api_response = response.json()
-
-                    for io in api_response:
-                        io_ = util._parse_io(io, url, request_headers)
-                        if io_:
-                            inputs_outputs.append(io_)
-
-            elif type_ == 'output':
-                outputs = []
-                for config_id in configuration_ids:
-                    response = requests.get(f"https://api.models.mint.isi.edu/v0.0.2/modelconfiguration/{config_id}/outputs?username=modelservice")
-                    api_response = response.json()
-                    for io in api_response:
-                        io_ = util._parse_io(io, url, request_headers)
-                        if io_:
-                            inputs_outputs.append(io_)
-            return inputs_outputs
-
-        except ApiException as e:
-            return "Exception when calling MINT API: %s\n" % e
+    m = json.loads(r.get(f'{ModelName}-meta').decode('utf-8'))
+    return util.format_outputs(m)
 
 
 def model_parameters_model_name_get(ModelName):  # noqa: E501

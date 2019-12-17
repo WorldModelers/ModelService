@@ -15,15 +15,15 @@ r = redis.Redis(host=config['REDIS']['HOST'],
                 port=config['REDIS']['PORT'],
                 db=config['REDIS']['DB'])
 
-def concept_mapping_post(concept, concept_type=None):  # noqa: E501
+def concept_mapping_get(concept=None, concept_type=None):  # noqa: E501
     """Obtain an array of models related to a concept.
 
-    Submit a concept name and optional type and receive an array of model related to that concept.        # noqa: E501
+    Submit a concept name and optional type and receive an array of concepts related to that concept.        # noqa: E501
 
     :param concept: A concept name
     :type concept: str
-    :param type: The type of object to return
-    :type type: str
+    :param concept_type: The type of concept objects to return
+    :type concept_type: str
 
     :rtype: List[Concept]
     """

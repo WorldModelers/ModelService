@@ -33,6 +33,7 @@ concepts:
 outputs:
 - name: malnutrition
   description: pixel value corresponds to predicted number of malnutrition cases.
+  units: malnutrition cases
   concepts:
   - wm/concept/causal_factor/condition/trend: 0.5463087
   - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.5214581

@@ -36,6 +36,7 @@ concepts:
 outputs:
 - name: yield level
   description: Percent increase or decrease in yield from baseline
+  units: percent  
   concepts:
   - wm/concept/causal_factor/condition/trend: 0.74224097
   - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.6003543
