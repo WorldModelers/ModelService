@@ -260,6 +260,8 @@ class KiController(object):
         feature_name = self.feature_name
         feature_description = self.feature_description
         gdf = raster2gpd(InRaster,feature_name,band=self.band)
+
+        gdf['geom'] = gdf.apply(lambda x: 'POINT(%f, %f)' % (x.longitude,x.latitude), axis=1) 
         
         # Spatial merge on GADM to obtain admin areas
         gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')

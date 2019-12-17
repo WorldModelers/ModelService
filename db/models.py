@@ -33,7 +33,7 @@ class Output(Base):
     model = Column(String(120), index=True)
     latitude = Column(Float, index=True)
     longitude = Column(Float, index=True)
-    polygon = Column(String(1000), unique=False, index=True)
+    polygon = Column(Geometry('POLYGON'), index=True)
     datetime = Column(DateTime, index=True)
     feature_name = Column(String(120), unique=False, index=True)
     feature_value = Column(Float, index=True)
