@@ -25,6 +25,14 @@ outputs:
 - name: HWAH
   description: Harvested weight at harvest (kg/ha)
   units: kg/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/agriculture/crop_production: 0.58487195
   - wm/concept/time/temporal/crop_season: 0.5828258000000001
@@ -40,6 +48,14 @@ outputs:
   description: Amount of area harvested under all management practices for this point
     (ha)
   units: ha    
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/environmental/resource_management: 0.5725762
   - wm/concept/time/temporal/crop_season: 0.5657956000000001
@@ -54,6 +70,14 @@ outputs:
 - name: Yield
   description: Yield for the given point/management practice (kg)
   units: kg
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.5927398
   - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5618763000000001

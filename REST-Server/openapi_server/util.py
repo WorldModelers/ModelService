@@ -222,12 +222,13 @@ def format_outputs(m):
     outputs = m.get('outputs',[])
     out_o = []
     for o in outputs:
+        o_ = OrderedDict()
         o_ = {'name': o['name'],
               'description': o['description'].replace('\n','')}
         if 'units' in o:
             o_['units'] = o.get('units','')
         if 'metadata' in o:
-            o_['metadata'] = o.get('units','')            
+            o_['metadata'] = o.get('metadata','')            
         out_o.append(o_)
     return out_o
 

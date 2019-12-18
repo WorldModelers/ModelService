@@ -38,6 +38,15 @@ concepts:
 outputs:
 - name: population
   description: pixel value corresponds to the population residing there.
+  units: number of people
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799
   - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799

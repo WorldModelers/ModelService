@@ -25,6 +25,14 @@ outputs:
 - name: poverty level
   description: Measure of household poverty levels based on the assets they own (unitless)
   units: unitless index
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]
   concepts:
   - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/assets: 0.6052661
   - wm/concept/causal_factor/economic_and_commerce/economic_activity/livelihood: 0.5776428000000001
