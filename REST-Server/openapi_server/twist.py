@@ -36,6 +36,7 @@ def get_param_type(t):
     elif t == 'TimeParameter':
         return 'integer' # for some models this may be a string
 
+
 def load_yaml(metadata_file):
     """
     Generate features and parameter dictionary lookups
@@ -43,16 +44,64 @@ def load_yaml(metadata_file):
     """
     with open(metadata_file, 'r') as stream:
         model = yaml.safe_load(stream)
+    
     parameters = {}
-
     for p in model['parameters']:
-        params[p['name']] = get_param_type(p['metadata']['type'])
+        parameters[p['name']] = get_param_type(p['metadata']['type'])
         
     features = {}
     for o in model['outputs']:
-        outputs[o['name']] = o['description'] 
+        features[o['name']] = o['description'] 
 
     return {'features': features, 'parameters': parameters}
+
+
+def gen_output_path(output_base_path, 
+                    scenario_type, 
+                    start_year, 
+                    end_year, 
+                    crop, 
+                    shocked_region=None, shock_severity=None, scenario_start_year=None):
+    """
+    Generate output path based on the given run configuration
+    """    
+    if scenario_type == 'production_failure_scenario':
+        file_name = f'world_market_price_{crop}_'\
+                    f'{start_year}_{end_year}_shock_{scenario_start_year}_{shocked_region}_'\
+                    f'{shock_severity}.csv'
+        return f"{output_base_path}/production_shock/{file_name}"
+
+    elif scenario_type == 'forecast':
+        file_name = f'world_market_price_{crop}_forecast_{start_year}_{end_year}.csv'
+        return f"{output_base_path}/forecast/{file_name}"
+
+    elif scenario_type == 'counterfactual_reserve':
+        file_name = f'world_market_price_counterfactual_reserve_{start_year}_{end_year}.csv'
+        return f"{output_base_path}/{file_name}"
+
+    elif scenario_type == 'historical':
+        file_name = f'world_market_price_historical_{start_year}_{end_year}.csv'
+        return f"{output_base_path}/{file_name}"  
+
+
+def gen_entrypoint(scenario_type, 
+                   start_year, 
+                   end_year, 
+                   crop, 
+                   shocked_region=None, shock_severity=None, scenario_start_year=None):
+    """
+    Generate a Docker entrypoint based on the provided configuration
+    """    
+    base = 'python run_multi_twist.py'
+    if scenario_type == 'production_failure_scenario':
+        entrypoint = f'{base}  --scenario_type {scenario_type} --shocked_region {shocked_region} '\
+                     f'--shock_severity {shock_severity} --crop {crop} --start_year {start_year} '\
+                     f'--end_year {end_year}'
+
+    else:
+        entrypoint = f'{base}  --scenario_type {scenario_type} --crop {crop} --start_year {start_year} '\
+                     f'--end_year {end_year}'
+    return entrypoint
 
 def run_twist(config):
     """
@@ -78,13 +127,37 @@ class TWISTController(object):
         self.run_id = self.model_config['run_id']           
         self.bucket = "world-modelers"
         self.key = f"results/multi_twist_model/{self.result_name}.csv"
-        self.region = self.model_config.get('region','ALL')
-        self.shock = self.model_config.get('shock','extreme')
-        self.shock_year = self.model_config.get('shock_year','2018')
+
+        # run parameters
+        self.scenario_type = self.model_config.get('scenario_type','historical')
         self.crop = self.model_config.get('crop','wheat')
-        self.entrypoint=f"python run_twist_with_prduction_shock.py --region {self.region} --shock {self.shock}"
+        self.start_year = self.model_config.get('start_year',1975)
+        self.end_year = self.model_config.get('end_year',2019)        
+        self.shocked_region = self.model_config.get('shocked_region',None)
+        self.shock_severity = self.model_config.get('shock_severity',None)
+        self.scenario_start_year = self.model_config.get('scenario_start_year',None)
+
+        # Docker commands
+        self.entrypoint=gen_entrypoint(self.scenario_type, 
+                                       self.start_year, 
+                                       self.end_year, 
+                                       self.crop, 
+                                       shocked_region=self.shocked_region, 
+                                       shock_severity=self.shock_severity, 
+                                       scenario_start_year=self.scenario_start_year)
         self.volumes = { f"{self.config['TWIST']['OUTPUT_PATH']}/output_data": {'bind': '/output_data', 'mode': 'rw'},}
-        self.output = f"{self.config['TWIST']['OUTPUT_PATH']}/output_data/WM_price/WM_price_1976_2020_shock_year_{self.shock_year}_{self.region}_{self.shock}.csv"
+
+        # output locations
+        self.output_base_path = f"{self.config['TWIST']['OUTPUT_PATH']}/output_data/world_market_price"
+        self.output = gen_output_path(self.output_base_path, 
+                                      self.scenario_type, 
+                                      self.start_year, 
+                                      self.end_year, 
+                                      self.crop, 
+                                      shocked_region=self.shocked_region, 
+                                      shock_severity=self.shock_severity, 
+                                      scenario_start_year=self.scenario_start_year)
+
         self.success_msg = 'Model run completed'
         self.descriptions = load_yaml("../metadata/models/multi-twist-model-metadata.yaml")
 
@@ -166,11 +239,15 @@ class TWISTController(object):
         init_db()
 
         # Add metadata object to DB
-        # TODO: add run_label and run_description
+        desc = f"{self.name} run for {self.scenario_type} scenario with start year {self.start_year} and end year {self.end_year}"
+        if self.scenario_type == 'production_failure_scenario':
+            desc += f". Shock severity was set to {self.shock_severity} and the shocked region was {self.shocked_region}."
+
         logging.info("Storing metadata...")
         meta = Metadata(run_id=self.run_id, 
                         model=self.name,
-                        run_description=f"{self.name} run with {self.shock} shock for {self.region} region(s)",
+                        run_label=f"{self.name}: {self.scenario_type}",
+                        run_description=desc,
                         raw_output_link= f'https://s3.amazonaws.com/world-modelers/{self.key}'
                         ) 
         logging.info("Storing metadata...")
@@ -209,14 +286,17 @@ class TWISTController(object):
         feature_cols = ['feature_name','feature_description','feature_value']
 
         for feature_name, feature_description in self.descriptions['features'].items():
-            cols_to_select = base_cols + [feature_name]
-            df_ = df[cols_to_select] # generate new interim DF
-            df_['feature_name'] = feature_name
-            df_['feature_description'] = feature_description
-            df_['feature_value'] = df_[feature_name]
-            df_ = df_[base_cols + feature_cols]
+            # some multi_twist outputs will not be present depending on the scenario type
+            # so first check
+            if feature_name in df:
+                logging.info(f"Storing point data output for {feature_name}...")
+                cols_to_select = base_cols + [feature_name]
+                df_ = df[cols_to_select] # generate new interim DF
+                df_['feature_name'] = feature_name
+                df_['feature_description'] = feature_description.split('.')[0]
+                df_['feature_value'] = df_[feature_name]
+                df_ = df_[base_cols + feature_cols]
 
-            # perform bulk insert of entire geopandas DF
-            logging.info(f"Storing point data output for {feature_name}...")
-            db_session.bulk_insert_mappings(Output, df_.to_dict(orient="records"))
-            db_session.commit()            
+                # perform bulk insert of entire geopandas DF
+                db_session.bulk_insert_mappings(Output, df_.to_dict(orient="records"))
+                db_session.commit()
