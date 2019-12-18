@@ -1,0 +1,12 @@
+datatype: float
+nbands: 32
+values: harvest in g carbon/m2
+nyears: 11
+
+
+
+year then bands then cells
+
+first 5 are first five cells of first band of first year
+
+12 crops, 
