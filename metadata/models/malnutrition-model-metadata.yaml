@@ -34,6 +34,14 @@ outputs:
 - name: malnutrition
   description: pixel value corresponds to predicted number of malnutrition cases.
   units: malnutrition cases
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/condition/trend: 0.5463087
   - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.5214581

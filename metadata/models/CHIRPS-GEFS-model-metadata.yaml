@@ -29,6 +29,14 @@ outputs:
 - name: Rainfall
   description: rainfall in mm per 5km
   units: mm per 5km
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std] 
   concepts:
   - wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.6317845
   - wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.6317845
@@ -43,6 +51,14 @@ outputs:
 - name: Rainfall relative to average
   description: Rainfall relative to the historic average in mm per 5km
   units: mm per 5km
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5872121
   - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5872121
@@ -57,6 +73,14 @@ outputs:
 - name: SPI
   description: Standardized Precipitation Index reflects the number of standard deviations by which the observed anomaly deviates from the long-term mean
   units: unitless index
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/social_and_political/government/census: 0.29142399999999996
   - wm/concept/causal_factor/social_and_political/government/census: 0.29142399999999996

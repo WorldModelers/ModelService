@@ -26,6 +26,14 @@ outputs:
   description: Measure of how much a person would spend each day (2011 USD per capita
     per day)
   units: 2011 USD
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
   concepts:
   - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.59317344
   - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.5575675
