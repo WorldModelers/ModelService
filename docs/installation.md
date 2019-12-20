@@ -57,6 +57,10 @@ cd ../World-Population-Integration
 # Install Flood Severity Index
 cd ../Flood-Index-Integration
 ./maas_install.sh
+
+# Install PIHM
+cd ../PIHM-Integration
+./maas_install.sh
 ```
 
 #### Redis Set-up

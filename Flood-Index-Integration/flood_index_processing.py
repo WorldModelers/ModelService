@@ -154,7 +154,7 @@ def ingest2db(year, df, filename):
                       model=model_name,
                       parameter_name="year",
                       parameter_value=year,
-                      parameter_type="the modeled year"
+                      parameter_type="integer"
                       )
     db_session.add(param)
     db_session.commit()
