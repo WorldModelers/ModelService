@@ -13,8 +13,7 @@ category:
 concepts: []
 outputs:
 - name: surface water
-  description: The number of days for the given month where the flood severity index
-    was medium (2-year flood)
+  description: The level of surface water in meters
   units: m
   metadata:
     aggregation:

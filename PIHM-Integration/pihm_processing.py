@@ -20,6 +20,9 @@ from models import Metadata, Output, Parameters
 
 from shapely.geometry import Point
 import geopandas as gpd
+import rasterio
+from rasterio.warp import calculate_default_transform, reproject, Resampling
+from pyproj import Proj, transform
 import pandas as pd
 import numpy as np
 from osgeo import gdal
@@ -48,7 +51,7 @@ s3 = session.resource("s3")
 s3_client = session.client("s3")
 s3_bucket= s3.Bucket(bucket)
 
-def reproject(InRaster, OutRaster):
+def PIHM_reproject(InRaster, OutRaster):
     dst_crs = 'EPSG:102022'
 
     with rasterio.open(InRaster) as src:
@@ -62,7 +65,7 @@ def reproject(InRaster, OutRaster):
             'height': height
         })
 
-        with rasterio.open('out_raster.tif', 'w', **kwargs) as dst:
+        with rasterio.open(OutRaster, 'w', **kwargs) as dst:
             for i in range(1, src.count + 1):
                 reproject(
                     source=rasterio.band(src, i),
@@ -147,8 +150,8 @@ def ingest_to_db(InRaster, run_id, *,
     db_session.commit()
 
     # Add parameters to DB
+    print("Storing parameters...")
     for pp, vv in params.items():
-        print("Storing parameters...")
         param = Parameters(run_id=run_id,
                           model=model_name,
                           parameter_name=pp,
@@ -159,8 +162,10 @@ def ingest_to_db(InRaster, run_id, *,
         db_session.commit()        
         
     # iterate over the bands that should be included (1 per month)
-    for month in range(included_months,total_months+1):
-        print(f"Processing {model_name} {month}")
+    for month in range(1, included_months + 2):
+        date_ = start + relativedelta(months=month-1)
+        date_str = date_.strftime("%m/%d/%Y")        
+        print(f"Processing {model_name} {date_str}")
         # Convert Raster to GeoPandas
         feature_name = m['outputs'][0]['name']
         feature_description = m['outputs'][0]['description']
@@ -172,20 +177,19 @@ def ingest_to_db(InRaster, run_id, *,
         
         # Iterate over years for each band to ensure that there is continous
         # annual data
-        for year in years:
-            # Set run fields: datetime, run_id, model
-            gdf['datetime'] = start + relativedelta(months=1)
-            gdf['run_id'] = run_id
-            gdf['model'] = model_config['name']
-            gdf['feature_description'] = feature_description
-            if 'geometry' in gdf:
-                del(gdf['geometry'])
-                del(gdf['index_right'])
+        # Set run fields: datetime, run_id, model
+        gdf['datetime'] = date_
+        gdf['run_id'] = run_id
+        gdf['model'] = model_name
+        gdf['feature_description'] = feature_description
+        if 'geometry' in gdf:
+            del(gdf['geometry'])
+            del(gdf['index_right'])
 
-            # perform bulk insert of entire geopandas DF
-            print(f"Ingesting {year} of {model_name} to database\n")
-            db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
-            db_session.commit()    
+        # perform bulk insert of entire geopandas DF
+        print(f"Ingesting {date_str} of {model_name} for basin {basin} to database\n")
+        db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
+        db_session.commit()    
 
 def gen_run(input_file, *, model_name, precipitation, temperature):
     model_config = {
@@ -199,7 +203,7 @@ def gen_run(input_file, *, model_name, precipitation, temperature):
     model_config = sortOD(OrderedDict(model_config))
 
     run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
-    print(dict(model_config))
+    print(run_id)
     # Add to model set in Redis
     r.sadd(model_name, run_id)
     
@@ -244,11 +248,11 @@ def included_start(end):
 def main(meta_df, tmp_output):
     for kk, vv in meta_df.iterrows():
         url = vv['pihm-output']
-        start = vv['included_start']
+        start = vv['start']
         end = vv['end']
         included_months = vv['included_months']
         total_months = vv['total_months']
-        total_months = vv['basin']
+        basin = vv['basin']
         params = {'precipitation': vv['precipitation'], 'temperature': vv['temperature']}
 
         print(f"Downloading from {url}...")
@@ -267,21 +271,22 @@ def main(meta_df, tmp_output):
         tar.close()
         
         InRaster = list(glob.iglob(f'{tmp_output}-output/output/output/**/vis/Flood_surf.tif', recursive=True))[0]
+        print(f"Using initial raster {InRaster}")
 
         run_id, model_config = gen_run(InRaster, model_name=model_name, precipitation=vv.precipitation, temperature=vv.temperature)
         
         ReProjRaster = "reprojected.tif"
-        reproject(InRaster, ReProjRaster)
+        PIHM_reproject(InRaster, ReProjRaster)
         ingest_to_db(ReProjRaster, run_id, model_name=model_name, 
-                     start=start, end=end, included_months=included_months, 
+                     start=start, included_months=included_months, 
                      total_months=total_months, params=params, basin=basin)    
 
 if __name__ == "__main__":
     init_db()
 
     # Load Admin2 shape from GADM
-    logging.info("Loading GADM shapes...")
-    admin2 = gpd.read_file(f'{config['GADM']['GADM_PATH']}/gadm36_2.shp')
+    print("Loading GADM shapes...")
+    admin2 = gpd.read_file(f"{config['GADM']['GADM_PATH']}/gadm36_2.shp")
     admin2['country'] = admin2['NAME_0']
     admin2['state'] = admin2['NAME_1']
     admin2['admin1'] = admin2['NAME_1']
@@ -302,13 +307,16 @@ if __name__ == "__main__":
     meta_files = glob.iglob('pihm-v4*.csv')
     
     for f in meta_files:
+        print(f"Processing {f}")
         meta_df = pd.read_csv(f)
         meta_df['end'] = meta_df['end-date'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y'))
         meta_df['start'] = meta_df['start-date'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y'))
         meta_df['total_months'] = meta_df.apply(lambda x: diff_month(x.end, x.start), axis=1)
         meta_df['included_months'] = meta_df.apply(lambda x: included_months(x.end), axis=1)    
         meta_df['included_start'] = meta_df['end'].apply(lambda x: included_start(x))
-        meta_df['basin'] = f[0].split('_')[1].split('.csv')[0]
+        meta_df['basin'] = f.split('_')[1].split('.csv')[0]
+
+        print(meta_df[['start','end','total_months','included_months']].head())
 
         # rename columns to human readable labels for temp/precip
         for kk, vv in parameters.items():
