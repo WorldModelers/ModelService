@@ -32,6 +32,7 @@ parameters:
     minimum: 0
     maximum: 1
     default: 2
+  concepts: []
 - name: temperature
   description: +/- degree C perturbation of temperature in absolute terms
   metadata:
@@ -39,6 +40,7 @@ parameters:
     minimum: -1
     maximum: 1
     default: 0
+  concepts: []
 configuration:
 - precipitation: 1
 - rainfall: 0
