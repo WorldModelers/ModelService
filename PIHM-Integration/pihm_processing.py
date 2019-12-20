@@ -5,6 +5,7 @@ import configparser
 import logging
 import redis
 import yaml
+import glob
 
 import sys
 import os
@@ -25,7 +26,8 @@ from osgeo import gdal
 from osgeo import gdalconst
 import tarfile
 
-from datetime import datetime
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from hashlib import sha256
 from collections import OrderedDict
 import json
@@ -131,47 +133,61 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     gdf['geometry'] = gdf.apply(lambda x: Point(x.longitude, x.latitude),axis=1)
     return gdf
 
-def ingest_to_db(InRaster, run_id, model_name, year):
+def ingest_to_db(InRaster, run_id, *,
+                model_name, start, included_months, total_months,
+                params, basin):
 
-        # Add metadata object to DB
-        meta = Metadata(run_id=run_id, 
-                        model=model_name,
-                        raw_output_link= f"https://model-service.worldmodelers.com/results/PIHM_results/{run_id}.tif",
-                        run_label=model_name,
-                        point_resolution_meters=2000)
-        db_session.add(meta)
-        db_session.commit()
-            
-        # iterate over the 12 bands (1 per month)
-        for month in range(1,13):
-            print(f"Processing {model_name} {month}")
-            # Convert Raster to GeoPandas
-            feature_name = m['outputs'][0]['name']
-            feature_description = m['outputs'][0]['description']
-            gdf = raster2gpd(InRaster,feature_name,band=month)
+    # Add metadata object to DB
+    meta = Metadata(run_id=run_id, 
+                    model=model_name,
+                    raw_output_link= f"https://model-service.worldmodelers.com/results/PIHM_results/{run_id}.tif",
+                    run_label=f"{model_name} run for {basin} Basin.",
+                    point_resolution_meters=200)
+    db_session.add(meta)
+    db_session.commit()
 
-            print(f"Performing spatial merge")
-            # Spatial merge on GADM to obtain admin areas
-            gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
-            
-            # Iterate over years for each band to ensure that there is continous
-            # annual data
-            for year in years:
-                # Set run fields: datetime, run_id, model
-                gdf['datetime'] = datetime(year=year, month=month, day=1)
-                gdf['run_id'] = run_id
-                gdf['model'] = model_config['name']
-                gdf['feature_description'] = feature_description
-                if 'geometry' in gdf:
-                    del(gdf['geometry'])
-                    del(gdf['index_right'])
+    # Add parameters to DB
+    for pp, vv in params.items():
+        print("Storing parameters...")
+        param = Parameters(run_id=run_id,
+                          model=model_name,
+                          parameter_name=pp,
+                          parameter_value=vv,
+                          parameter_type="float"
+                          )
+        db_session.add(param)
+        db_session.commit()        
+        
+    # iterate over the bands that should be included (1 per month)
+    for month in range(included_months,total_months+1):
+        print(f"Processing {model_name} {month}")
+        # Convert Raster to GeoPandas
+        feature_name = m['outputs'][0]['name']
+        feature_description = m['outputs'][0]['description']
+        gdf = raster2gpd(InRaster,feature_name,band=month)
 
-                # perform bulk insert of entire geopandas DF
-                print(f"Ingesting {year} of {model_name} to database\n")
-                db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
-                db_session.commit()    
+        print(f"Performing spatial merge")
+        # Spatial merge on GADM to obtain admin areas
+        gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
+        
+        # Iterate over years for each band to ensure that there is continous
+        # annual data
+        for year in years:
+            # Set run fields: datetime, run_id, model
+            gdf['datetime'] = start + relativedelta(months=1)
+            gdf['run_id'] = run_id
+            gdf['model'] = model_config['name']
+            gdf['feature_description'] = feature_description
+            if 'geometry' in gdf:
+                del(gdf['geometry'])
+                del(gdf['index_right'])
 
-def gen_run(input_file, model_name=None, precipitation=None, temperature=None):
+            # perform bulk insert of entire geopandas DF
+            print(f"Ingesting {year} of {model_name} to database\n")
+            db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
+            db_session.commit()    
+
+def gen_run(input_file, *, model_name, precipitation, temperature):
     model_config = {
                     'config': {
                         "precipitation": precipitation,
@@ -213,7 +229,52 @@ def sortOD(od):
             res[k] = sortOD(v)
         else:
             res[k] = v
-    return res                              
+    return res
+
+def diff_month(d1, d2):
+    return (d1.year - d2.year) * 12 + d1.month - d2.month
+
+def included_months(end):
+    d_start = datetime(year=end.year - 10, month=1,day=1)
+    return diff_month(end,d_start)
+
+def included_start(end):
+    return datetime(year=end.year - 10, month=1,day=1)    
+
+def main(meta_df, tmp_output):
+    for kk, vv in meta_df.iterrows():
+        url = vv['pihm-output']
+        start = vv['included_start']
+        end = vv['end']
+        included_months = vv['included_months']
+        total_months = vv['total_months']
+        total_months = vv['basin']
+        params = {'precipitation': vv['precipitation'], 'temperature': vv['temperature']}
+
+        print(f"Downloading from {url}...")
+        
+        if os.path.exists(f"{tmp_output}.tar.gz"):
+            os.remove(f"{tmp_output}.tar.gz")
+        if os.path.exists(f"{tmp_output}-output"):
+            shutil.rmtree(f"{tmp_output}-output")        
+        
+        # download file to `pihm-tmp.tar.gz`
+        urllib.request.urlretrieve(url, f"{tmp_output}.tar.gz") 
+        
+        # unzip tarball to `pihm-tmp-output`
+        tar = tarfile.open(f"{tmp_output}.tar.gz", "r:gz")
+        tar.extractall(path=f"{tmp_output}-output")
+        tar.close()
+        
+        InRaster = f"{tmp_output}-output/output/output/muger.out/vis/Flood_surf.tif"
+
+        run_id, model_config = gen_run(InRaster, model_name=model_name, precipitation=vv.precipitation, temperature=vv.temperature)
+        
+        ReProjRaster = "reprojected.tif"
+        reproject(InRaster, ReProjRaster)
+        ingest_to_db(ReProjRaster, run_id, model_name=model_name, 
+                     start=start, end=end, included_months=included_months, 
+                     total_months=total_months, params=params, basin=basin)    
 
 if __name__ == "__main__":
     init_db()
@@ -238,38 +299,21 @@ if __name__ == "__main__":
     parameters =  {"TS_PRCP":"precipitation",
                    "TS_SFCTMP": "temperature"}
 
-    meta_df = pd.read_csv('pihm-v4.1.0.csv')
+    meta_files = glob.iglob('pihm-v4*.csv')
+    
+    for f in meta_files:
+        meta_df = pd.read_csv(f)
+        meta_df['end'] = meta_df['end-date'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y'))
+        meta_df['start'] = meta_df['start-date'].apply(lambda x: datetime.strptime(x, '%m/%d/%Y'))
+        meta_df['total_months'] = meta_df.apply(lambda x: diff_month(x.end, x.start), axis=1)
+        meta_df['included_months'] = meta_df.apply(lambda x: included_months(x.end), axis=1)    
+        meta_df['included_start'] = meta_df['end'].apply(lambda x: included_start(x))
+        meta_df['basin'] = f[0].split('_')[1].split('.csv')[0]
 
-    # rename columns to human readable labels for temp/precip
-    for kk, vv in parameters.items():
-        meta_df[vv] = meta_df[kk]
-        
-    tmp_output = 'pihm-tmp'
+        # rename columns to human readable labels for temp/precip
+        for kk, vv in parameters.items():
+            meta_df[vv] = meta_df[kk]
+            
+        tmp_output = 'pihm-tmp'
 
-    # loop over model runs
-    for kk, vv in meta_df.iterrows():
-        url = vv['pihm-output']
-        year = int(vv['end-date'].split('/')[-1])
-
-        print(f"Downloading from {url}...")
-        
-        if os.path.exists(f"{tmp_output}.tar.gz"):
-            os.remove(f"{tmp_output}.tar.gz")
-        if os.path.exists(f"{tmp_output}-output"):
-            shutil.rmtree(f"{tmp_output}-output")        
-        
-        # download file to `pihm-tmp.tar.gz`
-        urllib.request.urlretrieve(url, f"{tmp_output}.tar.gz") 
-        
-        # unzip tarball to `pihm-tmp-output`
-        tar = tarfile.open(f"{tmp_output}.tar.gz", "r:gz")
-        tar.extractall(path=f"{tmp_output}-output")
-        tar.close()
-        
-        InRaster = f"{tmp_output}-output/output/output/muger.out/vis/Flood_surf.tif"
-
-        run_id, model_config = gen_run(InRaster, model_name=model_name, precipitation=vv.precipitation, temperature=vv.temperature)
-        
-        ReProjRaster = "reprojected.tif"
-        reproject(InRaster, ReProjRaster)
-        ingest_to_db(ReProjRaster, run_id, model_name, year)
+        main(meta_df, tmp_output)
