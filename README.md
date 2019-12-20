@@ -37,6 +37,7 @@ Models may be run using the `/run_model` endpoint. For more information on model
 - LPJmL Yield Anomalies
 - World Pop Africa
 - Flood Severity Index Model
+- PIHM
 
 ### Architecture
 

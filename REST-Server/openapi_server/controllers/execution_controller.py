@@ -56,7 +56,8 @@ available_models = ['population_model',
                     'yield_anomalies_lpjml',
                     'world_population_africa',
                     'flood_index_model',
-                    'multi_twist']
+                    'multi_twist',
+                    'pihm']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -68,7 +69,7 @@ def list_runs_model_name_get(ModelName):  # noqa: E501
 
     :rtype: List[str]
     """
-    if ModelName.lower() in ['fsc','dssat','chirps','chirps-gefs']:
+    if ModelName.lower() in ['fsc','dssat','chirps','chirps-gefs','pihm']:
         ModelName = ModelName.upper()
 
     if not r.exists(ModelName):
