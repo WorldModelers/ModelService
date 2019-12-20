@@ -42,5 +42,5 @@ parameters:
     default: 0
   concepts: []
 configuration:
-- precipitation: 1
-- rainfall: 0
+  - precipitation: 1
+    rainfall: 0
