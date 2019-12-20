@@ -251,6 +251,7 @@ def main(meta_df, tmp_output):
         start = vv['start']
         end = vv['end']
         included_months = vv['included_months']
+        included_start = vv['included_start']
         total_months = vv['total_months']
         basin = vv['basin']
         params = {'precipitation': vv['precipitation'], 'temperature': vv['temperature']}
@@ -278,7 +279,7 @@ def main(meta_df, tmp_output):
         ReProjRaster = "reprojected.tif"
         PIHM_reproject(InRaster, ReProjRaster)
         ingest_to_db(ReProjRaster, run_id, model_name=model_name, 
-                     start=start, included_months=included_months, 
+                     start=included_start, included_months=included_months, 
                      total_months=total_months, params=params, basin=basin)    
 
 if __name__ == "__main__":
