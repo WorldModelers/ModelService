@@ -2,6 +2,7 @@ import boto3
 import os
 import shutil
 import configparser
+import logging
 import redis
 import yaml
 
@@ -45,6 +46,31 @@ s3 = session.resource("s3")
 s3_client = session.client("s3")
 s3_bucket= s3.Bucket(bucket)
 
+def reproject(InRaster, OutRaster):
+    dst_crs = 'EPSG:102022'
+
+    with rasterio.open(InRaster) as src:
+        transform, width, height = calculate_default_transform(
+            src.crs, dst_crs, src.width, src.height, *src.bounds)
+        kwargs = src.meta.copy()
+        kwargs.update({
+            'crs': dst_crs,
+            'transform': transform,
+            'width': width,
+            'height': height
+        })
+
+        with rasterio.open('out_raster.tif', 'w', **kwargs) as dst:
+            for i in range(1, src.count + 1):
+                reproject(
+                    source=rasterio.band(src, i),
+                    destination=rasterio.band(dst, i),
+                    src_transform=src.transform,
+                    src_crs=src.crs,
+                    dst_transform=transform,
+                    dst_crs=dst_crs,
+                    resampling=Resampling.nearest)
+
 def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     '''
     Description: 
@@ -54,9 +80,15 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
         - feature_name: the name of the feature represented by the pixel values 
     '''
 
+    with rasterio.open(InRaster) as r:
+        T0 = r.transform  # upper-left pixel corner affine transform
+        p1 = Proj(r.crs)
+
+    p2 = Proj(proj='latlong',datum='WGS84')
+
+
     # open the raster and get some properties
     ds       = gdal.OpenShared(InRaster,gdalconst.GA_ReadOnly)
-    ds       = gdal.Warp('out_raster.tif', ds, dstSRS='EPSG:4326') # fixes projection issue
     GeoTrans = ds.GetGeoTransform()
     ColRange = range(ds.RasterXSize)
     RowRange = range(ds.RasterYSize)
@@ -78,7 +110,7 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
         for ThisCol in ColRange:
             # need to exclude NaN values since there is no nodataval
             if (np.float32(RowData[ThisCol]) != nData) and not (np.isnan(RowData[ThisCol])):
-                
+
                 # TODO: implement filters on valid pixels
                 # for example, the below would ensure pixel values are between -100 and 100
                 #if (RowData[ThisCol] <= 100) and (RowData[ThisCol] >= -100):
@@ -89,9 +121,15 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
                 X += HalfX
                 Y += HalfY
 
-                points.append([Point(X, Y),X,Y,RowData[ThisCol],feature_name])
+                points.append([X,Y,RowData[ThisCol],feature_name])
 
-    return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])
+    gdf = gpd.GeoDataFrame(points, columns=['longitude','latitude','feature_value','feature_name'])
+    X, Y = list(gdf.longitude), list(gdf.latitude)
+    T = transform(p1, p2, X, Y)
+    gdf['latitude'] = T[1]
+    gdf['longitude'] = T[0]
+    gdf['geometry'] = gdf.apply(lambda x: Point(x.longitude, x.latitude),axis=1)
+    return gdf
 
 def ingest_to_db(InRaster, run_id, model_name, year):
 
@@ -182,12 +220,12 @@ if __name__ == "__main__":
 
     # Load Admin2 shape from GADM
     logging.info("Loading GADM shapes...")
-    admin2 = gpd.read_file(f'{self.gadm}/gadm36_2.shp')
+    admin2 = gpd.read_file(f'{config['GADM']['GADM_PATH']}/gadm36_2.shp')
     admin2['country'] = admin2['NAME_0']
     admin2['state'] = admin2['NAME_1']
     admin2['admin1'] = admin2['NAME_1']
     admin2['admin2'] = admin2['NAME_2']
-    admin2 = admin2[['geometry','country','state','admin1','admin2']]    
+    admin2 = admin2[['geometry','country','state','admin1','admin2']]   
 
     with open('../metadata/models/PIHM-model-metadata.yaml', 'r') as stream:
         m = yaml.safe_load(stream)
@@ -207,7 +245,7 @@ if __name__ == "__main__":
         meta_df[vv] = meta_df[kk]
         
     tmp_output = 'pihm-tmp'
-    
+
     # loop over model runs
     for kk, vv in meta_df.iterrows():
         url = vv['pihm-output']
@@ -232,4 +270,6 @@ if __name__ == "__main__":
 
         run_id, model_config = gen_run(InRaster, model_name=model_name, precipitation=vv.precipitation, temperature=vv.temperature)
         
-        ingest_to_db(InRaster, run_id, model_name, year)    
+        ReProjRaster = "reprojected.tif"
+        reproject(InRaster, ReProjRaster)
+        ingest_to_db(ReProjRaster, run_id, model_name, year)
