@@ -266,7 +266,7 @@ def main(meta_df, tmp_output):
         tar.extractall(path=f"{tmp_output}-output")
         tar.close()
         
-        InRaster = f"{tmp_output}-output/output/output/muger.out/vis/Flood_surf.tif"
+        InRaster = list(glob.iglob(f'{tmp_output}-output/output/output/**/vis/Flood_surf.tif', recursive=True))[0]
 
         run_id, model_config = gen_run(InRaster, model_name=model_name, precipitation=vv.precipitation, temperature=vv.temperature)
         
