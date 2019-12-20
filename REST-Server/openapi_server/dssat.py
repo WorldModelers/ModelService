@@ -35,7 +35,7 @@ def run_dssat(config, output_path):
 
 class DSSATController(object):
     """
-    A controller to manage FSC model execution.
+    A controller to manage DSSAT model execution.
     """
 
     def __init__(self, model_config, output_path):

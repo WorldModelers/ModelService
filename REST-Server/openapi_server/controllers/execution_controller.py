@@ -10,6 +10,7 @@ from openapi_server.kimetrica import KiController, run_kimetrica
 from openapi_server.fsc import FSCController, run_fsc
 from openapi_server.dssat import DSSATController, run_dssat
 from openapi_server.chirps import CHIRPSController, run_chirps
+from openapi_server.twist import TWISTController, run_twist
 
 import json
 from hashlib import sha256
@@ -54,7 +55,8 @@ available_models = ['population_model',
                     'chirps-gefs',
                     'yield_anomalies_lpjml',
                     'world_population_africa',
-                    'flood_index_model']
+                    'flood_index_model',
+                    'multi_twist']
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
@@ -145,6 +147,12 @@ def run_model_post():  # noqa: E501
             q.enqueue(run_chirps, model_name, model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
             model_container = None
             m = CHIRPSController(model_name, model_config['config'], config['CHIRPS']['OUTPUT_PATH'])
+
+        elif 'multi_twist' in model_name.lower():
+            model_config['config']['run_id'] = run_id
+            q.enqueue(run_twist, model_config['config'])
+            model_container = None
+            m = TWISTController(model_config['config'])
 
     return run_id
 
