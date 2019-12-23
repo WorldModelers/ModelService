@@ -191,11 +191,12 @@ def ingest_to_db(InRaster, run_id, *,
         db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
         db_session.commit()    
 
-def gen_run(input_file, *, model_name, precipitation, temperature):
+def gen_run(input_file, *, model_name, precipitation, temperature, evapotranspiration):
     model_config = {
                     'config': {
                         "precipitation": precipitation,
-                        "temperature": temperature
+                        "temperature": temperature,
+                        "evapotranspiration": evapotranspiration
                     },
                     'name': model_name
                    }
@@ -254,7 +255,9 @@ def main(meta_df, tmp_output):
         included_start = vv['included_start']
         total_months = vv['total_months']
         basin = vv['basin']
-        params = {'precipitation': vv['precipitation'], 'temperature': vv['temperature']}
+        params = {'precipitation': vv['precipitation'], 
+                  'temperature': vv['temperature'],
+                  'evapotranspiration': vv['evapotranspiration']}
 
         print(f"Downloading from {url}...")
         
@@ -274,7 +277,11 @@ def main(meta_df, tmp_output):
         InRaster = list(glob.iglob(f'{tmp_output}-output/output/output/**/vis/Flood_surf.tif', recursive=True))[0]
         print(f"Using initial raster {InRaster}")
 
-        run_id, model_config = gen_run(InRaster, model_name=model_name, precipitation=vv.precipitation, temperature=vv.temperature)
+        run_id, model_config = gen_run(InRaster, 
+                                       model_name=model_name, 
+                                       precipitation=vv.precipitation, 
+                                       temperature=vv.temperature,
+                                       evapotranspiration=vv.evapotranspiration)
         
         ReProjRaster = "reprojected.tif"
         PIHM_reproject(InRaster, ReProjRaster)
@@ -303,7 +310,8 @@ if __name__ == "__main__":
     r.delete(model_name)
 
     parameters =  {"TS_PRCP":"precipitation",
-                   "TS_SFCTMP": "temperature"}
+                   "TS_SFCTMP": "temperature",
+                   "ET_ETP": "evapotranspiration"}
 
     meta_files = glob.iglob('pihm-v4*.csv')
     

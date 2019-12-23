@@ -40,7 +40,15 @@ parameters:
     minimum: -1
     maximum: 1
     default: 0
+- name: evapotranspiration
+  description: percentage perturbation of evapotranspiration
+  metadata:
+    type: NumberParameter
+    minimum: 0.6
+    maximum: 1.2
+    default: 1
   concepts: []
 configuration:
   - precipitation: 1
+    evapotranspiration: 0
     rainfall: 0
