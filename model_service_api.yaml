@@ -418,7 +418,9 @@ components:
         choices:
           type: "array"
           items:
-            type: "string"
+            oneOf:
+              - type: string
+              - type: integer
           description: An array of choices available for a parameter of type ChoiceParameter
           example: ["millet", "maize", "wheat"]
     SearchResult:

@@ -31,7 +31,7 @@ class Parameter(Model):
         :param maximum: The maximum of this Parameter.  # noqa: E501
         :type maximum: object
         :param choices: The choices of this Parameter.  # noqa: E501
-        :type choices: List
+        :type choices: List[object]
         """
         self.openapi_types = {
             'name': str,
@@ -40,7 +40,7 @@ class Parameter(Model):
             'default_value': object,
             'minimum': object,
             'maximum': object,
-            'choices': List
+            'choices': List[object]
         }
 
         self.attribute_map = {
@@ -227,7 +227,7 @@ class Parameter(Model):
         An array of choices available for a parameter of type ChoiceParameter  # noqa: E501
 
         :return: The choices of this Parameter.
-        :rtype: List
+        :rtype: List[object]
         """
         return self._choices
 
@@ -238,7 +238,7 @@ class Parameter(Model):
         An array of choices available for a parameter of type ChoiceParameter  # noqa: E501
 
         :param choices: The choices of this Parameter.
-        :type choices: List
+        :type choices: List[object]
         """
 
         self._choices = choices

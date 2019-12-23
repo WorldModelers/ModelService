@@ -31,7 +31,7 @@ concepts:
 - wm/concept/causal_factor/health_and_life/basic_needs: 0.49052513
 - wm/concept/causal_factor/condition/tension: 0.49042399999999997
 outputs:
-- name: malnutrition
+- name: malnutrition cases
   description: pixel value corresponds to predicted number of malnutrition cases.
   units: malnutrition cases
   metadata:

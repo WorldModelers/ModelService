@@ -495,7 +495,10 @@ components:
           - maize
           - wheat
           items:
-            type: string
+            oneOf:
+            - type: string
+            - format: int32
+              type: integer
           type: array
       required:
       - description
