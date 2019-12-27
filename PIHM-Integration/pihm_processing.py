@@ -152,11 +152,17 @@ def ingest_to_db(InRaster, run_id, *,
     # Add parameters to DB
     print("Storing parameters...")
     for pp, vv in params.items():
+
+        if pp == 'basin':
+            p_type = 'string'
+        else:
+            p_type = 'float'
+            
         param = Parameters(run_id=run_id,
                           model=model_name,
                           parameter_name=pp,
                           parameter_value=vv,
-                          parameter_type="float"
+                          parameter_type=p_type
                           )
         db_session.add(param)
         db_session.commit()        
@@ -191,12 +197,13 @@ def ingest_to_db(InRaster, run_id, *,
         db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
         db_session.commit()    
 
-def gen_run(input_file, *, model_name, precipitation, temperature, evapotranspiration):
+def gen_run(input_file, *, model_name, precipitation, temperature, evapotranspiration, basin):
     model_config = {
                     'config': {
                         "precipitation": precipitation,
                         "temperature": temperature,
-                        "evapotranspiration": evapotranspiration
+                        "evapotranspiration": evapotranspiration,
+                        "basin": basin
                     },
                     'name': model_name
                    }
@@ -257,7 +264,8 @@ def main(meta_df, tmp_output):
         basin = vv['basin']
         params = {'precipitation': vv['precipitation'], 
                   'temperature': vv['temperature'],
-                  'evapotranspiration': vv['evapotranspiration']}
+                  'evapotranspiration': vv['evapotranspiration'],
+                  'basin': vv['basin']}
 
         print(f"Downloading from {url}...")
         
@@ -281,7 +289,8 @@ def main(meta_df, tmp_output):
                                        model_name=model_name, 
                                        precipitation=vv.precipitation, 
                                        temperature=vv.temperature,
-                                       evapotranspiration=vv.evapotranspiration)
+                                       evapotranspiration=vv.evapotranspiration,
+                                       basin=vv.basin)
         
         ReProjRaster = "reprojected.tif"
         PIHM_reproject(InRaster, ReProjRaster)
@@ -311,7 +320,8 @@ if __name__ == "__main__":
 
     parameters =  {"TS_PRCP":"precipitation",
                    "TS_SFCTMP": "temperature",
-                   "ET_ETP": "evapotranspiration"}
+                   "ET_ETP": "evapotranspiration",
+                   "basin": "basin"}
 
     meta_files = glob.iglob('pihm-v4*.csv')
     
@@ -325,7 +335,7 @@ if __name__ == "__main__":
         meta_df['included_start'] = meta_df['end'].apply(lambda x: included_start(x))
         meta_df['basin'] = f.split('_')[1].split('.csv')[0]
 
-        print(meta_df[['start','end','total_months','included_months']].head())
+        print(meta_df[['start','end','total_months','included_months','basin']].head())
 
         # rename columns to human readable labels for temp/precip
         for kk, vv in parameters.items():
