@@ -49,6 +49,15 @@ parameters:
     maximum: 1.2
     default: 1
   concepts: []
+- name: basin
+  description: select the basin of interest
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Baro
+    - Bashilo
+    default: Baro
+  concepts: []  
 configuration:
   - precipitation: 1
     evapotranspiration: 0
