@@ -1,0 +1,201 @@
+id: G-Range
+label: APSIMx-G-Range
+description: "G-Range is a global rangeland model that simulates generalised changes in rangelands through time. Spatial data and a set of parameters that describe plant growth in landscape units combine with computer code representing ecological processes to represent soil nutrient and water dynamics, vegetation growth, fire, and wild and domestic animal offtake. The model is spatial, with areas of the world divided into square cells. Those cells that are rangelands have ecosystem dynamics simulated. A graphical user interface allows users to explore model output."
+versions:
+- APSIM_2.2
+maintainer:
+  name: Andrew Moore
+  email: Andrew.Moore@csiro.au
+website: https://research.csiro.au/foodglobalsecurity/data-and-tools/models/g-range/
+category:
+- Agriculture
+concepts: []
+
+outputs:
+- name: herbage_anpp
+  description: Total herbage aboveground net primary productivity per unit area from rangelands during the nominated period
+  units: quintal/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: herbage_prodn
+  description: Total herbage aboveground production from rangelands during the nominated period
+  units: quintal
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: total_area_rangeland
+  description: "Area of pastureland (source: EarthStat)"
+  units: ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]   
+  concepts: [] 
+- name: mean_anomaly_herbage_anpp
+  description: Difference between herbage aboveground net primary productivity per unit area from rangelands and its long-term average value
+  units: quintal/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: total_anomaly_herbage_prodn
+  description: Difference between herbage aboveground net primary production from rangelands and its long-term average value
+  units: quintal
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]   
+  concepts: [] 
+- name: rel_anomaly_mean_herbage_anpp
+  description: Relative difference between herbage aboveground net primary productivity per unit area from rangelands and its long-term average value
+  units: percentage
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []    
+- name: rel_anomaly_total_herbage_prodn
+  description: Relative difference between herbage aboveground net primary production from rangelands and its long-term average value
+  units: percentage
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []          
+
+parameters:
+- name: crop
+  description: select the crop to model
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - maize
+    - wheat
+    - teff
+    - sorghum
+    - barley
+    default: teff
+  concepts: []
+- name: season
+  description: select the season to model
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - belg
+    - meher
+    default: meher
+  concepts: []
+- name: climate_anomalies
+  description: select climate anomalies of interest
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - warm,wet
+    - midrange
+    - warm,dry
+    - cool,wet
+    - cool,dry
+    default: midrange
+  concepts: [] 
+- name: cereal_prodn_pctile
+  description: select level of simulated cereal production
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 100
+    default: 100
+  concepts: []  
+- name: irrigation
+  description: percentage change in irrigation area
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 8
+    default: 0
+  concepts: []
+- name: extension_package
+  description: percentage change in extension package uptake
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 40
+    default: 0
+  concepts: [] 
+- name: temperature
+  description: absolute change in temperature in celsius
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1.5
+    default: 0
+  concepts: []
+- name: sowing_date
+  description: change in sowing date
+  metadata:
+    type: NumberParameter
+    minimum: -30
+    maximum: 30
+    default: 0
+  concepts: [] 
+- name: fertilizer
+  description: absolute change in additional fertilizer (kg N/ha)
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 100
+    default: 0
+  concepts: []
+- name: rainfall
+  description: relative change in rainfall as a percentage of current rainfall
+  metadata:
+    type: NumberParameter
+    minimum: 50
+    maximum: 150
+    default: 100
+  concepts: []   
+
+configuration:
+  - crop: teff
+    season: meher
+    climate_anomalies: midrange
+    cereal_prodn_pctile: 100
+    irrigation: 0
+    extension_package: 0
+    temperature: 0
+    sowing_date: 0
+    fertilizer: 0
+    rainfall: 0

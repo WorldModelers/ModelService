@@ -1,0 +1,153 @@
+id: APSIM
+label: Agricultural Production Systems sIMulator (APSIM)
+description: "APSIMx is a global, farming systems tool that simulates rangeland, livestock and crop production given weather data, soil attributes and a management policy. APSIMx couples APSIM and G-Range models."
+versions:
+- APSIM_2.2
+maintainer:
+  name: Andrew Moore
+  email: Andrew.Moore@csiro.au
+website: https://www.apsim.info/
+category:
+- Agriculture
+concepts: []
+
+outputs:
+- name: yield
+  description: Grain yield using 2018 practices
+  units: quintal/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: rel_anomaly_yield
+  description: Relative difference between grain yield and its long-term average
+  units: percentage
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: lt_yield
+  description: Long-term average grain yield using 2018 practices
+  units: quintal/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []      
+
+parameters:
+- name: crop
+  description: select the crop to model
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - maize
+    - wheat
+    - teff
+    - sorghum
+    - barley
+    default: teff
+  concepts: []
+- name: season
+  description: select the season to model
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - belg
+    - meher
+    default: meher
+  concepts: []
+- name: climate_anomalies
+  description: select climate anomalies of interest
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - warm,wet
+    - midrange
+    - warm,dry
+    - cool,wet
+    - cool,dry
+    default: midrange
+  concepts: [] 
+- name: cereal_prodn_pctile
+  description: select level of simulated cereal production
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 100
+    default: 100
+  concepts: []  
+- name: irrigation
+  description: percentage change in irrigation area
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 8
+    default: 0
+  concepts: []
+- name: extension_package
+  description: percentage change in extension package uptake
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 40
+    default: 0
+  concepts: [] 
+- name: temperature
+  description: absolute change in temperature in celsius
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1.5
+    default: 0
+  concepts: []
+- name: sowing_date
+  description: change in sowing date
+  metadata:
+    type: NumberParameter
+    minimum: -30
+    maximum: 30
+    default: 0
+  concepts: [] 
+- name: fertilizer
+  description: absolute change in additional fertilizer (kg N/ha)
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 100
+    default: 0
+  concepts: []
+- name: rainfall
+  description: relative change in rainfall as a percentage of current rainfall
+  metadata:
+    type: NumberParameter
+    minimum: 50
+    maximum: 150
+    default: 100
+  concepts: []   
+
+configuration:
+  - crop: teff
+    season: meher
+    climate_anomalies: midrange
+    cereal_prodn_pctile: 100
+    irrigation: 0
+    extension_package: 0
+    temperature: 0
+    sowing_date: 0
+    fertilizer: 0
+    rainfall: 0
