@@ -33,6 +33,21 @@ def temperature(row):
         return float(row.counterfactual_level.split("+")[1].split("°")[0])
     else:
         return 0 
+
+def sowing_date(row): 
+    if row.counterfactual_class == 'Sowing date':
+        days = int(row.counterfactual_level.split(" days")[0])
+        if 'later' in row.counterfactual_level:
+            days = days * -1
+        return days
+    else:
+        return 0  
+
+def fertilizer(row): 
+    if row.counterfactual_class == 'Additional fertilizer':
+        return int(row.counterfactual_level.split("+")[1].split(" kg")[0])
+    else:
+        return 0                
     
 def pctl(pctl): 
     if pd.isna(pctl):
@@ -48,6 +63,8 @@ scenarios['extension_package'] = scenarios.apply(lambda x: extension_package(x),
 scenarios['temperature'] = scenarios.apply(lambda x: temperature(x),axis=1)
 scenarios['cereal_prodn_pctile'] = scenarios['cereal_prodn_pctile'].apply(lambda x: pctl(x))
 scenarios['description'] = scenarios['simulation_mode']
+scenarios['sowing_date'] = scenarios.apply(lambda x: sowing_date(x),axis=1)
+scenarios['fertilizer'] = scenarios.apply(lambda x: fertilizer(x),axis=1)
 
 scenarios = scenarios[['scenario',
                        'description',
@@ -56,6 +73,8 @@ scenarios = scenarios[['scenario',
                        'rainfall',
                        'irrigation',
                        'extension_package',
-                       'temperature']]
+                       'temperature',
+                       'fertilizer',
+                       'sowing_date']]
 
 scenarios.to_csv("Scenarios.csv", index=False)
