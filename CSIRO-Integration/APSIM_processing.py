@@ -22,7 +22,6 @@ from datetime import datetime
 from collections import OrderedDict
 from hashlib import sha256
 
-# for testing/dev
 import random
 from shapely.ops import cascaded_union
 from shapely.geometry import Point
@@ -37,27 +36,6 @@ class NpEncoder(json.JSONEncoder):
             return obj.tolist()
         else:
             return super(NpEncoder, self).default(obj)
-
-def generate_geojson(geom):
-    return shapely.geometry.mapping(geom)
-
-
-def generate_random(polygon):
-    minx, miny, maxx, maxy = polygon.bounds
-    counter = 0
-    while True:
-        pnt = Point(random.uniform(minx, maxx), random.uniform(miny, maxy))
-        if polygon.contains(pnt):
-            return pnt
-
-
-# This needs to be updated based on a lookup from CSIRO
-def gridcell_to_loc(row):
-    point = generate_random(eth)
-    row['geometry'] = point
-    row['latitude'] = point.y
-    row['longitude'] = point.x
-    return row
 
 
 def gen_run(model_name, params):
@@ -109,9 +87,7 @@ def process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim):
     # subset for the correct scenario
     crops_ = crops_[crops_['scenario'] == scen]
 
-    # generate random location information
-    # should be updated with CSIRO lookups per gridcell
-    crops_ = crops_.apply(gridcell_to_loc, axis=1)
+    crops_['geometry'] = crops_.apply(lambda x: Point(x.longitude, x.latitude), axis=1)
 
     # obtain scenario parameters
     params = scenarios[scenarios['scenario']==scen].iloc[0].to_dict()
@@ -187,6 +163,7 @@ s3_client = session.client("s3")
 s3_bucket= s3.Bucket(bucket)
 
 scenarios = pd.read_csv('Scenarios.csv')
+grids = pd.read_csv('Experiment 2020-01 - Gridcell Centre Points.csv')
 
 with open('../metadata/models/APSIM-model-metadata.yaml', 'r') as stream:
     apsim = yaml.safe_load(stream)
@@ -201,12 +178,15 @@ admin2['admin1'] = admin2['NAME_1']
 admin2['admin2'] = admin2['NAME_2']
 admin2['GID_2'] = admin2['GID_2'].apply(lambda x: x.split("_")[0])
 admin2['GID_1'] = admin2['GID_1'].apply(lambda x: x.split("_")[0])
-admin2['geojson'] = admin2.geometry.apply(lambda x: generate_geojson(x))
 
 eth = cascaded_union(admin2.geometry)
 
 crops = pd.read_csv('C2-P2 APSIM-GRange Results v01/Cropping_Grid_Backcast_Experiment_2020-01.csv')
-crops_lt = pd.read_csv('C2-P2 APSIM-GRange Results v01/Cropping_Grid_LTMean_Experiment_2020-01.csv')    
+crops_lt = pd.read_csv('C2-P2 APSIM-GRange Results v01/Cropping_Grid_LTMean_Experiment_2020-01.csv')
+
+# obtain lat/lon from grid file
+crops = crops.merge(grids, how='left', left_on='gridcell_id', right_on='CellId')
+crops_lt = crops_lt.merge(grids, how='left', left_on='gridcell_id', right_on='CellId')
 
 # add in parameters from scenarios dataframe
 crops = crops.merge(scenarios, on='scenario', how='left', suffixes=(False, False))
@@ -225,8 +205,8 @@ scenario_list = crops.scenario.unique()
 scenario_list_lt = crops_lt.scenario.unique()
 
 param_cols = list(scenarios.columns)
-base_cols = ['gridcell_id', 'cropping_year']
-base_cols_lt = ['gridcell_id']
+base_cols = ['gridcell_id', 'cropping_year','latitude','longitude']
+base_cols_lt = ['gridcell_id','latitude','longitude']
 
 ##################################################
 ##################################################
