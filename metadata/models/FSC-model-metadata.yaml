@@ -10,58 +10,21 @@ maintainer:
   email: mjp38@columbia.edu
 category:
 - Economic
-concepts:
-- wm/concept/causal_factor/condition/food_security: 0.4956041
-- wm/concept/causal_factor/condition/food_diversity: 0.49238518
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.47223988
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/consumption/food_consumption: 0.46936400000000006
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.46627286
-- wm/concept/causal_factor/access/food_shortage: 0.44413224
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/export/food_export: 0.42939259999999996
-- wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.42681092
-- wm/concept/causal_factor/condition/food_insecurity: 0.4179622
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/import/food_import: 0.41657928
+
 outputs:
 - name: dR
   description: Change in crop stock reserve levels
-  concepts:
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.54335153
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5083388
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/transaction/oil_transaction: 0.48609350000000007
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/export/food_export: 0.48549405
-  - wm/concept/causal_factor/agriculture/crop_production: 0.48180439999999997
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.47771759999999996
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.47747275
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/import/food_import: 0.47500986
-  - wm/concept/causal_factor/environmental/resource_management: 0.45336735
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/oil_price: 0.45101450000000004
 - name: dC
   description: Change in consumption
-  concepts:
-  - wm/concept/entity/organization: 0.28420037
-  - wm/concept/causal_factor/social_and_political/threat/disarmament: 0.082092546
 - name: dP
   description: Change in production levels
-  concepts:
-  - wm/concept/entity/organization: 0.2639059
-  - wm/concept/causal_factor/social_and_political/threat/disarmament: 0.076933235
+
 parameters:
 - name: country
   description: Select the country for which to induce a food shock (ISO-3 format).
   metadata:
     type: ChoiceParameter
     default: USA
-  concepts:
-  - wm/concept/causal_factor/condition/food_security: 0.554129
-  - wm/concept/causal_factor/condition/food_diversity: 0.5511505
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/consumption/food_consumption: 0.5453414000000001
-  - wm/concept/causal_factor/access/food_shortage: 0.5413444000000001
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/import/food_import: 0.54022735
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/export/food_export: 0.5256163
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.51665634
-  - wm/concept/causal_factor/condition/food_insecurity: 0.5081462999999999
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.50398254
-  - wm/concept/causal_factor/condition/famine: 0.4681228
 - name: fractional_reserve_access
   description: The fraction of reserves that countries can access. Between 0 and 1,
     where 0 indicates that  countries cannot access there reserves and 1 indicates
@@ -71,17 +34,6 @@ parameters:
     default: 1
     minimum: 0
     maximum: 1
-  concepts:
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/assets: 0.49764129999999995
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/currency: 0.48264155
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.481559
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/depreciation: 0.460117
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/transaction/oil_transaction: 0.45998684
-  - wm/concept/entity/government_entity: 0.44193240000000006
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/budget: 0.40349957
-  - wm/concept/entity/geo-location: 0.39375758
-  - wm/concept/causal_factor/social_and_political/government/regulation: 0.38363352
-  - wm/concept/causal_factor/social_and_political/migration/human_migration: 0.38334548
 - name: production_decrease
   description: The percent decrease in crop production due to the shock on the target
     country (the size  of the shock).
@@ -90,33 +42,12 @@ parameters:
     default: 0.5
     minimum: 0
     maximum: 1
-  concepts:
-  - wm/concept/causal_factor/condition/trend: 0.6440965999999999
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.6432414000000001
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5728249
-  - wm/concept/causal_factor/access/water_shortage: 0.5655587
-  - wm/concept/causal_factor/condition/tension: 0.56226647
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.52840096
-  - wm/concept/causal_factor/social_and_political/threat/physical_insecurity: 0.52207035
-  - wm/concept/causal_factor/health_and_life/death: 0.51667446
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.5155116
-  - wm/concept/causal_factor/condition/famine: 0.5121213
 - name: year
   description: The year in which to induce the shock in YYYY format.
   metadata:
     type: TimeParameter
     default: 2005
-  concepts:
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5562857
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.4995036
-  - wm/concept/entity/person_and_group/population: 0.49802107
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
-  - wm/concept/entity/organization: 0.4186753
-  - wm/concept/entity/organization: 0.4186753
-  - wm/concept/causal_factor/social_and_political/government/census: 0.38592509999999997
+
 configuration:
 - country: USA
   fractional_reserve_access: 1

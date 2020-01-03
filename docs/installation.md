@@ -27,6 +27,12 @@ export C_INCLUDE_PATH=/usr/include/gdal
 
 pip install -r requirements.txt
 
+# Install UAZ Concept Mapping Service
+# This builds the Docker container and runs it and will take a while since
+# it requires building Eidos
+cd ../UAZ-Integration
+./maas_install.sh
+
 # Install FSC Model.  You will get prompted for github credentials.
 # This will take quite a bit of time.
 cd ../FSC-Integration/

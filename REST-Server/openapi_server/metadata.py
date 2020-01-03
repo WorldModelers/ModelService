@@ -9,6 +9,7 @@ import json
 import yaml
 from pprint import pprint
 import os
+import requests
 
 metadata_files = []
 for filename in glob.iglob('../metadata/models/**model-metadata.yaml', recursive=True):
@@ -23,6 +24,14 @@ r = redis.Redis(host=config['REDIS']['HOST'],
                 port=config['REDIS']['PORT'],
                 db=config['REDIS']['DB'])
 
+host = config['UAZ-CONCEPTS']['HOST']
+port = config['UAZ-CONCEPTS']['PORT']
+endpoint = config['UAZ-CONCEPTS']['ENDPOINT']
+concept_mapper_endpoint = f"http://{host}:{port}/{endpoint}"
+
+headers = {
+    'Content-Type': 'application/json',
+}
 
 def main():
     ##########################################
@@ -42,11 +51,16 @@ def main():
 
     # for each model
     for kk, vv in models.items():
+        
+        # use UAZ concept mapping service to get model level concepts
+        data = {"name": kk, "examples": [vv['description'], vv['label']]}
+        response = requests.post(concept_mapper_endpoint, headers=headers, json=data)
+        model_concepts = response.json()['conceptMatches']
 
         # get its concepts
-        for concept in vv.get('concepts',[]):
-            cc = list(concept.keys())[0]
-            m_ = {'name': kk, 'score': concept[cc], 'type': 'model'}
+        for concept in model_concepts:
+            cc = concept['concept']
+            m_ = {'name': kk, 'score': concept['score'], 'type': 'model'}
             # if concept not in concepts dict, add it
             if cc not in concepts_m:
                 concepts_m[cc] = set()
@@ -54,21 +68,22 @@ def main():
 
             # if concept in concepts, add model to set
             else:
-                concepts_m[cc].add(json.dumps(m_))
-
-    # for each model
-    for kk, vv in models.items():
+                concepts_m[cc].add(json.dumps(m_))    
 
         # get its parameters
         for pp in vv.get('parameters',[]):
 
+            # use UAZ mapping service to map concepts
+            data = {"name": pp["name"], "examples": [pp["name"], pp["description"]]}
+            response = requests.post(concept_mapper_endpoint, headers=headers, json=data)
+            cons = response.json()['conceptMatches']
+
             # if concept not in concepts dict, add it
-            cons = pp.pop('concepts')
             for concept in cons:
-                cc = list(concept.keys())[0]
+                cc = concept['concept']
                 pp['model'] = kk
                 pp['type'] = 'parameter'
-                pp['score'] = concept[cc]
+                pp['score'] = concept['score']
                 if cc not in concepts_p:
                     concepts_p[cc] = set()
                     concepts_p[cc].add(json.dumps(pp))
@@ -80,19 +95,23 @@ def main():
         # get its variables
         for oo in vv.get('outputs',[]):
 
-            # if concept not in concepts dict, add it
-            cons = oo.pop('concepts')
+            # use UAZ mapping service to map concepts
+            data = {"name": oo["name"], "examples": [oo["name"], oo["description"]]}
+            response = requests.post(concept_mapper_endpoint, headers=headers, json=data)
+            cons = response.json()['conceptMatches']
+
+            # if concept not in concepts dict, add it    
             for concept in cons:
-                cc = list(concept.keys())[0]
+                cc = concept['concept']
                 oo['model'] = kk
                 oo['type'] = 'output'                
-                oo['score'] = concept[cc]
+                oo['score'] = concept['score']
                 if cc not in concepts_o:
                     concepts_o[cc] = set()
                     concepts_o[cc].add(json.dumps(oo))
                 # if concept in concepts, add model to set
                 else:
-                    concepts_o[cc].add(json.dumps(oo))
+                    concepts_o[cc].add(json.dumps(oo))    
 
     concept_names = set(list(concepts_m.keys()) + list(concepts_o.keys()) + list(concepts_p.keys()))
 
@@ -135,7 +154,7 @@ def main():
                 models.append(model)
 
     if r.exists('model-list'):
-        print("Deleteing model-list set...")
+        print("Deleting model-list set...")
         r.delete('model-list')
     else:
         pass
