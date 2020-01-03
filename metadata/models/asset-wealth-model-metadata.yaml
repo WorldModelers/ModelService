@@ -10,17 +10,7 @@ category:
 - Demographic
 - Socioeconomic
 - Economic
-concepts:
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/assets: 0.7481485999999999
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.61453843
-- wm/concept/causal_factor/crisis_and_disaster/economic/economic_crisis: 0.5705005
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/currency: 0.54929054
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.54845613
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/livelihood: 0.5308158000000001
-- wm/concept/causal_factor/environmental/resource_management: 0.51086974
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/depreciation: 0.5014675000000001
-- wm/concept/entity/government_entity: 0.49315879999999995
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/development: 0.48968583
+
 outputs:
 - name: poverty level
   description: Measure of household poverty levels based on the assets they own (unitless)
@@ -33,14 +23,3 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]
-  concepts:
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/assets: 0.6052661
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/livelihood: 0.5776428000000001
-  - wm/concept/causal_factor/condition/poverty: 0.5756253
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.57212186
-  - wm/concept/causal_factor/health_and_life/basic_needs: 0.56243706
-  - wm/concept/causal_factor/social_and_political/threat/physical_insecurity: 0.5557724
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.55386853
-  - wm/concept/causal_factor/crisis_and_disaster/economic/economic_crisis: 0.54563457
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.5304303000000001
-  - wm/concept/causal_factor/social_and_political/political/political_instability: 0.51361436

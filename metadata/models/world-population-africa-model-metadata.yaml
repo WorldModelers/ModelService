@@ -19,17 +19,7 @@ website: https://www.worldpop.org/geodata/summary?id=139
 category:
 - Demographic
 - Socioeconomic
-concepts:
-- wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6267974000000001
-- wm/concept/entity/person_and_group/population: 0.58600956
-- wm/concept/causal_factor/health_and_life/basic_needs: 0.56518865
-- wm/concept/causal_factor/environmental/natural_resources/land: 0.51128167
-- wm/concept/causal_factor/social_and_political/migration/human_migration: 0.50273544
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.48854259999999994
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.48022902
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.4792102
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.47696987
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/export/food_export: 0.47629312
+
 outputs:
 - name: population
   description: pixel value corresponds to the population residing there.
@@ -42,17 +32,7 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.6582799
-  - wm/concept/entity/person_and_group/population: 0.566863
-  - wm/concept/entity/person_and_group/population: 0.566863
-  - wm/concept/causal_factor/health_and_life/basic_needs: 0.5207824000000001
-  - wm/concept/causal_factor/health_and_life/basic_needs: 0.5207824000000001
-  - wm/concept/entity/geo-location: 0.49932387
-  - wm/concept/entity/geo-location: 0.49932387
-  - wm/concept/causal_factor/condition/trend: 0.49685052
-  - wm/concept/causal_factor/condition/trend: 0.49685052
+
 parameters:
 - name: year
   description: Select the year of the population estimate.
@@ -65,16 +45,6 @@ parameters:
     - 2015
     - 2020
     default: 2000
-  concepts:
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5562857
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.4995036
-  - wm/concept/entity/person_and_group/population: 0.49802107
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
-  - wm/concept/entity/organization: 0.4186753
-  - wm/concept/entity/organization: 0.4186753
-  - wm/concept/causal_factor/social_and_political/government/census: 0.38592509999999997
+
 configuration:
 - year: 2000
