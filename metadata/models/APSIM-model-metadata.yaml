@@ -146,10 +146,10 @@ configuration:
   - crop: teff
     season: meher
     climate_anomalies: midrange
-    cereal_prodn_pctile: 100
-    irrigation: 0
-    extension_package: 0
+    cereal_prodn_tercile: Middle tercile
+    irrigation: 0.006
+    additional_extension: 0
     temperature: 0
-    sowing_date: 0
+    sowing_window_shift: 0
     fertilizer: 0
     rainfall: 0

@@ -98,29 +98,8 @@ outputs:
   concepts: []          
 
 parameters:
-- name: crop
-  description: select the crop to model
-  metadata:
-    type: ChoiceParameter
-    choices:
-    - maize
-    - wheat
-    - teff
-    - sorghum
-    - barley
-    default: teff
-  concepts: []
-- name: season
-  description: select the season to model
-  metadata:
-    type: ChoiceParameter
-    choices:
-    - belg
-    - meher
-    default: meher
-  concepts: []
 - name: climate_anomalies
-  description: select climate anomalies of interest
+  description: One of 5 classes based on the mean 2018-19 cropping-year (March-February) rainfall and temperature anomalies in the climate ensemble member. Ensemble members where the root-mean-square anomaly of temperature and precipitation are within 0.9 standard deviations are "midrange"; otherwise ensemble members are classified according to the quadrant in which they fall.
   metadata:
     type: ChoiceParameter
     choices:
@@ -131,40 +110,42 @@ parameters:
     - cool,dry
     default: midrange
   concepts: [] 
-- name: cereal_prodn_pctile
-  description: select level of simulated cereal production
+- name: cereal_prodn_tercile
+  description: Grouping of climate ensemble members according to terciles of total national production of the 5 cereals as modelled under 2018 land use and practices
   metadata:
-    type: NumberParameter
-    minimum: 0
-    maximum: 100
-    default: 100
+    type: ChoiceParameter
+    choices:
+    - Low tercile
+    - Middle tercile
+    - High tercile
+    default: Middle tercile
   concepts: []  
 - name: irrigation
-  description: percentage change in irrigation area
+  description: Average proportion of cereal area that is irrigated across Ethiopia. Local proportions vary spatially and with the type of crop
   metadata:
     type: NumberParameter
-    minimum: 0
-    maximum: 8
+    minimum: 0.006
+    maximum: 0.08
     default: 0
   concepts: []
-- name: extension_package
-  description: percentage change in extension package uptake
+- name: additional_extension
+  description: For this scenario, an "extension package" means the adoption of both improved crop cultivars and chemical fertilizer application. The value is the proportion of land **not already using "extension package"** that is converted to management under the "extension package". For example, if 20% of maize crops in a grid-cell already use improved cultivars plus fertilizer, then 40% "additional extension package" will increase the overall level to (20% + 40% x (100%-20%)) = 52%
   metadata:
     type: NumberParameter
     minimum: 0
-    maximum: 40
+    maximum: 0.4
     default: 0
   concepts: [] 
 - name: temperature
-  description: absolute change in temperature in celsius
+  description: Change applied to maximum and minimum air temperature in every day of the climate record in the counterfactual
   metadata:
     type: NumberParameter
     minimum: 0
     maximum: 1.5
     default: 0
   concepts: []
-- name: sowing_date
-  description: change in sowing date
+- name: sowing_window_shift
+  description: Shift (measured in days) in the date range over which crops are sown in response to a sufficiently large rainfall event
   metadata:
     type: NumberParameter
     minimum: -30
@@ -172,7 +153,7 @@ parameters:
     default: 0
   concepts: [] 
 - name: fertilizer
-  description: absolute change in additional fertilizer (kg N/ha)
+  description: Additional N fertilizer applied at sowing, over and above the rate that is specific to a location, crop and management system
   metadata:
     type: NumberParameter
     minimum: 0
@@ -180,22 +161,22 @@ parameters:
     default: 0
   concepts: []
 - name: rainfall
-  description: relative change in rainfall as a percentage of current rainfall
+  description: Multiplier applied to daily rainfall in every day of the climate record in the counterfactual
   metadata:
     type: NumberParameter
-    minimum: 50
-    maximum: 150
-    default: 100
+    minimum: 0
+    maximum: 1.5
+    default: 0
   concepts: []   
 
 configuration:
   - crop: teff
     season: meher
     climate_anomalies: midrange
-    cereal_prodn_pctile: 100
-    irrigation: 0
-    extension_package: 0
+    cereal_prodn_tercile: Middle tercile
+    irrigation: 0.006
+    additional_extension: 0
     temperature: 0
-    sowing_date: 0
+    sowing_window_shift: 0
     fertilizer: 0
     rainfall: 0
