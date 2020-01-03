@@ -61,6 +61,10 @@ cd ../Flood-Index-Integration
 # Install PIHM
 cd ../PIHM-Integration
 ./maas_install.sh
+
+# Install APSIM and G-Range
+cd ../CSIRO-Integration
+./maas_install.sh
 ```
 
 #### Redis Set-up
