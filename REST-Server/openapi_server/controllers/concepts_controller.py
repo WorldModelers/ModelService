@@ -27,7 +27,6 @@ def concept_mapping_get(concept=None, concept_type=None):  # noqa: E501
 
     :rtype: List[Concept]
     """
-    print(concept, concept_type)
     e = [json.loads(i.decode('utf-8')) for i in r.lrange(concept, 0, -1 )]
     if concept_type:
         e = [i for i in e if i['type']==concept_type]

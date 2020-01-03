@@ -10,17 +10,7 @@ category:
 - Demographic
 - Socioeconomic
 - Economic
-concepts:
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/consumption/food_consumption: 0.06990361
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.056803383
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.052433666
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.05197483
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.051411915999999995
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/fuel: 0.050942805
-- wm/concept/causal_factor/environmental/natural_resources/water_commodity: 0.050240524
-- wm/concept/causal_factor/access/water_supply: 0.049998846
-- wm/concept/causal_factor/social_and_political/population_group/population_density: 0.049882334
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.049503066
+
 outputs:
 - name: consumption per capita per day
   description: Measure of how much a person would spend each day (2011 USD per capita
@@ -34,14 +24,3 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.59317344
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.5575675
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/currency: 0.54316324
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.5420381
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.5222503
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.47233823
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/oil_price: 0.45556453
-  - wm/concept/causal_factor/social_and_political/government/tax_duty: 0.45015532
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/depreciation: 0.44418353
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/consumption/food_consumption: 0.41965452

@@ -12,17 +12,7 @@ maintainer:
   email: mlandsfeld@gmail.com
 category:
 - Climate
-concepts:
-- wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/drought: 0.68560535
-- wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.6681212
-- wm/concept/causal_factor/environmental/meteorologic/weather: 0.6648521
-- wm/concept/causal_factor/environmental/meteorologic/precipitation/storm: 0.6365578000000001
-- wm/concept/causal_factor/environmental/meteorologic/climate: 0.57963496
-- wm/concept/causal_factor/environmental/climate_change_mitigation: 0.57084703
-- wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/weather_issue/cold_temperature: 0.55597466
-- wm/concept/causal_factor/environmental/pollution/land_pollution: 0.5384263000000001
-- wm/concept/causal_factor/access/water_shortage: 0.5234242
-- wm/concept/causal_factor/food_water_and_nutrition/water_insecurity: 0.5146792
+
 outputs:
 - name: Rainfall
   description: rainfall in mm per 5km
@@ -35,17 +25,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.6317845
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.6317845
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/drought: 0.5234196
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/drought: 0.5234196
-  - wm/concept/causal_factor/environmental/meteorologic/weather: 0.50851905
-  - wm/concept/causal_factor/environmental/meteorologic/weather: 0.50851905
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/storm: 0.46696892
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/storm: 0.46696892
-  - wm/concept/causal_factor/environmental/meteorologic/climate: 0.42092496
-  - wm/concept/causal_factor/environmental/meteorologic/climate: 0.42092496
 - name: Rainfall relative to average
   description: Rainfall relative to the historic average in mm per 5km
   units: mm per 5km
@@ -57,17 +36,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5872121
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5872121
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/drought: 0.5548972
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/drought: 0.5548972
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.5354923
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.5354923
-  - wm/concept/causal_factor/environmental/meteorologic/weather: 0.53413904
-  - wm/concept/causal_factor/environmental/meteorologic/weather: 0.53413904
-  - wm/concept/causal_factor/condition/trend: 0.51264393
-  - wm/concept/causal_factor/condition/trend: 0.51264393
 - name: SPI
   description: Standardized Precipitation Index reflects the number of standard deviations by which the observed anomaly deviates from the long-term mean
   units: unitless index
@@ -79,9 +47,7 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/social_and_political/government/census: 0.29142399999999996
-  - wm/concept/causal_factor/social_and_political/government/census: 0.29142399999999996
+
 parameters:
 - name: _type
   description: This should be one of ['mm_data','mm_anomaly','none_z-score']. mm_data
@@ -95,31 +61,12 @@ parameters:
     - mm_anomaly
     - none_z-score
     default: mm_data
-  concepts:
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.56605935
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.56605935
-  - wm/concept/causal_factor/condition/trend: 0.5589733
-  - wm/concept/causal_factor/condition/trend: 0.5589733
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.5422359
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.5422359
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.53863746
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.53863746
-  - wm/concept/causal_factor/access/infrastructure_access/water: 0.5222452000000001
-  - wm/concept/causal_factor/access/infrastructure_access/water: 0.5222452000000001
 - name: dekad
   description: A zero padded value for the dekad of the year, 01-36 (a 10 day period).
   metadata:
     type: TimeParameter
     minimum: '01'
     maximum: '36'
-  concepts:
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/depreciation: 0.44585392
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/depreciation: 0.44585392
-  - wm/concept/causal_factor/social_and_political/migration/migration_returnees: 0.3174479
-  - wm/concept/causal_factor/access/infrastructure_access/transportation/shipping: 0.29024032
-  - wm/concept/causal_factor/access/infrastructure_access/transportation/shipping: 0.29024032
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/currency_devaluation: 0.22638491
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/currency_devaluation: 0.22638491
 - name: year
   description: The year in YYYY format for the data of interest.
   metadata:
@@ -127,17 +74,6 @@ parameters:
     default: 2019
     minimum: 1985
     maximum: 2019
-  concepts:
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5562857
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49961162
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.4995036
-  - wm/concept/entity/person_and_group/population: 0.49802107
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.44551759999999996
-  - wm/concept/entity/organization: 0.4186753
-  - wm/concept/entity/organization: 0.4186753
-  - wm/concept/causal_factor/social_and_political/government/census: 0.38592509999999997
 - name: bbox
   description: 'The geospatial bounding box of interest. It should represent 4-elements
     in the WGS84  coordinate system: [xmin, ymin, xmax, ymax]. x is longitude, y is
@@ -150,17 +86,7 @@ parameters:
     - 2.719907
     - 49.98171
     - 16.501768
-  concepts:
-  - wm/concept/entity/geo-location: 0.46920150000000005
-  - wm/concept/entity/geo-location: 0.46920150000000005
-  - wm/concept/causal_factor/access/infrastructure_access/bridge: 0.2575372
-  - wm/concept/causal_factor/access/infrastructure_access/bridge: 0.2575372
-  - wm/concept/entity/artifact: 0.22843814
-  - wm/concept/entity/artifact: 0.22843814
-  - wm/concept/causal_factor/social_and_political/criminal/abduction: 0.2133946
-  - wm/concept/causal_factor/social_and_political/criminal/abduction: 0.2133946
-  - wm/concept/causal_factor/social_and_political/threat/disarmament: 0.10657996
-  - wm/concept/causal_factor/social_and_political/threat/disarmament: 0.10657996
+
 configuration:
 - _type: mm_data
   dekad: 1

@@ -10,7 +10,7 @@ website: http://www.pihm.psu.edu/pihm_home.html
 category:
 - Climate
 - Hydrological
-concepts: []
+
 outputs:
 - name: surface water
   description: The level of surface water in meters
@@ -23,7 +23,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]   
-  concepts: []
 parameters:
 - name: precipitation
   description: percentage perturbation baseline rainfall (1.1 = 110% of baseline rainfall)
@@ -32,7 +31,6 @@ parameters:
     minimum: 0
     maximum: 1
     default: 2
-  concepts: []
 - name: temperature
   description: +/- degree C perturbation of temperature in absolute terms
   metadata:
@@ -40,7 +38,6 @@ parameters:
     minimum: -1
     maximum: 1
     default: 0
-  concepts: []
 - name: evapotranspiration
   description: percentage perturbation of evapotranspiration
   metadata:
@@ -48,7 +45,6 @@ parameters:
     minimum: 0.6
     maximum: 1.2
     default: 1
-  concepts: []
 - name: basin
   description: select the basin of interest
   metadata:
@@ -57,7 +53,7 @@ parameters:
     - Baro
     - Bashilo
     default: Baro
-  concepts: []  
+
 configuration:
   - precipitation: 1
     evapotranspiration: 0

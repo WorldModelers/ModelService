@@ -10,17 +10,7 @@ maintainer:
   email: cporter@ufl.edu
 category:
 - Agriculture
-concepts:
-- wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.67983943
-- wm/concept/causal_factor/agriculture/crop_production: 0.66279817
-- wm/concept/causal_factor/agriculture/planting: 0.64513963
-- wm/concept/causal_factor/agriculture/agricultural_production: 0.59346443
-- wm/concept/causal_factor/environmental/natural_resources/soil: 0.58795327
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5766664
-- wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.540619
-- wm/concept/time/temporal/crop_season: 0.51876086
-- wm/concept/causal_factor/environmental/resource_management: 0.518487
-- wm/concept/causal_factor/environmental/natural_resources/land: 0.51834625
+
 outputs:
 - name: HWAH
   description: Harvested weight at harvest (kg/ha)
@@ -33,17 +23,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/agriculture/crop_production: 0.58487195
-  - wm/concept/time/temporal/crop_season: 0.5828258000000001
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.5380564999999999
-  - wm/concept/causal_factor/agriculture/agricultural_production: 0.48458573
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.48036012
-  - wm/concept/causal_factor/agriculture/crop: 0.47878940000000003
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.4558598
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.44771358
-  - wm/concept/causal_factor/agriculture/planting: 0.44249620000000006
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/consumption/food_consumption: 0.43693334
 - name: HARVEST_AREA
   description: Amount of area harvested under all management practices for this point
     (ha)
@@ -56,17 +35,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/environmental/resource_management: 0.5725762
-  - wm/concept/time/temporal/crop_season: 0.5657956000000001
-  - wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.5516797
-  - wm/concept/causal_factor/environmental/natural_resources/land: 0.5452854
-  - wm/concept/causal_factor/agriculture/agricultural_production: 0.5442984000000001
-  - wm/concept/causal_factor/condition/food_security: 0.5371081
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.52761656
-  - wm/concept/causal_factor/access/road_access: 0.52578616
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/development: 0.5245887
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.5230878999999999
 - name: Yield
   description: Yield for the given point/management practice (kg)
   units: kg
@@ -78,32 +46,11 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-  concepts:
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.5927398
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5618763000000001
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.56184447
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/revenue: 0.55809224
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.557128
-  - wm/concept/causal_factor/access/road_access: 0.5526892
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/competition: 0.5498014
-  - wm/concept/causal_factor/condition/trend: 0.5479669
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/livelihood: 0.54197323
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.53797764
 - name: management_practice
   description: Indicates the type of management practice for the given yield/point
     combination.  1 corresponds to high nitrogen, 2 to irrigated high nitrogen, 3
     to  subsistence, and 4 to low nitrogen.
-  concepts:
-  - wm/concept/causal_factor/access/water_shortage: 0.62421834
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.61807144
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.61520797
-  - wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.61238885
-  - wm/concept/causal_factor/condition/trend: 0.6038226
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.5908116
-  - wm/concept/causal_factor/environmental/resource_management: 0.588494
-  - wm/concept/causal_factor/access/infrastructure_access/water: 0.58150595
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/food_price: 0.56770545
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_transportation: 0.56460655
+
 parameters:
 - name: samples
   description: The number of pixel predictions DSSAT will make. Setting samples to
@@ -113,17 +60,6 @@ parameters:
     default: 0
     minumum: 1
     maximum: 0
-  concepts:
-  - wm/concept/causal_factor/access/road_access: 0.5463679
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.54150283
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.51803505
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/competition: 0.5052396
-  - wm/concept/causal_factor/access/infrastructure_access/water: 0.5050220999999999
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.50196034
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.4998686
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/price_or_cost/cost_of_living: 0.49328998
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.49319309999999994
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/cross_border_trade/import/food_import: 0.4915107
 - name: management_practice
   description: 'The management practice to model. maize_rf_highN corresponds to a
     high nitrogen management  practice. maize_irrig corresponds to a high nitrogen,
@@ -139,17 +75,6 @@ parameters:
     - maize_irrig
     - maize_rf_0N
     - maize_rf_lowN
-  concepts:
-  - wm/concept/causal_factor/environmental/resource_management: 0.62334526
-  - wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.60880524
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.59601825
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.5932604
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/development: 0.5761307
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.5624109
-  - wm/concept/causal_factor/condition/trend: 0.5481959
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.5466478
-  - wm/concept/causal_factor/condition/food_diversity: 0.54600245
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.5458002
 - name: start_year
   description: The year to begin the simulation. The earliest possible year to begin
     is 1984 and the latest is  2019.
@@ -158,17 +83,6 @@ parameters:
     default: 1984
     minumum: 1984
     maximum: 2018
-  concepts:
-  - wm/concept/causal_factor/social_and_political/migration/immigration: 0.5651715
-  - wm/concept/causal_factor/access/road_access: 0.5600407
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.5331909
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/competition: 0.52708936
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.52255315
-  - wm/concept/causal_factor/social_and_political/basic_services: 0.5049714
-  - wm/concept/time/temporal/crop_season: 0.48738796
-  - wm/concept/causal_factor/access/infrastructure_access/construction_materials: 0.47093418
-  - wm/concept/entity/organization: 0.46573809999999993
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/development: 0.45487732
 - name: number_years
   description: The number of years to run the simulation. If start_year + number_years
     - 1 > 2018 then this  will be set such that your simulation runs through 2018.
@@ -177,17 +91,6 @@ parameters:
     default: 35
     minumum: 1
     maximum: 35
-  concepts:
-  - wm/concept/causal_factor/access/road_access: 0.51389897
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/competition: 0.5067381
-  - wm/concept/causal_factor/environmental/environment: 0.4742664000000001
-  - wm/concept/causal_factor/access/infrastructure_access/electrical: 0.46403262
-  - wm/concept/entity/organization: 0.43466023
-  - wm/concept/causal_factor/social_and_political/migration/hosting_idps: 0.4292823
-  - wm/concept/causal_factor/access/infrastructure_access/road: 0.39762703
-  - wm/concept/causal_factor/social_and_political/educational/education: 0.38646042
-  - wm/concept/causal_factor/social_and_political/conflict/attack: 0.38297382
-  - wm/concept/causal_factor/social_and_political/conflict/demonstrate: 0.37930217
 - name: rainfall
   description: The degree to perturb rainfall from the baseline model. This should
     be a real number,  which, if 0, would indicate no rainfall in any district. If
@@ -198,17 +101,6 @@ parameters:
     default: 1
     minumum: 0
     maximum: 2
-  concepts:
-  - wm/concept/causal_factor/condition/trend: 0.6298786999999999
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/natural_disaster/drought: 0.6233856
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/rainfall: 0.6094725999999999
-  - wm/concept/causal_factor/environmental/meteorologic/weather: 0.6006489
-  - wm/concept/causal_factor/access/water_shortage: 0.5745385000000001
-  - wm/concept/causal_factor/social_and_political/population_group/population_density: 0.5661923000000001
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.54149055
-  - wm/concept/causal_factor/environmental/meteorologic/precipitation/storm: 0.54036087
-  - wm/concept/causal_factor/food_water_and_nutrition/water_insecurity: 0.5107269
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/weather_issue/cold_temperature: 0.5079914000000001
 - name: fertilizer
   description: This a scalar between 0 and 200 which represents fertilizer in kg/ha.
     100 is considered the  baseline amount (per management practice), so anything
@@ -219,17 +111,6 @@ parameters:
     default: 100
     minumum: 0
     maximum: 200
-  concepts:
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.58488685
-  - wm/concept/causal_factor/condition/trend: 0.5848708
-  - wm/concept/causal_factor/access/water_shortage: 0.57186294
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.5606515999999999
-  - wm/concept/causal_factor/access/infrastructure_access/water: 0.56044257
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/labor_market: 0.55967647
-  - wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.55323213
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.5480611999999999
-  - wm/concept/causal_factor/access/food_shortage: 0.5458420999999999
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.54264605
 - name: planting_start
   description: This is the month and day in "mm-dd" format when planting should begin.
     This allows the modeler  to simulate various planting seasons (such as Belg and
@@ -239,17 +120,6 @@ parameters:
     default: 03-01
     minumum: 01-01
     maximum: 12-31
-  concepts:
-  - wm/concept/causal_factor/agriculture/planting: 0.5824398000000001
-  - wm/concept/time/temporal/crop_season: 0.5612421999999999
-  - wm/concept/causal_factor/access/infrastructure_access/water: 0.55857027
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.5512704
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.54975224
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.5443241999999999
-  - wm/concept/causal_factor/access/road_access: 0.5368763000000001
-  - wm/concept/causal_factor/condition/food_diversity: 0.53159964
-  - wm/concept/causal_factor/access/water_shortage: 0.52703154
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/supply/food_supply: 0.5253973000000001
 - name: planting_end
   description: This is the month and day in "mm-dd" format when planting should end.
     This allows the modeler  to simulate various planting seasons (such as Belg and
@@ -259,17 +129,7 @@ parameters:
     default: 05-20
     minumum: 01-01
     maximum: 12-31
-  concepts:
-  - wm/concept/causal_factor/access/infrastructure_access/water: 0.5660531
-  - wm/concept/causal_factor/access/road_access: 0.5578843000000001
-  - wm/concept/causal_factor/economic_and_commerce/economic_activity/market/demand/food_demand: 0.55056906
-  - wm/concept/causal_factor/crisis_and_disaster/environmental_disasters/crop_failure: 0.5462739999999999
-  - wm/concept/causal_factor/social_and_political/educational/educational_materials: 0.5451256
-  - wm/concept/time/temporal/crop_season: 0.541374
-  - wm/concept/causal_factor/agriculture/planting: 0.5378515
-  - wm/concept/causal_factor/access/infrastructure_access/construction_materials: 0.53452355
-  - wm/concept/causal_factor/access/water_shortage: 0.5316573
-  - wm/concept/causal_factor/food_water_and_nutrition/water_management: 0.5233146
+
 configuration:
 - samples: 0
   start_year: 2017
