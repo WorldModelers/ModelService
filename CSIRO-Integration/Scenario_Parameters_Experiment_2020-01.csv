@@ -1,0 +1,666 @@
+﻿scenario,simulation_mode,counterfactual_class,counterfactual_level,counterfactual,climate_anomalies,cereal_prodn_pctile,cereal_prodn_tercile
+S0_BASE_bs00_H,Historical,Base,Base,2018 technology & land use,NA,NA,NA
+S0_BASE_bs00_E01,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,wet",12%,Low tercile
+S0_BASE_bs00_E02,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,15%,Low tercile
+S0_BASE_bs00_E03,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,dry",24%,Low tercile
+S0_BASE_bs00_E04,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,27%,Low tercile
+S0_BASE_bs00_E05,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",3%,Low tercile
+S0_BASE_bs00_E06,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,67%,Middle tercile
+S0_BASE_bs00_E07,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,wet",30%,Low tercile
+S0_BASE_bs00_E08,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,9%,Low tercile
+S0_BASE_bs00_E09,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,dry",100%,High tercile
+S0_BASE_bs00_E10,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",52%,Middle tercile
+S0_BASE_bs00_E11,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,6%,Low tercile
+S0_BASE_bs00_E12,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",0%,Low tercile
+S0_BASE_bs00_E13,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,dry",58%,Middle tercile
+S0_BASE_bs00_E14,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,dry",88%,High tercile
+S0_BASE_bs00_E15,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,dry",36%,Middle tercile
+S0_BASE_bs00_E16,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,dry",45%,Middle tercile
+S0_BASE_bs00_E17,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,wet",33%,Low tercile
+S0_BASE_bs00_E18,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,wet",21%,Low tercile
+S0_BASE_bs00_E19,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",61%,Middle tercile
+S0_BASE_bs00_E20,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",18%,Low tercile
+S0_BASE_bs00_E21,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",85%,High tercile
+S0_BASE_bs00_E22,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",48%,Middle tercile
+S0_BASE_bs00_E23,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,dry",76%,High tercile
+S0_BASE_bs00_E24,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,dry",55%,Middle tercile
+S0_BASE_bs00_E25,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,dry",94%,High tercile
+S0_BASE_bs00_E26,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,82%,High tercile
+S0_BASE_bs00_E27,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,73%,High tercile
+S0_BASE_bs00_E28,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"warm,dry",79%,High tercile
+S0_BASE_bs00_E29,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,midrange,91%,High tercile
+S0_BASE_bs00_E30,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,wet",42%,Middle tercile
+S0_BASE_bs00_E31,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,dry",39%,Middle tercile
+S0_BASE_bs00_E32,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,dry",97%,High tercile
+S0_BASE_bs00_E33,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,dry",70%,High tercile
+S0_BASE_bs00_E34,Backcast 30 Apr 2018,Base,Base,2018 technology & land use,"cool,dry",64%,Middle tercile
+S1_IRRI_ir02_H,Historical,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,NA,NA,NA
+S1_IRRI_ir02_E01,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,wet",12%,Low tercile
+S1_IRRI_ir02_E02,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,15%,Low tercile
+S1_IRRI_ir02_E03,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,dry",24%,Low tercile
+S1_IRRI_ir02_E04,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,27%,Low tercile
+S1_IRRI_ir02_E05,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",3%,Low tercile
+S1_IRRI_ir02_E06,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,67%,Middle tercile
+S1_IRRI_ir02_E07,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,wet",30%,Low tercile
+S1_IRRI_ir02_E08,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,9%,Low tercile
+S1_IRRI_ir02_E09,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,dry",100%,High tercile
+S1_IRRI_ir02_E10,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",52%,Middle tercile
+S1_IRRI_ir02_E11,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,6%,Low tercile
+S1_IRRI_ir02_E12,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",0%,Low tercile
+S1_IRRI_ir02_E13,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,dry",58%,Middle tercile
+S1_IRRI_ir02_E14,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,dry",88%,High tercile
+S1_IRRI_ir02_E15,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,dry",36%,Middle tercile
+S1_IRRI_ir02_E16,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,dry",45%,Middle tercile
+S1_IRRI_ir02_E17,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,wet",33%,Low tercile
+S1_IRRI_ir02_E18,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,wet",21%,Low tercile
+S1_IRRI_ir02_E19,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",61%,Middle tercile
+S1_IRRI_ir02_E20,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",18%,Low tercile
+S1_IRRI_ir02_E21,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",85%,High tercile
+S1_IRRI_ir02_E22,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",48%,Middle tercile
+S1_IRRI_ir02_E23,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,dry",76%,High tercile
+S1_IRRI_ir02_E24,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,dry",55%,Middle tercile
+S1_IRRI_ir02_E25,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,dry",94%,High tercile
+S1_IRRI_ir02_E26,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,82%,High tercile
+S1_IRRI_ir02_E27,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,73%,High tercile
+S1_IRRI_ir02_E28,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"warm,dry",79%,High tercile
+S1_IRRI_ir02_E29,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,midrange,91%,High tercile
+S1_IRRI_ir02_E30,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,wet",42%,Middle tercile
+S1_IRRI_ir02_E31,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,dry",39%,Middle tercile
+S1_IRRI_ir02_E32,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,dry",97%,High tercile
+S1_IRRI_ir02_E33,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,dry",70%,High tercile
+S1_IRRI_ir02_E34,Backcast 30 Apr 2018,Irrigation,Irrigated area=2%,2018 landuse+irrigated area=2%,"cool,dry",64%,Middle tercile
+S1_IRRI_ir04_H,Historical,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,NA,NA,NA
+S1_IRRI_ir04_E01,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,wet",12%,Low tercile
+S1_IRRI_ir04_E02,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,15%,Low tercile
+S1_IRRI_ir04_E03,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,dry",24%,Low tercile
+S1_IRRI_ir04_E04,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,27%,Low tercile
+S1_IRRI_ir04_E05,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",3%,Low tercile
+S1_IRRI_ir04_E06,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,67%,Middle tercile
+S1_IRRI_ir04_E07,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,wet",30%,Low tercile
+S1_IRRI_ir04_E08,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,9%,Low tercile
+S1_IRRI_ir04_E09,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,dry",100%,High tercile
+S1_IRRI_ir04_E10,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",52%,Middle tercile
+S1_IRRI_ir04_E11,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,6%,Low tercile
+S1_IRRI_ir04_E12,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",0%,Low tercile
+S1_IRRI_ir04_E13,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,dry",58%,Middle tercile
+S1_IRRI_ir04_E14,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,dry",88%,High tercile
+S1_IRRI_ir04_E15,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,dry",36%,Middle tercile
+S1_IRRI_ir04_E16,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,dry",45%,Middle tercile
+S1_IRRI_ir04_E17,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,wet",33%,Low tercile
+S1_IRRI_ir04_E18,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,wet",21%,Low tercile
+S1_IRRI_ir04_E19,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",61%,Middle tercile
+S1_IRRI_ir04_E20,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",18%,Low tercile
+S1_IRRI_ir04_E21,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",85%,High tercile
+S1_IRRI_ir04_E22,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",48%,Middle tercile
+S1_IRRI_ir04_E23,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,dry",76%,High tercile
+S1_IRRI_ir04_E24,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,dry",55%,Middle tercile
+S1_IRRI_ir04_E25,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,dry",94%,High tercile
+S1_IRRI_ir04_E26,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,82%,High tercile
+S1_IRRI_ir04_E27,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,73%,High tercile
+S1_IRRI_ir04_E28,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"warm,dry",79%,High tercile
+S1_IRRI_ir04_E29,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,midrange,91%,High tercile
+S1_IRRI_ir04_E30,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,wet",42%,Middle tercile
+S1_IRRI_ir04_E31,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,dry",39%,Middle tercile
+S1_IRRI_ir04_E32,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,dry",97%,High tercile
+S1_IRRI_ir04_E33,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,dry",70%,High tercile
+S1_IRRI_ir04_E34,Backcast 30 Apr 2018,Irrigation,Irrigated area=4%,2018 land use+irrigated area=4%,"cool,dry",64%,Middle tercile
+S1_IRRI_ir06_H,Historical,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,NA,NA,NA
+S1_IRRI_ir06_E01,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,wet",12%,Low tercile
+S1_IRRI_ir06_E02,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,15%,Low tercile
+S1_IRRI_ir06_E03,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,dry",24%,Low tercile
+S1_IRRI_ir06_E04,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,27%,Low tercile
+S1_IRRI_ir06_E05,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",3%,Low tercile
+S1_IRRI_ir06_E06,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,67%,Middle tercile
+S1_IRRI_ir06_E07,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,wet",30%,Low tercile
+S1_IRRI_ir06_E08,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,9%,Low tercile
+S1_IRRI_ir06_E09,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,dry",100%,High tercile
+S1_IRRI_ir06_E10,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",52%,Middle tercile
+S1_IRRI_ir06_E11,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,6%,Low tercile
+S1_IRRI_ir06_E12,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",0%,Low tercile
+S1_IRRI_ir06_E13,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,dry",58%,Middle tercile
+S1_IRRI_ir06_E14,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,dry",88%,High tercile
+S1_IRRI_ir06_E15,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,dry",36%,Middle tercile
+S1_IRRI_ir06_E16,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,dry",45%,Middle tercile
+S1_IRRI_ir06_E17,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,wet",33%,Low tercile
+S1_IRRI_ir06_E18,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,wet",21%,Low tercile
+S1_IRRI_ir06_E19,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",61%,Middle tercile
+S1_IRRI_ir06_E20,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",18%,Low tercile
+S1_IRRI_ir06_E21,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",85%,High tercile
+S1_IRRI_ir06_E22,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",48%,Middle tercile
+S1_IRRI_ir06_E23,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,dry",76%,High tercile
+S1_IRRI_ir06_E24,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,dry",55%,Middle tercile
+S1_IRRI_ir06_E25,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,dry",94%,High tercile
+S1_IRRI_ir06_E26,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,82%,High tercile
+S1_IRRI_ir06_E27,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,73%,High tercile
+S1_IRRI_ir06_E28,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"warm,dry",79%,High tercile
+S1_IRRI_ir06_E29,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,midrange,91%,High tercile
+S1_IRRI_ir06_E30,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,wet",42%,Middle tercile
+S1_IRRI_ir06_E31,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,dry",39%,Middle tercile
+S1_IRRI_ir06_E32,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,dry",97%,High tercile
+S1_IRRI_ir06_E33,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,dry",70%,High tercile
+S1_IRRI_ir06_E34,Backcast 30 Apr 2018,Irrigation,Irrigated area=6%,2018 landuse+irrigated area=6%,"cool,dry",64%,Middle tercile
+S1_IRRI_ir08_H,Historical,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,NA,NA,NA
+S1_IRRI_ir08_E01,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,wet",12%,Low tercile
+S1_IRRI_ir08_E02,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,15%,Low tercile
+S1_IRRI_ir08_E03,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,dry",24%,Low tercile
+S1_IRRI_ir08_E04,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,27%,Low tercile
+S1_IRRI_ir08_E05,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",3%,Low tercile
+S1_IRRI_ir08_E06,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,67%,Middle tercile
+S1_IRRI_ir08_E07,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,wet",30%,Low tercile
+S1_IRRI_ir08_E08,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,9%,Low tercile
+S1_IRRI_ir08_E09,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,dry",100%,High tercile
+S1_IRRI_ir08_E10,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",52%,Middle tercile
+S1_IRRI_ir08_E11,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,6%,Low tercile
+S1_IRRI_ir08_E12,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",0%,Low tercile
+S1_IRRI_ir08_E13,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,dry",58%,Middle tercile
+S1_IRRI_ir08_E14,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,dry",88%,High tercile
+S1_IRRI_ir08_E15,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,dry",36%,Middle tercile
+S1_IRRI_ir08_E16,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,dry",45%,Middle tercile
+S1_IRRI_ir08_E17,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,wet",33%,Low tercile
+S1_IRRI_ir08_E18,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,wet",21%,Low tercile
+S1_IRRI_ir08_E19,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",61%,Middle tercile
+S1_IRRI_ir08_E20,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",18%,Low tercile
+S1_IRRI_ir08_E21,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",85%,High tercile
+S1_IRRI_ir08_E22,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",48%,Middle tercile
+S1_IRRI_ir08_E23,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,dry",76%,High tercile
+S1_IRRI_ir08_E24,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,dry",55%,Middle tercile
+S1_IRRI_ir08_E25,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,dry",94%,High tercile
+S1_IRRI_ir08_E26,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,82%,High tercile
+S1_IRRI_ir08_E27,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,73%,High tercile
+S1_IRRI_ir08_E28,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"warm,dry",79%,High tercile
+S1_IRRI_ir08_E29,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,midrange,91%,High tercile
+S1_IRRI_ir08_E30,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,wet",42%,Middle tercile
+S1_IRRI_ir08_E31,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,dry",39%,Middle tercile
+S1_IRRI_ir08_E32,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,dry",97%,High tercile
+S1_IRRI_ir08_E33,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,dry",70%,High tercile
+S1_IRRI_ir08_E34,Backcast 30 Apr 2018,Irrigation,Irrigated area=8%,2018 land use+irrigated area=8%,"cool,dry",64%,Middle tercile
+S2_PACK_ad10_H,Historical,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,NA,NA,NA
+S2_PACK_ad10_E01,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,wet",12%,Low tercile
+S2_PACK_ad10_E02,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,15%,Low tercile
+S2_PACK_ad10_E03,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,dry",24%,Low tercile
+S2_PACK_ad10_E04,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,27%,Low tercile
+S2_PACK_ad10_E05,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",3%,Low tercile
+S2_PACK_ad10_E06,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,67%,Middle tercile
+S2_PACK_ad10_E07,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,wet",30%,Low tercile
+S2_PACK_ad10_E08,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,9%,Low tercile
+S2_PACK_ad10_E09,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,dry",100%,High tercile
+S2_PACK_ad10_E10,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",52%,Middle tercile
+S2_PACK_ad10_E11,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,6%,Low tercile
+S2_PACK_ad10_E12,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",0%,Low tercile
+S2_PACK_ad10_E13,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,dry",58%,Middle tercile
+S2_PACK_ad10_E14,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,dry",88%,High tercile
+S2_PACK_ad10_E15,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,dry",36%,Middle tercile
+S2_PACK_ad10_E16,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,dry",45%,Middle tercile
+S2_PACK_ad10_E17,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,wet",33%,Low tercile
+S2_PACK_ad10_E18,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,wet",21%,Low tercile
+S2_PACK_ad10_E19,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",61%,Middle tercile
+S2_PACK_ad10_E20,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",18%,Low tercile
+S2_PACK_ad10_E21,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",85%,High tercile
+S2_PACK_ad10_E22,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",48%,Middle tercile
+S2_PACK_ad10_E23,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,dry",76%,High tercile
+S2_PACK_ad10_E24,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,dry",55%,Middle tercile
+S2_PACK_ad10_E25,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,dry",94%,High tercile
+S2_PACK_ad10_E26,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,82%,High tercile
+S2_PACK_ad10_E27,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,73%,High tercile
+S2_PACK_ad10_E28,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"warm,dry",79%,High tercile
+S2_PACK_ad10_E29,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,midrange,91%,High tercile
+S2_PACK_ad10_E30,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,wet",42%,Middle tercile
+S2_PACK_ad10_E31,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,dry",39%,Middle tercile
+S2_PACK_ad10_E32,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,dry",97%,High tercile
+S2_PACK_ad10_E33,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,dry",70%,High tercile
+S2_PACK_ad10_E34,Backcast 30 Apr 2018,Extension package,10% additional uptake,2018 technology+10% additional uptake of extension package,"cool,dry",64%,Middle tercile
+S2_PACK_ad20_H,Historical,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,NA,NA,NA
+S2_PACK_ad20_E01,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,wet",12%,Low tercile
+S2_PACK_ad20_E02,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,15%,Low tercile
+S2_PACK_ad20_E03,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,dry",24%,Low tercile
+S2_PACK_ad20_E04,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,27%,Low tercile
+S2_PACK_ad20_E05,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",3%,Low tercile
+S2_PACK_ad20_E06,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,67%,Middle tercile
+S2_PACK_ad20_E07,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,wet",30%,Low tercile
+S2_PACK_ad20_E08,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,9%,Low tercile
+S2_PACK_ad20_E09,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,dry",100%,High tercile
+S2_PACK_ad20_E10,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",52%,Middle tercile
+S2_PACK_ad20_E11,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,6%,Low tercile
+S2_PACK_ad20_E12,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",0%,Low tercile
+S2_PACK_ad20_E13,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,dry",58%,Middle tercile
+S2_PACK_ad20_E14,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,dry",88%,High tercile
+S2_PACK_ad20_E15,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,dry",36%,Middle tercile
+S2_PACK_ad20_E16,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,dry",45%,Middle tercile
+S2_PACK_ad20_E17,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,wet",33%,Low tercile
+S2_PACK_ad20_E18,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,wet",21%,Low tercile
+S2_PACK_ad20_E19,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",61%,Middle tercile
+S2_PACK_ad20_E20,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",18%,Low tercile
+S2_PACK_ad20_E21,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",85%,High tercile
+S2_PACK_ad20_E22,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",48%,Middle tercile
+S2_PACK_ad20_E23,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,dry",76%,High tercile
+S2_PACK_ad20_E24,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,dry",55%,Middle tercile
+S2_PACK_ad20_E25,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,dry",94%,High tercile
+S2_PACK_ad20_E26,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,82%,High tercile
+S2_PACK_ad20_E27,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,73%,High tercile
+S2_PACK_ad20_E28,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"warm,dry",79%,High tercile
+S2_PACK_ad20_E29,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,midrange,91%,High tercile
+S2_PACK_ad20_E30,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,wet",42%,Middle tercile
+S2_PACK_ad20_E31,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,dry",39%,Middle tercile
+S2_PACK_ad20_E32,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,dry",97%,High tercile
+S2_PACK_ad20_E33,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,dry",70%,High tercile
+S2_PACK_ad20_E34,Backcast 30 Apr 2018,Extension package,20% additional uptake,2018 technology+20% additional uptake of extension package,"cool,dry",64%,Middle tercile
+S2_PACK_ad30_H,Historical,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,NA,NA,NA
+S2_PACK_ad30_E01,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,wet",12%,Low tercile
+S2_PACK_ad30_E02,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,15%,Low tercile
+S2_PACK_ad30_E03,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,dry",24%,Low tercile
+S2_PACK_ad30_E04,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,27%,Low tercile
+S2_PACK_ad30_E05,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",3%,Low tercile
+S2_PACK_ad30_E06,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,67%,Middle tercile
+S2_PACK_ad30_E07,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,wet",30%,Low tercile
+S2_PACK_ad30_E08,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,9%,Low tercile
+S2_PACK_ad30_E09,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,dry",100%,High tercile
+S2_PACK_ad30_E10,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",52%,Middle tercile
+S2_PACK_ad30_E11,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,6%,Low tercile
+S2_PACK_ad30_E12,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",0%,Low tercile
+S2_PACK_ad30_E13,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,dry",58%,Middle tercile
+S2_PACK_ad30_E14,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,dry",88%,High tercile
+S2_PACK_ad30_E15,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,dry",36%,Middle tercile
+S2_PACK_ad30_E16,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,dry",45%,Middle tercile
+S2_PACK_ad30_E17,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,wet",33%,Low tercile
+S2_PACK_ad30_E18,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,wet",21%,Low tercile
+S2_PACK_ad30_E19,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",61%,Middle tercile
+S2_PACK_ad30_E20,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",18%,Low tercile
+S2_PACK_ad30_E21,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",85%,High tercile
+S2_PACK_ad30_E22,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",48%,Middle tercile
+S2_PACK_ad30_E23,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,dry",76%,High tercile
+S2_PACK_ad30_E24,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,dry",55%,Middle tercile
+S2_PACK_ad30_E25,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,dry",94%,High tercile
+S2_PACK_ad30_E26,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,82%,High tercile
+S2_PACK_ad30_E27,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,73%,High tercile
+S2_PACK_ad30_E28,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"warm,dry",79%,High tercile
+S2_PACK_ad30_E29,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,midrange,91%,High tercile
+S2_PACK_ad30_E30,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,wet",42%,Middle tercile
+S2_PACK_ad30_E31,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,dry",39%,Middle tercile
+S2_PACK_ad30_E32,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,dry",97%,High tercile
+S2_PACK_ad30_E33,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,dry",70%,High tercile
+S2_PACK_ad30_E34,Backcast 30 Apr 2018,Extension package,30% additional uptake,2018 technology+30% additional uptake of extension package,"cool,dry",64%,Middle tercile
+S2_PACK_ad40_H,Historical,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,NA,NA,NA
+S2_PACK_ad40_E01,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,wet",12%,Low tercile
+S2_PACK_ad40_E02,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,15%,Low tercile
+S2_PACK_ad40_E03,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,dry",24%,Low tercile
+S2_PACK_ad40_E04,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,27%,Low tercile
+S2_PACK_ad40_E05,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",3%,Low tercile
+S2_PACK_ad40_E06,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,67%,Middle tercile
+S2_PACK_ad40_E07,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,wet",30%,Low tercile
+S2_PACK_ad40_E08,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,9%,Low tercile
+S2_PACK_ad40_E09,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,dry",100%,High tercile
+S2_PACK_ad40_E10,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",52%,Middle tercile
+S2_PACK_ad40_E11,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,6%,Low tercile
+S2_PACK_ad40_E12,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",0%,Low tercile
+S2_PACK_ad40_E13,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,dry",58%,Middle tercile
+S2_PACK_ad40_E14,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,dry",88%,High tercile
+S2_PACK_ad40_E15,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,dry",36%,Middle tercile
+S2_PACK_ad40_E16,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,dry",45%,Middle tercile
+S2_PACK_ad40_E17,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,wet",33%,Low tercile
+S2_PACK_ad40_E18,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,wet",21%,Low tercile
+S2_PACK_ad40_E19,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",61%,Middle tercile
+S2_PACK_ad40_E20,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",18%,Low tercile
+S2_PACK_ad40_E21,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",85%,High tercile
+S2_PACK_ad40_E22,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",48%,Middle tercile
+S2_PACK_ad40_E23,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,dry",76%,High tercile
+S2_PACK_ad40_E24,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,dry",55%,Middle tercile
+S2_PACK_ad40_E25,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,dry",94%,High tercile
+S2_PACK_ad40_E26,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,82%,High tercile
+S2_PACK_ad40_E27,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,73%,High tercile
+S2_PACK_ad40_E28,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"warm,dry",79%,High tercile
+S2_PACK_ad40_E29,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,midrange,91%,High tercile
+S2_PACK_ad40_E30,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,wet",42%,Middle tercile
+S2_PACK_ad40_E31,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,dry",39%,Middle tercile
+S2_PACK_ad40_E32,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,dry",97%,High tercile
+S2_PACK_ad40_E33,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,dry",70%,High tercile
+S2_PACK_ad40_E34,Backcast 30 Apr 2018,Extension package,40% additional uptake,2018 technology+40% additional uptake of extension package,"cool,dry",64%,Middle tercile
+S3_CBAS_tp15_H,Historical,Temperature change,+1.5°C,Temperature increase of 1.5°C,NA,NA,NA
+S3_CBAS_tp15_E01,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,wet",12%,Low tercile
+S3_CBAS_tp15_E02,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,15%,Low tercile
+S3_CBAS_tp15_E03,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,dry",24%,Low tercile
+S3_CBAS_tp15_E04,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,27%,Low tercile
+S3_CBAS_tp15_E05,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",3%,Low tercile
+S3_CBAS_tp15_E06,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,67%,Middle tercile
+S3_CBAS_tp15_E07,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,wet",30%,Low tercile
+S3_CBAS_tp15_E08,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,9%,Low tercile
+S3_CBAS_tp15_E09,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,dry",100%,High tercile
+S3_CBAS_tp15_E10,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",52%,Middle tercile
+S3_CBAS_tp15_E11,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,6%,Low tercile
+S3_CBAS_tp15_E12,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",0%,Low tercile
+S3_CBAS_tp15_E13,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,dry",58%,Middle tercile
+S3_CBAS_tp15_E14,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,dry",88%,High tercile
+S3_CBAS_tp15_E15,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,dry",36%,Middle tercile
+S3_CBAS_tp15_E16,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,dry",45%,Middle tercile
+S3_CBAS_tp15_E17,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,wet",33%,Low tercile
+S3_CBAS_tp15_E18,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,wet",21%,Low tercile
+S3_CBAS_tp15_E19,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",61%,Middle tercile
+S3_CBAS_tp15_E20,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",18%,Low tercile
+S3_CBAS_tp15_E21,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",85%,High tercile
+S3_CBAS_tp15_E22,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",48%,Middle tercile
+S3_CBAS_tp15_E23,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,dry",76%,High tercile
+S3_CBAS_tp15_E24,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,dry",55%,Middle tercile
+S3_CBAS_tp15_E25,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,dry",94%,High tercile
+S3_CBAS_tp15_E26,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,82%,High tercile
+S3_CBAS_tp15_E27,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,73%,High tercile
+S3_CBAS_tp15_E28,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"warm,dry",79%,High tercile
+S3_CBAS_tp15_E29,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,midrange,91%,High tercile
+S3_CBAS_tp15_E30,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,wet",42%,Middle tercile
+S3_CBAS_tp15_E31,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,dry",39%,Middle tercile
+S3_CBAS_tp15_E32,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,dry",97%,High tercile
+S3_CBAS_tp15_E33,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,dry",70%,High tercile
+S3_CBAS_tp15_E34,Backcast 30 Apr 2018,Temperature change,+1.5°C,Temperature increase of 1.5°C,"cool,dry",64%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_H,Historical,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,NA,NA,NA
+S4_CPCK_tp15_ir06_ad40_E01,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,wet",12%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E02,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,15%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E03,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,dry",24%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E04,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,27%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E05,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",3%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E06,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,67%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E07,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,wet",30%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E08,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,9%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E09,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,dry",100%,High tercile
+S4_CPCK_tp15_ir06_ad40_E10,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",52%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E11,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,6%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E12,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",0%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E13,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,dry",58%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E14,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,dry",88%,High tercile
+S4_CPCK_tp15_ir06_ad40_E15,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,dry",36%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E16,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,dry",45%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E17,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,wet",33%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E18,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,wet",21%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E19,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",61%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E20,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",18%,Low tercile
+S4_CPCK_tp15_ir06_ad40_E21,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",85%,High tercile
+S4_CPCK_tp15_ir06_ad40_E22,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",48%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E23,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,dry",76%,High tercile
+S4_CPCK_tp15_ir06_ad40_E24,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,dry",55%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E25,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,dry",94%,High tercile
+S4_CPCK_tp15_ir06_ad40_E26,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,82%,High tercile
+S4_CPCK_tp15_ir06_ad40_E27,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,73%,High tercile
+S4_CPCK_tp15_ir06_ad40_E28,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"warm,dry",79%,High tercile
+S4_CPCK_tp15_ir06_ad40_E29,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,midrange,91%,High tercile
+S4_CPCK_tp15_ir06_ad40_E30,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,wet",42%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E31,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,dry",39%,Middle tercile
+S4_CPCK_tp15_ir06_ad40_E32,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,dry",97%,High tercile
+S4_CPCK_tp15_ir06_ad40_E33,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,dry",70%,High tercile
+S4_CPCK_tp15_ir06_ad40_E34,Backcast 30 Apr 2018,Temperature change,+1.5°C+irrigated area=6%+40% additional uptake,Temperature increase of 1.5°C+irrigated area=6%+40% additional uptake of extension package,"cool,dry",64%,Middle tercile
+S5_PLNT_pdm30_H,Historical,Sowing date,30 days earlier,Sowing window 30 days earlier,NA,NA,NA
+S5_PLNT_pdm30_E01,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,wet",12%,Low tercile
+S5_PLNT_pdm30_E02,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,15%,Low tercile
+S5_PLNT_pdm30_E03,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,dry",24%,Low tercile
+S5_PLNT_pdm30_E04,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,27%,Low tercile
+S5_PLNT_pdm30_E05,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",3%,Low tercile
+S5_PLNT_pdm30_E06,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,67%,Middle tercile
+S5_PLNT_pdm30_E07,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,wet",30%,Low tercile
+S5_PLNT_pdm30_E08,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,9%,Low tercile
+S5_PLNT_pdm30_E09,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,dry",100%,High tercile
+S5_PLNT_pdm30_E10,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",52%,Middle tercile
+S5_PLNT_pdm30_E11,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,6%,Low tercile
+S5_PLNT_pdm30_E12,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",0%,Low tercile
+S5_PLNT_pdm30_E13,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,dry",58%,Middle tercile
+S5_PLNT_pdm30_E14,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,dry",88%,High tercile
+S5_PLNT_pdm30_E15,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,dry",36%,Middle tercile
+S5_PLNT_pdm30_E16,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,dry",45%,Middle tercile
+S5_PLNT_pdm30_E17,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,wet",33%,Low tercile
+S5_PLNT_pdm30_E18,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,wet",21%,Low tercile
+S5_PLNT_pdm30_E19,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",61%,Middle tercile
+S5_PLNT_pdm30_E20,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",18%,Low tercile
+S5_PLNT_pdm30_E21,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",85%,High tercile
+S5_PLNT_pdm30_E22,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",48%,Middle tercile
+S5_PLNT_pdm30_E23,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,dry",76%,High tercile
+S5_PLNT_pdm30_E24,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,dry",55%,Middle tercile
+S5_PLNT_pdm30_E25,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,dry",94%,High tercile
+S5_PLNT_pdm30_E26,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,82%,High tercile
+S5_PLNT_pdm30_E27,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,73%,High tercile
+S5_PLNT_pdm30_E28,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"warm,dry",79%,High tercile
+S5_PLNT_pdm30_E29,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,midrange,91%,High tercile
+S5_PLNT_pdm30_E30,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,wet",42%,Middle tercile
+S5_PLNT_pdm30_E31,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,dry",39%,Middle tercile
+S5_PLNT_pdm30_E32,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,dry",97%,High tercile
+S5_PLNT_pdm30_E33,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,dry",70%,High tercile
+S5_PLNT_pdm30_E34,Backcast 30 Apr 2018,Sowing date,30 days earlier,Sowing window 30 days earlier,"cool,dry",64%,Middle tercile
+S5_PLNT_pdp30_H,Historical,Sowing date,30 days later,Sowing window 30 days later,NA,NA,NA
+S5_PLNT_pdp30_E01,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,wet",12%,Low tercile
+S5_PLNT_pdp30_E02,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,15%,Low tercile
+S5_PLNT_pdp30_E03,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,dry",24%,Low tercile
+S5_PLNT_pdp30_E04,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,27%,Low tercile
+S5_PLNT_pdp30_E05,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",3%,Low tercile
+S5_PLNT_pdp30_E06,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,67%,Middle tercile
+S5_PLNT_pdp30_E07,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,wet",30%,Low tercile
+S5_PLNT_pdp30_E08,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,9%,Low tercile
+S5_PLNT_pdp30_E09,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,dry",100%,High tercile
+S5_PLNT_pdp30_E10,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",52%,Middle tercile
+S5_PLNT_pdp30_E11,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,6%,Low tercile
+S5_PLNT_pdp30_E12,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",0%,Low tercile
+S5_PLNT_pdp30_E13,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,dry",58%,Middle tercile
+S5_PLNT_pdp30_E14,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,dry",88%,High tercile
+S5_PLNT_pdp30_E15,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,dry",36%,Middle tercile
+S5_PLNT_pdp30_E16,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,dry",45%,Middle tercile
+S5_PLNT_pdp30_E17,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,wet",33%,Low tercile
+S5_PLNT_pdp30_E18,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,wet",21%,Low tercile
+S5_PLNT_pdp30_E19,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",61%,Middle tercile
+S5_PLNT_pdp30_E20,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",18%,Low tercile
+S5_PLNT_pdp30_E21,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",85%,High tercile
+S5_PLNT_pdp30_E22,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",48%,Middle tercile
+S5_PLNT_pdp30_E23,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,dry",76%,High tercile
+S5_PLNT_pdp30_E24,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,dry",55%,Middle tercile
+S5_PLNT_pdp30_E25,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,dry",94%,High tercile
+S5_PLNT_pdp30_E26,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,82%,High tercile
+S5_PLNT_pdp30_E27,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,73%,High tercile
+S5_PLNT_pdp30_E28,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"warm,dry",79%,High tercile
+S5_PLNT_pdp30_E29,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,midrange,91%,High tercile
+S5_PLNT_pdp30_E30,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,wet",42%,Middle tercile
+S5_PLNT_pdp30_E31,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,dry",39%,Middle tercile
+S5_PLNT_pdp30_E32,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,dry",97%,High tercile
+S5_PLNT_pdp30_E33,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,dry",70%,High tercile
+S5_PLNT_pdp30_E34,Backcast 30 Apr 2018,Sowing date,30 days later,Sowing window 30 days later,"cool,dry",64%,Middle tercile
+S6_FERT_fr25_H,Historical,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,NA,NA,NA
+S6_FERT_fr25_E01,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,wet",12%,Low tercile
+S6_FERT_fr25_E02,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,15%,Low tercile
+S6_FERT_fr25_E03,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,dry",24%,Low tercile
+S6_FERT_fr25_E04,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,27%,Low tercile
+S6_FERT_fr25_E05,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",3%,Low tercile
+S6_FERT_fr25_E06,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,67%,Middle tercile
+S6_FERT_fr25_E07,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,wet",30%,Low tercile
+S6_FERT_fr25_E08,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,9%,Low tercile
+S6_FERT_fr25_E09,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,dry",100%,High tercile
+S6_FERT_fr25_E10,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",52%,Middle tercile
+S6_FERT_fr25_E11,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,6%,Low tercile
+S6_FERT_fr25_E12,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",0%,Low tercile
+S6_FERT_fr25_E13,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,dry",58%,Middle tercile
+S6_FERT_fr25_E14,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,dry",88%,High tercile
+S6_FERT_fr25_E15,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,dry",36%,Middle tercile
+S6_FERT_fr25_E16,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,dry",45%,Middle tercile
+S6_FERT_fr25_E17,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,wet",33%,Low tercile
+S6_FERT_fr25_E18,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,wet",21%,Low tercile
+S6_FERT_fr25_E19,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",61%,Middle tercile
+S6_FERT_fr25_E20,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",18%,Low tercile
+S6_FERT_fr25_E21,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",85%,High tercile
+S6_FERT_fr25_E22,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",48%,Middle tercile
+S6_FERT_fr25_E23,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,dry",76%,High tercile
+S6_FERT_fr25_E24,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,dry",55%,Middle tercile
+S6_FERT_fr25_E25,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,dry",94%,High tercile
+S6_FERT_fr25_E26,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,82%,High tercile
+S6_FERT_fr25_E27,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,73%,High tercile
+S6_FERT_fr25_E28,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"warm,dry",79%,High tercile
+S6_FERT_fr25_E29,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,midrange,91%,High tercile
+S6_FERT_fr25_E30,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,wet",42%,Middle tercile
+S6_FERT_fr25_E31,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,dry",39%,Middle tercile
+S6_FERT_fr25_E32,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,dry",97%,High tercile
+S6_FERT_fr25_E33,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,dry",70%,High tercile
+S6_FERT_fr25_E34,Backcast 30 Apr 2018,Additional fertilizer,+25 kg N/ha,Additional 25 kg N/ha fertilizer,"cool,dry",64%,Middle tercile
+S6_FERT_fr50_H,Historical,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,NA,NA,NA
+S6_FERT_fr50_E01,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,wet",12%,Low tercile
+S6_FERT_fr50_E02,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,15%,Low tercile
+S6_FERT_fr50_E03,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,dry",24%,Low tercile
+S6_FERT_fr50_E04,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,27%,Low tercile
+S6_FERT_fr50_E05,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",3%,Low tercile
+S6_FERT_fr50_E06,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,67%,Middle tercile
+S6_FERT_fr50_E07,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,wet",30%,Low tercile
+S6_FERT_fr50_E08,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,9%,Low tercile
+S6_FERT_fr50_E09,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,dry",100%,High tercile
+S6_FERT_fr50_E10,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",52%,Middle tercile
+S6_FERT_fr50_E11,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,6%,Low tercile
+S6_FERT_fr50_E12,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",0%,Low tercile
+S6_FERT_fr50_E13,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,dry",58%,Middle tercile
+S6_FERT_fr50_E14,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,dry",88%,High tercile
+S6_FERT_fr50_E15,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,dry",36%,Middle tercile
+S6_FERT_fr50_E16,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,dry",45%,Middle tercile
+S6_FERT_fr50_E17,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,wet",33%,Low tercile
+S6_FERT_fr50_E18,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,wet",21%,Low tercile
+S6_FERT_fr50_E19,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",61%,Middle tercile
+S6_FERT_fr50_E20,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",18%,Low tercile
+S6_FERT_fr50_E21,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",85%,High tercile
+S6_FERT_fr50_E22,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",48%,Middle tercile
+S6_FERT_fr50_E23,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,dry",76%,High tercile
+S6_FERT_fr50_E24,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,dry",55%,Middle tercile
+S6_FERT_fr50_E25,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,dry",94%,High tercile
+S6_FERT_fr50_E26,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,82%,High tercile
+S6_FERT_fr50_E27,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,73%,High tercile
+S6_FERT_fr50_E28,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"warm,dry",79%,High tercile
+S6_FERT_fr50_E29,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,midrange,91%,High tercile
+S6_FERT_fr50_E30,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,wet",42%,Middle tercile
+S6_FERT_fr50_E31,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,dry",39%,Middle tercile
+S6_FERT_fr50_E32,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,dry",97%,High tercile
+S6_FERT_fr50_E33,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,dry",70%,High tercile
+S6_FERT_fr50_E34,Backcast 30 Apr 2018,Additional fertilizer,+50 kg N/ha,Additional 50 kg N/ha fertilizer,"cool,dry",64%,Middle tercile
+S6_FERT_fr100_H,Historical,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,NA,NA,NA
+S6_FERT_fr100_E01,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,wet",12%,Low tercile
+S6_FERT_fr100_E02,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,15%,Low tercile
+S6_FERT_fr100_E03,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,dry",24%,Low tercile
+S6_FERT_fr100_E04,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,27%,Low tercile
+S6_FERT_fr100_E05,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",3%,Low tercile
+S6_FERT_fr100_E06,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,67%,Middle tercile
+S6_FERT_fr100_E07,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,wet",30%,Low tercile
+S6_FERT_fr100_E08,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,9%,Low tercile
+S6_FERT_fr100_E09,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,dry",100%,High tercile
+S6_FERT_fr100_E10,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",52%,Middle tercile
+S6_FERT_fr100_E11,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,6%,Low tercile
+S6_FERT_fr100_E12,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",0%,Low tercile
+S6_FERT_fr100_E13,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,dry",58%,Middle tercile
+S6_FERT_fr100_E14,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,dry",88%,High tercile
+S6_FERT_fr100_E15,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,dry",36%,Middle tercile
+S6_FERT_fr100_E16,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,dry",45%,Middle tercile
+S6_FERT_fr100_E17,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,wet",33%,Low tercile
+S6_FERT_fr100_E18,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,wet",21%,Low tercile
+S6_FERT_fr100_E19,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",61%,Middle tercile
+S6_FERT_fr100_E20,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",18%,Low tercile
+S6_FERT_fr100_E21,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",85%,High tercile
+S6_FERT_fr100_E22,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",48%,Middle tercile
+S6_FERT_fr100_E23,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,dry",76%,High tercile
+S6_FERT_fr100_E24,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,dry",55%,Middle tercile
+S6_FERT_fr100_E25,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,dry",94%,High tercile
+S6_FERT_fr100_E26,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,82%,High tercile
+S6_FERT_fr100_E27,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,73%,High tercile
+S6_FERT_fr100_E28,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"warm,dry",79%,High tercile
+S6_FERT_fr100_E29,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,midrange,91%,High tercile
+S6_FERT_fr100_E30,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,wet",42%,Middle tercile
+S6_FERT_fr100_E31,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,dry",39%,Middle tercile
+S6_FERT_fr100_E32,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,dry",97%,High tercile
+S6_FERT_fr100_E33,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,dry",70%,High tercile
+S6_FERT_fr100_E34,Backcast 30 Apr 2018,Additional fertilizer,+100 kg N/ha,Additional 100 kg N/ha fertilizer,"cool,dry",64%,Middle tercile
+S7_RAIN_rn050_H,Historical,Rainfall change,50% of current,Rainfall 50% of current,NA,NA,NA
+S7_RAIN_rn050_E01,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,wet",12%,Low tercile
+S7_RAIN_rn050_E02,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,15%,Low tercile
+S7_RAIN_rn050_E03,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,dry",24%,Low tercile
+S7_RAIN_rn050_E04,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,27%,Low tercile
+S7_RAIN_rn050_E05,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",3%,Low tercile
+S7_RAIN_rn050_E06,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,67%,Middle tercile
+S7_RAIN_rn050_E07,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,wet",30%,Low tercile
+S7_RAIN_rn050_E08,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,9%,Low tercile
+S7_RAIN_rn050_E09,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,dry",100%,High tercile
+S7_RAIN_rn050_E10,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",52%,Middle tercile
+S7_RAIN_rn050_E11,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,6%,Low tercile
+S7_RAIN_rn050_E12,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",0%,Low tercile
+S7_RAIN_rn050_E13,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,dry",58%,Middle tercile
+S7_RAIN_rn050_E14,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,dry",88%,High tercile
+S7_RAIN_rn050_E15,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,dry",36%,Middle tercile
+S7_RAIN_rn050_E16,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,dry",45%,Middle tercile
+S7_RAIN_rn050_E17,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,wet",33%,Low tercile
+S7_RAIN_rn050_E18,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,wet",21%,Low tercile
+S7_RAIN_rn050_E19,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",61%,Middle tercile
+S7_RAIN_rn050_E20,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",18%,Low tercile
+S7_RAIN_rn050_E21,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",85%,High tercile
+S7_RAIN_rn050_E22,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",48%,Middle tercile
+S7_RAIN_rn050_E23,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,dry",76%,High tercile
+S7_RAIN_rn050_E24,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,dry",55%,Middle tercile
+S7_RAIN_rn050_E25,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,dry",94%,High tercile
+S7_RAIN_rn050_E26,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,82%,High tercile
+S7_RAIN_rn050_E27,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,73%,High tercile
+S7_RAIN_rn050_E28,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"warm,dry",79%,High tercile
+S7_RAIN_rn050_E29,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,midrange,91%,High tercile
+S7_RAIN_rn050_E30,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,wet",42%,Middle tercile
+S7_RAIN_rn050_E31,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,dry",39%,Middle tercile
+S7_RAIN_rn050_E32,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,dry",97%,High tercile
+S7_RAIN_rn050_E33,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,dry",70%,High tercile
+S7_RAIN_rn050_E34,Backcast 30 Apr 2018,Rainfall change,50% of current,Rainfall 50% of current,"cool,dry",64%,Middle tercile
+S7_RAIN_rn075_H,Historical,Rainfall change,75% of current,Rainfall 75% of current,NA,NA,NA
+S7_RAIN_rn075_E01,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,wet",12%,Low tercile
+S7_RAIN_rn075_E02,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,15%,Low tercile
+S7_RAIN_rn075_E03,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,dry",24%,Low tercile
+S7_RAIN_rn075_E04,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,27%,Low tercile
+S7_RAIN_rn075_E05,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",3%,Low tercile
+S7_RAIN_rn075_E06,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,67%,Middle tercile
+S7_RAIN_rn075_E07,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,wet",30%,Low tercile
+S7_RAIN_rn075_E08,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,9%,Low tercile
+S7_RAIN_rn075_E09,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,dry",100%,High tercile
+S7_RAIN_rn075_E10,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",52%,Middle tercile
+S7_RAIN_rn075_E11,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,6%,Low tercile
+S7_RAIN_rn075_E12,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",0%,Low tercile
+S7_RAIN_rn075_E13,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,dry",58%,Middle tercile
+S7_RAIN_rn075_E14,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,dry",88%,High tercile
+S7_RAIN_rn075_E15,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,dry",36%,Middle tercile
+S7_RAIN_rn075_E16,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,dry",45%,Middle tercile
+S7_RAIN_rn075_E17,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,wet",33%,Low tercile
+S7_RAIN_rn075_E18,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,wet",21%,Low tercile
+S7_RAIN_rn075_E19,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",61%,Middle tercile
+S7_RAIN_rn075_E20,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",18%,Low tercile
+S7_RAIN_rn075_E21,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",85%,High tercile
+S7_RAIN_rn075_E22,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",48%,Middle tercile
+S7_RAIN_rn075_E23,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,dry",76%,High tercile
+S7_RAIN_rn075_E24,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,dry",55%,Middle tercile
+S7_RAIN_rn075_E25,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,dry",94%,High tercile
+S7_RAIN_rn075_E26,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,82%,High tercile
+S7_RAIN_rn075_E27,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,73%,High tercile
+S7_RAIN_rn075_E28,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"warm,dry",79%,High tercile
+S7_RAIN_rn075_E29,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,midrange,91%,High tercile
+S7_RAIN_rn075_E30,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,wet",42%,Middle tercile
+S7_RAIN_rn075_E31,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,dry",39%,Middle tercile
+S7_RAIN_rn075_E32,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,dry",97%,High tercile
+S7_RAIN_rn075_E33,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,dry",70%,High tercile
+S7_RAIN_rn075_E34,Backcast 30 Apr 2018,Rainfall change,75% of current,Rainfall 75% of current,"cool,dry",64%,Middle tercile
+S7_RAIN_rn150_H,Historical,Rainfall change,150% of current,Rainfall 150% of current,NA,NA,NA
+S7_RAIN_rn150_E01,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,wet",12%,Low tercile
+S7_RAIN_rn150_E02,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,15%,Low tercile
+S7_RAIN_rn150_E03,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,dry",24%,Low tercile
+S7_RAIN_rn150_E04,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,27%,Low tercile
+S7_RAIN_rn150_E05,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",3%,Low tercile
+S7_RAIN_rn150_E06,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,67%,Middle tercile
+S7_RAIN_rn150_E07,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,wet",30%,Low tercile
+S7_RAIN_rn150_E08,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,9%,Low tercile
+S7_RAIN_rn150_E09,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,dry",100%,High tercile
+S7_RAIN_rn150_E10,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",52%,Middle tercile
+S7_RAIN_rn150_E11,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,6%,Low tercile
+S7_RAIN_rn150_E12,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",0%,Low tercile
+S7_RAIN_rn150_E13,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,dry",58%,Middle tercile
+S7_RAIN_rn150_E14,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,dry",88%,High tercile
+S7_RAIN_rn150_E15,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,dry",36%,Middle tercile
+S7_RAIN_rn150_E16,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,dry",45%,Middle tercile
+S7_RAIN_rn150_E17,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,wet",33%,Low tercile
+S7_RAIN_rn150_E18,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,wet",21%,Low tercile
+S7_RAIN_rn150_E19,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",61%,Middle tercile
+S7_RAIN_rn150_E20,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",18%,Low tercile
+S7_RAIN_rn150_E21,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",85%,High tercile
+S7_RAIN_rn150_E22,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",48%,Middle tercile
+S7_RAIN_rn150_E23,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,dry",76%,High tercile
+S7_RAIN_rn150_E24,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,dry",55%,Middle tercile
+S7_RAIN_rn150_E25,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,dry",94%,High tercile
+S7_RAIN_rn150_E26,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,82%,High tercile
+S7_RAIN_rn150_E27,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,73%,High tercile
+S7_RAIN_rn150_E28,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"warm,dry",79%,High tercile
+S7_RAIN_rn150_E29,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,midrange,91%,High tercile
+S7_RAIN_rn150_E30,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,wet",42%,Middle tercile
+S7_RAIN_rn150_E31,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,dry",39%,Middle tercile
+S7_RAIN_rn150_E32,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,dry",97%,High tercile
+S7_RAIN_rn150_E33,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,dry",70%,High tercile
+S7_RAIN_rn150_E34,Backcast 30 Apr 2018,Rainfall change,150% of current,Rainfall 150% of current,"cool,dry",64%,Middle tercile
