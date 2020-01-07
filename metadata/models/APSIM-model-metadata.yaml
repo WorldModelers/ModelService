@@ -9,11 +9,32 @@ maintainer:
 website: https://www.apsim.info/
 category:
 - Agriculture
-concepts: []
 
 outputs:
+- name: area
+  description: Total area sown for the given crop and season
+  units: ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]   
+- name: production
+  description: Total production for the given crop and season
+  units: quintal
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]           
 - name: yield
-  description: Grain yield using 2018 practices
+  description: Mean yield for the given crop and season
   units: quintal/ha
   metadata:
     aggregation:
@@ -22,10 +43,20 @@ outputs:
         allowed: [average, sum, min, max, std]
       temporal: 
         default: average
-        allowed: [average, sum, min, max, std]   
-  concepts: []
-- name: rel_anomaly_yield
-  description: Relative difference between grain yield and its long-term average
+        allowed: [average, sum, min, max, std]                   
+- name: production_anomaly
+  description: Relative difference in production between intervention and baseline scenario for given crop and season
+  units: percentage
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]           
+- name: yield_anomaly
+  description: Relative difference in yield between intervention and baseline scenario for given crop and season
   units: percentage
   metadata:
     aggregation:
@@ -35,7 +66,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]   
-  concepts: []
 - name: lt_yield
   description: Long-term average grain yield using 2018 practices. This is a non-temporal forward looking, long term forecast.
   units: quintal/ha
@@ -47,7 +77,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]   
-  concepts: []      
 
 parameters:
 - name: crop
@@ -61,7 +90,6 @@ parameters:
     - sorghum
     - barley
     default: teff
-  concepts: []
 - name: season
   description: select the season to model
   metadata:
@@ -70,7 +98,6 @@ parameters:
     - belg
     - meher
     default: meher
-  concepts: []
 - name: climate_anomalies
   description: One of 5 classes based on the mean 2018-19 cropping-year (March-February) rainfall and temperature anomalies in the climate ensemble member. Ensemble members where the root-mean-square anomaly of temperature and precipitation are within 0.9 standard deviations are "midrange"; otherwise ensemble members are classified according to the quadrant in which they fall.
   metadata:
@@ -82,7 +109,6 @@ parameters:
     - cool,wet
     - cool,dry
     default: midrange
-  concepts: [] 
 - name: cereal_prodn_tercile
   description: Grouping of climate ensemble members according to terciles of total national production of the 5 cereals as modelled under 2018 land use and practices
   metadata:
@@ -92,7 +118,6 @@ parameters:
     - Middle tercile
     - High tercile
     default: Middle tercile
-  concepts: []  
 - name: irrigation
   description: Average proportion of cereal area that is irrigated across Ethiopia. Local proportions vary spatially and with the type of crop
   metadata:
@@ -100,15 +125,13 @@ parameters:
     minimum: 0.006
     maximum: 0.08
     default: 0
-  concepts: []
 - name: additional_extension
   description: For this scenario, an "extension package" means the adoption of both improved crop cultivars and chemical fertilizer application. The value is the proportion of land **not already using "extension package"** that is converted to management under the "extension package". For example, if 20% of maize crops in a grid-cell already use improved cultivars plus fertilizer, then 40% "additional extension package" will increase the overall level to (20% + 40% x (100%-20%)) = 52%
   metadata:
     type: NumberParameter
     minimum: 0
     maximum: 0.4
-    default: 0
-  concepts: [] 
+    default: 0 
 - name: temperature
   description: Change applied to maximum and minimum air temperature in every day of the climate record in the counterfactual
   metadata:
@@ -116,7 +139,6 @@ parameters:
     minimum: 0
     maximum: 1.5
     default: 0
-  concepts: []
 - name: sowing_window_shift
   description: Shift (measured in days) in the date range over which crops are sown in response to a sufficiently large rainfall event
   metadata:
@@ -124,7 +146,6 @@ parameters:
     minimum: -30
     maximum: 30
     default: 0
-  concepts: [] 
 - name: fertilizer
   description: Additional N fertilizer applied at sowing, over and above the rate that is specific to a location, crop and management system
   metadata:
@@ -132,15 +153,13 @@ parameters:
     minimum: 0
     maximum: 100
     default: 0
-  concepts: []
 - name: rainfall
   description: Multiplier applied to daily rainfall in every day of the climate record in the counterfactual
   metadata:
     type: NumberParameter
     minimum: 0
     maximum: 1.5
-    default: 0
-  concepts: []   
+    default: 0  
 
 configuration:
   - crop: teff

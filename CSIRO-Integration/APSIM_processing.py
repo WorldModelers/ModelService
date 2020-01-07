@@ -217,60 +217,48 @@ base_cols_lt = ['gridcell_id','latitude','longitude']
 
 if __name__ == "__main__":
 
-    # process backcast results
-    for season_type in season_param['metadata']['choices']:
-        for crop_type in crop_param['metadata']['choices']:
-            for scen in scenario_list:
+    for c_ in [crops, crops_lt]:
+        if 'non_temporal' in c_:
+            print("Processing LT historical...")
+        else:
+            print("Processing backcasting...")
+        # process backcast results
+        for season_type in season_param['metadata']['choices']:
+            for crop_type in crop_param['metadata']['choices']:
+                for scen in scenario_list:
 
-                # select the correct yield columns for crop/season and rename them
-                yield_col = f"yield_{season_type}_{crop_type}"
-                anomaly_col = f"rel_anomaly_{yield_col}"
-                cols = param_cols + base_cols + [yield_col, anomaly_col]
-                crops_ = crops[cols]
-                crops_ = crops_.rename(columns={yield_col:'yield',anomaly_col:'rel_anomaly_yield'})
-                crops_['datetime'] = crops_.cropping_year.apply(lambda x: datetime(year=x,month=1,day=1))
-                
-                # subset for the correct scenario
-                crops_ = crops_[crops_['scenario'] == scen]
-                
-                # drop rows where yield fields are NA
-                crops_ = crops_.dropna(subset=['yield','rel_anomaly_yield'])
-                
-                gdf, run_id = process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim)
+                    # select the correct yield columns for crop/season and rename them
+                    area_col = f"season_area_{crop_type}_{season_type}"
+                    production_col = f"season_prodn_{crop_type}_{season_type}"
+                    yield_col = f"season_mean_yield_{crop_type}_{season_type}"
+                    production_anomaly = f"season_rel_prodn_quintal_anomaly_{crop_type}_{season_type}"
+                    yield_anomaly  = f"season_rel_mean_yield_anomaly_{crop_type}_{season_type}"
+                    cols = param_cols + base_cols + [area_col, production_col, yield_col, production_anomaly, yield_anomaly]
+                    crops_ = c_[cols]
+                    crops_ = crops_.rename(columns={area_col: 'area',
+                                                    production_col: 'production',
+                                                    yield_col:'yield',
+                                                    production_anomaly: 'production_anomaly',
+                                                    yield_anomaly:'yield_anomaly'})
 
-                print(f"Processing {crop_type} for {season_type} season with run_id {run_id}")
+                    if 'cropping_year' in crops_:
+                        crops_['datetime'] = crops_.cropping_year.apply(lambda x: datetime(year=x,month=1,day=1))
                     
-                for feature in ['yield','rel_anomaly_yield']:
-                    gdf_ = gdf
-                    gdf_['feature_name'] = feature
-                    gdf_['feature_value'] = gdf_[feature]
-                    gdf_['feature_description'] = outputs[feature]['description']
+                    # subset for the correct scenario
+                    crops_ = crops_[crops_['scenario'] == scen]
                     
-                    db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
-                    db_session.commit()    
-        
-    # process LT forecasts
-    for season_type in season_param['metadata']['choices']:
-        for crop_type in crop_param['metadata']['choices']:
-            for scen in scenario_list_lt:
-                
-                # select the correct yield columns for crop/season and rename them
-                yield_col = f"lt_yield_{season_type}_{crop_type}"
-                cols = param_cols + base_cols_lt + [yield_col]
-                crops_ = crops_lt[cols]
-                crops_ = crops_.rename(columns={yield_col:'lt_yield'})
+                    # drop rows where yield fields are NA
+                    crops_ = crops_.dropna(subset=['area','production','yield','production_anomaly','yield_anomaly'])
+                    
+                    gdf, run_id = process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim)
 
-                # drop rows where yield fields are NA
-                crops_ = crops_.dropna(subset=['lt_yield'])            
-                
-                gdf, run_id = process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim)
-                
-                print(f"Processing {crop_type} for {season_type} season with run_id {run_id}")
-
-                gdf_ = gdf
-                gdf_['feature_name'] = feature
-                gdf_['feature_value'] = gdf_['lt_yield']
-                gdf_['feature_description'] = outputs[feature]['description']
-
-                db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
-                db_session.commit()    
+                    print(f"Processing {crop_type} for {season_type} season with run_id {run_id}")
+                        
+                    for feature in ['area','production','yield','production_anomaly','yield_anomaly']:
+                        gdf_ = gdf
+                        gdf_['feature_name'] = feature
+                        gdf_['feature_value'] = gdf_[feature]
+                        gdf_['feature_description'] = outputs[feature]['description']
+                        
+                        db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
+                        db_session.commit()    

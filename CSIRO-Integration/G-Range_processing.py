@@ -21,6 +21,7 @@ import boto3
 from datetime import datetime
 from collections import OrderedDict
 from hashlib import sha256
+import urllib.request
 
 import random
 from shapely.ops import cascaded_union
