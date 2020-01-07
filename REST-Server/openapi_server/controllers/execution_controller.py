@@ -103,7 +103,7 @@ def run_model_post():  # noqa: E501
             return 'Model Not Found', 404, {'x-error': 'not found'}
 
         # if non executable model, do nothing
-        if model_name in non_executable_models:
+        if model_name.lower() in non_executable_models:
             return f'{model_name} is not currently executable. Please refer to the available pre-computed results.', 400, {'x-error': 'not supported'}
         
         model_config = util.sortOD(OrderedDict(model_config))
