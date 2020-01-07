@@ -181,25 +181,26 @@ class CHIRPSController(object):
 
         # Add parameters to DB
         logging.info("Storing parameters...")
-        for param_name, param_val in self.model_config.items():                
-            if param_name == 'year':
-                param_type = 'integer'
-            elif param_name == 'bbox':
-                param_type = 'array'
-                param_val = json.dumps(param_val)
-            elif param_name == 'dekad':
-                param_type = 'integer'
-                param_val = int(param_val)
-            else:
-                param_type = 'string'
+        for param_name, param_val in self.model_config.items():   
+            if param_nam != 'run_id':             
+                if param_name == 'year':
+                    param_type = 'integer'
+                elif param_name == 'bbox':
+                    param_type = 'array'
+                    param_val = json.dumps(param_val)
+                elif param_name == 'dekad':
+                    param_type = 'integer'
+                    param_val = int(param_val)
+                else:
+                    param_type = 'string'
 
-            param = Parameters(run_id=self.run_id,
-                              model=self.name,
-                              parameter_name=param_name,
-                              parameter_value=param_val,
-                              parameter_type=param_type)
-            db_session.add(param)
-            db_session.commit()
+                param = Parameters(run_id=self.run_id,
+                                  model=self.name,
+                                  parameter_name=param_name,
+                                  parameter_value=param_val,
+                                  parameter_type=param_type)
+                db_session.add(param)
+                db_session.commit()
 
         # Process tiff file into point data
         logging.info("Processing tiff...")

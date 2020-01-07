@@ -22,6 +22,8 @@ import boto3
 import botocore
 import logging
 import os
+import glob
+import yaml
 import time
 from collections import OrderedDict
 from random import choice as randomchoice
@@ -45,19 +47,17 @@ containers = client.containers
 data_path = config['APP']['DATA_PATH']
 site_url = config['APP']['URL']
 
-available_models = ['population_model', 
-                    'malnutrition_model', 
-                    'fsc', 
-                    'dssat',
-                    'asset_wealth_model',
-                    'consumption_model',
-                    'chirps',
-                    'chirps-gefs',
-                    'yield_anomalies_lpjml',
-                    'world_population_africa',
-                    'flood_index_model',
-                    'multi_twist',
-                    'pihm']
+metadata_files = []
+for filename in glob.iglob('../metadata/models/**model-metadata.yaml', recursive=True):
+     metadata_files.append(filename)
+
+available_models = []
+
+for m in metadata_files:
+    with open(m, 'r') as stream:
+        model = yaml.safe_load(stream)
+        available_models.append(model['id'].lower())
+
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model

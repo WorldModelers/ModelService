@@ -1,0 +1,77 @@
+id: lpjml_historic
+label: Lund-Potsdam-Jena managed Land Historic
+description: "The LPJmL model has been developed from LPJ, a Dynamic Global Vegetation Model (DGVM), which was designed to simulate the global terrestrial carbon cycle and the response of carbon and vegetation patterns under climate change. As carbon and water cycles are intimately linked, it was quickly extended to also simulate the terrestrial water cycle."
+versions:
+- lpjml_historic_v0.1
+maintainer:
+  name: Bernhard Schauberger
+  email: schauber@pik-potsdam.de
+website: https://www.pik-potsdam.de/research/projects/activities/biosphere-water-modelling/lpjml/lpjml
+category:
+- Agriculture
+outputs:
+- name: production
+  description: Harvested weight at harvest (kg/ha)
+  units: kg/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+parameters:
+- name: precipitation
+  description: below average, average, or above average rainfall (-,0,+ respectively)
+  metadata:
+    type: ChoiceParameter
+    default: 0
+    choices:
+    - '-'
+    - '0'
+    - '+'
+- name: temperature
+  description: below average, average, or above average temperature (-,0,+ respectively)
+  metadata:
+    type: ChoiceParameter
+    default: "0"
+    choices:
+    - "-"
+    - "0"
+    - "+"
+- name: crop
+  description: crop of interest
+  metadata:
+    type: ChoiceParameter
+    default: "Temperate cereals (wheat, rye, barley; wheat)"
+    choices:
+    - 'Temperate cereals (wheat, rye, barley; wheat)'
+    - 'Rice (paddy rice; rice)'
+    - 'Maize (maize for food; maize)'
+    - 'Tropical cereals (millet, sorghum; millet)'
+    - 'Pulses (pulses; field peas)'
+    - 'Temperate roots (sugar beet; sugar beet)'
+    - 'Tropical roots (cassava; cassava)'
+    - 'Sunflower (sunflower; sunflower)'
+    - 'Soybean (soybean; soybean)'
+    - 'Groundnuts (groundnuts; groundnuts)'
+    - 'Rapeseed (rapeseed; rapeseed)'
+    - 'Sugarcane (sugarcane: sugarcane)'
+    - 'others (potatoes, oil palm, citrus, date palm, grapes/vine, cotton, cocoa, coffee, other perennial crops, other annual c'
+    - 'managed grasslands (pastures; managed grasslands)'
+    - 'bio-energy grass'
+    - 'bio-energy tree'
+- name: management_practice
+  description: irrigation type (either rainfed or irrigated)
+  metadata:
+    type: ChoiceParameter
+    default: "rainfed"
+    choices:
+    - "rainfed"
+    - "irrigated"
+configuration:
+  - precipitation: "0"
+  - temperature: "0"
+  - crop: 'Temperate cereals (wheat, rye, barley; wheat)'
+  - management_practice: rainfed"

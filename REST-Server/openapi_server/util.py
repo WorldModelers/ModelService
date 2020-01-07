@@ -269,13 +269,19 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     nData    = rBand.GetNoDataValue()
     if nData == None:
         logging.info(f"No nodataval found, setting to {nodataval}")
-        nData = nodataval # set it to something if not set
+        nData = np.float32(nodataval) # set it to something if not set
     else:
         logging.info(f"Nodataval is: {nData}")
 
     # specify the center offset (takes the point in middle of pixel)
     HalfX    = GeoTrans[1] / 2
     HalfY    = GeoTrans[5] / 2
+
+    # Check that NoDataValue is of the same type as the raster data
+    RowData = rBand.ReadAsArray(0,0,ds.RasterXSize,1)[0]
+    if type(nData) != type(RowData[0]):
+        logging.warning(f"NoData type mismatch: NoDataValue is type {type(nData)} and raster data is type {type(RowData[0])}")
+        
 
     points = []
     for ThisRow in RowRange:
