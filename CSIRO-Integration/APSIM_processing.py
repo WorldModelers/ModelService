@@ -21,6 +21,7 @@ import boto3
 from datetime import datetime
 from collections import OrderedDict
 from hashlib import sha256
+import urllib.request
 
 import random
 from shapely.ops import cascaded_union
@@ -178,8 +179,14 @@ admin2['GID_1'] = admin2['GID_1'].apply(lambda x: x.split("_")[0])
 
 eth = cascaded_union(admin2.geometry)
 
-crops = pd.read_csv('C2-P2 APSIM-GRange Results v01/Cropping_Grid_Backcast_Experiment_2020-01.csv')
-crops_lt = pd.read_csv('C2-P2 APSIM-GRange Results v01/Cropping_Grid_LTMean_Experiment_2020-01.csv')
+# download APSIM files
+print("Downloading APSIM files...")
+urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/CSIRO/APSIM_Backcast.csv", "APSIM_Backcast.csv")
+urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/CSIRO/APSIM_LT_Historical.csv", "APSIM_LT_Historical.csv")
+print("Download complete!")
+
+crops = pd.read_csv('APSIM_Backcast.csv')
+crops_lt = pd.read_csv('APSIM_LT_Historical.csv')
 
 # obtain lat/lon from grid file
 crops = crops.merge(grids, how='left', left_on='gridcell_id', right_on='CellId')

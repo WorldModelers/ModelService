@@ -176,7 +176,12 @@ admin2['GID_1'] = admin2['GID_1'].apply(lambda x: x.split("_")[0])
 
 eth = cascaded_union(admin2.geometry)
 
-herbage = pd.read_csv('C2-P2 APSIM-GRange Results v01/G-Range_Grid_Month_Experiment_2020-01.csv')
+# download APSIM files
+print("Downloading G-Range files...")
+urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/CSIRO/G_Range_Backcast.csv", "G_Range_Backcast.csv")
+print("Download complete!")
+
+herbage = pd.read_csv('G_Range_Backcast.csv')
 
 # obtain lat/lon from grid file
 herbage = herbage.merge(grids, how='left', left_on='gridcell_id', right_on='CellId')
