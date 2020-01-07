@@ -1,4 +1,4 @@
-id: LPJML_Historic
+id: lpjml_historic
 label: Lund-Potsdam-Jena managed Land Historic
 description: "The LPJmL model has been developed from LPJ, a Dynamic Global Vegetation Model (DGVM), which was designed to simulate the global terrestrial carbon cycle and the response of carbon and vegetation patterns under climate change. As carbon and water cycles are intimately linked, it was quickly extended to also simulate the terrestrial water cycle."
 versions:
@@ -28,9 +28,9 @@ parameters:
     type: ChoiceParameter
     default: 0
     choices:
-    - -
-    - 0
-    - +
+    - '-'
+    - '0'
+    - '+'
 - name: temperature
   description: below average, average, or above average temperature (-,0,+ respectively)
   metadata:

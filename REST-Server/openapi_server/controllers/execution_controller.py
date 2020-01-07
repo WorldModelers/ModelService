@@ -22,6 +22,8 @@ import boto3
 import botocore
 import logging
 import os
+import glob
+import yaml
 import time
 from collections import OrderedDict
 from random import choice as randomchoice
@@ -55,7 +57,7 @@ for m in metadata_files:
     with open(m, 'r') as stream:
         model = yaml.safe_load(stream)
         available_models.append(model['id'].lower())
-        
+
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
     """Obtain a list of runs for a given model
