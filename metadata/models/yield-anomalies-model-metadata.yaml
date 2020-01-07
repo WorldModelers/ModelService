@@ -20,6 +20,7 @@ versions:
 maintainer:
   name: Bernhard Schauberger
   email: schauber@pik-potsdam.de
+executable: false  
 category:
 - Agriculture
 

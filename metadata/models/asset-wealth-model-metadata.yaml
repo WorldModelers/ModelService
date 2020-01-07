@@ -6,6 +6,7 @@ versions:
 maintainer:
   name: George Azzari
   email: George@atlasai.co
+executable: false  
 category:
 - Demographic
 - Socioeconomic

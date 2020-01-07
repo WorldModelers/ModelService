@@ -10,6 +10,7 @@ maintainer:
   name: Deborah Khider
   email: khider@usc.edu
 website: https://usc.edu
+executable: false
 category:
 - Climate
 - Hydrological

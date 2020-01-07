@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "required": ["id", "label", "description", "maintainer", "versions", "executable", "category", "outputs"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "maintainer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "name"
+      ]
+    },
+    "versions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "executable": {
+      "type": "boolean"
+    },
+    "category": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "units": {
+			  "anyOf": [
+			    { "type": "string"},
+			    { "type": "number"}
+			  ]
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "aggregation": {
+                "type": "object",
+                "properties": {
+                  "geospatial": {
+                    "type": "object",
+                    "properties": {
+                      "default": {
+                        "type": "string"
+                      },
+                      "allowed": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "allowed",
+                      "default"
+                    ]
+                  },
+                  "temporal": {
+                    "type": "object",
+                    "properties": {
+                      "default": {
+                        "type": "string"
+                      },
+                      "allowed": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "allowed",
+                      "default"
+                    ]
+                  }
+                },
+                "required": [
+                  "geospatial",
+                  "temporal"
+                ]
+              }
+            },
+            "required": [
+              "aggregation"
+            ]
+          }
+        },
+        "required": [
+          "description",
+          "name",
+          "units"
+        ]
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "choices": {
+                "type": "array",
+                "items": {
+				  "anyOf": [
+				    { "type": "string"},
+				    { "type": "number"}
+				  ]
+                }
+              },
+              "default": {
+				  "anyOf": [
+				    { "type": "string"},
+				    { "type": "number"},
+				    { "type": "array"}
+				  ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "default": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "minumum": {
+			  "anyOf": [
+			    { "type": "string"},
+			    { "type": "number"}
+			  ]
+          },
+          "maximum": {
+			  "anyOf": [
+			    { "type": "string"},
+			    { "type": "number"}
+			  ]
+          }
+        },
+        "required": [
+          "description",
+          "metadata",
+          "name"
+        ]
+      }
+    },
+    "configuration": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

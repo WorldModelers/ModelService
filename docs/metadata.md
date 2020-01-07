@@ -14,6 +14,8 @@ There are 4 primary concepts to consider with respect to capturing metadata abou
 
 To facilitate capturing this information for each model, we use a standardized [YAML](https://yaml.org/) file. YAML is preferred to JSON since it allows for in-line comments, can be easily version controlled, but is also serializable to JSON. 
 
+> Note that if keys are missing in the YAML file, **MaaS will not start**.
+
 ### Outputs
 
 The [example-model.yaml](../metadata/example-model.yaml) file contains an example for a toy flood model. This model has one `output`. The `example-model.yaml` contains examples of how this metadata should be defined.
@@ -43,3 +45,7 @@ print(model['input_files'][0]['variables'][0])
 ```
 
 prints the first variable from the first input file.
+
+## Schema validation
+
+You can validate all the YAML schemas by running `validate.py` from the `metadata` directory. This relies on the `metadata-schema.json` file which is also stored in that same directory.

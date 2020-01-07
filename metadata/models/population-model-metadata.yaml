@@ -21,6 +21,7 @@ author:
 versions:
 - population_model_1
 website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/population_model
+executable: true
 category:
 - Demographic
 - Socioeconomic

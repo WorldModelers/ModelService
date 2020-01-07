@@ -8,6 +8,7 @@ versions:
 maintainer:
   name: Cheryl Porter
   email: cporter@ufl.edu
+executable: true  
 category:
 - Agriculture
 
@@ -46,10 +47,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-- name: management_practice
-  description: Indicates the type of management practice for the given yield/point
-    combination.  1 corresponds to high nitrogen, 2 to irrigated high nitrogen, 3
-    to  subsistence, and 4 to low nitrogen.
 
 parameters:
 - name: samples

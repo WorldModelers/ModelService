@@ -9,6 +9,7 @@ maintainer:
   email: contact@jataware.com
 versions: 
   - 1.0.0
+executable: true  
 category:
   - Hydrological    
 
@@ -20,6 +21,14 @@ outputs:
       that a given district faces for flooding. A 1 indicates iminent risk; a 0 indicates
       no risk.
     units: unitless index
+    metadata:
+      aggregation:
+        geospatial: 
+          default: average
+          allowed: [average, sum, min, max, std]
+        temporal: 
+          default: average
+          allowed: [average, sum, min, max, std]      
 
 parameters:
   # Specify the minimum parameters that should be user-specified to execute a model run

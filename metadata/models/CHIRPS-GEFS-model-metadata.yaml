@@ -12,6 +12,7 @@ versions:
 maintainer:
   name: Marty Landsfeld
   email: mlandsfeld@gmail.com
+executable: true
 category:
 - Climate
 
