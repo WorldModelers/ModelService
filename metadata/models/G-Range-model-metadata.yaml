@@ -7,6 +7,7 @@ maintainer:
   name: Andrew Moore
   email: Andrew.Moore@csiro.au
 website: https://research.csiro.au/foodglobalsecurity/data-and-tools/models/g-range/
+executable: false
 category:
 - Agriculture
 concepts: []
