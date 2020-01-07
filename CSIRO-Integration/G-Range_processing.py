@@ -41,11 +41,12 @@ class NpEncoder(json.JSONEncoder):
 
 def gen_run(model_name, params):
     
-    params.pop('scenario')
-    params.pop('description')
+    params_ = {}
+    for param in grange['parameters']:
+        params_[param['name']] = params[param['name']]
     
     model_config = {
-                    'config': params,
+                    'config': params_,
                     'name': model_name
                    }
 
