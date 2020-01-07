@@ -52,11 +52,16 @@ for filename in glob.iglob('../metadata/models/**model-metadata.yaml', recursive
      metadata_files.append(filename)
 
 available_models = []
+non_executable_models = []        
 
 for m in metadata_files:
     with open(m, 'r') as stream:
         model = yaml.safe_load(stream)
         available_models.append(model['id'].lower())
+
+        # check whether model is executable or not
+        if model['executable'] == False:
+            non_executable_models.append(model['id'].lower())
 
 
 def list_runs_model_name_get(ModelName):  # noqa: E501
@@ -97,8 +102,8 @@ def run_model_post():  # noqa: E501
         if model_name.lower() not in available_models:
             return 'Model Not Found', 404, {'x-error': 'not found'}
 
-        # if Atlas model, do nothing
-        if model_name in ['consumption_model','asset_wealth_model','pihm','lpjml_historic','flood_index_model','world_population_africa']:
+        # if non executable model, do nothing
+        if model_name in non_executable_models:
             return f'{model_name} is not currently executable. Please refer to the available pre-computed results.', 400, {'x-error': 'not supported'}
         
         model_config = util.sortOD(OrderedDict(model_config))

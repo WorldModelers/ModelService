@@ -16,6 +16,7 @@ maintainer:
   name: WorldPop Team
   email: info@worldpop.org
 website: https://www.worldpop.org/geodata/summary?id=139
+executable: false
 category:
 - Demographic
 - Socioeconomic

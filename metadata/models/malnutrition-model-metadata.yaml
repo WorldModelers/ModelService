@@ -16,6 +16,7 @@ author:
 versions:
 - malnutrition_model_1
 website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/malnutrition_model
+executable: true
 category:
 - Demographic
 - Economic

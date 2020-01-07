@@ -7,8 +7,10 @@ maintainer:
   name: Bernhard Schauberger
   email: schauber@pik-potsdam.de
 website: https://www.pik-potsdam.de/research/projects/activities/biosphere-water-modelling/lpjml/lpjml
+executable: false
 category:
 - Agriculture
+
 outputs:
 - name: production
   description: Harvested weight at harvest (kg/ha)
@@ -21,6 +23,7 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
+
 parameters:
 - name: precipitation
   description: below average, average, or above average rainfall (-,0,+ respectively)
@@ -70,6 +73,7 @@ parameters:
     choices:
     - "rainfed"
     - "irrigated"
+
 configuration:
   - precipitation: "0"
   - temperature: "0"

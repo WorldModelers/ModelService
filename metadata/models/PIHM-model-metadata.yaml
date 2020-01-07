@@ -7,6 +7,7 @@ maintainer:
   name: Chris Duffy
   email: cxd11@psu.edu
 website: http://www.pihm.psu.edu/pihm_home.html
+executable: false
 category:
 - Climate
 - Hydrological

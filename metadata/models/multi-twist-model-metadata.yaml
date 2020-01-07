@@ -12,6 +12,7 @@ versions:
 maintainer:
   name: Theresa Falkendal, Christian Otto
   email: theresa.falkendal@pik-potsdam.de, christian.otto@pik-potsdam.de
+executable: true  
 category:
   - Agriculture
 

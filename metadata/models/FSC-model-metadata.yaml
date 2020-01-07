@@ -8,16 +8,20 @@ versions:
 maintainer:
   name: Michael Puma
   email: mjp38@columbia.edu
+executable: true  
 category:
 - Economic
 
 outputs:
 - name: dR
   description: Change in crop stock reserve levels
+  units: calories
 - name: dC
   description: Change in consumption
+  units: calories  
 - name: dP
   description: Change in production levels
+  units: calories  
 
 parameters:
 - name: country
