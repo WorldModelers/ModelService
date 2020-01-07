@@ -98,8 +98,8 @@ def run_model_post():  # noqa: E501
             return 'Model Not Found', 404, {'x-error': 'not found'}
 
         # if Atlas model, do nothing
-        if model_name in ['consumption_model','asset_wealth_model']:
-            return 'Atlas.ai models are not currently executable.', 400, {'x-error': 'not supported'}
+        if model_name in ['consumption_model','asset_wealth_model','pihm','lpjml_historic','flood_index_model','world_population_africa']:
+            return f'{model_name} is not currently executable. Please refer to the available pre-computed results.', 400, {'x-error': 'not supported'}
         
         model_config = util.sortOD(OrderedDict(model_config))
 
