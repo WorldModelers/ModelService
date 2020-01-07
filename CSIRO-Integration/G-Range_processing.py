@@ -22,6 +22,7 @@ from datetime import datetime
 from collections import OrderedDict
 from hashlib import sha256
 import urllib.request
+import time
 
 import random
 from shapely.ops import cascaded_union
@@ -97,8 +98,17 @@ def process_herbage(herbage, scen, scenarios, grange):
     run_id, model_config, run_obj = gen_run(model_name, params)
 
     # generate temp CSV and push it to S3
-    herbage.to_csv("tmp.csv", index=False)
-    s3_bucket.upload_file("tmp.csv", run_obj['key'], ExtraArgs={'ACL':'public-read'})
+    herbage.to_csv("tmp_g.csv", index=False)
+    time.sleep(1)
+    try:
+        s3_bucket.upload_file("tmp_g.csv", run_obj['key'], ExtraArgs={'ACL':'public-read'})
+    except Exception as e:
+        print(e)
+        print("Retrying file upload...")
+        try:
+            s3_bucket.upload_file("tmp_g.csv", run_obj['key'], ExtraArgs={'ACL':'public-read'})
+        except:
+            pass
 
     # Add metadata object to DB
     meta = Metadata(run_id=run_id, 
