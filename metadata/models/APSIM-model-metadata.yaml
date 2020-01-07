@@ -66,17 +66,6 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]   
-- name: lt_yield
-  description: Long-term average grain yield using 2018 practices. This is a non-temporal forward looking, long term forecast.
-  units: quintal/ha
-  metadata:
-    aggregation:
-      geospatial: 
-        default: average
-        allowed: [average, sum, min, max, std]
-      temporal: 
-        default: average
-        allowed: [average, sum, min, max, std]   
 
 parameters:
 - name: crop
