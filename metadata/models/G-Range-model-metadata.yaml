@@ -111,6 +111,13 @@ parameters:
     - cool,dry
     default: midrange
   concepts: [] 
+- name: cereal_prodn_pctile
+  description: Ranking of total national production of the 5 cereals as modelled under 2018 land use and practices, expressed as a percentile (the zero percentile is lowest)
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1
+    default: 0.5  
 - name: cereal_prodn_tercile
   description: Grouping of climate ensemble members according to terciles of total national production of the 5 cereals as modelled under 2018 land use and practices
   metadata:
