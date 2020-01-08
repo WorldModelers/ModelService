@@ -220,8 +220,8 @@ if __name__ == "__main__":
     for filename in glob.iglob('dssat_sensitivity/**/**.csv', recursive=True):
          sensitivity_runs.append(filename)         
 
-    # all_runs = {'baseline': baseline_runs, 'sensitivity': sensitivity_runs}
-    all_runs = {'baseline': baseline_runs}
+    all_runs = {'baseline': baseline_runs, 'sensitivity': sensitivity_runs}
+    
     #### PROCESS BASELINE RUNS ####
     ###############################
     for run_type, runs in all_runs.items():
