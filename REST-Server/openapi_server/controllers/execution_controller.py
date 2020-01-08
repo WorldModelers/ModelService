@@ -98,18 +98,11 @@ def run_model_post():  # noqa: E501
         model_config = ModelConfig.from_dict(connexion.request.get_json())  # noqa: E501
         model_config = model_config.to_dict()
         model_name = model_config["name"]
-
-        if model_name.lower() not in available_models:
-            return 'Model Not Found', 404, {'x-error': 'not found'}
-
-        # if non executable model, do nothing
-        if model_name.lower() in non_executable_models:
-            return f'{model_name} is not currently executable. Please refer to the available pre-computed results.', 400, {'x-error': 'not supported'}
         
         model_config = util.sortOD(OrderedDict(model_config))
 
         # generate id for the model run
-        run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
+        run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()    
 
         # if run already exists and is success or pending, don't run again.
         if r.exists(run_id):
@@ -118,6 +111,13 @@ def run_model_post():  # noqa: E501
             if status == "SUCCESS" or status == "PENDING":
                 logging.info("Already ran " + run_id)
                 return run_id
+
+        if model_name.lower() not in available_models:
+            return 'Model Not Found', 404, {'x-error': 'not found'}
+
+        # if non executable model, do nothing
+        if model_name.lower() in non_executable_models:
+            return f'{model_name} is not currently executable. Please refer to the available pre-computed results.', 400, {'x-error': 'not supported'}                
 
         # generate a key for the model run based on the run_id
         run_obj = {'config': json.dumps(model_config['config']),
