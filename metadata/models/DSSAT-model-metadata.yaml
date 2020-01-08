@@ -49,6 +49,21 @@ outputs:
         allowed: [average, sum, min, max, std]  
 
 parameters:
+- name: season
+  description: The season for the given run. May supercede planting_start and planting_end.
+  metadata:
+    type: ChoiceParameter
+    default: meher
+    choices:
+    - Meher
+    - Belg
+- name: crop
+  description: The crop for the given model run.
+  metadata:
+    type: ChoiceParameter
+    default: maize
+    choices:
+    - maize   
 - name: samples
   description: The number of pixel predictions DSSAT will make. Setting samples to
     0 returns the  entire geography (all Ethiopia) which is quite large.
@@ -126,6 +141,13 @@ parameters:
     default: 05-20
     minumum: 01-01
     maximum: 12-31
+- name: planting_window_shift
+  description: This is the number, in days, that the planting window was shifted
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -30
+    maximum: 30    
 
 configuration:
 - samples: 0

@@ -22,6 +22,7 @@ from datetime import datetime
 from collections import OrderedDict
 from hashlib import sha256
 import urllib.request
+import time
 
 import random
 from shapely.ops import cascaded_union
@@ -69,7 +70,27 @@ def gen_run(model_name, params):
     r.hmset(run_id, run_obj)
     
     return run_id, model_config, run_obj
-      
+
+def check_run_in_redis(model_name,scenarios,scen,crop_type,season_type):
+    # obtain scenario parameters
+    params = scenarios[scenarios['scenario']==scen].iloc[0].to_dict()
+    params['crop'] = crop_type
+    params['season'] = season_type
+
+    params_ = {}
+    for param in apsim['parameters']:
+        params_[param['name']] = params[param['name']]
+    
+    model_config = {
+                    'config': params_,
+                    'name': model_name
+                   }
+
+    model_config = sortOD(OrderedDict(model_config))
+    run_id = sha256(json.dumps(model_config, cls=NpEncoder).encode('utf-8')).hexdigest()    
+
+    # Check if run in Redis
+    return r.sismember(model_name, run_id), run_id
 
 def sortOD(od):
     res = OrderedDict()
@@ -99,7 +120,16 @@ def process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim):
 
     # generate temp CSV and push it to S3
     crops_.to_csv("tmp.csv", index=False)
-    s3_bucket.upload_file("tmp.csv", run_obj['key'], ExtraArgs={'ACL':'public-read'})
+    time.sleep(1)
+    try:
+        s3_bucket.upload_file("tmp.csv", run_obj['key'], ExtraArgs={'ACL':'public-read'})
+    except Exception as e:
+        print(e)
+        print("Retrying file upload...")
+        try:
+            s3_bucket.upload_file("tmp.csv", run_obj['key'], ExtraArgs={'ACL':'public-read'})
+        except:
+            pass
 
     # Add metadata object to DB
     meta = Metadata(run_id=run_id, 
@@ -227,38 +257,46 @@ if __name__ == "__main__":
             for crop_type in crop_param['metadata']['choices']:
                 for scen in scenario_list:
 
-                    # select the correct yield columns for crop/season and rename them
-                    area_col = f"season_area_{crop_type}_{season_type}"
-                    production_col = f"season_prodn_{crop_type}_{season_type}"
-                    yield_col = f"season_mean_yield_{crop_type}_{season_type}"
-                    production_anomaly = f"season_rel_prodn_quintal_anomaly_{crop_type}_{season_type}"
-                    yield_anomaly  = f"season_rel_mean_yield_anomaly_{crop_type}_{season_type}"
-                    cols = param_cols + base_cols + [area_col, production_col, yield_col, production_anomaly, yield_anomaly]
-                    crops_ = c_[cols]
-                    crops_ = crops_.rename(columns={area_col: 'area',
-                                                    production_col: 'production',
-                                                    yield_col:'yield',
-                                                    production_anomaly: 'production_anomaly',
-                                                    yield_anomaly:'yield_anomaly'})
+                    # Ensure run not in Redis:
+                    run_in_redis, run_id = check_run_in_redis(model_name,scenarios,scen,crop_type,season_type)
 
-                    if 'cropping_year' in crops_:
-                        crops_['datetime'] = crops_.cropping_year.apply(lambda x: datetime(year=x,month=1,day=1))
-                    
-                    # subset for the correct scenario
-                    crops_ = crops_[crops_['scenario'] == scen]
-                    
-                    # drop rows where yield fields are NA
-                    crops_ = crops_.dropna(subset=['area','production','yield','production_anomaly','yield_anomaly'])
-                    
-                    gdf, run_id = process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim)
+                    # if run is not in Redis, process it
+                    if not run_in_redis:
+                        # select the correct yield columns for crop/season and rename them
+                        area_col = f"season_area_{crop_type}_{season_type}"
+                        production_col = f"season_prodn_{crop_type}_{season_type}"
+                        yield_col = f"season_mean_yield_{crop_type}_{season_type}"
+                        production_anomaly = f"season_rel_prodn_quintal_anomaly_{crop_type}_{season_type}"
+                        yield_anomaly  = f"season_rel_mean_yield_anomaly_{crop_type}_{season_type}"
+                        cols = param_cols + base_cols + [area_col, production_col, yield_col, production_anomaly, yield_anomaly]
+                        crops_ = c_[cols]
+                        crops_ = crops_.rename(columns={area_col: 'area',
+                                                        production_col: 'production',
+                                                        yield_col:'yield',
+                                                        production_anomaly: 'production_anomaly',
+                                                        yield_anomaly:'yield_anomaly'})
 
-                    print(f"Processing {crop_type} for {season_type} season with run_id {run_id}")
+                        if 'cropping_year' in crops_:
+                            crops_['datetime'] = crops_.cropping_year.apply(lambda x: datetime(year=x,month=1,day=1))
                         
-                    for feature in ['area','production','yield','production_anomaly','yield_anomaly']:
-                        gdf_ = gdf
-                        gdf_['feature_name'] = feature
-                        gdf_['feature_value'] = gdf_[feature]
-                        gdf_['feature_description'] = outputs[feature]['description']
+                        # subset for the correct scenario
+                        crops_ = crops_[crops_['scenario'] == scen]
                         
-                        db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
-                        db_session.commit()    
+                        # drop rows where yield fields are NA
+                        crops_ = crops_.dropna(subset=['area','production','yield','production_anomaly','yield_anomaly'])
+                        
+                        gdf, run_id = process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim)
+
+                        print(f"Processing {crop_type} for {season_type} season with run_id {run_id}")
+                            
+                        for feature in ['area','production','yield','production_anomaly','yield_anomaly']:
+                            gdf_ = gdf
+                            gdf_['feature_name'] = feature
+                            gdf_['feature_value'] = gdf_[feature]
+                            gdf_['feature_description'] = outputs[feature]['description']
+                            
+                            db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
+                            db_session.commit()    
+
+                    else: 
+                        print("Run {run_id} already in Redis")
