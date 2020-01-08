@@ -121,21 +121,21 @@ parameters:
     type: NumberParameter
     minimum: 0.006
     maximum: 0.08
-    default: 0
+    default: 0.0
 - name: additional_extension
   description: For this scenario, an "extension package" means the adoption of both improved crop cultivars and chemical fertilizer application. The value is the proportion of land **not already using "extension package"** that is converted to management under the "extension package". For example, if 20% of maize crops in a grid-cell already use improved cultivars plus fertilizer, then 40% "additional extension package" will increase the overall level to (20% + 40% x (100%-20%)) = 52%
   metadata:
     type: NumberParameter
     minimum: 0
     maximum: 0.4
-    default: 0 
+    default: 0.0
 - name: temperature
   description: Change applied to maximum and minimum air temperature in every day of the climate record in the counterfactual
   metadata:
     type: NumberParameter
     minimum: 0
     maximum: 1.5
-    default: 0
+    default: 0.0
 - name: sowing_window_shift
   description: Shift (measured in days) in the date range over which crops are sown in response to a sufficiently large rainfall event
   metadata:
@@ -156,7 +156,7 @@ parameters:
     type: NumberParameter
     minimum: 0
     maximum: 1.5
-    default: 0  
+    default: 0.0 
 
 configuration:
   - crop: teff
@@ -165,8 +165,8 @@ configuration:
     cereal_prodn_pctile: 0.5
     cereal_prodn_tercile: Middle tercile
     irrigation: 0.006
-    additional_extension: 0
-    temperature: 0
+    additional_extension: 0.0
+    temperature: 0.0
     sowing_window_shift: 0
     fertilizer: 0
-    rainfall: 0
+    rainfall: 0.0

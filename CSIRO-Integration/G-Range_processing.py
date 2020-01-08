@@ -28,16 +28,18 @@ import random
 from shapely.ops import cascaded_union
 from shapely.geometry import Point
 
-class NpEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.integer):
-            return int(obj)
-        elif isinstance(obj, np.floating):
-            return float(obj)
-        elif isinstance(obj, np.ndarray):
-            return obj.tolist()
-        else:
-            return super(NpEncoder, self).default(obj)
+def format_params(params):
+    # floats
+    params_['irrigation'] = float(params_['irrigation'])
+    params_['cereal_prodn_pctile'] = float(params_['cereal_prodn_pctile'])
+    params_['additional_extension'] = float(params_['additional_extension'])
+    params_['temperature'] = float(params_['temperature'])
+    params_['rainfall'] = float(params_['rainfall'])
+
+    # ints
+    params_['sowing_window_shift'] = int(params_['sowing_window_shift'])
+    params_['fertilizer'] = int(params_['fertilizer'])    
+    return params
 
 
 def gen_run(model_name, params):
@@ -52,7 +54,7 @@ def gen_run(model_name, params):
                    }
 
     model_config = sortOD(OrderedDict(model_config))
-    run_id = sha256(json.dumps(model_config, cls=NpEncoder).encode('utf-8')).hexdigest()
+    run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
 
     # Add to model set in Redis
     r.sadd(model_name, run_id)
@@ -65,7 +67,7 @@ def gen_run(model_name, params):
     }
 
     run_obj['config']['run_id'] = run_id
-    run_obj['config'] = json.dumps(run_obj['config'], cls=NpEncoder)
+    run_obj['config'] = json.dumps(run_obj['config'])
     
     # Create Redis object
     r.hmset(run_id, run_obj)
@@ -75,6 +77,7 @@ def gen_run(model_name, params):
 def check_run_in_redis(model_name,scenarios,scen):
     # obtain scenario parameters
     params = scenarios[scenarios['scenario']==scen].iloc[0].to_dict()
+    params = format_params(params)
 
     params_ = {}
     for param in grange['parameters']:
@@ -86,7 +89,7 @@ def check_run_in_redis(model_name,scenarios,scen):
                    }
 
     model_config = sortOD(OrderedDict(model_config))
-    run_id = sha256(json.dumps(model_config, cls=NpEncoder).encode('utf-8')).hexdigest()    
+    run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()    
 
     # Check if run in Redis
     return r.sismember(model_name, run_id), run_id      
@@ -112,6 +115,7 @@ def process_herbage(herbage, scen, scenarios, grange):
 
     # obtain scenario parameters
     params = scenarios[scenarios['scenario']==scen].iloc[0].to_dict()
+    params = format_params(params)
 
     run_id, model_config, run_obj = gen_run(model_name, params)
 
