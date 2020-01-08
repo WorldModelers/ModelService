@@ -43,17 +43,6 @@ param_types = {'samples':'integer',
                 'crop': 'string'
                 }
 
-class NpEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.integer):
-            return int(obj)
-        elif isinstance(obj, np.floating):
-            return float(obj)
-        elif isinstance(obj, np.ndarray):
-            return obj.tolist()
-        else:
-            return super(NpEncoder, self).default(obj)
-
 def get_mgmt(filename):
     if 'rf_highn' in filename.lower():
         return 'maize_rf_highN'
@@ -72,7 +61,7 @@ def gen_run(model_name, params, file):
                    }
 
     model_config = sortOD(OrderedDict(model_config))
-    run_id = sha256(json.dumps(model_config, cls=NpEncoder).encode('utf-8')).hexdigest()
+    run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
 
     # Add to model set in Redis
     r.sadd(model_name, run_id)
@@ -85,7 +74,7 @@ def gen_run(model_name, params, file):
     }
 
     run_obj['config']['run_id'] = run_id
-    run_obj['config'] = json.dumps(run_obj['config'], cls=NpEncoder)
+    run_obj['config'] = json.dumps(run_obj['config'])
     
     # Create Redis object
     r.hmset(run_id, run_obj)
@@ -101,7 +90,7 @@ def check_run_in_redis(model_name, params):
                    }
 
     model_config = sortOD(OrderedDict(model_config))
-    run_id = sha256(json.dumps(model_config, cls=NpEncoder).encode('utf-8')).hexdigest()
+    run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
 
     # Check if run in Redis
     return r.sismember(model_name, run_id)
