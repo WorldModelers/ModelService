@@ -275,4 +275,4 @@ if __name__ == "__main__":
                 db_session.commit()    
 
         else:
-            print("Run {run_id} already in Redis")
+            print(f"Run {run_id} already in Redis for scenario {scen}")
