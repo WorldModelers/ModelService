@@ -64,7 +64,7 @@ def get_mgmt(filename):
     elif 'rf_lown' in filename.lower():
         return 'maize_rf_lowN'
 
-def gen_run(model_name, params):
+def gen_run(model_name, params, file):
     
     model_config = {
                     'config': params,
@@ -81,7 +81,7 @@ def gen_run(model_name, params):
      'name': model_name,
      'config': model_config["config"],
      'bucket': bucket,
-     'key': f"results/{model_name}_results/{run_id}.csv"
+     'key': f"results/{model_name}_results/{file}"
     }
 
     run_obj['config']['run_id'] = run_id
@@ -91,6 +91,20 @@ def gen_run(model_name, params):
     r.hmset(run_id, run_obj)
     
     return run_id, model_config, run_obj
+
+
+def check_run_in_redis(model_name, params):
+    
+    model_config = {
+                    'config': params,
+                    'name': model_name
+                   }
+
+    model_config = sortOD(OrderedDict(model_config))
+    run_id = sha256(json.dumps(model_config, cls=NpEncoder).encode('utf-8')).hexdigest()
+
+    # Check if run in Redis
+    return r.sismember(model_name, run_id)
       
 
 def sortOD(od):
@@ -102,12 +116,12 @@ def sortOD(od):
             res[k] = v
     return res                                
 
-def process_dssat(df, params, dssat, model_name):
+def process_dssat(df, params, dssat, model_name, file):
     """
     Primary function for processing DSSAT
     """
 
-    run_id, model_config, run_obj = gen_run(model_name, params)
+    run_id, model_config, run_obj = gen_run(model_name, params, file)
 
     # generate temp CSV and push it to S3
     df.to_csv("tmp.csv", index=False)
@@ -125,7 +139,7 @@ def process_dssat(df, params, dssat, model_name):
     # Add metadata object to DB
     meta = Metadata(run_id=run_id, 
                     model=model_name,
-                    raw_output_link= f"https://model-service.worldmodelers.com/results/{model_name}_results/{run_id}.csv",
+                    raw_output_link= f"https://model-service.worldmodelers.com/results/{model_name}_results/{file}",
                     run_label=df.RUN_NAME.iloc[0],
                     point_resolution_meters=10000)
     db_session.add(meta)
@@ -196,18 +210,18 @@ for o in dssat['outputs']:
 
 if __name__ == "__main__":
 
-    # download DSSAT files
-    print("Downloading DSSAT basline file...")
-    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline.tar.xz")
+    # # download DSSAT files
+    # print("Downloading DSSAT basline file...")
+    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline.tar.xz")
 
-    print("Unpacking DSSAT basline files...")
-    shutil.unpack_archive("dssat_baseline.tar.xz", "dssat_baseline")
+    # print("Unpacking DSSAT basline files...")
+    # shutil.unpack_archive("dssat_baseline.tar.xz", "dssat_baseline")
 
-    print("Downloading DSSAT sensitivity file...")
-    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity.tar.xz")
+    # print("Downloading DSSAT sensitivity file...")
+    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity.tar.xz")
 
-    print("Unpacking DSSAT sensitivity files...")
-    shutil.unpack_archive("dssat_sensitivity.tar.xz", "dssat_sensitivity")    
+    # print("Unpacking DSSAT sensitivity files...")
+    # shutil.unpack_archive("dssat_sensitivity.tar.xz", "dssat_sensitivity")    
 
     baseline_runs = []
     for filename in glob.iglob('dssat_baseline/**/**.csv', recursive=True):
@@ -217,21 +231,20 @@ if __name__ == "__main__":
     for filename in glob.iglob('dssat_sensitivity/**/**.csv', recursive=True):
          sensitivity_runs.append(filename)         
 
-    all_runs = {'baseline': baseline_runs, 'sensitivity': sensitivity_runs}
-
+    # all_runs = {'baseline': baseline_runs, 'sensitivity': sensitivity_runs}
+    all_runs = {'baseline': baseline_runs}
     #### PROCESS BASELINE RUNS ####
     ###############################
     for run_type, runs in all_runs.items():
-        print(f"Processing {run_type} runs...")
-        for run in runs:
-            print(f"Processing {run_type} {run}")
-            if 'BELG' in run:
-                management_practice = get_mgmt(filename)
+        print(f"#####################\nPROCESSING {run_type} RUNS\n#####################\n\n")
+        for filename in runs:
+            print(f"Processing {run_type} {filename}")
+            if 'belg' in filename.lower():
                 season = "Belg"
-            elif 'MEHER' in run:
-                management_practice = get_mgmt(filename)
+            elif 'meher' in filename.lower():
                 season = "Meher"
 
+            management_practice = get_mgmt(filename)
             start_year = 1984
             samples = 0
             number_years = 35
@@ -243,32 +256,41 @@ if __name__ == "__main__":
                 planting_window_shift = 0
             else:
                 # we need to extract this information from the filename
-                fertilizer = int(filename.split("fentot")[1].split("_")[0])
+                fertilizer = int(filename.split("fen_tot")[1].split("_")[0])
                 rainfall = float(filename.split("erain")[1].split("_")[0])
-                planting_window_shift = int(filename.split("pfirst")[1].split(".csv")[0])
+                planting_window_shift = int(filename.split("pfrst")[1].split("/")[0])
 
 
             params = {'samples': samples,
-                          'start_year': start_year,
-                          'number_years': number_years,
-                          'management_practice': management_practice,
-                          'rainfall': rainfall,
-                          'fertilizer': fertilizer,
-                          'season': season,
-                          'planting_window_shift': planting_window_shift,
-                          'crop': crop}
+                      'start_year': start_year,
+                      'number_years': number_years,
+                      'management_practice': management_practice,
+                      'rainfall': rainfall,
+                      'fertilizer': fertilizer,
+                      'season': season,
+                      'planting_window_shift': planting_window_shift,
+                      'crop': crop}
 
-            df = pd.read_csv(run)
-            df['geometry'] = df.apply(lambda x: Point(x.LONGITUDE, x.LATITUDE), axis=1)
-            df['Yield'] = df['HWAH'] * df['HARVEST_AREA']
 
-            gdf, run_id = process_dssat(df, params, dssat, model_name)
-                
-            for feature in ['Yield','HARVEST_AREA','HWAH']:
-                gdf_ = gdf
-                gdf_['feature_name'] = feature
-                gdf_['feature_value'] = gdf_[feature]
-                gdf_['feature_description'] = outputs[feature]['description']
-                
-                db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
-                db_session.commit()    
+
+            # Ensure that run is not already in Redis
+            if not check_run_in_redis(model_name, params):
+                print(params)
+                df = pd.read_csv(filename, index_col=False)
+                df['geometry'] = df.apply(lambda x: Point(x.LONGITUDE, x.LATITUDE), axis=1)
+                df['Yield'] = df['HWAH'] * df['HARVEST_AREA']
+
+                file = filename.split('/')[2]
+                gdf, run_id = process_dssat(df, params, dssat, model_name, file)
+                    
+                for feature in ['Yield','HARVEST_AREA','HWAH']:
+                    gdf_ = gdf
+                    gdf_['feature_name'] = feature
+                    gdf_['feature_value'] = gdf_[feature]
+                    gdf_['feature_description'] = outputs[feature]['description']
+                    
+                    db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
+                    db_session.commit()    
+
+            else:
+                print(f"Run with params {params} already in Redis.")

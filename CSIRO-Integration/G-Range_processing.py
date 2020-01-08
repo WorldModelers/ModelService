@@ -71,7 +71,25 @@ def gen_run(model_name, params):
     r.hmset(run_id, run_obj)
     
     return run_id, model_config, run_obj
-      
+
+def check_run_in_redis(model_name,scenarios,scen):
+    # obtain scenario parameters
+    params = scenarios[scenarios['scenario']==scen].iloc[0].to_dict()
+
+    params_ = {}
+    for param in grange['parameters']:
+        params_[param['name']] = params[param['name']]
+    
+    model_config = {
+                    'config': params_,
+                    'name': model_name
+                   }
+
+    model_config = sortOD(OrderedDict(model_config))
+    run_id = sha256(json.dumps(model_config, cls=NpEncoder).encode('utf-8')).hexdigest()    
+
+    # Check if run in Redis
+    return r.sismember(model_name, run_id), run_id      
 
 def sortOD(od):
     res = OrderedDict()
@@ -222,21 +240,30 @@ if __name__ == "__main__":
 # process G-Range backcast results
     for scen in scenario_list:
 
-        # subset for the correct scenario
-        herbage_ = herbage[herbage['scenario'] == scen]
+        # Ensure run not in Redis:
+        run_in_redis, run_id = check_run_in_redis(model_name,scenarios,scen,crop_type,season_type)
 
-        # drop rows where yield fields are NA
-        # herbage = herbage.dropna(subset=['yield','rel_anomaly_yield'])
+        # if run is not in Redis, process it
+        if not run_in_redis:        
 
-        gdf, run_id = process_herbage(herbage_, scen, scenarios, grange)
+            # subset for the correct scenario
+            herbage_ = herbage[herbage['scenario'] == scen]
 
-        print(f"Processing G-Range with run_id {run_id}")
+            # drop rows where yield fields are NA
+            # herbage = herbage.dropna(subset=['yield','rel_anomaly_yield'])
 
-        for feature in [i['name'] for i in grange['outputs']]:
-            gdf_ = gdf
-            gdf_['feature_name'] = feature
-            gdf_['feature_value'] = gdf_[feature]
-            gdf_['feature_description'] = outputs[feature]['description']
+            gdf, run_id = process_herbage(herbage_, scen, scenarios, grange)
 
-            db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
-            db_session.commit()    
+            print(f"Processing G-Range with run_id {run_id}")
+
+            for feature in [i['name'] for i in grange['outputs']]:
+                gdf_ = gdf
+                gdf_['feature_name'] = feature
+                gdf_['feature_value'] = gdf_[feature]
+                gdf_['feature_description'] = outputs[feature]['description']
+
+                db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
+                db_session.commit()    
+
+        else:
+            print("Run {run_id} already in Redis")
