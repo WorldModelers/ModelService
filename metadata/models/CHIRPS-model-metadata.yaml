@@ -90,7 +90,7 @@ parameters:
 
 configuration:
 - _type: mm_data
-  dekad: 1
+  dekad: 01
   year: 2019
   bbox:
   - 33.512234
