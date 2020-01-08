@@ -182,7 +182,7 @@ class CHIRPSController(object):
         # Add parameters to DB
         logging.info("Storing parameters...")
         for param_name, param_val in self.model_config.items():   
-            if param_nam != 'run_id':             
+            if param_name != 'run_id':             
                 if param_name == 'year':
                     param_type = 'integer'
                 elif param_name == 'bbox':
