@@ -211,17 +211,17 @@ for o in dssat['outputs']:
 if __name__ == "__main__":
 
     # # download DSSAT files
-    # print("Downloading DSSAT basline file...")
-    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline.tar.xz")
+    print("Downloading DSSAT basline file...")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline.tar.xz")
 
-    # print("Unpacking DSSAT basline files...")
-    # shutil.unpack_archive("dssat_baseline.tar.xz", "dssat_baseline")
+    print("Unpacking DSSAT basline files...")
+    shutil.unpack_archive("dssat_baseline.tar.xz", "dssat_baseline")
 
-    # print("Downloading DSSAT sensitivity file...")
-    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity.tar.xz")
+    print("Downloading DSSAT sensitivity file...")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity.tar.xz")
 
-    # print("Unpacking DSSAT sensitivity files...")
-    # shutil.unpack_archive("dssat_sensitivity.tar.xz", "dssat_sensitivity")    
+    print("Unpacking DSSAT sensitivity files...")
+    shutil.unpack_archive("dssat_sensitivity.tar.xz", "dssat_sensitivity")    
 
     baseline_runs = []
     for filename in glob.iglob('dssat_baseline/**/**.csv', recursive=True):
