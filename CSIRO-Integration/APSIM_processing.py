@@ -29,10 +29,11 @@ from shapely.ops import cascaded_union
 from shapely.geometry import Point
 
 def num(s):
-    try:
+    stringified = str(s)
+    if '.' in stringified:
+        return float(s)    
+    else:
         return int(s)
-    except ValueError:
-        return float(s)
 
 def format_params(params_):
     # floats
@@ -263,7 +264,12 @@ if __name__ == "__main__":
             print("Processing backcasting...")
         # process backcast results
         for season_type in season_param['metadata']['choices']:
-            for crop_type in crop_param['metadata']['choices']:
+            
+            # uncomment below for all crops
+            # for crop_type in crop_param['metadata']['choices']:
+
+            # instead just process maize
+            for crop_type in ['maize']:
                 for scen in scenario_list:
 
                     # Ensure run not in Redis:

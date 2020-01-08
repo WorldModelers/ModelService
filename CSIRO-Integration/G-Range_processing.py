@@ -29,10 +29,11 @@ from shapely.ops import cascaded_union
 from shapely.geometry import Point
 
 def num(s):
-    try:
+    stringified = str(s)
+    if '.' in stringified:
+        return float(s)    
+    else:
         return int(s)
-    except ValueError:
-        return float(s)
 
 def format_params(params_):
     # floats
