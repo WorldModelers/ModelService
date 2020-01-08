@@ -28,19 +28,24 @@ import random
 from shapely.ops import cascaded_union
 from shapely.geometry import Point
 
+def num(s):
+    try:
+        return int(s)
+    except ValueError:
+        return float(s)
+
 def format_params(params_):
     # floats
-    params_['irrigation'] = float(params_['irrigation'])
-    params_['cereal_prodn_pctile'] = float(params_['cereal_prodn_pctile'])
-    params_['additional_extension'] = float(params_['additional_extension'])
-    params_['temperature'] = float(params_['temperature'])
-    params_['rainfall'] = float(params_['rainfall'])
+    params_['irrigation'] = num(params_['irrigation'])
+    params_['cereal_prodn_pctile'] = num(params_['cereal_prodn_pctile'])
+    params_['additional_extension'] = num(params_['additional_extension'])
+    params_['temperature'] = num(params_['temperature'])
+    params_['rainfall'] = num(params_['rainfall'])
 
     # ints
-    params_['sowing_window_shift'] = int(params_['sowing_window_shift'])
-    params_['fertilizer'] = int(params_['fertilizer'])    
+    params_['sowing_window_shift'] = num(params_['sowing_window_shift'])
+    params_['fertilizer'] = num(params_['fertilizer'])    
     return params_
-
 
 def gen_run(model_name, params):
     params_ = {}
