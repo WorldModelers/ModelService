@@ -28,7 +28,7 @@ import random
 from shapely.ops import cascaded_union
 from shapely.geometry import Point
 
-def format_params(params):
+def format_params(params_):
     # floats
     params_['irrigation'] = float(params_['irrigation'])
     params_['cereal_prodn_pctile'] = float(params_['cereal_prodn_pctile'])
@@ -39,7 +39,7 @@ def format_params(params):
     # ints
     params_['sowing_window_shift'] = int(params_['sowing_window_shift'])
     params_['fertilizer'] = int(params_['fertilizer'])    
-    return params
+    return params_
 
 
 def gen_run(model_name, params):
