@@ -245,7 +245,7 @@ if __name__ == "__main__":
     for scen in scenario_list:
 
         # Ensure run not in Redis:
-        run_in_redis, run_id = check_run_in_redis(model_name,scenarios,scen,crop_type,season_type)
+        run_in_redis, run_id = check_run_in_redis(model_name,scenarios,scen)
 
         # if run is not in Redis, process it
         if not run_in_redis:        
