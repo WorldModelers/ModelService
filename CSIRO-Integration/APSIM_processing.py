@@ -260,8 +260,10 @@ if __name__ == "__main__":
     for c_ in [crops, crops_lt]:
         if 'non_temporal' in c_:
             print("Processing LT historical...")
+            scen_list_ = scenario_list_lt
         else:
             print("Processing backcasting...")
+            scen_list_ = scenario_list
         # process backcast results
         for season_type in season_param['metadata']['choices']:
             
@@ -270,7 +272,7 @@ if __name__ == "__main__":
 
             # instead just process maize
             for crop_type in ['maize']:
-                for scen in scenario_list:
+                for scen in scen_list_:
 
                     # Ensure run not in Redis:
                     run_in_redis, run_id = check_run_in_redis(model_name,scenarios,scen,crop_type,season_type)
