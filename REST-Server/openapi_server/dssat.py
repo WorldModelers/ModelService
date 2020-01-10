@@ -78,7 +78,7 @@ class DSSATController(object):
                              'features': {
                                 'HWAH': 'Harvested weight at harvest (kg/ha)',
                                 'HARVEST_AREA': 'Amount of area harvested under all management practices for this point (ha)',
-                                'Yield': 'Yield for the given point/management practice (kg)',
+                                'Production': 'Production for the given point/management practice (kg)',
                                 'management_practice': 'The management practice for the given record',
                                 },
                              'parameters': {
@@ -361,7 +361,7 @@ class DSSATController(object):
         df['datetime'] = df.apply(lambda x: datetime(x.year, 1, 1) + timedelta(x.days - 1), axis=1)
         df['run_id'] = self.run_id
         df['model'] = self.name
-        df['Yield'] = df['HWAH'] * df['HARVEST_AREA']
+        df['Production'] = df['HWAH'] * df['HARVEST_AREA']
 
         # for combined runs only we need to convert the run name to an encoded 
         # float so that it can go into the database

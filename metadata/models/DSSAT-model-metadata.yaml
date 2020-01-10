@@ -36,8 +36,8 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]  
-- name: Yield
-  description: Yield for the given point/management practice (kg)
+- name: Production
+  description: Production for the given point/management practice (kg)
   units: kg
   metadata:
     aggregation:

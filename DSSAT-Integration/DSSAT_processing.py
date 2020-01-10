@@ -267,12 +267,12 @@ if __name__ == "__main__":
                 print(params)
                 df = pd.read_csv(filename, index_col=False)
                 df['geometry'] = df.apply(lambda x: Point(x.LONGITUDE, x.LATITUDE), axis=1)
-                df['Yield'] = df['HWAH'] * df['HARVEST_AREA']
+                df['Production'] = df['HWAH'] * df['HARVEST_AREA']
 
                 file = filename.split('/')[2]
                 gdf, run_id = process_dssat(df, params, dssat, model_name, file)
                     
-                for feature in ['Yield','HARVEST_AREA','HWAH']:
+                for feature in ['Production','HARVEST_AREA','HWAH']:
                     gdf_ = gdf
                     gdf_['feature_name'] = feature
                     gdf_['feature_value'] = gdf_[feature]
