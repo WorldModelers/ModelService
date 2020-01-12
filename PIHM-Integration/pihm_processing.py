@@ -323,7 +323,7 @@ if __name__ == "__main__":
                    "ET_ETP": "evapotranspiration",
                    "basin": "basin"}
 
-    meta_files = glob.iglob('pihm-v4*.csv')
+    meta_files = glob.iglob('PIHM-Meta-Files/pihm-v4*.csv')
     
     for f in meta_files:
         print(f"Processing {f}")
