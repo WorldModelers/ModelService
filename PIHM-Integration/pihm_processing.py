@@ -233,6 +233,20 @@ def gen_run(input_file, *, model_name, precipitation, temperature, evapotranspir
     r.hmset(run_id, run_obj)
     
     return run_id, model_config
+
+
+def check_run_in_redis(model_name, params):
+    """Returns TRUE if run is already in Redis"""
+    model_config = {
+                    'config': params,
+                    'name': model_name
+                   }
+
+    model_config = sortOD(OrderedDict(model_config))
+    run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
+
+    # Check if run in Redis
+    return r.sismember(model_name, run_id)
           
 def sortOD(od):
     res = OrderedDict()
@@ -267,36 +281,41 @@ def main(meta_df, tmp_output):
                   'evapotranspiration': vv['evapotranspiration'],
                   'basin': vv['basin']}
 
-        print(f"Downloading from {url}...")
-        
-        if os.path.exists(f"{tmp_output}.tar.gz"):
-            os.remove(f"{tmp_output}.tar.gz")
-        if os.path.exists(f"{tmp_output}-output"):
-            shutil.rmtree(f"{tmp_output}-output")        
-        
-        # download file to `pihm-tmp.tar.gz`
-        urllib.request.urlretrieve(url, f"{tmp_output}.tar.gz") 
-        
-        # unzip tarball to `pihm-tmp-output`
-        tar = tarfile.open(f"{tmp_output}.tar.gz", "r:gz")
-        tar.extractall(path=f"{tmp_output}-output")
-        tar.close()
-        
-        InRaster = list(glob.iglob(f'{tmp_output}-output/output/output/**/vis/Flood_surf.tif', recursive=True))[0]
-        print(f"Using initial raster {InRaster}")
+        if not check_run_in_redis(model_name,params):
 
-        run_id, model_config = gen_run(InRaster, 
-                                       model_name=model_name, 
-                                       precipitation=vv.precipitation, 
-                                       temperature=vv.temperature,
-                                       evapotranspiration=vv.evapotranspiration,
-                                       basin=vv.basin)
-        
-        ReProjRaster = "reprojected.tif"
-        PIHM_reproject(InRaster, ReProjRaster)
-        ingest_to_db(ReProjRaster, run_id, model_name=model_name, 
-                     start=included_start, included_months=included_months, 
-                     total_months=total_months, params=params, basin=basin)    
+            print(f"Downloading from {url}...")
+            
+            if os.path.exists(f"{tmp_output}.tar.gz"):
+                os.remove(f"{tmp_output}.tar.gz")
+            if os.path.exists(f"{tmp_output}-output"):
+                shutil.rmtree(f"{tmp_output}-output")        
+            
+            # download file to `pihm-tmp.tar.gz`
+            urllib.request.urlretrieve(url, f"{tmp_output}.tar.gz") 
+            
+            # unzip tarball to `pihm-tmp-output`
+            tar = tarfile.open(f"{tmp_output}.tar.gz", "r:gz")
+            tar.extractall(path=f"{tmp_output}-output")
+            tar.close()
+            
+            InRaster = list(glob.iglob(f'{tmp_output}-output/output/output/**/vis/Flood_surf.tif', recursive=True))[0]
+            print(f"Using initial raster {InRaster}")
+
+            run_id, model_config = gen_run(InRaster, 
+                                           model_name=model_name, 
+                                           precipitation=vv.precipitation, 
+                                           temperature=vv.temperature,
+                                           evapotranspiration=vv.evapotranspiration,
+                                           basin=vv.basin)
+            
+            ReProjRaster = "reprojected.tif"
+            PIHM_reproject(InRaster, ReProjRaster)
+            ingest_to_db(ReProjRaster, run_id, model_name=model_name, 
+                         start=included_start, included_months=included_months, 
+                         total_months=total_months, params=params, basin=basin)    
+
+        else:
+            print(f"Run with params {json.dumps(params)} already in MaaS.")
 
 if __name__ == "__main__":
     init_db()
