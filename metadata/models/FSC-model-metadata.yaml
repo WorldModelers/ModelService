@@ -8,52 +8,47 @@ versions:
 maintainer:
   name: Michael Puma
   email: mjp38@columbia.edu
-executable: true  
+executable: false  
 category:
 - Economic
 
 outputs:
-- name: dR
-  description: Change in crop stock reserve levels
-  units: calories
-- name: dC
-  description: Change in consumption
-  units: calories  
-- name: dP
-  description: Change in production levels
-  units: calories  
-
+- name: impact_level
+  description: The level of impact from the shock. One of {0=No Impact, 1=Low Impact, 2=Medium Impact, 3=Serious Impact}  
+  units: categorical
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std] 
+        
 parameters:
-- name: country
-  description: Select the country for which to induce a food shock (ISO-3 format).
-  metadata:
-    type: ChoiceParameter
-    default: USA
-- name: fractional_reserve_access
-  description: The fraction of reserves that countries can access. Between 0 and 1,
-    where 0 indicates that  countries cannot access there reserves and 1 indicates
-    that countries can access the entirety  of their reserves.
-  metadata:
-    type: NumberParameter
-    default: 1
-    minimum: 0
-    maximum: 1
-- name: production_decrease
-  description: The percent decrease in crop production due to the shock on the target
-    country (the size  of the shock).
-  metadata:
-    type: NumberParameter
-    default: 0.5
-    minimum: 0
-    maximum: 1
-- name: year
-  description: The year in which to induce the shock in YYYY format.
-  metadata:
-    type: TimeParameter
-    default: 2005
+  - name:
+      crop
+    description: >
+      Choose the crop of interest from one of [wheat].
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - wheat
+      default: wheat  
+  - name: shocked_region
+    description: >
+      Region that is subject to a one year production shock for wheat.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - FSU
+        - EUR
+        - NAF
+        - CPA
+        - ROW
+        - ALL
+      default: ALL
 
 configuration:
-- country: USA
-  fractional_reserve_access: 1
-  production_decrease: 0.5
-  year: 2005
+- crop: wheat
+  shocked_region: ALL

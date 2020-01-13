@@ -30,10 +30,13 @@ from shapely.geometry import Point
 
 def num(s):
     stringified = str(s)
-    if '.' in stringified:
-        return float(s)    
-    else:
-        return int(s)
+    try:
+        if '.' in stringified:
+            return float(s)    
+        else:
+            return int(s)
+    except:
+        return s
 
 def format_params(params_):
     # floats
@@ -261,17 +264,16 @@ if __name__ == "__main__":
         if 'non_temporal' in c_:
             print("Processing LT historical...")
             scen_list_ = scenario_list_lt
+            b_cols = base_cols_lt
         else:
             print("Processing backcasting...")
             scen_list_ = scenario_list
+            b_cols = base_cols
         # process backcast results
         for season_type in season_param['metadata']['choices']:
             
-            # uncomment below for all crops
-            # for crop_type in crop_param['metadata']['choices']:
+            for crop_type in crop_param['metadata']['choices']:
 
-            # instead just process maize
-            for crop_type in ['maize']:
                 for scen in scen_list_:
 
                     # Ensure run not in Redis:
@@ -285,7 +287,7 @@ if __name__ == "__main__":
                         yield_col = f"season_mean_yield_{crop_type}_{season_type}"
                         production_anomaly = f"season_rel_prodn_quintal_anomaly_{crop_type}_{season_type}"
                         yield_anomaly  = f"season_rel_mean_yield_anomaly_{crop_type}_{season_type}"
-                        cols = param_cols + base_cols + [area_col, production_col, yield_col, production_anomaly, yield_anomaly]
+                        cols = param_cols + b_cols + [area_col, production_col, yield_col, production_anomaly, yield_anomaly]
                         crops_ = c_[cols]
                         crops_ = crops_.rename(columns={area_col: 'area',
                                                         production_col: 'production',

@@ -98,3 +98,7 @@ rq worker high default low -u redis://localhost:6379/0
 ```
 
 This will set the worker to listen to the queues called `high` and `low` as well as the `default` queue using a Redis instance running at `localhost`. For production this should be replaced with the URL for the production Redis instance.
+
+#### DB Setup
+
+You should also ensure that the database is appropriately set up. To do that, you should execute the SQL scripts located in `db/db-setup` against the database.

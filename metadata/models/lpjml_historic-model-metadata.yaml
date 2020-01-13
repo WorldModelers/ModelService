@@ -1,6 +1,6 @@
 id: lpjml_historic
-label: Lund-Potsdam-Jena managed Land Historic
-description: "The LPJmL model has been developed from LPJ, a Dynamic Global Vegetation Model (DGVM), which was designed to simulate the global terrestrial carbon cycle and the response of carbon and vegetation patterns under climate change. As carbon and water cycles are intimately linked, it was quickly extended to also simulate the terrestrial water cycle."
+label: Lund-Potsdam-Jena managed Land Historical
+description: "The model LPJmL ('Lund-Potsdam-Jena managed Land') is designed to simulate vegetation composition and distribution as well as stocks and land-atmosphere exchange flows of carbon, nitrogen, and water, for both natural and agricultural ecosystems. Using a combination of plant physiological relations, generalized empirically established functions and plant trait parameters, it simulates processes such as photosynthesis, plant growth, maintenance and regeneration losses, fire disturbance, soil moisture, runoff, evapotranspiration, irrigation and vegetation structure. LPJmL is currently the only DGVM that has dynamic land use fully incorporated at the global scale. The specific setup used here combines LPJmL 5.1 with historical weather data from NASA Power, dynamic historical land use patterns derived from LUH2 v2h, and dynamic historical nitrogen application rates derived from LUH v2h and Zhang et al. 2017. Changes in yields between years may be caused by changes in all three factors: weather, nitrogen application rates, and land use patterns."
 versions:
 - lpjml_historic_v0.1
 maintainer:
@@ -13,8 +13,8 @@ category:
 
 outputs:
 - name: production
-  description: Harvested weight at harvest (kg/ha)
-  units: kg/ha
+  description: Harvested weight at harvest (kg dry matter/ha)
+  units: kg [dm]/ha
   metadata:
     aggregation:
       geospatial: 
@@ -26,45 +26,41 @@ outputs:
 
 parameters:
 - name: precipitation
-  description: below average, average, or above average rainfall (-,0,+ respectively)
+  description: below average, average, or above average rainfall
   metadata:
     type: ChoiceParameter
-    default: 0
+    default: average
     choices:
-    - '-'
-    - '0'
-    - '+'
+    - below average
+    - average
+    - above average
 - name: temperature
-  description: below average, average, or above average temperature (-,0,+ respectively)
+  description: below average, average, or above average temperature
   metadata:
     type: ChoiceParameter
-    default: "0"
+    default: average
     choices:
-    - "-"
-    - "0"
-    - "+"
+    - below average
+    - average
+    - above average
 - name: crop
   description: crop of interest
   metadata:
     type: ChoiceParameter
-    default: "Temperate cereals (wheat, rye, barley; wheat)"
+    default: "Wheat"
     choices:
-    - 'Temperate cereals (wheat, rye, barley; wheat)'
-    - 'Rice (paddy rice; rice)'
-    - 'Maize (maize for food; maize)'
-    - 'Tropical cereals (millet, sorghum; millet)'
-    - 'Pulses (pulses; field peas)'
-    - 'Temperate roots (sugar beet; sugar beet)'
-    - 'Tropical roots (cassava; cassava)'
-    - 'Sunflower (sunflower; sunflower)'
-    - 'Soybean (soybean; soybean)'
-    - 'Groundnuts (groundnuts; groundnuts)'
-    - 'Rapeseed (rapeseed; rapeseed)'
-    - 'Sugarcane (sugarcane: sugarcane)'
-    - 'others (potatoes, oil palm, citrus, date palm, grapes/vine, cotton, cocoa, coffee, other perennial crops, other annual c'
-    - 'managed grasslands (pastures; managed grasslands)'
-    - 'bio-energy grass'
-    - 'bio-energy tree'
+    - 'Wheat'
+    - 'Rice'
+    - 'Maize'
+    - 'Millet'
+    - 'Pulses'
+    - 'Sugar beet'
+    - 'Cassava'
+    - 'Sunflower'
+    - 'Soybean'
+    - 'Groundnuts'
+    - 'Rapeseed'
+    - 'Sugarcane'
 - name: management_practice
   description: irrigation type (either rainfed or irrigated)
   metadata:
@@ -75,7 +71,7 @@ parameters:
     - "irrigated"
 
 configuration:
-  - precipitation: "0"
-  - temperature: "0"
-  - crop: 'Temperate cereals (wheat, rye, barley; wheat)'
-  - management_practice: rainfed"
+  - precipitation: "average"
+  - temperature: "average"
+  - crop: 'Wheat'
+  - management_practice: "rainfed"
