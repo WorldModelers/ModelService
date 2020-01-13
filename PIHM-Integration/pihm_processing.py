@@ -244,6 +244,11 @@ def check_run_in_redis(model_name, params):
 
     model_config = sortOD(OrderedDict(model_config))
     run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
+    checked = r.sismember(model_name, run_id)
+    if checked:
+        print(f"run_id {run_id} found in Redis")
+    else:
+        print(f"run_id {run_id} NOT found in Redis")
 
     # Check if run in Redis
     return r.sismember(model_name, run_id)
@@ -333,9 +338,6 @@ if __name__ == "__main__":
         m = yaml.safe_load(stream)
     
     model_name = m['id']    
-
-    # Wipe runs for the model
-    r.delete(model_name)
 
     parameters =  {"TS_PRCP":"precipitation",
                    "TS_SFCTMP": "temperature",
