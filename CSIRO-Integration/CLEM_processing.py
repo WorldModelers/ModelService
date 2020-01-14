@@ -82,11 +82,10 @@ def gen_run(model_name, params):
     
     return run_id, model_config, run_obj
 
-def check_run_in_redis(model_name,scenarios,scen,crop_type,season_type):
+def check_run_in_redis(model_name,scenarios,scen,crop_type):
     # obtain scenario parameters
     params = scenarios[scenarios['scenario']==scen].iloc[0].to_dict()
     params['crop'] = crop_type
-    params['season'] = season_type
     params = format_params(params)
 
     params_ = {}
@@ -113,7 +112,7 @@ def sortOD(od):
             res[k] = v
     return res                                
 
-def process_crops_(crops_, scen, crop_type, season_type, scenarios, clem):
+def process_crops_(crops_, scen, crop_type, scenarios, clem):
     """
     Primary function for processing each crop type/season/scenario combo
     """
@@ -126,7 +125,6 @@ def process_crops_(crops_, scen, crop_type, season_type, scenarios, clem):
     # obtain scenario parameters
     params = scenarios[scenarios['scenario']==scen].iloc[0].to_dict()
     params['crop'] = crop_type
-    params['season'] = season_type
     params = format_params(params)
 
     run_id, model_config, run_obj = gen_run(model_name, params)
@@ -224,8 +222,8 @@ eth = cascaded_union(admin2.geometry)
 
 # download CLEM files
 print("Downloading CLEM files...")
-# urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/CSIRO/CLEM_Backcast.csv", "CLEM_Backcast.csv")
-# urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/CSIRO/CLEM_LT_Historical.csv", "CLEM_LT_Historical.csv")
+urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/CSIRO/CLEM_Backcast.csv", "CLEM_Backcast.csv")
+urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/CSIRO/CLEM_LT_Historical.csv", "CLEM_LT_Historical.csv")
 print("Download complete!")
 
 crops = pd.read_csv('CLEM_Backcast.csv')
@@ -246,7 +244,6 @@ crops_lt = crops_lt.merge(scenarios, on='scenario', how='left', suffixes=(False,
 
 model_name = clem['id']
 crop_param = [i for i in clem['parameters'] if i['name']=='crop'][0]
-season_param = [i for i in clem['parameters'] if i['name']=='season'][0]
 
 outputs = {}
 for o in clem['outputs']:
@@ -274,51 +271,50 @@ if __name__ == "__main__":
             scen_list_ = scenario_list
             b_cols = base_cols
         # process backcast results
-        for season_type in season_param['metadata']['choices']:
-            
-            for crop_type in crop_param['metadata']['choices']:
+        
+        for crop_type in crop_param['metadata']['choices']:
 
-                for scen in scen_list_:
+            for scen in scen_list_:
 
-                    # Ensure run not in Redis:
-                    run_in_redis, run_id = check_run_in_redis(model_name,scenarios,scen,crop_type,season_type)
+                # Ensure run not in Redis:
+                run_in_redis, run_id = check_run_in_redis(model_name,scenarios,scen,crop_type)
 
-                    # if run is not in Redis, process it
-                    if not run_in_redis:
-                        # select the correct yield columns for crop/season and rename them
-                        mean_intake = "clem_mean_kcal_intake_from_farm"
-                        percent_cereal = "clem_percent_cereal_reqt_from_farm"
-                        mean_supply = "clem_mean_stored_supply"
-                        sales = f"clem_{crop_type}_sales"
-                        demand = f"clem_{crop_type}_demand"
-                        cols = param_cols + b_cols + [mean_intake, percent_cereal, mean_supply, sales, demand]
-                        crops_ = c_[cols]
-                        crops_ = crops_.rename(columns={mean_intake: 'mean_kcal_intake_from_farm',
-                                                        percent_cereal: 'percent_cereal_reqt_from_farm',
-                                                        mean_supply:'mean_stored_supply',
-                                                        sales: 'sales',
-                                                        demand:'demand'})
+                # if run is not in Redis, process it
+                if not run_in_redis:
+                    # select the correct yield columns for crop/season and rename them
+                    mean_intake = "clem_mean_kcal_intake_from_farm"
+                    percent_cereal = "clem_percent_cereal_reqt_from_farm"
+                    mean_supply = "clem_mean_stored_supply"
+                    sales = f"clem_{crop_type}_sales"
+                    demand = f"clem_{crop_type}_demand"
+                    cols = param_cols + b_cols + [mean_intake, percent_cereal, mean_supply, sales, demand]
+                    crops_ = c_[cols]
+                    crops_ = crops_.rename(columns={mean_intake: 'mean_kcal_intake_from_farm',
+                                                    percent_cereal: 'percent_cereal_reqt_from_farm',
+                                                    mean_supply:'mean_stored_supply',
+                                                    sales: 'sales',
+                                                    demand:'demand'})
 
-                        crops_['datetime'] = crops_.month.apply(lambda x: datetime(year=2018,month=int(x),day=1))
+                    crops_['datetime'] = crops_.month.apply(lambda x: datetime(year=2018,month=int(x),day=1))
+                    
+                    # subset for the correct scenario
+                    crops_ = crops_[crops_['scenario'] == scen]
+                    
+                    # drop rows where yield fields are NA
+                    crops_ = crops_.dropna(subset=['mean_kcal_intake_from_farm','percent_cereal_reqt_from_farm','mean_stored_supply','sales','demand'])
+                    
+                    gdf, run_id = process_crops_(crops_, scen, crop_type, scenarios, clem)
+
+                    print(f"Processing {crop_type} with run_id {run_id}")
                         
-                        # subset for the correct scenario
-                        crops_ = crops_[crops_['scenario'] == scen]
+                    for feature in ['mean_kcal_intake_from_farm','percent_cereal_reqt_from_farm','mean_stored_supply','sales','demand']:
+                        gdf_ = gdf
+                        gdf_['feature_name'] = feature
+                        gdf_['feature_value'] = gdf_[feature]
+                        gdf_['feature_description'] = outputs[feature]['description']
                         
-                        # drop rows where yield fields are NA
-                        crops_ = crops_.dropna(subset=['mean_kcal_intake_from_farm','percent_cereal_reqt_from_farm','mean_stored_supply','sales','demand'])
-                        
-                        gdf, run_id = process_crops_(crops_, scen, crop_type, season_type, scenarios, clem)
+                        db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
+                        db_session.commit()    
 
-                        print(f"Processing {crop_type} for {season_type} season with run_id {run_id}")
-                            
-                        for feature in ['mean_kcal_intake_from_farm','percent_cereal_reqt_from_farm','mean_stored_supply','sales','demand']:
-                            gdf_ = gdf
-                            gdf_['feature_name'] = feature
-                            gdf_['feature_value'] = gdf_[feature]
-                            gdf_['feature_description'] = outputs[feature]['description']
-                            
-                            db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
-                            db_session.commit()    
-
-                    else: 
-                        print(f"Run {run_id} already in Redis for scenario {scen}")
+                else: 
+                    print(f"Run {run_id} already in Redis for scenario {scen}")

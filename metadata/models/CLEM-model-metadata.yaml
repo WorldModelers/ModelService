@@ -92,14 +92,6 @@ parameters:
     - sorghum
     - barley
     default: teff
-- name: season
-  description: select the season to model
-  metadata:
-    type: ChoiceParameter
-    choices:
-    - belg
-    - meher
-    default: meher
 - name: climate_anomalies
   description: One of 5 classes based on the mean 2018-19 cropping-year (March-February) rainfall and temperature anomalies in the climate ensemble member. Ensemble members where the root-mean-square anomaly of temperature and precipitation are within 0.9 standard deviations are "midrange"; otherwise ensemble members are classified according to the quadrant in which they fall.
   metadata:
@@ -172,7 +164,6 @@ parameters:
 
 configuration:
   - crop: teff
-    season: meher
     climate_anomalies: midrange
     cereal_prodn_pctile: 0.5
     cereal_prodn_tercile: Middle tercile
