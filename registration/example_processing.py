@@ -150,11 +150,6 @@ admin2['admin2'] = admin2['NAME_2']
 admin2['GID_2'] = admin2['GID_2'].apply(lambda x: x.split("_")[0])
 admin2['GID_1'] = admin2['GID_1'].apply(lambda x: x.split("_")[0])
 
-model_name = m['id']
-
-outputs = {}
-for o in m['outputs']:
-    outputs[o['name']] = o
     
 ##################################################
 ##################################################
@@ -163,10 +158,17 @@ if __name__ == "__main__":
     run_path = sys.argv[1]
     metadata = sys.argv[2]
 
-    with open(meta, 'r') as stream:
+    with open(metadata, 'r') as stream:
         m = yaml.safe_load(stream)    
 
-    files = glob.glob(run_path)
+    model_name = m['id']
+    
+    outputs = {}
+    for o in m['outputs']:
+        outputs[o['name']] = o    
+
+    files = glob.glob(f"{run_path}/*.csv")
+    print(files)
 
     for file in files:
         df = pd.read_csv(file)
@@ -183,7 +185,7 @@ if __name__ == "__main__":
         for kk, vv in outputs.items():
             gdf_ = gdf
             gdf_['feature_name'] = kk
-            gdf_['feature_value'] = gdf_[feature]
+            gdf_['feature_value'] = gdf_[kk]
             gdf_['feature_description'] = vv['description']
             
             db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
