@@ -8,7 +8,7 @@ versions:
 maintainer:
   name: Cheryl Porter
   email: cporter@ufl.edu
-executable: true  
+executable: false  
 category:
 - Agriculture
 
@@ -73,20 +73,20 @@ parameters:
     minumum: 1
     maximum: 0
 - name: management_practice
-  description: 'The management practice to model. maize_rf_highN corresponds to a
-    high nitrogen management  practice. maize_irrig corresponds to a high nitrogen,
-    irrigated management practice. maize_rf_0N  corresponds to a subsistence management
-    practice. maize_rf_lowN corresponds to a low nitrogen  managemet practice. If
+  description: 'The management practice to model. rf_highN corresponds to a
+    high nitrogen management  practice. irrig corresponds to a high nitrogen,
+    irrigated management practice. rf_0N  corresponds to a subsistence management
+    practice. rf_lowN corresponds to a low nitrogen  managemet practice. If
     set to combined, all practices are produced. '
   metadata:
     type: ChoiceParameter
     default: combined
     choices:
     - combined
-    - maize_rf_highN
-    - maize_irrig
-    - maize_rf_0N
-    - maize_rf_lowN
+    - rf_highN
+    - irrig
+    - rf_0N
+    - rf_lowN
 - name: start_year
   description: The year to begin the simulation. The earliest possible year to begin
     is 1984 and the latest is  2019.

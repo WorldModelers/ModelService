@@ -45,13 +45,13 @@ param_types = {'samples':'integer',
 
 def get_mgmt(filename):
     if 'rf_highn' in filename.lower():
-        return 'maize_rf_highN'
+        return 'rf_highN'
     elif 'irrig' in filename.lower():
-        return 'maize_irrig'
+        return 'irrig'
     elif 'rf_0N' in filename.lower():
-        return 'maize_rf_0N'
+        return 'rf_0N'
     elif 'rf_lown' in filename.lower():
-        return 'maize_rf_lowN'
+        return 'rf_lowN'
 
 def gen_run(model_name, params, file):
     
@@ -267,6 +267,8 @@ if __name__ == "__main__":
                 print(params)
                 df = pd.read_csv(filename, index_col=False)
                 df['geometry'] = df.apply(lambda x: Point(x.LONGITUDE, x.LATITUDE), axis=1)
+                df['latitude'] = df.LATITUDE
+                df['longitude'] = df.LONGITUDE
                 df['Production'] = df['HWAH'] * df['HARVEST_AREA']
 
                 file = filename.split('/')[2]
