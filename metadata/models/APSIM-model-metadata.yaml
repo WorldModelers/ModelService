@@ -89,7 +89,7 @@ parameters:
     - meher
     default: meher
 - name: climate_anomalies
-  description: One of 5 classes based on the mean 2018-19 cropping-year (March-February) rainfall and temperature anomalies in the climate ensemble member. Ensemble members where the root-mean-square anomaly of temperature and precipitation are within 0.9 standard deviations are "midrange"; otherwise ensemble members are classified according to the quadrant in which they fall.
+  description: One of 5 classes based on the mean 2018-19 cropping-year (March-February) rainfall and temperature anomalies in the climate ensemble member. Ensemble members where the root-mean-square anomaly of temperature and precipitation are within 0.9 standard deviations are "midrange"; otherwise ensemble members are classified according to the quadrant in which they fall. Null for historical runs.
   metadata:
     type: ChoiceParameter
     choices:
@@ -100,14 +100,14 @@ parameters:
     - cool,dry
     default: midrange
 - name: cereal_prodn_pctile
-  description: Ranking of total national production of the 5 cereals as modelled under 2018 land use and practices, expressed as a percentile (the zero percentile is lowest)
+  description: Ranking of total national production of the 5 cereals as modelled under 2018 land use and practices, expressed as a percentile (the zero percentile is lowest). Null for historical runs.
   metadata:
     type: NumberParameter
     minimum: 0
     maximum: 1
     default: 0.5
 - name: cereal_prodn_tercile
-  description: Grouping of climate ensemble members according to terciles of total national production of the 5 cereals as modelled under 2018 land use and practices
+  description: Grouping of climate ensemble members according to terciles of total national production of the 5 cereals as modelled under 2018 land use and practices. Null for historical runs.
   metadata:
     type: ChoiceParameter
     choices:

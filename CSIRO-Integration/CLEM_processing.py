@@ -39,9 +39,17 @@ def num(s):
         return s
 
 def format_params(params_):
-    # floats
+    
+    # For historical: remove NAN values for these three parameters
+    # Otherwsie format cereal_prodn_pctile (as float)
+    if not pd.isna(params_['climate_anomalies']):
+            params_['cereal_prodn_pctile'] = num(params_['cereal_prodn_pctile'])
+    else:
+        params_.pop('climate_anomalies')
+        params_.pop('cereal_prodn_pctile')
+        params_.pop('cereal_prodn_tercile')
+     # floats
     params_['irrigation'] = num(params_['irrigation'])
-    params_['cereal_prodn_pctile'] = num(params_['cereal_prodn_pctile'])
     params_['additional_extension'] = num(params_['additional_extension'])
     params_['temperature'] = num(params_['temperature'])
     params_['rainfall'] = num(params_['rainfall'])
@@ -157,13 +165,11 @@ def process_crops_(crops_, scen, crop_type, scenarios, clem):
         if not pd.isna(params[param['name']]):
             if param['metadata']['type'] == 'ChoiceParameter':
                 p_type = 'string'
-                p_value = params[param['name']]
-            elif param['name'] == 'temperature':
-                p_type = 'float'
-                p_value = float(params[param['name']])
+            elif param['name'] == 'fertilizer' or param['name'] == 'sowing_window_shift':
+                p_type = 'int'
             else:
-                p_type = 'integer'
-                p_value = int(params[param['name']])
+                p_type = 'float'
+            p_value = params[param['name']]
 
             param = Parameters(run_id=run_id,
                               model=model_name,
