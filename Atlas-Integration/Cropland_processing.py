@@ -233,7 +233,7 @@ if __name__ == "__main__":
     admin2['admin2'] = admin2['NAME_2']
     admin2 = admin2[['geometry','country','state','admin1','admin2']]   
 
-    with open('../metadata/models/Cropland-model-metadata.yaml', 'r') as stream:
+    with open('../metadata/models/cropland-model-metadata.yaml', 'r') as stream:
         m = yaml.safe_load(stream)
     
     model_name = m['id']
@@ -253,6 +253,16 @@ if __name__ == "__main__":
     binary_files = glob.glob(b_q)
     prob_files = glob.glob(p_q)
 
+    for method in ['binary','probability']
+        params = {'method': method}
+        run_id, model_config = gen_run(params, model_name)
+        if method == 'binary':
+            binary_run_id = run_id
+            binary_config = model_config
+        else:
+            prob_run_id = run_id
+            prob_config = model_config
+
     for f in binary_files + prob_files:
         print(f"Processing {f}")
         if 'binary' in f:
@@ -260,7 +270,5 @@ if __name__ == "__main__":
         else:
             method = 'probability'
 
-        params = {'method': method}
-        run_id, model_config = gen_run(f, params, model_name)
         print(f"{method}: {run_id}")
         main(f, method, model_name, m)
