@@ -96,8 +96,8 @@ def process(df, params, m, model_name, file):
     meta = Metadata(run_id=run_id, 
                     model=model_name,
                     raw_output_link= f"https://model-service.worldmodelers.com/results/{model_name}_results/{file}",
-                    run_label="Run for {model_name}",
-                    point_resolution_meters=m['point_resolution_meters'])
+                    run_label=f"Run for {model_name}",
+                    point_resolution_meters=m.get("point_resolution_meters",1000))
     db_session.add(meta)
     db_session.commit()
 
@@ -142,7 +142,7 @@ s3 = session.resource("s3")
 s3_client = session.client("s3")
 s3_bucket= s3.Bucket(bucket)
 
-admin2 = gpd.read_file("../gadm36_ETH_shp/gadm36_ETH_2.shp")
+admin2 = gpd.read_file("../shapes/gadm36_ETH_shp/gadm36_ETH_2.shp")
 admin2['country'] = admin2['NAME_0']
 admin2['state'] = admin2['NAME_1']
 admin2['admin1'] = admin2['NAME_1']
@@ -168,9 +168,9 @@ if __name__ == "__main__":
         outputs[o['name']] = o    
 
     files = glob.glob(f"{run_path}/*.csv")
-    print(files)
-
+    
     for file in files:
+        print(f"Ingesting file {file}...")
         df = pd.read_csv(file)
         df['geometry'] = df.apply(lambda x: Point(x.longitude, x.latitude), axis=1)
 

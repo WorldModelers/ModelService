@@ -277,6 +277,7 @@ if __name__ == "__main__":
                 gdf_['feature_name'] = feature
                 gdf_['feature_value'] = gdf_[feature]
                 gdf_['feature_description'] = outputs[feature]['description']
+                gdf_ = gdf_.dropna(subset=['feature_name','feature_value'])
 
                 db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
                 db_session.commit()    
