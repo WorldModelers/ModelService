@@ -70,9 +70,9 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     nData    = rBand.GetNoDataValue()
     if nData == None:
         logging.info(f"No nodataval found, setting to {nodataval}")
-        nData = np.float64(nodataval) # set it to something if not set
+        nData = np.float32(nodataval) # set it to something if not set
     else:
-        nData = np.float64(nodataval)
+        nData = np.float32(nodataval)
         logging.info(f"Nodataval is: {nData}")
 
     # specify the center offset (takes the point in middle of pixel)
@@ -107,28 +107,17 @@ def raster2gpd(InRaster,feature_name,band=1,nodataval=-9999):
     return gpd.GeoDataFrame(points, columns=['geometry','longitude','latitude','feature_value','feature_name'])
 
 def ingest_to_db(InRaster, run_id, *,
-                model_name, method, m):
+                model_name, m):
 
     # Add metadata object to DB
     meta = Metadata(run_id=run_id, 
                     model=model_name,
                     raw_output_link= f"https://model-service.worldmodelers.com/results/{model_name}_results/{run_id}.tif",
-                    run_label=f"{model_name} run for {method} method.",
+                    run_label=f"{model_name} run.",
                     point_resolution_meters=120)
     db_session.add(meta)
     db_session.commit()
-
-    # Add parameters to DB
-    print("Storing parameters...")
-    param = Parameters(run_id=run_id,
-                      model=model_name,
-                      parameter_name="method",
-                      parameter_value=method,
-                      parameter_type="string"
-                      )
-    db_session.add(param)
-    db_session.commit()        
-        
+      
     # iterate over the bands that should be included (1 per month)
     for year in range(2009,2020):
         band = year - 2008
@@ -154,13 +143,13 @@ def ingest_to_db(InRaster, run_id, *,
             del(gdf['index_right'])
 
         # perform bulk insert of entire geopandas DF
-        print(f"Ingesting {year} of {model_name} for method {method} to database\n")
+        print(f"Ingesting {year} of {model_name} to database\n")
         db_session.bulk_insert_mappings(Output, gdf.to_dict(orient="records"))
         db_session.commit()    
 
-def gen_run(f, params, model_name):
+def gen_run(model_name):
     model_config = {
-                    'config': params,
+                    'config': {},
                     'name': model_name
                    }
 
@@ -189,25 +178,6 @@ def gen_run(f, params, model_name):
     r.hmset(run_id, run_obj)
     
     return run_id, model_config
-
-
-def check_run_in_redis(model_name, params):
-    """Returns TRUE if run is already in Redis"""
-    model_config = {
-                    'config': params,
-                    'name': model_name
-                   }
-
-    model_config = sortOD(OrderedDict(model_config))
-    run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
-    checked = r.sismember(model_name, run_id)
-    if checked:
-        print(f"run_id {run_id} found in Redis")
-    else:
-        print(f"run_id {run_id} NOT found in Redis")
-
-    # Check if run in Redis
-    return r.sismember(model_name, run_id)
           
 def sortOD(od):
     res = OrderedDict()
@@ -218,8 +188,8 @@ def sortOD(od):
             res[k] = v
     return res
 
-def main(f, method, model_name, m):
-    ingest_to_db(f, run_id, model_name=model_name, method=method, m=m)    
+def main(f, model_name, m):
+    ingest_to_db(f, run_id, model_name=model_name, m=m)    
 
 if __name__ == "__main__":
     init_db()
@@ -239,36 +209,16 @@ if __name__ == "__main__":
     model_name = m['id']
 
     # File and folder paths
-    binary_dirpath = "binary-cropland-120m"
     prob_dirpath = "proba-cropland-120m"
 
     # Make a search criteria to select the DEM files
     search_criteria = "atlas*.tif"
-
-    b_q = os.path.join(binary_dirpath, search_criteria)
     p_q = os.path.join(prob_dirpath, search_criteria)
+    print(p_q)
 
-    print(b_q, p_q)
-
-    binary_files = glob.glob(b_q)
     prob_files = glob.glob(p_q)
 
-    for method in ['binary','probability']
-        params = {'method': method}
-        run_id, model_config = gen_run(params, model_name)
-        if method == 'binary':
-            binary_run_id = run_id
-            binary_config = model_config
-        else:
-            prob_run_id = run_id
-            prob_config = model_config
+    run_id, model_config = gen_run(model_name)
 
-    for f in binary_files + prob_files:
-        print(f"Processing {f}")
-        if 'binary' in f:
-            method = 'binary'
-        else:
-            method = 'probability'
-
-        print(f"{method}: {run_id}")
-        main(f, method, model_name, m)
+    for f in prob_files:
+        main(f, model_name, m)

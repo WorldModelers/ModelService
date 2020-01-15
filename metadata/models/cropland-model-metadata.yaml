@@ -24,16 +24,3 @@ outputs:
       temporal: 
         default: average
         allowed: [average, sum, min, max, std]
-
-parameters:
-- name: method
-  description: Choose whether to return binary probabilities or continuous probabilities
-  metadata:
-    type: ChoiceParameter
-    choices:
-    - binary
-    - probability
-    default: binary
-
-configuration:
-  - method: binary
