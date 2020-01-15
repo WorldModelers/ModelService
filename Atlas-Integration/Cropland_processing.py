@@ -219,8 +219,6 @@ def sortOD(od):
     return res
 
 def main(f, method, model_name, m):
-    params = {'method': method}
-    run_id, model_config = gen_run(f, params, model_name)
     ingest_to_db(f, run_id, model_name=model_name, method=method, m=m)    
 
 if __name__ == "__main__":
@@ -240,13 +238,29 @@ if __name__ == "__main__":
     
     model_name = m['id']
 
-    raster_files = ['atlasai_croplandhistory_binary_2009_2019_120m.tif','atlasai_croplandhistory_proba_2009_2019_120m.tif']    
+    # File and folder paths
+    binary_dirpath = "binary-cropland-120m"
+    prob_dirpath = "proba-cropland-120m"
 
-    for f in raster_files:
+    # Make a search criteria to select the DEM files
+    search_criteria = "atlas*.tif"
+
+    b_q = os.path.join(binary_dirpath, search_criteria)
+    p_q = os.path.join(prob_dirpath, search_criteria)
+
+    print(b_q, p_q)
+
+    binary_files = glob.glob(b_q)
+    prob_files = glob.glob(p_q)
+
+    for f in binary_files + prob_files:
         print(f"Processing {f}")
         if 'binary' in f:
             method = 'binary'
         else:
             method = 'probability'
 
+        params = {'method': method}
+        run_id, model_config = gen_run(f, params, model_name)
+        print(f"{method}: {run_id}")
         main(f, method, model_name, m)
