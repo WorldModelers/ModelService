@@ -69,6 +69,7 @@ parameters:
     type: ChoiceParameter
     choices:
     - Ethiopia
+    - South Sudan
     default: Ethiopia
 - name: year
   description: Select the year of interest.

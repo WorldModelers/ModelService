@@ -241,6 +241,13 @@ def main(f, *, model_name, params, m):
 if __name__ == "__main__":
     init_db()
 
+    # # download DSSAT files
+    print("Downloading market price data files...")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/Kimetrica/market-price-data.zip", "market-price-data.zip")
+
+    print("Unpacking market price data files...")
+    shutil.unpack_archive("market-price-data.zip")    
+
     # File and folder paths
     files = glob.glob('market-price-data/**/**.tiff')
     print(files)
