@@ -206,6 +206,25 @@ def gen_run(model_name, params):
     r.hmset(run_id, run_obj)
     
     return run_id, model_config
+
+def check_run_in_redis(model_name, params):
+    """Returns TRUE if run is already in Redis"""
+    model_config = {
+                    'config': params,
+                    'name': model_name
+                   }
+
+    model_config = sortOD(OrderedDict(model_config))
+    run_id = sha256(json.dumps(model_config).encode('utf-8')).hexdigest()
+    checked = r.sismember(model_name, run_id)
+    if checked:
+        print(f"run_id {run_id} found in Redis")
+    else:
+        print(f"run_id {run_id} NOT found in Redis")
+
+    # Check if run in Redis
+    return r.sismember(model_name, run_id)
+
           
 def sortOD(od):
     res = OrderedDict()
@@ -250,6 +269,9 @@ if __name__ == "__main__":
 
         for commodity in bands.keys():
             params = {'country': country, 'rainfall_scenario': rainfall_scenario, 'year': year, 'month': month, 'commodity': commodity}
-            print(f"Processing {model_name} for {params['year']}-{params['month']} and {params['commodity']} with rainfall {params['rainfall_scenario']}")
-            run_id, model_config = gen_run(model_name, params)
-            main(f, model_name=model_name, params=params, m=m)
+            if not check_run_in_redis(model_name,params):
+                print(f"Processing {model_name} for {params['year']}-{params['month']} and {params['commodity']} with rainfall {params['rainfall_scenario']}")
+                run_id, model_config = gen_run(model_name, params)
+                main(f, model_name=model_name, params=params, m=m)
+            else:
+                print("Run already in Redis")
