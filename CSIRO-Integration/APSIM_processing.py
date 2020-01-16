@@ -62,8 +62,12 @@ def format_params(params_):
 def gen_run(model_name, params):
     params_ = {}
     for param in apsim['parameters']:
-        params_[param['name']] = params[param['name']]
-    
+        try:
+            params_[param['name']] = params[param['name']]
+        except:
+            # this is for the LT scenarios where some parameters are missing/null
+            pass
+
     model_config = {
                     'config': params_,
                     'name': model_name
@@ -99,7 +103,11 @@ def check_run_in_redis(model_name,scenarios,scen,crop_type,season_type):
 
     params_ = {}
     for param in apsim['parameters']:
-        params_[param['name']] = params[param['name']]
+        try:
+            params_[param['name']] = params[param['name']]
+        except:
+            # this is for the LT scenarios where some parameters are missing/null
+            pass
     
     model_config = {
                     'config': params_,
@@ -164,7 +172,7 @@ def process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim):
     # Add parameters to DB
     for param in apsim['parameters']:
         # ensure that no null parameters are stored
-        if not pd.isna(params[param['name']]):
+        try:
             if param['metadata']['type'] == 'ChoiceParameter':
                 p_type = 'string'
             elif param['name'] == 'fertilizer' or param['name'] == 'sowing_window_shift':
@@ -181,6 +189,9 @@ def process_crops_(crops_, scen, crop_type, season_type, scenarios, apsim):
                               )
             db_session.add(param)
             db_session.commit()
+        except:
+            # skip LT parameters
+            pass
         
     gdf = gpd.GeoDataFrame(crops_)
     gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
