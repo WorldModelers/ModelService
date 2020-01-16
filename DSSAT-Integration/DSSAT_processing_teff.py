@@ -199,7 +199,7 @@ for o in dssat['outputs']:
 
 if __name__ == "__main__":
 
-    # # download DSSAT files
+    # download DSSAT files
     print("Downloading DSSAT basline file...")
     urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Teff_baseline_and_single_sens.tar.xz", "dssat_baseline_teff.tar.xz")
 
@@ -214,7 +214,9 @@ if __name__ == "__main__":
 
     baseline_runs = []
     for filename in glob.iglob('dssat_baseline_teff/**/**.csv', recursive=True):
-         baseline_runs.append(filename)
+        # ensure that the single sensitivity runs are not included
+        if not any(x in filename for x in ['erain','fen_tot','pfrst']):
+            baseline_runs.append(filename)
 
     sensitivity_runs = []
     for filename in glob.iglob('dssat_sensitivity_teff/**/**.csv', recursive=True):
