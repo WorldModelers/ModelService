@@ -49,3 +49,7 @@ prints the first variable from the first input file.
 ## Schema validation
 
 You can validate all the YAML schemas by running `validate.py` from the `metadata` directory. This relies on the `metadata-schema.json` file which is also stored in that same directory.
+
+## Conveting YAML to human readable `.docx`
+
+You can convert the YAML files to a (more) human readable `.docx` form using the `metadata-to-docx.py` script in the `metadata` directory. You can run this with `python metadata-to-docx.py`.

@@ -22,3 +22,4 @@ gdal==2.4.0
 netCDF4
 oyaml
 rasterio==1.1.0
+python-docx==0.8.10
