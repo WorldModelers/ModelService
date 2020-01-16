@@ -114,7 +114,7 @@ def ingest_to_db(InRaster, run_id, *,
                     model=model_name,
                     raw_output_link= f"https://model-service.worldmodelers.com/results/{model_name}_results/{run_id}.tif",
                     run_label=f"{model_name} run.",
-                    point_resolution_meters=120)
+                    point_resolution_meters=480)
     db_session.add(meta)
     db_session.commit()
       
@@ -209,7 +209,7 @@ if __name__ == "__main__":
     model_name = m['id']
 
     # File and folder paths
-    prob_dirpath = "proba-cropland-120m"
+    prob_dirpath = "proba-cropland-480m"
 
     # Make a search criteria to select the DEM files
     search_criteria = "atlas*.tif"
