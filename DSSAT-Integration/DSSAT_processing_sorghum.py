@@ -200,17 +200,29 @@ for o in dssat['outputs']:
 if __name__ == "__main__":
 
     # download DSSAT files
+    print("Downloading DSSAT basline file...")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Sorghum_baseline_and_single_sens.tar.xz", "dssat_baseline_sorghum.tar.xz")
+
+    print("Unpacking DSSAT basline files...")
+    shutil.unpack_archive("dssat_baseline_sorghum.tar.xz", "dssat_baseline_sorghum")
+
     print("Downloading DSSAT sensitivity file...")
     urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oromia_Sorghum_global_sens.tar.xz", "dssat_sensitivity_sorghum.tar.xz")
 
     print("Unpacking DSSAT sensitivity files...")
     shutil.unpack_archive("dssat_sensitivity_sorghum.tar.xz", "dssat_sensitivity_sorghum")    
 
+    baseline_runs = []
+    for filename in glob.iglob('dssat_baseline_sorghum/**/**.csv', recursive=True):
+        # ensure that the single sensitivity runs are not included
+        if not any(x in filename for x in ['erain','fen_tot','pfrst']):
+            baseline_runs.append(filename)
+
     sensitivity_runs = []
     for filename in glob.iglob('dssat_sensitivity_sorghum/**/**.csv', recursive=True):
          sensitivity_runs.append(filename)         
 
-    all_runs = {'sensitivity': sensitivity_runs}
+    all_runs = {'baseline': baseline_runs, 'sensitivity': sensitivity_runs}
     
     #### PROCESS BASELINE RUNS ####
     ###############################
