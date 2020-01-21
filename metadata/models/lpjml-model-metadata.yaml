@@ -81,7 +81,7 @@ parameters:
 
 configuration:
   - climate_year: 2017
-  - crop: 'Wheat'
-  - management_practice: "rainfed"
-  - nitrogen: "BASELINE"
-  - irrigation: "BASELINE"
+  - crop: Wheat
+  - management_practice: rainfed
+  - nitrogen: BASELINE
+  - irrigation: BASELINE
