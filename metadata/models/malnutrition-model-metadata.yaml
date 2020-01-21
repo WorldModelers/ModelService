@@ -74,6 +74,6 @@ parameters:
 
 configuration:
 - rainfall_scenario: normal
-- country: Ethiopia
-- year: 2018
-- month: 1
+  country: Ethiopia
+  year: 2018
+  month: 1

@@ -72,6 +72,6 @@ parameters:
 
 configuration:
   - precipitation: average
-  - temperature: average
-  - crop: Wheat
-  - management_practice: rainfed
+    temperature: average
+    crop: Wheat
+    management_practice: rainfed
