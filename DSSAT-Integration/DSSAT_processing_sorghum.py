@@ -236,9 +236,9 @@ if __name__ == "__main__":
                 season = "Meher"
 
             management_practice = get_mgmt(filename)
-            start_year = 1984
+            start_year = 2007
             samples = 0
-            number_years = 35
+            number_years = 10
             crop = 'sorghum'
 
             if run_type == 'baseline':
@@ -273,6 +273,7 @@ if __name__ == "__main__":
                 df['longitude'] = df.LONGITUDE
                 df['Production'] = df['HWAH'] * df['HARVEST_AREA']
                 df['year'] = df['HDAT'].apply(lambda x: int(str(x)[:4]))
+                df = df[df['year'] >= 2007]
                 df['days'] = df['HDAT'].apply(lambda x: int(str(x)[4:]))
                 df['datetime'] = df.apply(lambda x: datetime(year=x.year, month=1, day=1) + timedelta(days=x.days-1), axis=1)
 

@@ -199,18 +199,18 @@ for o in dssat['outputs']:
 
 if __name__ == "__main__":
 
-    # # download DSSAT files
-    print("Downloading DSSAT basline file...")
-    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline_maize.tar.xz")
+    # # # download DSSAT files
+    # print("Downloading DSSAT basline file...")
+    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline_maize.tar.xz")
 
-    print("Unpacking DSSAT basline files...")
-    shutil.unpack_archive("dssat_baseline_maize.tar.xz", "dssat_baseline_maize")
+    # print("Unpacking DSSAT basline files...")
+    # shutil.unpack_archive("dssat_baseline_maize.tar.xz", "dssat_baseline_maize")
 
-    print("Downloading DSSAT sensitivity file...")
-    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity_maize.tar.xz")
+    # print("Downloading DSSAT sensitivity file...")
+    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity_maize.tar.xz")
 
-    print("Unpacking DSSAT sensitivity files...")
-    shutil.unpack_archive("dssat_sensitivity_maize.tar.xz", "dssat_sensitivity_maize")    
+    # print("Unpacking DSSAT sensitivity files...")
+    # shutil.unpack_archive("dssat_sensitivity_maize.tar.xz", "dssat_sensitivity_maize")    
 
     baseline_runs = []
     for filename in glob.iglob('dssat_baseline_maize/**/**.csv', recursive=True):
@@ -234,9 +234,9 @@ if __name__ == "__main__":
                 season = "Meher"
 
             management_practice = get_mgmt(filename)
-            start_year = 1984
+            start_year = 2007
             samples = 0
-            number_years = 35
+            number_years = 10
             crop = 'maize'
 
             if run_type == 'baseline':
@@ -271,6 +271,7 @@ if __name__ == "__main__":
                 df['longitude'] = df.LONGITUDE
                 df['Production'] = df['HWAH'] * df['HARVEST_AREA']
                 df['year'] = df['HDAT'].apply(lambda x: int(str(x)[:4]))
+                df = df[df['year'] >= 2007]
                 df['days'] = df['HDAT'].apply(lambda x: int(str(x)[4:]))
                 df['datetime'] = df.apply(lambda x: datetime(year=x.year, month=1, day=1) + timedelta(days=x.days-1), axis=1)
 
