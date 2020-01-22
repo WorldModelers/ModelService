@@ -199,18 +199,18 @@ for o in dssat['outputs']:
 
 if __name__ == "__main__":
 
-    # # # download DSSAT files
-    # print("Downloading DSSAT basline file...")
-    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline_maize.tar.xz")
+    # # download DSSAT files
+    print("Downloading DSSAT basline file...")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline_maize.tar.xz")
 
-    # print("Unpacking DSSAT basline files...")
-    # shutil.unpack_archive("dssat_baseline_maize.tar.xz", "dssat_baseline_maize")
+    print("Unpacking DSSAT basline files...")
+    shutil.unpack_archive("dssat_baseline_maize.tar.xz", "dssat_baseline_maize")
 
-    # print("Downloading DSSAT sensitivity file...")
-    # urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity_maize.tar.xz")
+    print("Downloading DSSAT sensitivity file...")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity_maize.tar.xz")
 
-    # print("Unpacking DSSAT sensitivity files...")
-    # shutil.unpack_archive("dssat_sensitivity_maize.tar.xz", "dssat_sensitivity_maize")    
+    print("Unpacking DSSAT sensitivity files...")
+    shutil.unpack_archive("dssat_sensitivity_maize.tar.xz", "dssat_sensitivity_maize")    
 
     baseline_runs = []
     for filename in glob.iglob('dssat_baseline_maize/**/**.csv', recursive=True):
