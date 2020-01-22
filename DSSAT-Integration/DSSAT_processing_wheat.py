@@ -272,9 +272,9 @@ if __name__ == "__main__":
                 df['latitude'] = df.LATITUDE
                 df['longitude'] = df.LONGITUDE
                 df['Production'] = df['HWAH'] * df['HARVEST_AREA']
-                df['year'] = df['HDAT'].apply(lambda x: int(x[:4]))
-                df['days'] = df['HDAT'].apply(lambda x: int(x[4:]))
-                df['datetime'] = df.apply(lambda x: datetime(year=x.year, month=1, day=1) + timedelta(days=df.days-1), axis=1)                
+                df['year'] = df['HDAT'].apply(lambda x: int(str(x)[:4]))
+                df['days'] = df['HDAT'].apply(lambda x: int(str(x)[4:]))
+                df['datetime'] = df.apply(lambda x: datetime(year=x.year, month=1, day=1) + timedelta(days=x.days-1), axis=1)                
 
                 file = filename.split('/')[2]
                 gdf, run_id = process_dssat(df, params, dssat, model_name, file)

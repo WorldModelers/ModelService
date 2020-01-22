@@ -201,23 +201,23 @@ if __name__ == "__main__":
 
     # # download DSSAT files
     print("Downloading DSSAT basline file...")
-    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline.tar.xz")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_ALL_Maize_baseline.tar.xz", "dssat_baseline_maize.tar.xz")
 
     print("Unpacking DSSAT basline files...")
-    shutil.unpack_archive("dssat_baseline.tar.xz", "dssat_baseline")
+    shutil.unpack_archive("dssat_baseline_maize.tar.xz", "dssat_baseline_maize")
 
     print("Downloading DSSAT sensitivity file...")
-    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity.tar.xz")
+    urllib.request.urlretrieve("https://world-modelers.s3.amazonaws.com/data/DSSAT/ETH_Oroima_Maize_global_sens.tar.xz", "dssat_sensitivity_maize.tar.xz")
 
     print("Unpacking DSSAT sensitivity files...")
-    shutil.unpack_archive("dssat_sensitivity.tar.xz", "dssat_sensitivity")    
+    shutil.unpack_archive("dssat_sensitivity_maize.tar.xz", "dssat_sensitivity_maize")    
 
     baseline_runs = []
-    for filename in glob.iglob('dssat_baseline/**/**.csv', recursive=True):
+    for filename in glob.iglob('dssat_baseline_maize/**/**.csv', recursive=True):
          baseline_runs.append(filename)
 
     sensitivity_runs = []
-    for filename in glob.iglob('dssat_sensitivity/**/**.csv', recursive=True):
+    for filename in glob.iglob('dssat_sensitivity_maize/**/**.csv', recursive=True):
          sensitivity_runs.append(filename)         
 
     all_runs = {'baseline': baseline_runs, 'sensitivity': sensitivity_runs}
@@ -270,9 +270,9 @@ if __name__ == "__main__":
                 df['latitude'] = df.LATITUDE
                 df['longitude'] = df.LONGITUDE
                 df['Production'] = df['HWAH'] * df['HARVEST_AREA']
-                df['year'] = df['HDAT'].apply(lambda x: int(x[:4]))
-                df['days'] = df['HDAT'].apply(lambda x: int(x[4:]))
-                df['datetime'] = df.apply(lambda x: datetime(year=x.year, month=1, day=1) + timedelta(days=df.days-1), axis=1)
+                df['year'] = df['HDAT'].apply(lambda x: int(str(x)[:4]))
+                df['days'] = df['HDAT'].apply(lambda x: int(str(x)[4:]))
+                df['datetime'] = df.apply(lambda x: datetime(year=x.year, month=1, day=1) + timedelta(days=x.days-1), axis=1)
 
                 file = filename.split('/')[2]
                 gdf, run_id = process_dssat(df, params, dssat, model_name, file)
