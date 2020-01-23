@@ -136,6 +136,8 @@ def process_dssat(df, params, dssat, model_name, file):
 
     # Add parameters to DB
     for p_name, p_value in params.items():
+        if p_name == 'rainfall':
+            p_value = float(p_value)
         param = Parameters(run_id=run_id,
                           model=model_name,
                           parameter_name=p_name,
@@ -242,7 +244,7 @@ if __name__ == "__main__":
             crop = 'sorghum'
 
             if run_type == 'baseline':
-                rainfall = 1
+                rainfall = 1.0
                 fertilizer = 100
                 planting_window_shift = 0
             else:
