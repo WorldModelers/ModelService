@@ -48,7 +48,7 @@ def get_mgmt(filename):
         return 'rf_highN'
     elif 'irrig' in filename.lower():
         return 'irrig'
-    elif 'rf_0N' in filename.lower():
+    elif 'rf_0n' in filename.lower():
         return 'rf_0N'
     elif 'rf_lown' in filename.lower():
         return 'rf_lowN'
