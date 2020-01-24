@@ -74,11 +74,13 @@ def gen_doc(model):
 
 if __name__ == "__main__":
 
-	os.mkdir('metadata-docx')
-	models = glob.glob('models/*yaml')
+    if not os.path.exists('metadata-docx'):
+        os.mkdir('metadata-docx')
 
-	for m in models:
+    models = glob.glob('models/*yaml')
 
-	    with open(f'{m}', 'r') as stream:
-	        model = yaml.safe_load(stream)
-	        gen_doc(model)
+    for m in models:
+
+        with open(f'{m}', 'r') as stream:
+            model = yaml.safe_load(stream)
+            gen_doc(model)
