@@ -1,0 +1,60 @@
+id: AGMIP
+label: AgMIP’s Seasonal Crop Yield Emulator
+description: AgMIP’s Seasonal Crop Yield Emulator  is a tool that emulates crop model results for rainfed maize and rainfed spring wheat using yield simulations from the AgMIP Global Gridded Crop Model Intercomparison (GGCMI) Project Phase II, which conducted a sensitivity analysis on the response of yield to varying climate inputs. For each 0.5-degree pixel in the selected region, we fit a quadratic least-squares regression of climate inputs against simulated yields. For this interface, we calculated the required climate input variables for 2018 using 3-hourly temperature and precipitation data from the Global Land Data Assimilation System (GLDAS). As GLDAS climate data is provided on a 0.25-degree grid, emulator coefficients for each 0.5-degree pixel were applied to multiple GLDAS pixels to produce a higher-resolution result. The temperature and precipitation sensitivity tests below are performed by adjusting temperature by one degree Celsius in either direction and precipitation by a 20% increase or decrease from the GLDAS 2018 climate data. We then use these perturbed GLDAS inputs to find a proxy climate year from the GGCMI archive with which to run the emulator. Maps showing crop yield sensitivity to nitrogen application are also available as direct outputs from the GGCMI Phase II archive.
+versions:
+- AGMIP_1
+maintainer:
+  name: Meridel Phillips
+  email: mmp2192@columbia.edu
+executable: false  
+category:
+- Agriculture
+
+outputs:
+- name: "% Yield Anomaly"
+  description: Percent yield anomaly detrended 1980-2010 mean
+  units: Percent
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: precipitation
+  description: The degree to perturb precipitation from the baseline model (percent perturbation).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -20
+    maximum: 20
+- name: temperature
+  description: This a scalar between -1 and 1 which represents a perturbation in degrees celsius from the baseline (0)
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -1
+    maximum: 1
+- name: type
+  description: Choose whether to use "2018 GLDAS Temperature/Precipitation" or "Temperature/Precipitation Sensitivity Tests"; if using GLDAS temperature and precipitation must be set to the baseline.
+  metadata:
+    type: ChoiceParameter
+    choices:
+      - 2018 GLDAS Temperature/Precipitation
+      - Temperature/Precipitation Sensitivity Tests
+- name: crop
+  description: Choose the crop of interest
+  metadata:
+    type: ChoiceParameter
+    choices:
+      - maize
+      - spring wheat
+
+configuration:
+- precipitation: 0
+  temperature: 0
+  type: 2018 GLDAS Temperature/Precipitation
+  crop: maize
