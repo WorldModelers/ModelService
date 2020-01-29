@@ -7,7 +7,7 @@ The goal of the Models as a Service (MaaS) project is to provide an easy to use,
 <img src="images/MaaS-Dashboard.png" alt="MaaS Dashboard"
 	title="MaaS Dashboard" height="450"/>
 	
-MaaS allows users to interact with a variety of expert models across a wide ranging parameter space, enabling the creation of sophisticated sensitivity analyses such as the one above, which was made using a 3rd party tool, but powered by MaaS. 	
+MaaS allows users to interact with a variety of expert models across a wide ranging parameter space, enabling the creation of sophisticated sensitivity analyses such as the one above, which was made using a 3rd party tool, but powered by MaaS. 
 
 ## Contents
 
@@ -15,6 +15,7 @@ MaaS allows users to interact with a variety of expert models across a wide rang
 - [Available Models](#available-models)
 - [Architecture](#architecture)
 - [Documentation](#documentation)
+- [Collaborators](#collaborators)
 
 ## Design
 
@@ -62,4 +63,18 @@ Currently, MaaS supports the following models:
 
 ## Documentation
 
-Documentation on setup and installation, as well as usage, can be found in the [docs directory](docs).
+Documentation on setup and installation, as well as usage, can be found in the [`docs/`](docs).
+
+## Collaborators
+
+MaaS collaborators include:
+
+* [Atlas AI](https://www.atlasai.co/)
+* [UCSB](https://ucsb.edu)
+* [University of Florida](https://ufl.edu)
+* [USC Information Sciences Institute](https://www.isi.edu/)
+* [Penn State](https://psu.edu)
+* [Kimetrica](https://kimetrica.com/)
+* [Columbia University](https://www.columbia.edu/)
+* [CSIRO](https://www.csiro.au/)
+* [Potsdam Institute for Climate Impact Research](https://www.pik-potsdam.de/pik-frontpage)
