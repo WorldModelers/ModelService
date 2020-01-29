@@ -1,0 +1,99 @@
+id: Cycles
+label: Cycles
+description: "Cycles simulates the productivity and the water,carbon and nitrogen balance of soil-crop systems subject to climate conditions and a large array of management constraints. Overall the model is set up to be daily. Some processes such as water balance are temporally nested (subdaily) Emulator page: https://dev.mint.isi.edu/ethiopia/emulators/cycles"
+versions:
+- cycles-v0.10.2
+maintainer:
+  name: Armen Kemanian
+  email: kxa15@psu.edu
+website: https://plantscience.psu.edu/research/labs/kemanian/models-and-tools/cycles
+executable: false
+category:
+- Agriculture
+
+outputs:
+- name: ROOT BIOMASS
+  description: Root biomass at time of grain or forage harvests or death.
+  units: Mg/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]
+- name: TOTAL BIOMASS
+  description: Total plant mass at time of grain or forage harvest or death
+  units: Mg/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std] 
+- name: GRAIN YIELD 
+  description: Grain yield removed from the field dry basis
+  units: Mg/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std] 
+        
+parameters:
+- name: start_year
+  description: Year when the simulation starts
+  metadata:
+    type: TimeParameter
+    default: 2000
+    minumum: 2000
+    maximum: 2017
+- name: end_year
+  description: Year when the simulation ends
+  metadata:
+    type: TimeParameter
+    default: 2000
+    minumum: 2000
+    maximum: 2017
+- name: start_planting_day
+  description: Day of the year for the start of the planting window
+  metadata:
+    type: NumberParameter
+    default: 110
+    minumum: 0
+    maximum: 365
+- name: end_planting_day
+  description: Day of the year for the end of the planting window
+  metadata:
+    type: NumberParameter
+    default: 149
+    minumum: 0
+    maximum: 365
+- name: fertilizer_rate
+  description: Mass of nitrogen fertilizer added each year (kg/ha). The model will multiply the mass by the concentration of the fertilizer (0.32). Teff crops should not surpass 312.5kg/ha
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: 0
+    maximum: 1250
+- name: weed_fraction
+  description: Areal fraction of weed. 0.05 is low, 0.25 is moderate, 1 is high, and 2 is the maximum. After 2 there will be no response from the model
+  metadata:
+    type: NumberParameter
+    default: 0.05
+    minumum: 0
+    maximum: 2
+
+configuration:
+  - start_year: 2000
+    end_year: 2017
+    start_planting_day: 110
+    end_planting_day: 149
+    fertilizer_rate: 0
+    weed_fraction: 0.05
