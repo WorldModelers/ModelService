@@ -1,0 +1,61 @@
+id: PIHM
+label: Penn State Integrated Hydrologic Modeling System
+description: "The Penn State Integrated Hydrologic Modeling System (PIHM) is a finite volume code used for simulating the distributed hydrologic states of a given watershed or river basin. PIHM accounts for many physical processes including: land surface processes (evaporation- transpiration, canopy interception, snowmelt) overland/channel flow coupled to groundwater flow. PIHM can include reservoirs and flow control structures. PIHM applies adaptive time stepping and uses the method of lines to solve the system of implicit equations."
+versions:
+- pihm-v4.1.0
+maintainer:
+  name: Chris Duffy
+  email: cxd11@psu.edu
+website: http://www.pihm.psu.edu/pihm_home.html
+executable: false
+category:
+- Climate
+- Hydrological
+
+outputs:
+- name: surface water
+  description: The level of surface water in meters
+  units: m
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+parameters:
+- name: precipitation
+  description: percentage perturbation baseline rainfall (1.1 = 110% of baseline rainfall)
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1
+    default: 2
+- name: temperature
+  description: +/- degree C perturbation of temperature in absolute terms
+  metadata:
+    type: NumberParameter
+    minimum: -1
+    maximum: 1
+    default: 0
+- name: evapotranspiration
+  description: percentage perturbation of evapotranspiration
+  metadata:
+    type: NumberParameter
+    minimum: 0.6
+    maximum: 1.2
+    default: 1
+- name: basin
+  description: select the basin of interest
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Baro
+    - Bashilo
+    default: Baro
+
+configuration:
+  - precipitation: 1
+    evapotranspiration: 0
+    rainfall: 0

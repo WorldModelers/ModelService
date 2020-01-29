@@ -1,0 +1,175 @@
+id: CLEM
+label: Crop Livestock Enterprise Model (CLEM)
+description: >
+  The Crop Livestock Enterprise Model (CLEM) model is a bio-economic model that can guide whole-of-farm decision-making. It integrates livestock, pasture, and crop production with labour and economic resources, simulating farm enterprises at a range of scales, from large agribusinesses to subsistence smallholdings.
+
+  CLEM can account for and output multiple variables including crops, animals, economics, residue, products, labour, nutrition, feed, water and greenhouse gases. It has built-in user-friendly graphics.
+
+  CLEM has the potential to:
+
+    Examine long term farming system production risk and variability under different allocations of labour, crop and livestock resources
+    Show the overall benefits or costs of management changes such as: increased rumen efficiency; fly strike vaccines and chemical solutions; pest and disease control options
+    Consider the effect of new digital technologies such as virtual fencing or measuring feed
+    Inform policy makers and industry bodies about the likely effects of changes to farm-scale management at a district or regional level
+
+  CLEM is based on the principals of other models (Integrated Analysis Tool – IAT and North Australian Beef Systems Analysis – NABSA) and uses outputs from other models (e.g. crops yields outputs from the Agricultural Production Systems sIMulator (APSIM) and native pastures from GRASP). The model is being developed in the APSIM NextGen framework – designed to be flexible, extendable and a useful tool for researchers. It operates on a monthly time-step.
+versions:
+- CLEM_1
+maintainer:
+  name: Andrew Moore
+  email: clem@csiro.au
+website: https://research.csiro.au/foodglobalsecurity/data-and-tools/models/clem/
+executable: false
+category:
+- Agriculture
+
+outputs:
+- name: mean_kcal_intake_from_farm
+  description: Mean energy intake per person from cereals grown on the landholdings of a household
+  units: kcal/person/day
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+- name: percent_cereal_reqt_from_farm
+  description: Percentage of people in cereal-growing peasant households that are meeting 60% of their Estimated Average Requirement for energy from cereals grown on the landholding
+  units: percentage
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+- name: mean_stored_supply
+  description: Population-weighted average number of months before the grain currently stored by peasant households is consumed
+  units: months
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]           
+- name: sales
+  description: Estimated quantity of cereals sold onto the market by peasant households
+  units: quintal
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]                   
+- name: demand
+  description: Estimated demand for cereals by both rural and urban households
+  units: quintal
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]           
+
+parameters:
+- name: crop
+  description: select the crop to model
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - maize
+    - wheat
+    - teff
+    - sorghum
+    - barley
+    default: teff
+- name: climate_anomalies
+  description: One of 5 classes based on the mean 2018-19 cropping-year (March-February) rainfall and temperature anomalies in the climate ensemble member. Ensemble members where the root-mean-square anomaly of temperature and precipitation are within 0.9 standard deviations are "midrange"; otherwise ensemble members are classified according to the quadrant in which they fall. Null for historical runs.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - warm,wet
+    - midrange
+    - warm,dry
+    - cool,wet
+    - cool,dry
+    default: midrange
+- name: cereal_prodn_pctile
+  description: Ranking of total national production of the 5 cereals as modelled under 2018 land use and practices, expressed as a percentile (the zero percentile is lowest). Null for historical runs.
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1
+    default: 0.5
+- name: cereal_prodn_tercile
+  description: Grouping of climate ensemble members according to terciles of total national production of the 5 cereals as modelled under 2018 land use and practices. Null for historical runs.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Low tercile
+    - Middle tercile
+    - High tercile
+    default: Middle tercile
+- name: irrigation
+  description: Average proportion of cereal area that is irrigated across Ethiopia. Local proportions vary spatially and with the type of crop
+  metadata:
+    type: NumberParameter
+    minimum: 0.006
+    maximum: 0.08
+    default: 0.0
+- name: additional_extension
+  description: For this scenario, an "extension package" means the adoption of both improved crop cultivars and chemical fertilizer application. The value is the proportion of land **not already using "extension package"** that is converted to management under the "extension package". For example, if 20% of maize crops in a grid-cell already use improved cultivars plus fertilizer, then 40% "additional extension package" will increase the overall level to (20% + 40% x (100%-20%)) = 52%
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 0.4
+    default: 0.0
+- name: temperature
+  description: Change applied to maximum and minimum air temperature in every day of the climate record in the counterfactual
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1.5
+    default: 0.0
+- name: sowing_window_shift
+  description: Shift (measured in days) in the date range over which crops are sown in response to a sufficiently large rainfall event
+  metadata:
+    type: NumberParameter
+    minimum: -30
+    maximum: 30
+    default: 0
+- name: fertilizer
+  description: Additional N fertilizer applied at sowing, over and above the rate that is specific to a location, crop and management system
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 100
+    default: 0
+- name: rainfall
+  description: Multiplier applied to daily rainfall in every day of the climate record in the counterfactual
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1.5
+    default: 0.0 
+
+configuration:
+  - crop: teff
+    climate_anomalies: midrange
+    cereal_prodn_pctile: 0.5
+    cereal_prodn_tercile: Middle tercile
+    irrigation: 0.006
+    additional_extension: 0.0
+    temperature: 0.0
+    sowing_window_shift: 0
+    fertilizer: 0
+    rainfall: 0.0

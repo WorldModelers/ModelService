@@ -1,0 +1,3 @@
+datatype: short
+nbands: 2
+values: lon*100, lat*100

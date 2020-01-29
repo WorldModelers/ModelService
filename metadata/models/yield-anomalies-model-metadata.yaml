@@ -1,0 +1,110 @@
+id: yield_anomalies_lpjml
+label: Global and national yield anomalies for wheat, maize and millet based on LPJmL
+description: 'We use LPJmL, a well-established dynamic global vegetation, hydrology
+  and crop-growth model, to simulate wheat, maize and millet yield anomalies for 2018
+  based on climate, soil conditions and management regimes. Observed weather data
+  are fed into the model until April 30, 2018; afterwards, to simulate the uncertainty
+  of operational forecasts, weather data is sourced from the portion May 01-Dec 31
+  from the previous years (1984-2017). The crop model runs on a global grid with 0.5°
+  size in latitude and longitude.
+
+  We provide yield anomalies as deviation from the mean of 2013-2017 as simulated
+  by LPJmL. The data is available on a global grid and as nationally aggregated anomalies.
+  Apart from a default simulation, assuming the same management in 2018 as for the
+  previous years, we provide alternative intervention scenarios that assume different
+  irrigation levels, more nitrogen input, or both. In total, there are 3 (crops) *
+  12 (scenarios) = 36 hypothetical back-casting simulations. Each of these scenarios
+  is calculated for each of the 34 different 2018 climate realizations.'
+versions:
+- yield_anomalies_lpjml_backcasting_2018
+maintainer:
+  name: Bernhard Schauberger
+  email: schauber@pik-potsdam.de
+executable: false  
+category:
+- Agriculture
+
+outputs:
+- name: yield level
+  description: Percent increase or decrease in yield from baseline
+  units: percent  
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: crop
+  description: Choose the crop of interest from one of [millet, maize, wheat].
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - millet
+    - maize
+    - wheat
+- name: irrigation
+  description: 'Choose the irrigation level. It should be one of [LIM, NO, POT]. NO:
+    no irrigation anywhere. Crops are rain-fed only. This can be considered as a "what-if
+    irrigation failed scenario".  LIM: irrigation is applied on crop-specific areas
+    equipped for irrigation. Irrigation water withdrawal is limited to water available
+    in surface water bodies. As a result, it is possible that irrigation demand cannot
+    be fulfilled completely in some grid cells if demand is higher than supply.  POT:
+    uses the same irrigated areas as LIM_IRRIGATION, but allows for withdrawals to
+    exceed water available in surface water bodies. As a result, irrigated crops should
+    not experience water stress.'
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - 'NO'
+    - LIM
+    - POT
+- name: nitrogen
+  description: 'Choose the nitrogen level. It should be one of [LIM, LIM_p25, LIM_p50,
+    UNLIM].  LIM: country- and crop-type-specific amounts of N fertilizer to crops.
+    The dataset is from GGCMI (the Global Gridded Crop Model Inter-comparison within
+    AgMIP) and describes fertilizer application levels around the year 2000.  LIM_p25:
+    same as LIM, but with 25% more fertilizer in all cells where N>0. That is, cells
+    without fertilization around 2000 in our data set do also not receive fertilizer
+    in this scenario.  LIM_p50: similar to _p25, but with 50% more N.  UNLIM: extremely
+    high N rates in all cells such that there should be no N limitation of crop growth.
+    There are no negative effects of too much nitrogen on plant growth in our model
+    (but there will be increased leaching and outgassing).'
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - LIM
+    - LIM_p25
+    - LIM_p50
+    - UNLIM
+- name: area
+  description: Either global (global pixel tif file) or merged (a txt file aggregated
+    to the country level).
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - global
+    - merged
+- name: statistic
+  description: Only provide if area=global. Select the statistical aggregation over
+    possible future climate  realizations which can be any of ["mean", "std", "pctl,5",
+    "pctl,95"] for the mean, standard  deviation, 5th percentile or 95th percentile.
+    These four measures reflect the uncertainty of  the climate forecasts starting
+    in May 2018.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - mean
+    - std
+    - pctl,5
+    - pctl,95
+
+configuration:
+- crop: maize
+  irrigation: LIM
+  nitrogen: LIM
+  area: global
+  statistic: mean

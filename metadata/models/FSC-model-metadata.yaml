@@ -1,0 +1,54 @@
+id: FSC
+label: Food Shocks Cascade Model
+description: The Food Shocks Cascade Model (FSC) is a simple agent-based network model
+  that computes chain-reactions due to negative production anomalies based on dynamic
+  food balance sheets at the country level.
+versions:
+- FSC_0.1
+maintainer:
+  name: Michael Puma
+  email: mjp38@columbia.edu
+executable: false  
+category:
+- Economic
+
+outputs:
+- name: impact_level
+  description: The level of impact from the shock. One of {0=No Impact, 1=Low Impact, 2=Medium Impact, 3=Serious Impact}  
+  units: categorical
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std] 
+        
+parameters:
+  - name:
+      crop
+    description: >
+      Choose the crop of interest from one of [wheat].
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - wheat
+      default: wheat  
+  - name: shocked_region
+    description: >
+      Region that is subject to a one year production shock for wheat.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - FSU
+        - EUR
+        - NAF
+        - CPA
+        - ROW
+        - ALL
+      default: ALL
+
+configuration:
+- crop: wheat
+  shocked_region: ALL

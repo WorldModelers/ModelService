@@ -1,0 +1,27 @@
+id: consumption_model
+label: Consumption Model
+description: This model uses remote sensing imagery to predict consumption.
+versions:
+- consumption_model_1
+maintainer:
+  name: George Azzari
+  email: George@atlasai.co
+executable: false  
+category:
+- Demographic
+- Socioeconomic
+- Economic
+
+outputs:
+- name: consumption per capita per day
+  description: Measure of how much a person would spend each day (2011 USD per capita
+    per day)
+  units: 2011 USD
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  

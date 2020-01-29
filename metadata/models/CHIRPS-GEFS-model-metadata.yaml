@@ -1,0 +1,101 @@
+id: CHIRPS-GEFS
+label: Climate Hazards Group InfraRed Precipitation with Station Data Global Ensemble
+  Forecast System
+description: NCEP’s Global Ensemble Forecast System (GEFS) is a weather forecast system
+  that provides daily forecasts out to 16 days at 1 X 1 degree resolution at 6-hour
+  intervals. This forecast product can be very useful to early warning famine and
+  hydrological monitoring efforts, so the Climate Hazards Group (CHG) creates forecast
+  precipitation fields at the dekadal (10 day) time scale and makes those available
+  to researchers and decision makers.
+versions:
+- chirps_gefs_model_1
+maintainer:
+  name: Marty Landsfeld
+  email: mlandsfeld@gmail.com
+executable: true
+category:
+- Climate
+
+outputs:
+- name: Rainfall
+  description: rainfall in mm per 5km
+  units: mm per 5km
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std] 
+- name: Rainfall relative to average
+  description: Rainfall relative to the historic average in mm per 5km
+  units: mm per 5km
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+- name: SPI
+  description: Standardized Precipitation Index reflects the number of standard deviations by which the observed anomaly deviates from the long-term mean
+  units: unitless index
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: _type
+  description: This should be one of ['mm_data','mm_anomaly','none_z-score']. mm_data
+    is the CHIRPS estimates  of precipitation. The mm_anomaly provides the data value
+    minus the mean of the entire time  series up to the previous year. none_z-score
+    provides the Standardized Precipitation Indexes (SPI)  of the estimates.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - mm_data
+    - mm_anomaly
+    - none_z-score
+    default: mm_data
+- name: dekad
+  description: A zero padded value for the dekad of the year, 01-36 (a 10 day period).
+  metadata:
+    type: TimeParameter
+    minimum: '01'
+    maximum: '36'
+- name: year
+  description: The year in YYYY format for the data of interest.
+  metadata:
+    type: TimeParameter
+    default: 2019
+    minimum: 1985
+    maximum: 2019
+- name: bbox
+  description: 'The geospatial bounding box of interest. It should represent 4-elements
+    in the WGS84  coordinate system: [xmin, ymin, xmax, ymax]. x is longitude, y is
+    latitude. In other  words, the coordinates of a SW point and a NE point define
+    your region of interest.'
+  metadata:
+    type: GeoParameter
+    default:
+    - 33.512234
+    - 2.719907
+    - 49.98171
+    - 16.501768
+    
+configuration:
+- _type: mm_data
+  dekad: 01
+  year: 2019
+  bbox:
+  - 33.512234
+  - 2.719907
+  - 49.98171
+  - 16.501768

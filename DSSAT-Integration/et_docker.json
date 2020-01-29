@@ -1,0 +1,82 @@
+{
+   "name": "eth_docker_test",
+   "workDir": "/userdata/out/eth_docker/test",
+   "templateDir": "/data/ETH/templates",
+   "weatherDir": "/data/ETH/weathers",
+   "threads": 4,
+   "cores": 8,
+   "ghr_root": "/data/base/eGHR",
+   "sample": 25,
+   "default_setup": {
+      "template": "ETHI8402.SNX",
+      "sites": "xy_from_vector::/data/ETH/shapes/Five_arcmin_pt_Eth.shp",
+      "startYear": 2008,
+      "nyers": 10,
+      "ingeno": "990002",
+      "cname": "MEDIUM SEASON",
+      "icin": 5.0,
+      "icsw%": 25.0,
+      "icrt": 5.0,
+      "icres": 10.0,
+      "icren": 0.8,
+      "sdate": "2008-01-01",
+      "pfrst": "2008-03-01",
+      "plast": "2008-05-20",
+      "id_soil": "lookup_ghr::raster::/data/ETH/rasters/GHR_eth.tif",
+      "wsta": "lookup_wth::ETCP::vector::/data/ETH/shapes/Five_arcmin_pt_Eth.shp::ID",
+      "ic_layers": "generate_ic_layers::$id_soil",
+      "ramt": 0,
+      "fen_tot": 100.0,
+      "fertilizers": "split_fert_dap_percent::$fen_tot::2::0::50::30::50"
+   },
+   "dssat": {
+      "executable": "/app/dssat47/dscsm047"
+   },
+   "analytics_setup": {
+      "per_pixel_prefix": "pp",
+      "singleOutput": true,
+      "calculatedColumns": {
+         "VNAM": "subtract::$cnam::$gnam",
+         "VWAM": "subtract::$cwam::$pwam"
+      },
+      "columns": [
+         "LATITUDE",
+         "LONGITUDE",
+         "HARVEST_AREA",
+         "RUN_NAME",
+         "CR",
+         "PDAT",
+         "MDAT",
+         "HDAT",
+         "HWAH",
+         "GNAM",
+         "CWAM",
+         "PRCP",
+         "VNAM",
+         "VWAM"
+      ]
+   },
+   "runs": [
+      {
+         "name": "maize_irrig",
+         "harvestArea": "raster::/data/ETH/rasters/spam2010v1r0_eth_harvested-area_maiz_i.tif",
+         "template": "ETHI8401.SNX"
+      },
+      {
+         "name": "maize_rf_highN",
+         "harvestArea": "raster::/data/ETH/rasters/spam2010v1r0_eth_harvested-area_maiz_h.tif"
+      },
+      {
+         "name": "maize_rf_lowN",
+         "harvestArea": "raster::/data/ETH/rasters/spam2010v1r0_eth_harvested-area_maiz_l.tif",
+         "ramt": 500,
+         "fen_tot": 10.0
+      },
+      {
+         "name": "maize_rf_0N",
+         "harvestArea": "raster::/data/ETH/rasters/spam2010v1r0_eth_harvested-area_maiz_s.tif",
+         "ramt": 500,
+         "fen_tot": 0.0
+      }
+   ]
+}

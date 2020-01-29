@@ -15,46 +15,51 @@ class Parameter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, description=None, label=None, data_type=None, default_value=None, standard_name=None):  # noqa: E501
+    def __init__(self, name=None, description=None, type=None, default_value=None, minimum=None, maximum=None, choices=None):  # noqa: E501
         """Parameter - a model defined in OpenAPI
 
-        :param id: The id of this Parameter.  # noqa: E501
-        :type id: str
+        :param name: The name of this Parameter.  # noqa: E501
+        :type name: str
         :param description: The description of this Parameter.  # noqa: E501
         :type description: str
-        :param label: The label of this Parameter.  # noqa: E501
-        :type label: str
-        :param data_type: The data_type of this Parameter.  # noqa: E501
-        :type data_type: str
+        :param type: The type of this Parameter.  # noqa: E501
+        :type type: str
         :param default_value: The default_value of this Parameter.  # noqa: E501
         :type default_value: object
-        :param standard_name: The standard_name of this Parameter.  # noqa: E501
-        :type standard_name: List[StandardName]
+        :param minimum: The minimum of this Parameter.  # noqa: E501
+        :type minimum: object
+        :param maximum: The maximum of this Parameter.  # noqa: E501
+        :type maximum: object
+        :param choices: The choices of this Parameter.  # noqa: E501
+        :type choices: List[object]
         """
         self.openapi_types = {
-            'id': str,
+            'name': str,
             'description': str,
-            'label': str,
-            'data_type': str,
+            'type': str,
             'default_value': object,
-            'standard_name': List[StandardName]
+            'minimum': object,
+            'maximum': object,
+            'choices': List[object]
         }
 
         self.attribute_map = {
-            'id': 'id',
+            'name': 'name',
             'description': 'description',
-            'label': 'label',
-            'data_type': 'data_type',
+            'type': 'type',
             'default_value': 'default_value',
-            'standard_name': 'standard_name'
+            'minimum': 'minimum',
+            'maximum': 'maximum',
+            'choices': 'choices'
         }
 
-        self._id = id
+        self._name = name
         self._description = description
-        self._label = label
-        self._data_type = data_type
+        self._type = type
         self._default_value = default_value
-        self._standard_name = standard_name
+        self._minimum = minimum
+        self._maximum = maximum
+        self._choices = choices
 
     @classmethod
     def from_dict(cls, dikt) -> 'Parameter':
@@ -68,29 +73,29 @@ class Parameter(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self):
-        """Gets the id of this Parameter.
+    def name(self):
+        """Gets the name of this Parameter.
 
-        Identifier associated with parameter in MINT  # noqa: E501
+        The name of the parameter  # noqa: E501
 
-        :return: The id of this Parameter.
+        :return: The name of this Parameter.
         :rtype: str
         """
-        return self._id
+        return self._name
 
-    @id.setter
-    def id(self, id):
-        """Sets the id of this Parameter.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Parameter.
 
-        Identifier associated with parameter in MINT  # noqa: E501
+        The name of the parameter  # noqa: E501
 
-        :param id: The id of this Parameter.
-        :type id: str
+        :param name: The name of this Parameter.
+        :type name: str
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._id = id
+        self._name = name
 
     @property
     def description(self):
@@ -112,60 +117,45 @@ class Parameter(Model):
         :param description: The description of this Parameter.
         :type description: str
         """
+        if description is None:
+            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
 
         self._description = description
 
     @property
-    def label(self):
-        """Gets the label of this Parameter.
+    def type(self):
+        """Gets the type of this Parameter.
 
-        The name of the parameter, which should be used as a `key` within a `config` sent to the `run_model` endpoint.  # noqa: E501
+        The parameter's type  # noqa: E501
 
-        :return: The label of this Parameter.
+        :return: The type of this Parameter.
         :rtype: str
         """
-        return self._label
+        return self._type
 
-    @label.setter
-    def label(self, label):
-        """Sets the label of this Parameter.
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Parameter.
 
-        The name of the parameter, which should be used as a `key` within a `config` sent to the `run_model` endpoint.  # noqa: E501
+        The parameter's type  # noqa: E501
 
-        :param label: The label of this Parameter.
-        :type label: str
+        :param type: The type of this Parameter.
+        :type type: str
         """
+        allowed_values = ["NumberParameter", "ChoiceParameter", "TimeParameter", "GeoParameter", "StringParameter"]  # noqa: E501
+        if type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `type` ({0}), must be one of {1}"
+                .format(type, allowed_values)
+            )
 
-        self._label = label
-
-    @property
-    def data_type(self):
-        """Gets the data_type of this Parameter.
-
-        The parameter's data type  # noqa: E501
-
-        :return: The data_type of this Parameter.
-        :rtype: str
-        """
-        return self._data_type
-
-    @data_type.setter
-    def data_type(self, data_type):
-        """Sets the data_type of this Parameter.
-
-        The parameter's data type  # noqa: E501
-
-        :param data_type: The data_type of this Parameter.
-        :type data_type: str
-        """
-
-        self._data_type = data_type
+        self._type = type
 
     @property
     def default_value(self):
         """Gets the default_value of this Parameter.
 
-        The parameter's default value. Type depends on the parameter's data_type  # noqa: E501
+        The parameter's default value. Type depends on the parameter's type.  # noqa: E501
 
         :return: The default_value of this Parameter.
         :rtype: object
@@ -176,7 +166,7 @@ class Parameter(Model):
     def default_value(self, default_value):
         """Sets the default_value of this Parameter.
 
-        The parameter's default value. Type depends on the parameter's data_type  # noqa: E501
+        The parameter's default value. Type depends on the parameter's type.  # noqa: E501
 
         :param default_value: The default_value of this Parameter.
         :type default_value: object
@@ -185,22 +175,70 @@ class Parameter(Model):
         self._default_value = default_value
 
     @property
-    def standard_name(self):
-        """Gets the standard_name of this Parameter.
+    def minimum(self):
+        """Gets the minimum of this Parameter.
 
+        The parameter's minimum allowed value. Type depends on the parameter's type.  # noqa: E501
 
-        :return: The standard_name of this Parameter.
-        :rtype: List[StandardName]
+        :return: The minimum of this Parameter.
+        :rtype: object
         """
-        return self._standard_name
+        return self._minimum
 
-    @standard_name.setter
-    def standard_name(self, standard_name):
-        """Sets the standard_name of this Parameter.
+    @minimum.setter
+    def minimum(self, minimum):
+        """Sets the minimum of this Parameter.
 
+        The parameter's minimum allowed value. Type depends on the parameter's type.  # noqa: E501
 
-        :param standard_name: The standard_name of this Parameter.
-        :type standard_name: List[StandardName]
+        :param minimum: The minimum of this Parameter.
+        :type minimum: object
         """
 
-        self._standard_name = standard_name
+        self._minimum = minimum
+
+    @property
+    def maximum(self):
+        """Gets the maximum of this Parameter.
+
+        The parameter's maximum allowed value. Type depends on the parameter's type.  # noqa: E501
+
+        :return: The maximum of this Parameter.
+        :rtype: object
+        """
+        return self._maximum
+
+    @maximum.setter
+    def maximum(self, maximum):
+        """Sets the maximum of this Parameter.
+
+        The parameter's maximum allowed value. Type depends on the parameter's type.  # noqa: E501
+
+        :param maximum: The maximum of this Parameter.
+        :type maximum: object
+        """
+
+        self._maximum = maximum
+
+    @property
+    def choices(self):
+        """Gets the choices of this Parameter.
+
+        An array of choices available for a parameter of type ChoiceParameter  # noqa: E501
+
+        :return: The choices of this Parameter.
+        :rtype: List[object]
+        """
+        return self._choices
+
+    @choices.setter
+    def choices(self, choices):
+        """Sets the choices of this Parameter.
+
+        An array of choices available for a parameter of type ChoiceParameter  # noqa: E501
+
+        :param choices: The choices of this Parameter.
+        :type choices: List[object]
+        """
+
+        self._choices = choices

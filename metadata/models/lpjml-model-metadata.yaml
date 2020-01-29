@@ -1,0 +1,87 @@
+id: lpjml
+label: Lund-Potsdam-Jena managed Land 
+description: "The model LPJmL ('Lund-Potsdam-Jena managed Land') is designed to simulate vegetation composition and distribution as well as stocks and land-atmosphere exchange flows of carbon, nitrogen, and water, for both natural and agricultural ecosystems. Using a combination of plant physiological relations, generalized empirically established functions and plant trait parameters, it simulates processes such as photosynthesis, plant growth, maintenance and regeneration losses, fire disturbance, soil moisture, runoff, evapotranspiration, irrigation and vegetation structure. LPJmL is currently the only DGVM that has dynamic land use fully incorporated at the global scale. The specific setup used here combines LPJmL 5.1 with historical weather data from NASA Power (used to represent the range of possible weather in 2018), historical land use patterns derived from LUH2 v2h, and historical nitrogen application rates derived from LUH v2h and Zhang et al. 2017, to provide global crop yield forecasts for 2018. All results are preliminary and subject to the following caveats: Crops that are in the ground on January 1, 2018 (i.e. sown in 2017 but harvested in 2018), finish their growing season in 2018 experiencing different weather options (below average, average, above average temperature and/or precipitation) but their fertilizer rates and irrigation status are determined in 2017. As such, they are not expected to show a response to fertilizer or irrigation expansion scenarios. Only crops sown and harvested in 2018 are expected to show a response to fertilizer and irrigation expansion scenarios. For example, irrigated pulses in Ethiopia are sown in November of 2017 and harvested in spring of 2018. While we increased growing areas of irrigated pulses in the irrigation expansion scenarios, irrigated pulses sown in November 2018 would only be harvested in early 2019 and therefore not be part of this forecast. The dataset used to determine baseline fertilizer application rates does not distinguish between rainfed and irrigated crops. Compared to rainfed agriculture, additional irrigation water potentially increases leaching of nitrogen from the soil. In areas with low baseline fertilizer application rates irrigated crop yields may therefore not always be higher than rainfed crop yields unless irrigation is combined with an increase in fertilizer application. Leguminous crops (pulses, soybean) do not experience nitrogen limitation in the current model version and are therefore not expected to respond to increases in fertilizer application."
+versions:
+- lpjml_2018_scenarios_v0.1
+maintainer:
+  name: Sebastian Ostberg
+  email: ostberg@pik-potsdam.de
+website: https://www.pik-potsdam.de/research/projects/activities/biosphere-water-modelling/lpjml/lpjml
+executable: false
+category:
+- Agriculture
+
+outputs:
+- name: production
+  description: Harvested weight at harvest (kg dry matter/ha)
+  units: kg [dm]/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: climate_year
+  description: the historical climate year to use for projections. This provides the model information on weather patterns such as temperature and precipitation from the historic year as inputs for the model.
+  metadata:
+    type: NumberParameter
+    default: 2017
+    minimum: 1984
+    maximum: 2017
+- name: crop
+  description: crop of interest
+  metadata:
+    type: ChoiceParameter
+    default: "Wheat"
+    choices:
+    - 'Wheat'
+    - 'Rice'
+    - 'Maize'
+    - 'Millet'
+    - 'Pulses'
+    - 'Sugar beet'
+    - 'Cassava'
+    - 'Sunflower'
+    - 'Soybean'
+    - 'Groundnuts'
+    - 'Rapeseed'
+    - 'Sugarcane'
+- name: management_practice
+  description: irrigation type (either rainfed or irrigated)
+  metadata:
+    type: ChoiceParameter
+    default: "rainfed"
+    choices:
+    - "rainfed"
+    - "irrigated"
+- name: nitrogen
+  description: nitrogen fertilizer application scenario (global). Bp25kg is equivalent to the baseline plus 25kg/ha, etc.
+  metadata:
+    type: ChoiceParameter
+    default: "BASELINE"
+    choices:
+    - "BASELINE"
+    - "Bp25kg"
+    - "Bp50kg"
+    - "Bp100kg"
+- name: irrigation
+  description: irrigation expansion scenario (for Ethiopia only, expanding irrigated areas of wheat, maize, millet, pulses). 4PERC is equivalent to 4% of crop area, etc.
+  metadata:
+    type: ChoiceParameter
+    default: "BASELINE"
+    choices:
+    - "BASELINE"
+    - "4PERC"
+    - "6PERC"
+    - "8PERC"
+
+configuration:
+  - climate_year: 2017
+    crop: Wheat
+    management_practice: rainfed
+    nitrogen: BASELINE
+    irrigation: BASELINE

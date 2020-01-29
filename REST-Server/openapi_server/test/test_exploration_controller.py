@@ -5,13 +5,12 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from openapi_server.models.io_file import IOFile  # noqa: E501
-from openapi_server.models.io_request import IORequest  # noqa: E501
+from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.model import Model  # noqa: E501
 from openapi_server.models.model_config import ModelConfig  # noqa: E501
 from openapi_server.models.parameter import Parameter  # noqa: E501
-from openapi_server.models.search_result import SearchResult  # noqa: E501
 from openapi_server.models.unknownbasetype import UNKNOWN_BASE_TYPE  # noqa: E501
+from openapi_server.models.variable import Variable  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
@@ -51,28 +50,25 @@ class TestExplorationController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_model_io_post(self):
-        """Test case for model_io_post
+    def test_model_outputs_model_name_get(self):
+        """Test case for model_outputs_model_name_get
 
-        Obtain information on a given model's inputs or outputs.
+        Obtain information on a given model's outputs.
         """
-        io_request = IORequest()
         response = self.client.open(
-            '/model_io',
-            method='POST',
-            data=json.dumps(io_request),
-            content_type='application/json')
+            '/model_outputs/{ModelName}'.format(model_name='model_name_example'),
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_model_parameters_model_name_post(self):
-        """Test case for model_parameters_model_name_post
+    def test_model_parameters_model_name_get(self):
+        """Test case for model_parameters_model_name_get
 
         Obtain information about a model's parameters.
         """
         response = self.client.open(
             '/model_parameters/{ModelName}'.format(model_name='model_name_example'),
-            method='POST')
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

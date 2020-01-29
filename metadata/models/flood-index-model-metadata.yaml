@@ -1,0 +1,66 @@
+id: flood_index_model
+label: Flood Severity Index
+description: "Flood severity index: medium (2-yr flood, index=1),high (5-yr flood,\
+  \ index=2), and \nsevere (20-yr flood, index=3), inferred fromthe GloFAS dataset.\
+  \ Thresholds were determined \nby fitting a Gumbel extreme value distribution to\
+  \ the yearly maxima in each grid cell \nover 1981-2017."
+versions:
+- flood_index_model_1
+maintainer:
+  name: Deborah Khider
+  email: khider@usc.edu
+website: https://usc.edu
+executable: false
+category:
+- Climate
+- Hydrological
+
+outputs:
+- name: days_medium
+  description: The number of days for the given month where the flood severity index
+    was medium (2-year flood)
+  units: days
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+- name: days_high
+  description: The number of days for the given month where the flood severity index
+    was high (5-year flood)
+  units: days   
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+- name: days_severe
+  description: The number of days for the given month where the flood severity index
+    was severe (20-year flood)
+  units: days    
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: year
+  description: Select the year of interest. 2008-2017 is available.
+  metadata:
+    type: NumberParameter
+    minimum: 2008
+    maximum: 2017
+    default: 2017
+
+configuration:
+- year: 2017

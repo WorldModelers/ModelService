@@ -1,0 +1,62 @@
+id: ExampleModel
+# identifier has no spaces. It is assumed to be unique.
+label: Example Model
+description: |
+  This is an example model description which uses rainfall and temperature to predict cereal and timber production.
+maintainer: 
+  name: Jataware
+  email: contact@jataware.com
+versions: 
+  - 1.0.0
+executable: false  
+category:
+  - Agriculture
+point_resolution_meters: 1000
+
+outputs:
+  - name: timber_production
+    description: timber production in kg
+    units: kg
+    metadata:
+      aggregation:
+        geospatial: 
+          default: sum
+          allowed: [average, sum, min, max, std]
+        temporal: 
+          default: sum
+          allowed: [average, sum, min, max, std]      
+  - name: cereal_production
+    description: cereal production in kg
+    units: kg
+    metadata:
+      aggregation:
+        geospatial: 
+          default: sum
+          allowed: [average, sum, min, max, std]
+        temporal: 
+          default: sum
+          allowed: [average, sum, min, max, std]                
+
+parameters:
+  - name: rainfall
+    description: the level to perturb rainfall. Medium is equivalent to baseline.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - low
+        - medium
+        - high
+    default: medium
+  - name: temperature
+    description: the level to perturb temperature. Medium is equivalent to baseline.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - low
+        - medium
+        - high
+    default: medium
+
+configuration:
+- rainfall: medium
+  temperature: medium

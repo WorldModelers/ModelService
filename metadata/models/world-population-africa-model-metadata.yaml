@@ -1,0 +1,51 @@
+id: world_population_africa
+label: World Population Africa
+description: 'Version 2.0 estimates of total number of people per grid square for
+  five timepoints between 2000 and 2020 at five year intervals; national totals have
+  been adjusted to match UN Population Division estimates for each time point.
+
+  This dataset is a mosaic of all WorldPop country level African datasets resampled
+  to 1km resolution. The continental grouping of countries honours the macro geographical
+  classification developed and maintained by the United Nations Statistics Division.
+  For countries within each continental group which have not been mapped by WorldPop,
+  GPWv4 1km population count data was used to complete the mosaic. Full details of
+  WorldPop population mapping methodologies are described at www.worldpop.org.uk/data/methods/'
+versions:
+- world_population_africa
+maintainer:
+  name: WorldPop Team
+  email: info@worldpop.org
+website: https://www.worldpop.org/geodata/summary?id=139
+executable: false
+category:
+- Demographic
+- Socioeconomic
+
+outputs:
+- name: population
+  description: pixel value corresponds to the population residing there.
+  units: number of people
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: year
+  description: Select the year of the population estimate.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - 2000
+    - 2005
+    - 2010
+    - 2015
+    - 2020
+    default: 2000
+
+configuration:
+- year: 2000

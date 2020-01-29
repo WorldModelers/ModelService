@@ -1,0 +1,159 @@
+id: DSSAT
+label: Decision Support System for Agrotechnology Transfer
+description: The Decision Support System for Agrotechnology Transfer (DSSAT) comprises
+  dynamic crop growth simulation model for over 40 crops. The model simulates growth
+  development; and yield as a function of the soil-plant-atmosphere dynamics.
+versions:
+- DSSAT_4.7
+maintainer:
+  name: Cheryl Porter
+  email: cporter@ufl.edu
+executable: false  
+category:
+- Agriculture
+
+outputs:
+- name: HWAH
+  description: Harvested weight at harvest (kg/ha)
+  units: kg/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+- name: HARVEST_AREA
+  description: Amount of area harvested under all management practices for this point
+    (ha)
+  units: ha    
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+- name: Production
+  description: Production for the given point/management practice (kg)
+  units: kg
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: season
+  description: The season for the given run. May supercede planting_start and planting_end.
+  metadata:
+    type: ChoiceParameter
+    default: meher
+    choices:
+    - Meher
+    - Belg
+- name: crop
+  description: The crop for the given model run.
+  metadata:
+    type: ChoiceParameter
+    default: maize
+    choices:
+    - maize   
+- name: samples
+  description: The number of pixel predictions DSSAT will make. Setting samples to
+    0 returns the  entire geography (all Ethiopia) which is quite large.
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: 1
+    maximum: 0
+- name: management_practice
+  description: 'The management practice to model. rf_highN corresponds to a
+    high nitrogen management  practice. irrig corresponds to a high nitrogen,
+    irrigated management practice. rf_0N  corresponds to a subsistence management
+    practice. rf_lowN corresponds to a low nitrogen  managemet practice. If
+    set to combined, all practices are produced. '
+  metadata:
+    type: ChoiceParameter
+    default: combined
+    choices:
+    - combined
+    - rf_highN
+    - irrig
+    - rf_0N
+    - rf_lowN
+- name: start_year
+  description: The year to begin the simulation. The earliest possible year to begin
+    is 1984 and the latest is  2019.
+  metadata:
+    type: TimeParameter
+    default: 1984
+    minumum: 1984
+    maximum: 2018
+- name: number_years
+  description: The number of years to run the simulation. If start_year + number_years
+    - 1 > 2018 then this  will be set such that your simulation runs through 2018.
+  metadata:
+    type: TimeParameter
+    default: 35
+    minumum: 1
+    maximum: 35
+- name: rainfall
+  description: The degree to perturb rainfall from the baseline model. This should
+    be a real number,  which, if 0, would indicate no rainfall in any district. If
+    1 it would indicate rainfall matching baseline estimates. 1.25 would indicate
+    a 25% increase in rainfall from off the baseline estimate.
+  metadata:
+    type: NumberParameter
+    default: 1
+    minumum: 0
+    maximum: 2
+- name: fertilizer
+  description: This a scalar between 0 and 100 which represents fertilizer in kg/ha.
+    0 is considered the  baseline amount (per management practice), so anything
+    above 0 represents additional fertilizer usage/availability.
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: 0
+    maximum: 100
+- name: planting_start
+  description: This is the month and day in "mm-dd" format when planting should begin.
+    This allows the modeler  to simulate various planting seasons (such as Belg and
+    Maher).
+  metadata:
+    type: TimeParameter
+    default: 03-01
+    minumum: 01-01
+    maximum: 12-31
+- name: planting_end
+  description: This is the month and day in "mm-dd" format when planting should end.
+    This allows the modeler  to simulate various planting seasons (such as Belg and
+    Maher). This must be after the  planting_start parameter.
+  metadata:
+    type: TimeParameter
+    default: 05-20
+    minumum: 01-01
+    maximum: 12-31
+- name: planting_window_shift
+  description: This is the number, in days, that the planting window was shifted
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -30
+    maximum: 30    
+
+configuration:
+- samples: 0
+  start_year: 2017
+  number_Years: 2
+  management_practice: combined
+  rainfall: 1
+  fertilizer: 100
+  planting_start: 03-01
+  planting_end: 05-20

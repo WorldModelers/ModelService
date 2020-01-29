@@ -1,0 +1,26 @@
+id: asset_wealth_model
+label: Asset Wealth Model
+description: This model uses remote sensing imagery to predict asset wealth.
+versions:
+- asset_wealth_model_1
+maintainer:
+  name: George Azzari
+  email: George@atlasai.co
+executable: false  
+category:
+- Demographic
+- Socioeconomic
+- Economic
+
+outputs:
+- name: poverty level
+  description: Measure of household poverty levels based on the assets they own (unitless)
+  units: unitless index
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]

@@ -2,6 +2,13 @@ version: "3"
 services:
   redis:
     image: redis
-    container_name: "ms-redis"
+    container_name: maas-redis
     ports:
       - "6379:6379"
+    volumes:
+      - $PWD:/data
+  db:
+    image: postgres
+    container_name: maas-db
+    ports:
+      - "5432:5432"

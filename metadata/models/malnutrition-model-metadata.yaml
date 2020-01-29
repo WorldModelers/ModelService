@@ -1,0 +1,79 @@
+id: malnutrition_model
+label: Malnutrition Model
+description: Currently, the malnutrition model takes the following input variables
+  CHIRPS, Consumer Price Index(CPI), population, cereal production per capita, consumption
+  expenditure,Normalized Difference Vegetation Index (NDVI),and month to predict the
+  malnutrition rates for Global Acute Malnutrition (GAM) and Severe Acute Malnutrition
+  (SAM). According to World Health Organization (WHO) guideline, GAM and SAM are defined
+  as weight-for-height z-score below -2, and weight-for-height z-score below -3, respectively.
+  By this definition, GAM includes all categories of malnutrition.
+maintainer:
+  name: Jenny Yu
+  email: jenny.yu@kimetrica.com
+author:
+- name: Jenny Yu
+  email: jenny.yu@kimetrica.com
+versions:
+- malnutrition_model_1
+website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/malnutrition_model
+executable: true
+category:
+- Demographic
+- Economic
+
+outputs:
+- name: malnutrition cases
+  description: pixel value corresponds to predicted number of malnutrition cases.
+  units: malnutrition cases
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: rainfall_scenario
+  description: The rainfall scenario based on historical monthly average of the precipitation
+    values. High value is estimated by 2x mean, and low value is estimated by 0.25x
+    mean.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - high
+    - mean
+    - normal
+    - low
+    default: normal
+- name: country
+  description: Select the country of interest.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Ethiopia
+    - South Sudan
+    default: Ethiopia
+- name: year
+  description: Select the year of interest. June, 2011 - April, 2019 is available
+    for South Sudan. Jan, 2007 - April 2019 is available for Ethiopia.
+  metadata:
+    type: NumberParameter
+    minimum: 2007
+    maximum: 2018
+    default: 2018
+- name: month
+  description: Select the month of interest. June, 2011 - April, 2019 is available
+    for South Sudan. Jan, 2007 - April 2019 is available for Ethiopia.
+  metadata:
+    type: NumberParameter
+    minimum: 1
+    maximum: 12
+    default: 1
+
+configuration:
+- rainfall_scenario: normal
+  country: Ethiopia
+  year: 2018
+  month: 1

@@ -1,0 +1,88 @@
+VariableCategory,VariableName,Definition+Units,VariableType
+Top10,BWAH,By-product removed during harvest (kg [dm]/ha),Growth
+Top10,CWAM,Tops weight at maturity (kg [dm]/ha),Growth
+Top10,HWAH,Harvested yield (kg [dm]/ha),Growth
+Top10,IRCM,Season applied irrigation (includes losses) (mm),Management
+Top10,LAIX,"Leaf area index, maximum",Growth
+Top10,MDAT,Physiological maturity date (YrDoy),Phenology
+Top10,NICM,Inorganic N applied (kg [N]/ha),Management
+Top10,NUCM,N uptake during season (kg [N]/ha),PlantN
+Top10,PDAT,Planting date (YrDoy),Phenology
+Top10,PRCP,"Total season precipitation (mm), planting to harvest",Weather
+Metadata,CR,Crop ID,Experiment
+Metadata,EXNAME,Experiment name,Experiment
+Metadata,O#,Crop rotation option,Experiment
+Metadata,R#,Rotation number,Experiment
+Metadata,SOIL_ID,Soil ID,Experiment
+Metadata,WSTA,Weather station,Experiment
+Metadata,TNAM,Treatment name,Experiment
+Metadata,TRNO,Treatment number,Experiment
+Metadata,FNAM,Output name override option,Simulation
+Metadata,SDAT,Simulation start date (YrDoy),Simulation
+Metadata,MODEL,Crop model name,Simulation
+Metadata,P#,Replication number (used for generated weather data),Simulation
+Metadata,RUNNO,Simulation run number,Simulation
+Other,EDAT,Emergence date (YrDoy),Phenology
+Other,ADAT,Anthesis date (YrDoy),Phenology
+Other,HDAT,Harvest date (YRDOY),Phenology
+Other,CNAM,Tops N at maturity (kg/ha),Growth
+Other,CO2A,"Average atmospheric CO2 (ppm), planting to harvest",Weather
+Other,CO2EC,Cumulative CO2 emissions from soil (kg[C]/ha),GHG
+Other,DAYLA,"Average daylength (hr/d), planting to harvest",Weather
+Other,DMPEM,Dry matter-ET productivity (kg[DM]/ha/mm[ET]),Productivity
+Other,DMPIM,Dry matter-irrigation productivity (kg[DM]/ha/mm[irrig]),Productivity
+Other,DMPPM,Dry matter-rainfall productivity (kg[DM]/ha/mm[rain]),Productivity
+Other,DMPTM,Dry matter-transp. productivity (kg[DM]/ha/mm[EP]),Productivity
+Other,DPNAM,Dry matter-N fertilizer productivity (kg[DM]/kg[N fert],Productivity
+Other,DPNUM,Dry matter-N uptake productivity (kg[DM]/kg[N uptake],Productivity
+Other,DRCM,Season water drainage (mm),SoilWater
+Other,DWAP,Planting material weight (kg [dm]/ha),Management
+Other,EPCM,Total season transpiration (mm),EnergyBal
+Other,EPCP,"Total transpiration, planting to harvest (mm)",EnergyBal
+Other,ESCM,Total season soil evaporation (mm),EnergyBal
+Other,ESCP,"Total soil evaporation, planting to harvest (mm)",EnergyBal
+Other,ETCM,"Total season evapotranspiration, simulation-harvest (mm)",EnergyBal
+Other,ETCP,"Total evapotranspiration, planting to harvest (mm)",EnergyBal
+Other,GNAM,Grain N at maturity (kg/ha),PlantNutrient
+Other,H#AM,Number at maturity (no/m2),Growth
+Other,H#UM,Number at maturity (no/unit),Growth
+Other,HIAM,Harvest index at maturity,Growth
+Other,HWAM,Yield at harvest maturity (kg [dm]/ha),Growth
+Other,HWUM,Unit wt at maturity (g [dm]/unit),Growth
+Other,IR#M,Irrigation applications (no),Management
+Other,KI#M,Number of K applications (no),Management
+Other,KICM,Inorganic K applied (kg/ha),Management
+Other,KUPC,Seasonal cumulative K uptake (kg[K]/ha),PlantNutrient
+Other,N2OEC,Cumulative N2O emissions from soil (kg[N]/ha),GHG
+Other,NDCH,Number of days from planting to harvest (d),Phenology
+Other,NFXM,N fixed during season (kg/ha),PlantNutrient
+Other,NI#M,N applications (no),Management
+Other,NIAM,Inorganic N at maturity (kg [N]/ha),PlantNutrient
+Other,NLCM,N leached during season (kg [N]/ha),SoilNutrient
+Other,OCAM,Organic soil C at maturity (kg/ha),SoilNutrient
+Other,OCTAM,"Total Organic C at maturity, soil and surface (kg/ha)",SoilNutrient
+Other,ONAM,Organic soil N at maturity (kg/ha),SoilNutrient
+Other,ONTAM,"Total Organic N at maturity, soil and surface (kg/ha)",SoilNutrient
+Other,OPAM,Organic soil P at maturity (kg/ha),SoilNutrient
+Other,OPTAM,"Total Organic P at maturity, soil and surface (kg/ha)",SoilNutrient
+Other,PI#M,Number of P applications (no),Management
+Other,PICM,Inorganic P applied (kg/ha),Management
+Other,PRCM,"Total season precipitation (mm), simulation - harvest",Weather
+Other,PUPC,Seasonal cumulative P uptake (kg[P]/ha),PlantNutrient
+Other,PWAM,Pod/Ear/Panicle weight at maturity (kg [dm]/ha),Growth
+Other,RECM,Residue applied (kg/ha),Management
+Other,ROCM,Season surface runoff (mm),SoilWater
+Other,SKAM,Soil K at maturity (kg/ha),SoilNutrient
+Other,SPAM,Soil P at maturity (kg/ha),SoilNutrient
+Other,SRADA,"Average solar radiation (MJ/m2/d), planting - harvest",Weather
+Other,SWXM,Extractable water at maturity (mm),SoilWater
+Other,TMAXA,Avg maximum air temperature (°C),Weather
+Other,TMINA,Avg minimum air temperature (°C),Weather
+Other,YPEM,Yield-ET productivity (kg[yield]/ha/mm[ET]),Productivity
+Other,YPIM,Yield-irrigation productivity (kg[yield]/ha/mm[irrig]),Productivity
+Other,YPNAM,Yield-N fertilizer productivity (kg[yield]/kg[N fert],Productivity
+Other,YPNUM,Yield-N uptake productivity (kg[yield]/kg[N uptake],Productivity
+Other,YPPM,Yield-rainfall productivity (kg[yield]/ha/mm[rain]),Productivity
+Other,YPTM,Yield-transpiration productivity (kg[yield]/ha/mm[EP]),Productivity
+Other,VNAM,Vegitative N at maturity (kg/ha),PlantNutrient
+Other,VWAM,Vegitative biomass at maturity (kg/ha),Growth

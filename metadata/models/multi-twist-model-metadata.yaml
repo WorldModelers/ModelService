@@ -1,0 +1,145 @@
+id: multi_twist
+label: World market price timeseries for wheat, maize, rice based on multi-TWIST
+description: >
+  Multi-TWIST is a dynamic agent-based model for short term price dynamics at world markets and the associated storage movements in world regions.
+  
+  The model can be used in various different model setups (cf. description of scenario_type variable). This accounts for the important role of storage on short time scales, especially for agricultural goods where the timing of production is dictated by plant growth and harvest. The model thus allows to simulate price fluctuations on annual or semi-annual time steps. 
+
+  The model was shown to be able to reproduce well the annual world market prices for wheat over the past 40 years, using as inputs only global annual production and long-term average consumption. The explicit representation of storage furthermore allows to model changes in policies related to trade and stock-keeping, such as export restrictions or precautionary purchases. The model was thus used to explain the global food price spikes of 2007/2008 and 2010/2011 as a result of (primarily weather-driven) production shortfalls, combined with policies enacted by large producing and importing countries to protect national markets or food security (Schewe, Otto, & Frieler, ERL, 2017). 
+
+versions:
+  - 'price_anomalies_TWIST_future_scenarios_2018'
+maintainer:
+  name: Theresa Falkendal, Christian Otto
+  email: theresa.falkendal@pik-potsdam.de, christian.otto@pik-potsdam.de
+executable: true  
+category:
+  - Agriculture
+
+outputs:
+  - name: world_market_price_best_estimate
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. Timeseries for the period ["start_year","end_year"] describing our best estimate for a production failure scenario where a regional production shock of "shock_severity" is applied to "shocked_region" at "scenario_start_year".
+    units: real USD per metric ton
+  - name: world_market_price_worst_case
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. Timeseries for the period ["start_year","end_year"] describing the worst case scenario resulting from  a production failure scenario where a regional production shock of "shock_severity" is applied to "shocked_region" at "scenario_start_year". We estimate production uncertainty by comparing past FAO projections with the observed regional productions. For that, we first calculate the absolute relative error of the projections. The worst case scenario is then derived by substracting the relative error from the "best_estimate" production failure scenario.
+    units: real USD per metric ton      
+  - name: world_market_price_best_case
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. Timeseries for the period ["start_year","end_year"] describing the best case scenario resulting from a production failure scenario where a regional production shock of "shock_severity" is applied to "shocked_region" at "scenario_start_year". We estimate production uncertainty by comparing past FAO projections with the observed regional productions. For that, we first calculate the absolute relative error of the projections. The worst case scenario is then derived by adding the relative error from the "best_estimate" production failure scenario.
+    units: real USD per metric ton      
+  - name: world_market_price_baseline_best_estimate
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. Timeseries for the period ["start_year","end_year"] providing our best estimate forecasts from "scenario_start_year" onward based on the supply and demand projections provided by the FAO. The "best_estimate" run provides the baseline the "production_failure_scenario"
+    units: real USD per metric ton      
+  - name: world_market_price_baseline_worst_case
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov].  Timeseries for the period ["start_year","end_year"] providing our worst case production estimates from "scenario_start_year" onwards. We estimate production uncertainty by comparing past FAO projections with the observed regional productions. For that, we first calculate the absolute relative error of the projections. The worst case scenario is then derived by substracting the relative error from the observed regional production timeseries.
+    units: real USD per metric ton      
+  - name: world_market_price_baseline_best_case
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. One timeseries for the period ["start_year","end_year"] providing our worst case production estimates from "scenario_start_year" onwards. We estimate production uncertainty by comparing past FAO projections with the observed regional productions. We first calculate the absolute relative error of the projections. The worst case scenario is then derived by adding the relative error from the observed regional production timeseries.
+    units: real USD per metric ton      
+  - name: world_market_price_historical_best_estimate
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. Simulated timeseries represents the best fit of the model to observed historical prices.
+    units: real USD per metric ton      
+  - name: world_market_price_counterfactual_reserve_best_estimate
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. Counterfactual run for the historical period where we assume that an international strategic grain reserve for market interventions existed. (TODO: Reserve size could be another parameter. Functioning of the reserve could be explained in more detail).
+    units: real USD per metric ton      
+  - name: world_market_price_counterfactual_enso_best_estimate
+    description: >
+      Simulated timeseries of world market prices for the period ["start_year","end_year"]. Prices are given in real US-Dollar. For that first, nominal export prices for the US Gulf Ports are taken from the Commodity Markets online database of the World Bank (constant 2011 USD) [http://www.worldbank.org/en/research/commodity-markets]. Real prices are then obtained by deflating with the US All Urban Consumers price index (June 1983 = 100) provided by the US Bureau of Labor Statistics [https://www.bls.gov]. Counterfactual run for the historical period where the model is driven by a counterfactual production timeseries where any ENSO related yield anomalies have been de-trended.
+    units: real USD per metric ton      
+
+parameters:
+  - name: scenario_type
+    description: >
+      Chose the mode to run the model in: "Forecast": Forecasts based on the
+      most up-to date reported USDA-PSD data and USDA-PSD and FAO supply and
+      demand forecasts. "production_failure_scenario": Calculate regional or
+      global production failure scenario starting with "scenario_start_year"
+      "historical": Scenario to reproduce observed prices and regional storage
+      movements. "counterfactual_reserve": Counterfactual historic scenario with
+      a global wheat reserve. "counterfactual_ENSO": Counterfactual scenario
+      where the model is driven by a counterfactual production timeseries where
+      any ENSO related yield anomalies have been de-trended.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - forecast
+        - production_failure_scenario
+        - historical_best_estimate
+        - counterfactual_reserve_best_estimate
+        - counterfactual_ENSO_best_estimate
+  - name:
+      crop
+    description: >
+      Choose the crop of interest from one of [wheat].
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - wheat
+  - name: start_year
+    description: >
+      Start year of the simulations. Has to be within the historical period (1975-present).
+    metadata:
+      type: TimeParameter
+      default: 2000
+      minimum: 1975
+      maximum: 2018
+  - name: end_year
+    description: >
+      End year of the simulations. Has to be within the historical period
+      (1975-present) for the historical and counterfactual analyses. For the
+      future scenarios it can expand up to 2022.
+    metadata:
+      type: TimeParameter
+      default: 2022
+      minimum: 2018
+      maximum: 2022
+  - name: scenario_start_year
+    description: >
+      Year to start the artificial shock scenario (only needed for scenario mode).
+    metadata:
+      type: TimeParameter
+      default: 2018
+      minimum: start_year
+      maximum: end_year -1
+  - name: shocked_region
+    description: >
+      Region that is subject to a one year production shock in the agricultural year corresponding to scenario_start_year (e.g., agricultural year for wheat is July to June of the following year). Shocks can be applied to an individual region, any combination of regions or globally. Regions have to be indicated by a three letter code and possible values are: "FSU" for Former Soviet Union, "EUR" for European Union, "NAF" for United States - Mexico - Canada Agreement countries, "CPA" for centrally planned Asia, "ROW" for rest of the world. Shocks can be applied to any combination of regions by providing a comma-separated list of regions. If "ALL" is selected, all regions are shocks. If more than one region is shocked, the same shock_severity is applied to each of the shocked region. (This parameter is only needed for scenario mode).
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - FSU
+        - EUR
+        - NAF
+        - CPA
+        - ROW
+        - ALL
+  - name: shock_severity
+    description: >
+      Relative strength of a one year production shock in "scenario_start_year" scaled with respect to historically observed price volatility (this parameter is only needed for scenario mode). Three shock levels are possible: "extreme": Shocking "ALL" regions with an extreme production shock results in a price hike comparable to the one observed during the world food crises in 2007/08 (production reduction by 13%).
+      "severe": Shocking "ALL" regions with a severe production shock results in a price hike comparable to the one observed during the tight market years in 2010/11 (production reduction by 8%).
+      "moderate": Shocking "ALL" regions with a moderate production shock results in a price hikes observed during the quiet market years during the period 2000-2005 (production reduction by 5%).
+      "baseline": No production shock
+      If individual regions or any bread basket combinations are shocked, their production is reduced according to the severity of the shock (e.g., "extreme" results in a regional production decrease of 13%).
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - extreme
+        - severe
+        - moderate
+        - baseline
+
+configuration:
+  - scenario_type: production_failure_scenario
+    shocked_region: ALL
+    shock_severity: moderate
+    crop: wheat
+    start_year: 1975
+    end_year: 2020
+    scenario_start_year: 2018

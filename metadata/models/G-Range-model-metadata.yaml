@@ -1,0 +1,191 @@
+id: G-Range
+label: APSIMx-G-Range
+description: "G-Range is a global rangeland model that simulates generalised changes in rangelands through time. Spatial data and a set of parameters that describe plant growth in landscape units combine with computer code representing ecological processes to represent soil nutrient and water dynamics, vegetation growth, fire, and wild and domestic animal offtake. The model is spatial, with areas of the world divided into square cells. Those cells that are rangelands have ecosystem dynamics simulated. A graphical user interface allows users to explore model output."
+versions:
+- APSIM_2.2
+maintainer:
+  name: Andrew Moore
+  email: Andrew.Moore@csiro.au
+website: https://research.csiro.au/foodglobalsecurity/data-and-tools/models/g-range/
+executable: false
+category:
+- Agriculture
+concepts: []
+
+outputs:
+- name: herbage_anpp
+  description: Total herbage aboveground net primary productivity per unit area from rangelands during the nominated period
+  units: quintal/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: herbage_prodn
+  description: Total herbage aboveground production from rangelands during the nominated period
+  units: quintal
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: total_area_rangeland
+  description: "Area of pastureland (source: EarthStat)"
+  units: ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]   
+  concepts: [] 
+- name: mean_anomaly_herbage_anpp
+  description: Difference between herbage aboveground net primary productivity per unit area from rangelands and its long-term average value
+  units: quintal/ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []
+- name: total_anomaly_herbage_prodn
+  description: Difference between herbage aboveground net primary production from rangelands and its long-term average value
+  units: quintal
+  metadata:
+    aggregation:
+      geospatial: 
+        default: sum
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: sum
+        allowed: [average, sum, min, max, std]   
+  concepts: [] 
+- name: rel_anomaly_mean_herbage_anpp
+  description: Relative difference between herbage aboveground net primary productivity per unit area from rangelands and its long-term average value
+  units: percentage
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []    
+- name: rel_anomaly_total_herbage_prodn
+  description: Relative difference between herbage aboveground net primary production from rangelands and its long-term average value
+  units: percentage
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]   
+  concepts: []          
+
+parameters:
+- name: climate_anomalies
+  description: One of 5 classes based on the mean 2018-19 cropping-year (March-February) rainfall and temperature anomalies in the climate ensemble member. Ensemble members where the root-mean-square anomaly of temperature and precipitation are within 0.9 standard deviations are "midrange"; otherwise ensemble members are classified according to the quadrant in which they fall. Null for historical runs.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - warm,wet
+    - midrange
+    - warm,dry
+    - cool,wet
+    - cool,dry
+    default: midrange
+  concepts: [] 
+- name: cereal_prodn_pctile
+  description: Ranking of total national production of the 5 cereals as modelled under 2018 land use and practices, expressed as a percentile (the zero percentile is lowest). Null for historical runs.
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1
+    default: 0.5  
+- name: cereal_prodn_tercile
+  description: Grouping of climate ensemble members according to terciles of total national production of the 5 cereals as modelled under 2018 land use and practices. Null for historical runs.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Low tercile
+    - Middle tercile
+    - High tercile
+    default: Middle tercile
+  concepts: []  
+- name: irrigation
+  description: Average proportion of cereal area that is irrigated across Ethiopia. Local proportions vary spatially and with the type of crop
+  metadata:
+    type: NumberParameter
+    minimum: 0.006
+    maximum: 0.08
+    default: 0.0
+  concepts: []
+- name: additional_extension
+  description: For this scenario, an "extension package" means the adoption of both improved crop cultivars and chemical fertilizer application. The value is the proportion of land **not already using "extension package"** that is converted to management under the "extension package". For example, if 20% of maize crops in a grid-cell already use improved cultivars plus fertilizer, then 40% "additional extension package" will increase the overall level to (20% + 40% x (100%-20%)) = 52%
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 0.4
+    default: 0.0
+  concepts: [] 
+- name: temperature
+  description: Change applied to maximum and minimum air temperature in every day of the climate record in the counterfactual
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1.5
+    default: 0.0
+  concepts: []
+- name: sowing_window_shift
+  description: Shift (measured in days) in the date range over which crops are sown in response to a sufficiently large rainfall event
+  metadata:
+    type: NumberParameter
+    minimum: -30
+    maximum: 30
+    default: 0
+  concepts: [] 
+- name: fertilizer
+  description: Additional N fertilizer applied at sowing, over and above the rate that is specific to a location, crop and management system
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 100
+    default: 0
+  concepts: []
+- name: rainfall
+  description: Multiplier applied to daily rainfall in every day of the climate record in the counterfactual
+  metadata:
+    type: NumberParameter
+    minimum: 0
+    maximum: 1.5
+    default: 0.0
+  concepts: []   
+
+configuration:
+  - crop: teff
+    season: meher
+    climate_anomalies: midrange
+    cereal_prodn_pctile: 0.5    
+    cereal_prodn_tercile: Middle tercile
+    irrigation: 0.006
+    additional_extension: 0.0
+    temperature: 0.0
+    sowing_window_shift: 0
+    fertilizer: 0
+    rainfall: 0.0

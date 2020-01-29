@@ -1,0 +1,93 @@
+id: market_price_model
+label: Market Price Model
+description: >
+  The market price model uses predicts the price of agricultural commodities using Fixed Effects regression method. Fixed Effect regression model is a linear regression model when the observations vary over time and regions.
+  The commodities used in the model are beans, groundnuts, maize, meat, milk, okra, rice, sorghum, sugar, vegetable oil, and wheat for South Sudan, fruit, and teff for Ethiopia.
+  The model uses rainfall, price of fuel, historical price data, number of fatalities and crop production as explatory variable to predict prices.
+  Commodity prices, price of petrol and crop production data are from CLiMIS South Sudan.
+  Rainfall is from Climate Hazards Group InfraRed Precipitation with Station data (CHIRPS) and  the number of fatalities are from ACLED.
+
+  The input variables are:
+    - price of petrol and diesel
+    - total rainfall in the previous month, (CHIRPS)
+    - crop production net weight in the previous year,
+    - number of fatalities from violent conflict in the previous month
+    - commodity price in the previous month.  
+maintainer:
+  name: Jenny Yu
+  email: jenny.yu@kimetrica.com
+author:
+- name: Jenny Yu
+  email: jenny.yu@kimetrica.com
+versions:
+- market_price_model_1
+website: https://gitlab.kimetrica.com/DARPA/darpa/tree/master/models/market_price_model
+executable: true
+category:
+- Economic
+
+outputs:
+- name: price
+  description: pixel value corresponds to predicted price of the given commodity group.
+  units: USD
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average  
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]  
+
+parameters:
+- name: commodity
+  description: The selected commodity group.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Meat
+    - Pulses and vegetables
+    - Bread and Cereals
+    - Milk, cheese and eggs
+    - Sugar, jam, honey, chocolate and candy
+    - Oils and fats      
+    default: Pulses and vegetables
+- name: rainfall_scenario
+  description: The rainfall scenario based on historical monthly average of the precipitation
+    values. High value is estimated by 2x mean, and low value is estimated by 0.25x
+    mean.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - high
+    - normal
+    - low
+    default: normal
+- name: country
+  description: Select the country of interest.
+  metadata:
+    type: ChoiceParameter
+    choices:
+    - Ethiopia
+    - South Sudan
+    default: Ethiopia
+- name: year
+  description: Select the year of interest.
+  metadata:
+    type: NumberParameter
+    minimum: 2017
+    maximum: 2018
+    default: 2018
+- name: month
+  description: Select the month of interest.
+  metadata:
+    type: NumberParameter
+    minimum: 1
+    maximum: 12
+    default: 1
+
+configuration:
+- rainfall_scenario: normal
+  country: Ethiopia
+  year: 2018
+  month: 1

@@ -14,6 +14,20 @@ from openapi_server.test import BaseTestCase
 class TestExecutionController(BaseTestCase):
     """ExecutionController integration test stubs"""
 
+    def test_available_results_get(self):
+        """Test case for available_results_get
+
+        Obtain a list of run results
+        """
+        query_string = [('model_name', 'model_name_example'),
+                        ('size', 56)]
+        response = self.client.open(
+            '/available_results',
+            method='GET',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
     def test_list_runs_model_name_get(self):
         """Test case for list_runs_model_name_get
 
@@ -21,6 +35,17 @@ class TestExecutionController(BaseTestCase):
         """
         response = self.client.open(
             '/list_runs/{ModelName}'.format(model_name='model_name_example'),
+            method='GET')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_result_file_result_file_name_get(self):
+        """Test case for result_file_result_file_name_get
+
+        Obtain the result file for a given model run.
+        """
+        response = self.client.open(
+            '/result_file/{ResultFileName}'.format(result_file_name='result_file_name_example'),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

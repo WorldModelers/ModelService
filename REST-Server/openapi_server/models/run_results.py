@@ -15,7 +15,7 @@ class RunResults(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, config=None, status=None, output=None):  # noqa: E501
+    def __init__(self, config=None, status=None, output=None, auth_required=None, timestamp=None):  # noqa: E501
         """RunResults - a model defined in OpenAPI
 
         :param config: The config of this RunResults.  # noqa: E501
@@ -24,22 +24,32 @@ class RunResults(Model):
         :type status: str
         :param output: The output of this RunResults.  # noqa: E501
         :type output: str
+        :param auth_required: The auth_required of this RunResults.  # noqa: E501
+        :type auth_required: bool
+        :param timestamp: The timestamp of this RunResults.  # noqa: E501
+        :type timestamp: int
         """
         self.openapi_types = {
             'config': ModelConfig,
             'status': str,
-            'output': str
+            'output': str,
+            'auth_required': bool,
+            'timestamp': int
         }
 
         self.attribute_map = {
             'config': 'config',
             'status': 'status',
-            'output': 'output'
+            'output': 'output',
+            'auth_required': 'auth_required',
+            'timestamp': 'timestamp'
         }
 
         self._config = config
         self._status = status
         self._output = output
+        self._auth_required = auth_required
+        self._timestamp = timestamp
 
     @classmethod
     def from_dict(cls, dikt) -> 'RunResults':
@@ -70,6 +80,8 @@ class RunResults(Model):
         :param config: The config of this RunResults.
         :type config: ModelConfig
         """
+        if config is None:
+            raise ValueError("Invalid value for `config`, must not be `None`")  # noqa: E501
 
         self._config = config
 
@@ -120,5 +132,53 @@ class RunResults(Model):
         :param output: The output of this RunResults.
         :type output: str
         """
+        if output is None:
+            raise ValueError("Invalid value for `output`, must not be `None`")  # noqa: E501
 
         self._output = output
+
+    @property
+    def auth_required(self):
+        """Gets the auth_required of this RunResults.
+
+        Does accessing this model output require authentification? True if requires auth.  # noqa: E501
+
+        :return: The auth_required of this RunResults.
+        :rtype: bool
+        """
+        return self._auth_required
+
+    @auth_required.setter
+    def auth_required(self, auth_required):
+        """Sets the auth_required of this RunResults.
+
+        Does accessing this model output require authentification? True if requires auth.  # noqa: E501
+
+        :param auth_required: The auth_required of this RunResults.
+        :type auth_required: bool
+        """
+
+        self._auth_required = auth_required
+
+    @property
+    def timestamp(self):
+        """Gets the timestamp of this RunResults.
+
+        Epoch timestamp when the model run was initiated (epoch time UTC)  # noqa: E501
+
+        :return: The timestamp of this RunResults.
+        :rtype: int
+        """
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, timestamp):
+        """Sets the timestamp of this RunResults.
+
+        Epoch timestamp when the model run was initiated (epoch time UTC)  # noqa: E501
+
+        :param timestamp: The timestamp of this RunResults.
+        :type timestamp: int
+        """
+
+        self._timestamp = timestamp
