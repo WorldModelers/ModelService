@@ -111,7 +111,8 @@ def process(df, params, m, model_name, file):
                           )
         db_session.add(param)
         db_session.commit()
-        
+    
+    df['geometry'] = df.apply(lambda x: Point(x.longitude, x.latitude), axis=1)    
     gdf = gpd.GeoDataFrame(df)
     gdf = gpd.sjoin(gdf, admin2, how="left", op='intersects')
     gdf['run_id'] = run_id
@@ -162,6 +163,7 @@ if __name__ == "__main__":
         m = yaml.safe_load(stream)    
 
     model_name = m['id']
+    print(f"########################\nProcessing {model_name}\n#############################")
     
     outputs = {}
     for o in m['outputs']:
@@ -178,15 +180,19 @@ if __name__ == "__main__":
         param_cols = [i['name'] for i in m['parameters']]
         params = {}
         for p in param_cols:
-            params[p] = df[p].iloc[0]
-
+            try:
+                params[p] = df[p].iloc[0].item()
+            except:
+                params[p] = df[p].iloc[0]
+        print(params)
+        print(f"Processing runs with params: {json.dumps(params)}")
         gdf, run_id = process(df, params, m, model_name, file)
-            
+
         for kk, vv in outputs.items():
             gdf_ = gdf
             gdf_['feature_name'] = kk
             gdf_['feature_value'] = gdf_[kk]
             gdf_['feature_description'] = vv['description']
-            
+            gdf_ = gdf_.dropna(subset=['country','feature_value','admin1'])
             db_session.bulk_insert_mappings(Output, gdf_.to_dict(orient="records"))
             db_session.commit()
