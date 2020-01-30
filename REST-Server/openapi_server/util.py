@@ -9,9 +9,6 @@ from uuid import UUID
 
 from collections import OrderedDict
 
-import mint_client
-from mint_client.rest import ApiException
-
 from shapely.geometry import Point
 import geopandas as gpd
 import numpy as np
