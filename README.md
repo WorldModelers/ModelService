@@ -1,4 +1,5 @@
 # MaaS: the Models as a Service API
+[![Build Status](https://travis-ci.org/WorldModelers/ModelService.svg?branch=master)](https://travis-ci.org/WorldModelers/ModelService)
 The goal of the Models as a Service (MaaS) project is to provide an easy to use, descriptive middleware layer API to facilitate model search and discovery, exploration, configuration, and execution. MaaS support an array of agricultural, economic, hydrological, weather, and health models. MaaS provides two key innovations: 
 
 1. MaaS allows users to to work with a **single lightweight and well-documented API** to execute a variety of models
