@@ -1,3 +1,11 @@
+---
+layout: default
+title: Model Execution
+nav_order: 5
+has_children: false
+has_toc: false
+---
+
 # Model Execution
 Models can be executed using the `/run_model` endpoint. To do this, you must provide a valid JSON configuration. Each model has a unique configuration that can be provided. 
 

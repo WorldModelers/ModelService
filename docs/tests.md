@@ -1,3 +1,11 @@
+---
+layout: default
+title: Testing
+nav_order: 7
+has_children: false
+has_toc: true
+---
+
 # Tests
 
 There are two types of tests which can be run for MaaS: 1) project testing and 2) application testing.

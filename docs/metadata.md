@@ -1,4 +1,12 @@
-# Model Documentation
+---
+layout: default
+title: Model Metadata
+nav_order: 4
+has_children: true
+has_toc: true
+---
+
+# Model Metadata
 
 This directory contains information related to capturing structured metadata about each bottom-up model on World Modelers.
 

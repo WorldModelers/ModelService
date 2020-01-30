@@ -1,3 +1,11 @@
+---
+layout: default
+title: Model Registration
+nav_order: 6
+has_children: false
+has_toc: true
+---
+
 # Model Registration
 
 This document describes the process for registering a model to MaaS. Throughout, it will refer to files included in the `registration` directory. This doc describes how to register a model with fixed output. In the future, this doc will also describe how to register a containerized, executable model.

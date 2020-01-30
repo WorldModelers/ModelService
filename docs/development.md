@@ -1,3 +1,11 @@
+---
+layout: default
+title: Development
+nav_order: 3
+parent: Installation
+has_toc: true
+---
+
 # Development
 
 MaaS is a Swagger application. To update an existing endpoint or to add a new one, you should update the `model_service_api.yaml` API specification file at the root of the project. 

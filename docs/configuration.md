@@ -1,3 +1,11 @@
+---
+layout: default
+title: Configuration
+nav_order: 6
+has_children: false
+has_toc: true
+---
+
 # Configuration
 
 ## Results Storage

@@ -2,7 +2,7 @@
 layout: default
 title: Home
 nav_order: 1
-permalink: /
+has_toc: true
 ---
 
 [![Build Status](https://travis-ci.org/WorldModelers/ModelService.svg?branch=master)](https://travis-ci.org/WorldModelers/ModelService)
