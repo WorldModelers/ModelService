@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Configuration
-nav_order: 6
-has_children: false
+parent: Installation
 has_toc: true
 ---
 

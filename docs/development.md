@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Development
-nav_order: 3
 parent: Installation
 has_toc: true
 ---
