@@ -15,26 +15,31 @@ class Concept(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, concept_name=None, mappings=None):  # noqa: E501
+    def __init__(self, name=None, score=None, type=None):  # noqa: E501
         """Concept - a model defined in OpenAPI
 
-        :param concept_name: The concept_name of this Concept.  # noqa: E501
-        :type concept_name: str
-        :param mappings: The mappings of this Concept.  # noqa: E501
-        :type mappings: List[ConceptMapping]
+        :param name: The name of this Concept.  # noqa: E501
+        :type name: str
+        :param score: The score of this Concept.  # noqa: E501
+        :type score: float
+        :param type: The type of this Concept.  # noqa: E501
+        :type type: str
         """
         self.openapi_types = {
-            'concept_name': str,
-            'mappings': List[ConceptMapping]
+            'name': str,
+            'score': float,
+            'type': str
         }
 
         self.attribute_map = {
-            'concept_name': 'concept_name',
-            'mappings': 'mappings'
+            'name': 'name',
+            'score': 'score',
+            'type': 'type'
         }
 
-        self._concept_name = concept_name
-        self._mappings = mappings
+        self._name = name
+        self._score = score
+        self._type = type
 
     @classmethod
     def from_dict(cls, dikt) -> 'Concept':
@@ -48,45 +53,80 @@ class Concept(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def concept_name(self):
-        """Gets the concept_name of this Concept.
+    def name(self):
+        """Gets the name of this Concept.
 
-        A concept's name  # noqa: E501
+        The object name  # noqa: E501
 
-        :return: The concept_name of this Concept.
+        :return: The name of this Concept.
         :rtype: str
         """
-        return self._concept_name
+        return self._name
 
-    @concept_name.setter
-    def concept_name(self, concept_name):
-        """Sets the concept_name of this Concept.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Concept.
 
-        A concept's name  # noqa: E501
+        The object name  # noqa: E501
 
-        :param concept_name: The concept_name of this Concept.
-        :type concept_name: str
+        :param name: The name of this Concept.
+        :type name: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._concept_name = concept_name
+        self._name = name
 
     @property
-    def mappings(self):
-        """Gets the mappings of this Concept.
+    def score(self):
+        """Gets the score of this Concept.
 
+        The score for the object in relation to the concept (higher is closer match)  # noqa: E501
 
-        :return: The mappings of this Concept.
-        :rtype: List[ConceptMapping]
+        :return: The score of this Concept.
+        :rtype: float
         """
-        return self._mappings
+        return self._score
 
-    @mappings.setter
-    def mappings(self, mappings):
-        """Sets the mappings of this Concept.
+    @score.setter
+    def score(self, score):
+        """Sets the score of this Concept.
 
+        The score for the object in relation to the concept (higher is closer match)  # noqa: E501
 
-        :param mappings: The mappings of this Concept.
-        :type mappings: List[ConceptMapping]
+        :param score: The score of this Concept.
+        :type score: float
         """
+        if score is None:
+            raise ValueError("Invalid value for `score`, must not be `None`")  # noqa: E501
 
-        self._mappings = mappings
+        self._score = score
+
+    @property
+    def type(self):
+        """Gets the type of this Concept.
+
+        Whether the object is related to a model, parameter, or output  # noqa: E501
+
+        :return: The type of this Concept.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """Sets the type of this Concept.
+
+        Whether the object is related to a model, parameter, or output  # noqa: E501
+
+        :param type: The type of this Concept.
+        :type type: str
+        """
+        allowed_values = ["model", "output", "parameter"]  # noqa: E501
+        if type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `type` ({0}), must be one of {1}"
+                .format(type, allowed_values)
+            )
+
+        self._type = type

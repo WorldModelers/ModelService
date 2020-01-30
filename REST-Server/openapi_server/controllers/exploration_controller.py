@@ -27,37 +27,6 @@ r = redis.Redis(host=config['REDIS']['HOST'],
                 port=config['REDIS']['PORT'],
                 db=config['REDIS']['DB'])
 
-# Load MINT configurations
-import mint_client
-from mint_client.rest import ApiException
-
-url = config['MINT']['URL']
-provenance_id = config['MINT']['PROVENANCE_ID']
-username = config['MINT']['USERNAME']
-password = config['MINT']['PASSWORD']
-
-# Authenticate with MINT Model Catalog (MCAT)
-configuration = mint_client.Configuration()
-api_instance = mint_client.UserApi()
-user = mint_client.User(username=username, password=password)
-
-# Authenticate with MINT Data Catalog (DCAT)
-resp = requests.get(f"{url}/get_session_token").json()
-api_key = resp['X-Api-Key']
-
-# Set DCAT request headers
-request_headers = {
-    'Content-Type': "application/json",
-    'X-Api-Key': api_key
-}
-
-try:
-    # Logs user into MINT
-    configuration.access_token = api_instance.login_user(username, password)
-    print("Log in success! Token: %s\n" % configuration.access_token)
-except ApiException as e:
-    print("Exception when calling UserApi->login_user: %s\n" % e)    
-
 def list_models_post():  # noqa: E501
     """Obtain a list of current models
 

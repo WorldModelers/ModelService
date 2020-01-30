@@ -164,7 +164,7 @@ class RunResults(Model):
     def timestamp(self):
         """Gets the timestamp of this RunResults.
 
-        Epoch timestamp when the model run was initiated (epoch time UTC)  # noqa: E501
+        Epoch timestamp when the model run was initiated (epoch millis)  # noqa: E501
 
         :return: The timestamp of this RunResults.
         :rtype: int
@@ -175,7 +175,7 @@ class RunResults(Model):
     def timestamp(self, timestamp):
         """Sets the timestamp of this RunResults.
 
-        Epoch timestamp when the model run was initiated (epoch time UTC)  # noqa: E501
+        Epoch timestamp when the model run was initiated (epoch millis)  # noqa: E501
 
         :param timestamp: The timestamp of this RunResults.
         :type timestamp: int

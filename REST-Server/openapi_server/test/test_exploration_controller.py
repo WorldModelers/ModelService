@@ -23,6 +23,10 @@ class TestExplorationController(BaseTestCase):
         response = self.client.open(
             '/list_models',
             method='POST')
+
+        resp = json.loads(response.data.decode('utf-8'))
+        print(f"Found {len(resp)} models.")
+
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -32,8 +36,12 @@ class TestExplorationController(BaseTestCase):
         Obtain configurations for a given model.
         """
         response = self.client.open(
-            '/model_config/{ModelName}'.format(model_name='model_name_example'),
+            '/model_config/{ModelName}'.format(ModelName='DSSAT'),
             method='GET')
+
+        resp = json.loads(response.data.decode('utf-8'))
+        print(f"Found the following config for DSSAT: {resp}")
+
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -43,8 +51,12 @@ class TestExplorationController(BaseTestCase):
         Get basic metadata information for a specified model.
         """
         response = self.client.open(
-            '/model_info/{ModelName}'.format(model_name='model_name_example'),
+            '/model_info/{ModelName}'.format(ModelName='DSSAT'),
             method='GET')
+
+        resp = json.loads(response.data.decode('utf-8'))
+        print(f"Found DSSAT description: {resp['description'][:50]}...etc...")
+
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -54,8 +66,12 @@ class TestExplorationController(BaseTestCase):
         Obtain information on a given model's outputs.
         """
         response = self.client.open(
-            '/model_outputs/{ModelName}'.format(model_name='model_name_example'),
+            '/model_outputs/{ModelName}'.format(ModelName='DSSAT'),
             method='GET')
+
+        resp = json.loads(response.data.decode('utf-8'))
+        print(f"Found {len(resp)} outputs for DSSAT")
+
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -65,8 +81,12 @@ class TestExplorationController(BaseTestCase):
         Obtain information about a model's parameters.
         """
         response = self.client.open(
-            '/model_parameters/{ModelName}'.format(model_name='model_name_example'),
+            '/model_parameters/{ModelName}'.format(ModelName='DSSAT'),
             method='GET')
+
+        resp = json.loads(response.data.decode('utf-8'))
+        print(f"Found {len(resp)} parameters for DSSAT")
+
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

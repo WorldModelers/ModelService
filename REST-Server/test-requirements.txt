@@ -4,3 +4,26 @@ nose>=1.3.7
 pluggy>=0.3.1
 py>=1.4.31
 randomize>=0.13
+connexion == 2.0.0
+swagger-ui-bundle == 0.0.2
+connexion == 2.0.0
+swagger-ui-bundle == 0.0.2
+python_dateutil == 2.6.0
+setuptools >= 21.0.0
+Flask-Cors == 3.0.7
+redis==3.2.1
+docker==3.7.2
+boto3==1.9.120
+tox
+psycopg2
+pyproj
+rq
+sqlalchemy
+geoalchemy2
+numpy
+shapely
+Rtree==0.8.3
+netCDF4
+oyaml
+rasterio==1.1.0
+python-docx==0.8.10

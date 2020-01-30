@@ -17,12 +17,19 @@ class TestConceptsController(BaseTestCase):
 
         Obtain an array of models related to a concept.
         """
-        query_string = [('concept', 'concept_example'),
-                        ('concept_type', 'concept_type_example')]
+        query_string = [('concept', 'wm/concept/causal_factor/agriculture/planting'),
+                        ('concept_type', 'output')]
+
+
+        print(f"Sending concept {query_string[0][1]} with concept_type {query_string[0][1]}")
         response = self.client.open(
             '/concept_mapping',
             method='GET',
             query_string=query_string)
+
+        resp = json.loads(response.data.decode('utf-8'))
+        print(f"Found {len(resp)} outputs from /concept_mapping")
+        
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -34,6 +41,10 @@ class TestConceptsController(BaseTestCase):
         response = self.client.open(
             '/list_concepts',
             method='GET')
+
+        resp = json.loads(response.data.decode('utf-8'))
+        print(f"Found {len(resp)} concepts.")
+
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
