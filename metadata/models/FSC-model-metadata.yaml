@@ -48,7 +48,17 @@ parameters:
         - ROW
         - ALL
       default: ALL
+  - name: shock_severity
+    description: >
+      Relative strength of a one year production shock.
+    metadata:
+      type: ChoiceParameter
+      choices:
+        - extreme
+        - severe
+        - moderate
 
 configuration:
 - crop: wheat
   shocked_region: ALL
+  shock_severity: extreme

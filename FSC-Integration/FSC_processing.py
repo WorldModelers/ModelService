@@ -117,8 +117,9 @@ def ingest2db(df_, fsc, params, run_id, model_name):
     df_['datetime'] = datetime(year=2018, month=1, day=1)
     df_['run_id'] = run_id
     df_['model'] = model_name
+    df_['feature_name'] = feature_name
     df_['feature_description'] = feature_description
-    df_['feature_value'] = df_[feature_name]
+    df_['feature_value'] = df_[feature_name].apply(lambda x: int(x))
 
     db_session.bulk_insert_mappings(Output, df_.to_dict(orient="records"))
     db_session.commit()         
@@ -134,17 +135,24 @@ if __name__ == "__main__":
     df = df[['P0','R0','dR','dC','S0','Region','Shock','Country']]
     df = df.rename(columns={'Region': "shocked_region", "Shock": "shock_severity", "Country": "country"})
     df = df.replace('MBBF','ALL')
+    df = df.replace('High', 'extreme')
+    df = df.replace('Mid', 'severe')
+    df = df.replace('Low', 'moderate')
     df['impact_level'] = df.apply(lambda row: generate_impact_level(row),axis=1)
     df = df[['country','shocked_region','shock_severity','impact_level']]
     df['crop'] = 'wheat'
     df = df.dropna()
 
     shock_regions = [i for i in fsc['parameters'] if i['name'] == 'shocked_region'][0]
+    shock_severities = [i for i in fsc['parameters'] if i['name'] == 'shock_severity'][0]
     regions = shock_regions['metadata']['choices']
+    shocks = shock_severities['metadata']['choices']
 
     for region in regions:
-        params = {"crop": "wheat", "shocked_region": region}
-        df_ = df[df['shocked_region'] == region]
-        df_.to_csv("tmp.csv", index=False)
-        run_id, model_config = gen_run(model_name, params, "tmp.csv")
-        ingest2db(df_, fsc, params, run_id, model_name)
+        for shock in shocks:
+            params = {"crop": "wheat", "shocked_region": region, "shock_severity": shock}
+            df_ = df[df['shocked_region'] == region]
+            df_ = df_[df_['shock_severity'] == shock]
+            df_.to_csv("tmp.csv", index=False)
+            run_id, model_config = gen_run(model_name, params, "tmp.csv")
+            ingest2db(df_, fsc, params, run_id, model_name)

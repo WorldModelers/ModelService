@@ -36,6 +36,8 @@ if __name__ == "__main__":
         df['precipitation'] = params['precipitation']
         df['type'] = params['type']
         df['datetime'] = datetime(year=2018, month=1, day=1)
+        df['latitude'] = df['Latitude']
+        df['longitude'] = df['Longitude']
         df['% Yield Anomaly'] = df['% Yield Anomaly'].apply(lambda x: float(x))        
         
         f_out = f.split('data/')[1]

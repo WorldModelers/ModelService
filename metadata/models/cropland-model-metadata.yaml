@@ -2,7 +2,7 @@ id: cropland_model
 label: Historic Cropland Model
 description: >
   We trained a ~Random Forest classifier~ using crowdsourced labels. The collected labels were used to sample  harmonic composites computed from Landsat imagery. Harmonic composites are regressions that represent the temporal variability of each pixel as a combination of sine and cosine functions of time (i.e. Fourier transforms). These composites have been shown to capture seasonal variability at different spectral wavelengths very well, enhancing the ability to distinguish between different cover types.
-  These rasters represent pixel-level classification of cropland ~for 11 years at a resolution of 120 m/px~.  
+  These rasters represent pixel-level classification of cropland ~for 11 years at a resolution of 480 m/px~.  
 versions:
 - cropland_model_1
 maintainer:
