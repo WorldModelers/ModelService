@@ -1,0 +1,160 @@
+id: EACS
+label: Economic aggregate crop supply response model 
+description: "The Aggregate crop supply response model (EACS) describes an aggregate crop supply response model for a region (tested for South Sudan). This is a regional-scale aggregate model of agricultural supply for a specified set of crops (cassava, groundnuts, maize, sesame seed, and sorghum)."
+versions:
+- economiv-v7
+maintainer:
+  name: Kelly Cobourn
+  email: kellyc13@vt.edu
+executable: false
+category:
+- Economy
+
+outputs:
+- name: sim_ag_land 
+  description: Simulated total agricultural land by region
+  units: k ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]
+- name: sim_production
+  description: Simulated level of production by crop
+  units: m kg
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]
+- name: sim_crop_land 
+  description: Simulated land area planted for each crop
+  units: k ha
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]
+        
+parameters:        
+- name: barley-crop-price-adjustment
+  description: Change of the barley crop market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: maize-crop-price-adjustment
+  description: Change of the maize crop market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: millet-crop-price-adjustment
+  description: Change of the millet crop market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: pulses-crop-price-adjustment
+  description: Change of the pulses crop market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: sorghum-crop-price-adjustment
+  description: Change of the sorghum crop market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: teff-crop-price-adjustment
+  description: Change of the teff crop market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: wheat-crop-price-adjustment
+  description: Change of the wheat crop market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: barley-fertilizer-price-adjustment
+  description: Change of the barley fertilizer market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: maize-fertilizer-price-adjustment
+  description: Change of the maize fertilizer market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: millet-fertilizer-price-adjustment
+  description: Change of the millet fertilizer market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: pulses-fertilizer-price-adjustment
+  description: Change of the pulses fertilizer market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: sorghum-fertilizer-price-adjustment
+  description: Change of the sorghum fertilizer market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: teff-fertilizer-price-adjustment
+  description: Change of the teff fertilizer market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: wheat-fertilizer-price-adjustment
+  description: Change of the wheat fertilizer market price (%).
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: aggregate-fertilizer-supply-constraint
+  description: Aggregate fertilizer supply constraint
+  metadata:
+    type: NumberParameter
+    default: 0
+    minumum: -50
+    maximum: 50
+- name: year
+  description: Year to run the model
+  metadata:
+    type: NumberParameter
+    default: 2009
+    minumum: 2009
+    maximum: 2018        
