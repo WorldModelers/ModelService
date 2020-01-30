@@ -5,7 +5,7 @@ The goal of the Models as a Service (MaaS) project is to provide an easy to use,
 1. MaaS allows users to to work with a **single lightweight and well-documented API** to execute a variety of models
 2. MaaS extracts model output from various proprietary or complex formats and provides it to users in a **normalized, tabular format** 
 
-<img src="images/MaaS-Dashboard.png" alt="MaaS Dashboard"
+<img src="docs/images/MaaS-Dashboard.png" alt="MaaS Dashboard"
 	title="MaaS Dashboard" height="450"/>
 	
 MaaS allows users to interact with a variety of expert models across a wide ranging parameter space, enabling the creation of sophisticated sensitivity analyses such as the one above, which was made using a 3rd party tool, but powered by MaaS. 
@@ -60,7 +60,7 @@ Currently, MaaS supports the following models:
 
 ## Architecture
 
-![MaaS Architecture](images/MaaS-Architecture.png "MaaS Architecture")
+![MaaS Architecture](docs/images/MaaS-Architecture.png "MaaS Architecture")
 
 ## Documentation
 
