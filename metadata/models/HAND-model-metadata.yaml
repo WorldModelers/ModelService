@@ -1,0 +1,26 @@
+id: HAND
+label: Height Above Nearest Drainage
+description: "The Height Above the Nearest Drainage (HAND) is a model that normalizes topography according to the local relative heights found along a given drainage network. Model output shows a high correlation with the depth of the water table in a region and provide an accurate spatial representation of soil water environments. HAND takes as input a Digital Elevation Map of a given region, producing as outputa normalized draining potential (or relative vertical flowpath-distance) to the nearest drainages. Emulator page: https://dev.mint.isi.edu/ethiopia/emulators/hand"
+versions:
+- hand-v1
+maintainer:
+  name: Suzanne Pierce
+  email: spierce@tacc.utexas.edu
+executable: false
+category:
+- Hydrology
+- Flooding
+
+outputs:
+- name: distance down
+  description: Distance down flooding map
+  units: unitless
+  metadata:
+    aggregation:
+      geospatial: 
+        default: average
+        allowed: [average, sum, min, max, std]
+      temporal: 
+        default: average
+        allowed: [average, sum, min, max, std]
+        
