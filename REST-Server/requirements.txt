@@ -5,7 +5,6 @@ setuptools >= 21.0.0
 Flask-Cors == 3.0.7
 redis==3.2.1
 docker==3.7.2
-mint-api==1.0.1
 boto3==1.9.120
 tox
 psycopg2
@@ -17,7 +16,7 @@ numpy
 shapely
 geopandas
 osmnx
-rtree
+Rtree==0.8.3
 gdal==2.4.0
 netCDF4
 oyaml

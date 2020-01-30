@@ -6,24 +6,23 @@ from flask import json
 from six import BytesIO
 
 from openapi_server.models.concept import Concept  # noqa: E501
-from openapi_server.models.concept_request import ConceptRequest  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
 class TestConceptsController(BaseTestCase):
     """ConceptsController integration test stubs"""
 
-    def test_concept_mapping_post(self):
-        """Test case for concept_mapping_post
+    def test_concept_mapping_get(self):
+        """Test case for concept_mapping_get
 
         Obtain an array of models related to a concept.
         """
-        concept_request = ConceptRequest()
+        query_string = [('concept', 'concept_example'),
+                        ('concept_type', 'concept_type_example')]
         response = self.client.open(
             '/concept_mapping',
-            method='POST',
-            data=json.dumps(concept_request),
-            content_type='application/json')
+            method='GET',
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

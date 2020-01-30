@@ -5,11 +5,9 @@ from __future__ import absolute_import
 from flask import json
 from six import BytesIO
 
-from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.model import Model  # noqa: E501
 from openapi_server.models.model_config import ModelConfig  # noqa: E501
 from openapi_server.models.parameter import Parameter  # noqa: E501
-from openapi_server.models.unknownbasetype import UNKNOWN_BASE_TYPE  # noqa: E501
 from openapi_server.models.variable import Variable  # noqa: E501
 from openapi_server.test import BaseTestCase
 
@@ -69,20 +67,6 @@ class TestExplorationController(BaseTestCase):
         response = self.client.open(
             '/model_parameters/{ModelName}'.format(model_name='model_name_example'),
             method='GET')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_search_post(self):
-        """Test case for search_post
-
-        Search for a model, dataset, or variable
-        """
-        unknown_base_type = UNKNOWN_BASE_TYPE()
-        response = self.client.open(
-            '/search',
-            method='POST',
-            data=json.dumps(unknown_base_type),
-            content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
