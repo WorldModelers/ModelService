@@ -21,23 +21,14 @@ Submit a concept name and optional type and receive an array of concepts related
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ConceptsApi()
-concept = swagger_client.ConceptName() # ConceptName | A concept name (optional)
-concept_type = 'concept_type_example' # str | The type of concept objects to return (optional)
+params = (
+    ('concept', 'wm/concept/causal_factor/agriculture/planting'),
+    ('concept_type', 'output'),
+)
 
-try:
-    # Obtain an array of models related to a concept.
-    api_response = api_instance.concept_mapping_get(concept=concept, concept_type=concept_type)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ConceptsApi->concept_mapping_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/concept_mapping', params=params)
 ```
 
 ### Parameters
@@ -71,21 +62,9 @@ Request a list of currently available concepts. These are derived from the list 
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ConceptsApi()
-
-try:
-    # Obtain a list of available concepts
-    api_response = api_instance.list_concepts_get()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ConceptsApi->list_concepts_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/list_concepts')
 ```
 
 ### Parameters

@@ -24,21 +24,9 @@ Request a list of currently available models.
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExplorationApi()
-
-try:
-    # Obtain a list of current models
-    api_response = api_instance.list_models_post()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExplorationApi->list_models_post: %s\n" % e)
+response = requests.post('https://model-service.worldmodelers.com/list_models')
 ```
 
 ### Parameters
@@ -68,22 +56,9 @@ Submit a model name and receive all configurations for the given model.
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExplorationApi()
-model_name = swagger_client.ModelName() # ModelName | The name of a model.
-
-try:
-    # Obtain configurations for a given model.
-    api_response = api_instance.model_config_model_name_get(model_name)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExplorationApi->model_config_model_name_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/model_config/malnutrition_model')
 ```
 
 ### Parameters
@@ -116,22 +91,9 @@ Submit a model name and receive metadata information about the model, such as it
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExplorationApi()
-model_name = swagger_client.ModelName() # ModelName | The name of a model.
-
-try:
-    # Get basic metadata information for a specified model.
-    api_response = api_instance.model_info_model_name_get(model_name)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExplorationApi->model_info_model_name_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/model_info/malnutrition_model')
 ```
 
 ### Parameters
@@ -164,22 +126,9 @@ Submit a model name and receive information about the output variables produced 
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExplorationApi()
-model_name = swagger_client.ModelName() # ModelName | The name of a model.
-
-try:
-    # Obtain information on a given model's outputs.
-    api_response = api_instance.model_outputs_model_name_get(model_name)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExplorationApi->model_outputs_model_name_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/model_outputs/malnutrition_model')
 ```
 
 ### Parameters
@@ -212,22 +161,9 @@ Submit a model name and receive information about the parameters used by this mo
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExplorationApi()
-model_name = swagger_client.ModelName() # ModelName | The name of a model.
-
-try:
-    # Obtain information about a model's parameters.
-    api_response = api_instance.model_parameters_model_name_get(model_name)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExplorationApi->model_parameters_model_name_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/model_parameters/malnutrition_model')
 ```
 
 ### Parameters

@@ -25,23 +25,14 @@ Return a list of all available run results.
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExecutionApi()
-model_name = swagger_client.ModelName() # ModelName | A model name (optional)
-size = 56 # int | The maximum number of results to return. (optional)
+params = (
+    ('ModelName', 'DSSAT'),
+    ('size', '5'),
+)
 
-try:
-    # Obtain a list of run results
-    api_response = api_instance.available_results_get(model_name=model_name, size=size)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExecutionApi->available_results_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/available_results', params=params)
 ```
 
 ### Parameters
@@ -75,22 +66,9 @@ Submit a `ModelName` and receive an array of `RunID`s associated with the given 
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExecutionApi()
-model_name = swagger_client.ModelName() # ModelName | A model name
-
-try:
-    # Obtain a list of runs for a given model
-    api_response = api_instance.list_runs_model_name_get(model_name)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExecutionApi->list_runs_model_name_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/list_runs/DSSAT')
 ```
 
 ### Parameters
@@ -123,21 +101,9 @@ Submit a `ResultFileName` and receive model run result file.
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExecutionApi()
-result_file_name = swagger_client.ResultFileName() # ResultFileName | A file name of a result file.
-
-try:
-    # Obtain the result file for a given model run.
-    api_instance.result_file_result_file_name_get(result_file_name)
-except ApiException as e:
-    print("Exception when calling ExecutionApi->result_file_result_file_name_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/result_file/95895fd4baa0a586e48d919e68dfbce0486ba9f3f7b137be4c39d14b42233.geojson')
 ```
 
 ### Parameters
@@ -170,22 +136,21 @@ Submit a configuration to run a specific model. Model is run asynchronously. Res
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExecutionApi()
-body = swagger_client.ModelConfig() # ModelConfig | Model and configuration parameters
+data = {
+       "config":{
+          "country":"Ethiopia",
+          "month":11,
+          "rainfall_scenario":"high",
+          "year":2017
+       
+    },
+       "name":"malnutrition_model"
+    }
 
-try:
-    # Run a model for a given a configuration
-    api_response = api_instance.run_model_post(body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExecutionApi->run_model_post: %s\n" % e)
+response = requests.post('https://model-service.worldmodelers.com/run_model', json=data)
+
 ```
 
 ### Parameters
@@ -218,22 +183,9 @@ Submit a `RunID` and receive model run results metadata, including whether it su
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExecutionApi()
-run_id = swagger_client.RunID() # RunID | The ID for a given model run.
-
-try:
-    # Obtain metadata about the results of a given model run
-    api_response = api_instance.run_results_run_id_get(run_id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExecutionApi->run_results_run_id_get: %s\n" % e)
+response = requests.get('https://model-service.worldmodelers.com/run_results/a05fca513dacf89c84616c503fb39ead119d0202a4e7461bde8b189c680f900f')
 ```
 
 ### Parameters
@@ -266,22 +218,10 @@ Submit a `RunID` and receive the model run status
 
 ### Example
 ```python
-from __future__ import print_function
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
+import requests
 
-# create an instance of the API class
-api_instance = swagger_client.ExecutionApi()
-run_id = swagger_client.RunID() # RunID | The `ID` for a given model run.
+response = requests.get('https://model-service.worldmodelers.com/run_status/a05fca513dacf89c84616c503fb39ead119d0202a4e7461bde8b189c680f900f')
 
-try:
-    # Obtain status for a given model run
-    api_response = api_instance.run_status_run_id_get(run_id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling ExecutionApi->run_status_run_id_get: %s\n" % e)
 ```
 
 ### Parameters
