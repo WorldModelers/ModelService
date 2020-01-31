@@ -6,6 +6,7 @@ parent: API
 # TimeQuery
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **query_type** | **str** | Is this a geo, time or text query? | 

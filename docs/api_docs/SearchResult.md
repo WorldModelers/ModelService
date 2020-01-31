@@ -6,6 +6,7 @@ parent: API
 # SearchResult
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 

@@ -6,6 +6,7 @@ parent: API
 # ModelName
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 

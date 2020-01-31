@@ -6,6 +6,7 @@ parent: API
 # Parameter
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** | The name of the parameter | 

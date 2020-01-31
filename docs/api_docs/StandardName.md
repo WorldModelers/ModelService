@@ -6,6 +6,7 @@ parent: API
 # StandardName
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **standard_variable_id** | **str** | The MINT UUID associated with the standard name | 

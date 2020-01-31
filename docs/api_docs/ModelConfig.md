@@ -6,6 +6,7 @@ parent: API
 # ModelConfig
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | [**ModelName**](ModelName.md) |  | 

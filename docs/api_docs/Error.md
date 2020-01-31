@@ -6,6 +6,7 @@ parent: API
 # Error
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 

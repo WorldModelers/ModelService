@@ -3,7 +3,7 @@ layout: default
 parent: API
 ---
 
-# swagger_client.ExplorationApi
+# ExplorationApi
 
 All URIs are relative to *https://model-service.worldmodelers.com*
 

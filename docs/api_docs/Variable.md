@@ -6,6 +6,7 @@ parent: API
 # Variable
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | 

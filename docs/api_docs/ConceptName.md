@@ -6,6 +6,7 @@ parent: API
 # ConceptName
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 

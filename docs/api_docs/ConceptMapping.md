@@ -6,6 +6,7 @@ parent: API
 # ConceptMapping
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 
