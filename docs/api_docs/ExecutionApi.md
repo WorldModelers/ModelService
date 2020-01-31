@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 
@@ -83,7 +83,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 
@@ -118,7 +118,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 
@@ -165,7 +165,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 
@@ -200,7 +200,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 
@@ -236,7 +236,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 

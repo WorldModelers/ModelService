@@ -44,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 
@@ -76,7 +76,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+Basic auth required
 
 ### HTTP request headers
 
