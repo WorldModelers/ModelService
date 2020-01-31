@@ -1,6 +1,6 @@
 ---
 layout: default
-parent: API Models
+parent: API
 ---
 
 # Concept
