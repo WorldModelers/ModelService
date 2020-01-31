@@ -2,7 +2,7 @@
 layout: default
 title: API
 nav_order: 7
-has_children: false
+has_children: true
 has_toc: true
 ---
 
@@ -88,43 +88,43 @@ All URIs are relative to *https://model-service.worldmodelers.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ConceptsApi* | [**concept_mapping_get**](docs/ConceptsApi.md#concept_mapping_get) | **GET** /concept_mapping | Obtain an array of models related to a concept.
-*ConceptsApi* | [**list_concepts_get**](docs/ConceptsApi.md#list_concepts_get) | **GET** /list_concepts | Obtain a list of available concepts
-*ExecutionApi* | [**available_results_get**](docs/ExecutionApi.md#available_results_get) | **GET** /available_results | Obtain a list of run results
-*ExecutionApi* | [**list_runs_model_name_get**](docs/ExecutionApi.md#list_runs_model_name_get) | **GET** /list_runs/{ModelName} | Obtain a list of runs for a given model
-*ExecutionApi* | [**result_file_result_file_name_get**](docs/ExecutionApi.md#result_file_result_file_name_get) | **GET** /result_file/{ResultFileName} | Obtain the result file for a given model run.
-*ExecutionApi* | [**run_model_post**](docs/ExecutionApi.md#run_model_post) | **POST** /run_model | Run a model for a given a configuration
-*ExecutionApi* | [**run_results_run_id_get**](docs/ExecutionApi.md#run_results_run_id_get) | **GET** /run_results/{RunID} | Obtain metadata about the results of a given model run
-*ExecutionApi* | [**run_status_run_id_get**](docs/ExecutionApi.md#run_status_run_id_get) | **GET** /run_status/{RunID} | Obtain status for a given model run
-*ExplorationApi* | [**list_models_post**](docs/ExplorationApi.md#list_models_post) | **POST** /list_models | Obtain a list of current models
-*ExplorationApi* | [**model_config_model_name_get**](docs/ExplorationApi.md#model_config_model_name_get) | **GET** /model_config/{ModelName} | Obtain configurations for a given model.
-*ExplorationApi* | [**model_info_model_name_get**](docs/ExplorationApi.md#model_info_model_name_get) | **GET** /model_info/{ModelName} | Get basic metadata information for a specified model.
-*ExplorationApi* | [**model_outputs_model_name_get**](docs/ExplorationApi.md#model_outputs_model_name_get) | **GET** /model_outputs/{ModelName} | Obtain information on a given model&#x27;s outputs.
-*ExplorationApi* | [**model_parameters_model_name_get**](docs/ExplorationApi.md#model_parameters_model_name_get) | **GET** /model_parameters/{ModelName} | Obtain information about a model&#x27;s parameters.
+*ConceptsApi* | [**concept_mapping_get**](api_docs/ConceptsApi.md#concept_mapping_get) | **GET** /concept_mapping | Obtain an array of models related to a concept.
+*ConceptsApi* | [**list_concepts_get**](api_docs/ConceptsApi.md#list_concepts_get) | **GET** /list_concepts | Obtain a list of available concepts
+*ExecutionApi* | [**available_results_get**](api_docs/ExecutionApi.md#available_results_get) | **GET** /available_results | Obtain a list of run results
+*ExecutionApi* | [**list_runs_model_name_get**](api_docs/ExecutionApi.md#list_runs_model_name_get) | **GET** /list_runs/{ModelName} | Obtain a list of runs for a given model
+*ExecutionApi* | [**result_file_result_file_name_get**](api_docs/ExecutionApi.md#result_file_result_file_name_get) | **GET** /result_file/{ResultFileName} | Obtain the result file for a given model run.
+*ExecutionApi* | [**run_model_post**](api_docs/ExecutionApi.md#run_model_post) | **POST** /run_model | Run a model for a given a configuration
+*ExecutionApi* | [**run_results_run_id_get**](api_docs/ExecutionApi.md#run_results_run_id_get) | **GET** /run_results/{RunID} | Obtain metadata about the results of a given model run
+*ExecutionApi* | [**run_status_run_id_get**](api_docs/ExecutionApi.md#run_status_run_id_get) | **GET** /run_status/{RunID} | Obtain status for a given model run
+*ExplorationApi* | [**list_models_post**](api_docs/ExplorationApi.md#list_models_post) | **POST** /list_models | Obtain a list of current models
+*ExplorationApi* | [**model_config_model_name_get**](api_docs/ExplorationApi.md#model_config_model_name_get) | **GET** /model_config/{ModelName} | Obtain configurations for a given model.
+*ExplorationApi* | [**model_info_model_name_get**](api_docs/ExplorationApi.md#model_info_model_name_get) | **GET** /model_info/{ModelName} | Get basic metadata information for a specified model.
+*ExplorationApi* | [**model_outputs_model_name_get**](api_docs/ExplorationApi.md#model_outputs_model_name_get) | **GET** /model_outputs/{ModelName} | Obtain information on a given model&#x27;s outputs.
+*ExplorationApi* | [**model_parameters_model_name_get**](api_docs/ExplorationApi.md#model_parameters_model_name_get) | **GET** /model_parameters/{ModelName} | Obtain information about a model&#x27;s parameters.
 
 ## Documentation For Models
 
- - [AvailableConcepts](docs/AvailableConcepts.md)
- - [AvailableModels](docs/AvailableModels.md)
- - [Concept](docs/Concept.md)
- - [ConceptMapping](docs/ConceptMapping.md)
- - [ConceptName](docs/ConceptName.md)
- - [Error](docs/Error.md)
- - [GeoQuery](docs/GeoQuery.md)
- - [Model](docs/Model.md)
- - [ModelConfig](docs/ModelConfig.md)
- - [ModelName](docs/ModelName.md)
- - [Parameter](docs/Parameter.md)
- - [Query](docs/Query.md)
- - [ResultFileName](docs/ResultFileName.md)
- - [RunID](docs/RunID.md)
- - [RunResults](docs/RunResults.md)
- - [RunStatus](docs/RunStatus.md)
- - [SearchResult](docs/SearchResult.md)
- - [StandardName](docs/StandardName.md)
- - [TextQuery](docs/TextQuery.md)
- - [TimeQuery](docs/TimeQuery.md)
- - [Variable](docs/Variable.md)
+ - [AvailableConcepts](api_docs/AvailableConcepts.md)
+ - [AvailableModels](api_docs/AvailableModels.md)
+ - [Concept](api_docs/Concept.md)
+ - [ConceptMapping](api_docs/ConceptMapping.md)
+ - [ConceptName](api_docs/ConceptName.md)
+ - [Error](api_docs/Error.md)
+ - [GeoQuery](api_docs/GeoQuery.md)
+ - [Model](api_docs/Model.md)
+ - [ModelConfig](api_docs/ModelConfig.md)
+ - [ModelName](api_docs/ModelName.md)
+ - [Parameter](api_docs/Parameter.md)
+ - [Query](api_docs/Query.md)
+ - [ResultFileName](api_docs/ResultFileName.md)
+ - [RunID](api_docs/RunID.md)
+ - [RunResults](api_docs/RunResults.md)
+ - [RunStatus](api_docs/RunStatus.md)
+ - [SearchResult](api_docs/SearchResult.md)
+ - [StandardName](api_docs/StandardName.md)
+ - [TextQuery](api_docs/TextQuery.md)
+ - [TimeQuery](api_docs/TimeQuery.md)
+ - [Variable](api_docs/Variable.md)
 
 ## Documentation For Authorization
 

@@ -1,6 +1,6 @@
 ---
 layout: default
-parent: MaaS API
+parent: API
 ---
 
 # swagger_client.ConceptsApi
