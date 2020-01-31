@@ -35,7 +35,7 @@ response = requests.get('https://model-service.worldmodelers.com/concept_mapping
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **concept** | [**ConceptName**](.md)| A concept name | [optional] 
+ **concept** | [**ConceptName**](ConceptName.md)| A concept name | [optional] 
  **concept_type** | **str**| The type of concept objects to return | [optional] 
 
 ### Return type
