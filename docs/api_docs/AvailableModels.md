@@ -1,3 +1,8 @@
+---
+layout: default
+parent: MaaS API
+---
+
 # AvailableModels
 
 ## Properties

@@ -1,3 +1,8 @@
+---
+layout: default
+parent: MaaS API
+---
+
 # swagger_client.ExplorationApi
 
 All URIs are relative to *https://model-service.worldmodelers.com*
