@@ -35,7 +35,7 @@ This is further enabled through the [`Concepts Controller`](https://github.com/W
 #### Model execution
 Model execution is managed by the [`Execution Controller`](https://github.com/WorldModelers/ModelService/blob/master/REST-Server/openapi_server/controllers/execution_controller.py). Models consist of pre-built Docker images that are hosted on an arbitrary server. Running a model requires the creation of a specific model controller, such as this one for [Kimetrica's malnutrition model](https://github.com/WorldModelers/ModelService/blob/master/REST-Server/openapi_server/kimetrica.py). The model controller is responsible for obtaining a model configuration and tasking Docker to run the model image inside a container with the given configuration. The model controller specifies a Docker container entrypoint, such as [this one](https://github.com/WorldModelers/ModelService/blob/master/Kimetrica-Integration/run.py). The model controller is then responsible for storing the output results file(s) to S3 and ingesting the normalized results into the MaaS database.
 
-Models may be run using the `/run_model` endpoint. For more information on model execution, refer to [`docs/model-execution.md`](https://github.com/WorldModelers/ModelService/blob/master/docs/model-execution.md).
+Models may be run using the `/run_model` endpoint. For more information on model execution, refer to [model-execution](/model-execution.html).
  
 ## Available Models
 Currently, MaaS supports the following models:
@@ -69,9 +69,6 @@ Currently, MaaS supports the following models:
 
 ![MaaS Architecture](images/MaaS-Architecture.png "MaaS Architecture")
 
-## Documentation
-
-Documentation on setup and installation, as well as usage, can be found in the [`docs/`](docs).
 
 ## Collaborators
 

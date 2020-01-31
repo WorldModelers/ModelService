@@ -26,7 +26,7 @@ To facilitate capturing this information for each model, we use a standardized [
 
 ### Outputs
 
-The [example-model.yaml](../metadata/example-model.yaml) file contains an example for a toy flood model. This model has one `output`. The `example-model.yaml` contains examples of how this metadata should be defined.
+The `metadata/example-model.yaml` file contains an example for a toy flood model. This model has one `output`. The `example-model.yaml` contains examples of how this metadata should be defined.
 
 ### Parameters
 

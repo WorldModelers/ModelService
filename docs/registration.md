@@ -17,9 +17,9 @@ This document describes the process for registering a model to MaaS. Throughout,
 
 To register a model, you first need to describe it. This is done through a descriptive metadata `YAML` file. The example that we will use is for a model called `ExampleModel` which predicts cereal and timber production based on various rainfall and temperature scenarios. You can see `ExampleModel`'s metadata file `example-model-metadata.yaml`. The metadata file must describe the output variables and the parameters used by the model that are of interest in MaaS.
 
-To learn more about how to create a metadata `YAML` file you can refer to the [metadata docs](metadata.md).
+To learn more about how to create a metadata `YAML` file you can refer to the [metadata docs](/metadata.html).
 
-> **A copy of this metadata file must be placed in the `metadata/models` so that it can be dynamically read by MaaS at run-time.** Additionally, you should validate your metadata file's schema following the instructions in the [metadata docs](metadata.md) prior to running MaaS.
+> **A copy of this metadata file must be placed in the `metadata/models` so that it can be dynamically read by MaaS at run-time.** Additionally, you should validate your metadata file's schema following the instructions in the [metadata docs](/metadata.html) prior to running MaaS.
 
 ## Model Outputs
 

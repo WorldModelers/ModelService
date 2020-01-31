@@ -14,4 +14,4 @@ You should use the `/model_config` endpoint to obtain a sample configuration for
 You can then obtain information on each specifiable parameter through the `/model_parameters` endpoint.
 
 ## Examples
-The [model-execution.ipynb](../notebooks/model-execution.ipynb) Jupyter Notebook walks through step by step how a model can be discovered and executed.
+The `notebooks/model-execution.ipynb` Jupyter Notebook walks through step by step how a model can be discovered and executed.
