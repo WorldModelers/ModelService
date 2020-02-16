@@ -21,8 +21,8 @@ _World Pop_ is provided in annual estimates (one estimate every five years) at t
 
 There are two scripts used for processing _World Pop_ data:
 
-1) `[world_population_data.py`](https://github.com/WorldModelers/ModelService/blob/master/World-Population-Integration/world_population_data.py) adds run metadata to Redis and pushes the raw model output to S3
-2) [`world_population_processing.py`](https://github.com/WorldModelers/ModelService/blob/master/World-Population-Integration/world_population_processing.py) normalizes the model output and stores it to the MaaS DB.
+1. `[world_population_data.py`](https://github.com/WorldModelers/ModelService/blob/master/World-Population-Integration/world_population_data.py) adds run metadata to Redis and pushes the raw model output to S3
+2. [`world_population_processing.py`](https://github.com/WorldModelers/ModelService/blob/master/World-Population-Integration/world_population_processing.py) normalizes the model output and stores it to the MaaS DB.
 
 ## Issues/Lessons Learned
 

@@ -31,8 +31,8 @@ Each run for _LPJmL_2018_ is mapped to a historic climate year. Information on e
 
 _Yield Anomalies LPJmL_ relies on two processing scripts:
 
-1) [`yield_anomalies_data.py`](https://github.com/WorldModelers/ModelService/blob/master/Yield-Anomalies-Integration/yield_anomalies_data.py) which stores the run metadata to Redis
-2) [`yield_anomalies_processing.py`](https://github.com/WorldModelers/ModelService/blob/master/Yield-Anomalies-Integration/yield_anomalies_processing.py) which normalizes the output and stores it to the MaaS DB.
+1. [`yield_anomalies_data.py`](https://github.com/WorldModelers/ModelService/blob/master/Yield-Anomalies-Integration/yield_anomalies_data.py) which stores the run metadata to Redis
+2. [`yield_anomalies_processing.py`](https://github.com/WorldModelers/ModelService/blob/master/Yield-Anomalies-Integration/yield_anomalies_processing.py) which normalizes the output and stores it to the MaaS DB.
 
 ## Issues/Lessons Learned
 
