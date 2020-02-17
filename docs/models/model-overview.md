@@ -9,7 +9,7 @@ has_children: true
 
 There are currently 21 models available through MaaS. Each one has required custom integration. For some, this may include simply normalizing the models output. For others, it may have involved Dockerizing the model, writing metadata for the model, as well as output normalization. The goal of these documents is to describe the process Jataware used for integrating each of the models and the lessons learned from each.
 
-> Note: all model execution was disabled for the January, 2020 experiment. When models are described as _executable_ through MaaS, that reflects the current capability, but not was is currently deployed to the MaaS production environment.
+> Note: all model execution was disabled for the January, 2020 experiment. When models are described as _executable_ through MaaS, that reflects the current capability, but not what is actively deployed to the MaaS production environment.
 
 
 ## Available Models
