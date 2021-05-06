@@ -2,7 +2,7 @@ connexion == 2.0.0
 swagger-ui-bundle == 0.0.2
 python_dateutil == 2.6.0
 setuptools >= 21.0.0
-Flask-Cors == 3.0.7
+Flask-Cors == 3.0.9
 redis==3.2.1
 docker==3.7.2
 boto3==1.9.120
